@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+
+@theme {
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-mono: "Space Mono", monospace;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+}
+
+@layer utilities {
+  @keyframes mot-truck {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-36px); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes mot-zoomin {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.22); }
+    100% { transform: scale(1); }
+  }
+  @keyframes mot-zoomout {
+    0% { transform: scale(1); }
+    50% { transform: scale(.82); }
+    100% { transform: scale(1); }
+  }
+  .animate-truck {
+    animation: mot-truck 3.5s ease-in-out infinite;
+  }
+  .animate-zoomin {
+    animation: mot-zoomin 3.5s ease-in-out infinite;
+  }
+  .animate-zoomout {
+    animation: mot-zoomout 3.5s ease-in-out infinite;
+  }
+}
+
+body {
+  background: #0d0d0b;
+  color: #e8e4dc;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  font-size: 13px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #242420;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #E8712A;
+}
+
