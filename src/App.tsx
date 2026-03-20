@@ -5,10 +5,10 @@ import { StudioPreview } from './components/StudioPreview';
 import { PromptBlock } from './components/PromptBlock';
 import { MusicStudio } from './components/MusicStudio';
 import { SessionState, GenerationMode, MotionType, AppTab } from './types';
-import { COLORS, PLANS, ARTIST_STYLES, ETHNICITY_DESC, EXPRESSIONS, WARDROBE_MATERIALS, WARDROBE_SILHOUETTES, WARDROBE_STYLES } from './constants';
-import { generateCreativeContext } from './services/gemini';
+import { COLORS, PLANS, ARTIST_STYLES, RAPPER_STYLES, POP_ARTIST_STYLES, RNB_ARTIST_STYLES, ETHNICITY_DESC, EXPRESSIONS, WARDROBE_SILHOUETTES, WARDROBE_STYLES } from './constants';
 import { buildStudioPrompt, buildArtistePrompt, buildMultiShotPrompts, buildKlingPrompt, buildVidmusePrompt, buildHiggsfieldPrompt, buildVidPrompt } from './services/prompts';
 import { motion, AnimatePresence } from 'motion/react';
+import { LayoutGrid } from 'lucide-react';
 
 const INITIAL_STATE: SessionState = {
   activeTab: 'visual',
@@ -25,8 +25,6 @@ const INITIAL_STATE: SessionState = {
   model: 'sonnet' as any,
   bpm: null,
   manualBpm: false,
-  facePrompt: '',
-  faceActive: true,
   expressionKey: 'none',
   expressionPrompt: '',
   videoActive: true,
@@ -40,31 +38,37 @@ const INITIAL_STATE: SessionState = {
   styleRefSelected: null,
   wardrobe: {
     colors: [],
-    mats: [],
     sils: [],
     styles: [],
   },
+  selectedArtistOutfit: null,
   music: {
     genre: '',
     mood: '',
-    theme: '',
+    theme: 'SUCCESS & AMBITION',
     language: 'FRANÇAIS',
-    inspiredBy: 'DRAKE',
-    era: 'MODERNE',
-    commerciality: 'ACCESSIBLE',
-    energy: 50,
-    emotionalIntensity: 50,
-    voiceType: 'FÉMININE',
-    vocalTimbre: 'VELOUTÉ',
-    singingStyle: 'INTIME',
-    vocalPresence: 'STUDIO CLOSE-MIC',
+    inspiredBy: '',
+    era: '',
+    performanceActive: false,
+    energy: 0,
+    emotionalIntensity: 0,
+    voiceType: '',
+    vocalTimbre: '',
+    singingStyle: '',
+    vocalPresence: '',
     accent: '',
     vocalReference: '',
-    emotionLevel: 'MOYEN',
-    lyrics: '',
+    emotionLevel: '',
+    instrumentation: '',
+    styleBlend: '',
+    bpm: 120,
+    structure: '',
+    lyrics: [],
     lipSyncExcerpt: '',
+    duration: 180,
     sunoPrompt: '',
     isGenerating: false,
+    isAnalyzingAudio: false,
     history: []
   }
 };
@@ -92,10 +96,18 @@ export default function App() {
     
     const randomExp = EXPRESSIONS[Math.floor(Math.random() * EXPRESSIONS.length)];
 
-    const randomMats = Math.random() > 0.5 ? [WARDROBE_MATERIALS[Math.floor(Math.random() * WARDROBE_MATERIALS.length)].key] : [];
     const availableSils = WARDROBE_SILHOUETTES.filter(s => s.gender === 'unisex' || s.gender === sex);
     const randomSils = Math.random() > 0.5 ? [availableSils[Math.floor(Math.random() * availableSils.length)].key] : [];
     const randomStyles = Math.random() > 0.5 ? [WARDROBE_STYLES[Math.floor(Math.random() * WARDROBE_STYLES.length)].key] : [];
+
+    let randomArtistOutfit = null;
+    if (randomStyles.includes('street')) {
+      randomArtistOutfit = RAPPER_STYLES[Math.floor(Math.random() * RAPPER_STYLES.length)];
+    } else if (randomStyles.includes('pop')) {
+      randomArtistOutfit = POP_ARTIST_STYLES[Math.floor(Math.random() * POP_ARTIST_STYLES.length)];
+    } else if (randomStyles.includes('rnb')) {
+      randomArtistOutfit = RNB_ARTIST_STYLES[Math.floor(Math.random() * RNB_ARTIST_STYLES.length)];
+    }
 
     setState(prev => ({
       ...prev,
@@ -108,10 +120,10 @@ export default function App() {
       expressionPrompt: randomExp.prompt,
       wardrobe: {
         ...prev.wardrobe,
-        mats: randomMats,
         sils: randomSils,
         styles: randomStyles
       },
+      selectedArtistOutfit: randomArtistOutfit,
       artist: prev.artist || 'Artiste'
     }));
   };
@@ -137,20 +149,34 @@ export default function App() {
       }
     };
 
+    // Ensure artist style is picked if active but not set
+    let currentState = { ...state };
+    if (state.wardrobe.styles.includes('street') && !state.selectedArtistOutfit) {
+      const randomRapper = RAPPER_STYLES[Math.floor(Math.random() * RAPPER_STYLES.length)];
+      currentState.selectedArtistOutfit = randomRapper;
+      setState(prev => ({ ...prev, selectedArtistOutfit: randomRapper }));
+    } else if (state.wardrobe.styles.includes('pop') && !state.selectedArtistOutfit) {
+      const randomPop = POP_ARTIST_STYLES[Math.floor(Math.random() * POP_ARTIST_STYLES.length)];
+      currentState.selectedArtistOutfit = randomPop;
+      setState(prev => ({ ...prev, selectedArtistOutfit: randomPop }));
+    } else if (state.wardrobe.styles.includes('rnb') && !state.selectedArtistOutfit) {
+      const randomRnb = RNB_ARTIST_STYLES[Math.floor(Math.random() * RNB_ARTIST_STYLES.length)];
+      currentState.selectedArtistOutfit = randomRnb;
+      setState(prev => ({ ...prev, selectedArtistOutfit: randomRnb }));
+    }
+
     const generationTask = (async () => {
       try {
-        const context = await generateCreativeContext(state);
-        const studioPrompt = buildStudioPrompt(state);
-        const artistePrompts = PLANS.map(p => buildArtistePrompt(state, p));
-        const multishotPrompts = buildMultiShotPrompts(state);
-        const ensemblePrompt = buildArtistePrompt(state, PLANS[0]);
-        const klingPrompt = buildKlingPrompt(state);
-        const vidmusePrompt = buildVidmusePrompt(state);
-        const higgsfieldPrompt = buildHiggsfieldPrompt(state);
-        const vidPrompt = buildVidPrompt(state);
+        const studioPrompt = buildStudioPrompt(currentState);
+        const artistePrompts = PLANS.map(p => buildArtistePrompt(currentState, p));
+        const multishotPrompts = buildMultiShotPrompts(currentState);
+        const ensemblePrompt = buildArtistePrompt(currentState, PLANS[0]);
+        const klingPrompt = buildKlingPrompt(currentState);
+        const vidmusePrompt = buildVidmusePrompt(currentState);
+        const higgsfieldPrompt = buildHiggsfieldPrompt(currentState);
+        const vidPrompt = buildVidPrompt(currentState);
 
         return {
-          context,
           studioPrompt,
           artistePrompts,
           multishotPrompts,
@@ -241,7 +267,15 @@ export default function App() {
           className="min-h-screen bg-[#0a0a08] text-[#e8e4dc] flex flex-col"
         >
           <div className="flex items-center justify-between p-3.5 border-b border-[#242420] sticky top-0 bg-[#0a0a08] z-50">
-            <div className="font-bebas text-[28px] tracking-[6px]">COLORS</div>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setShowSplash(true)}
+                className="p-1.5 rounded-md bg-white/5 text-[#888880] hover:text-[#E8712A]"
+              >
+                <LayoutGrid size={18} />
+              </button>
+              <div className="font-bebas text-[28px] tracking-[6px]">COLORS</div>
+            </div>
             <button 
               onClick={generatePrompts}
               disabled={isGenerating}
@@ -314,7 +348,7 @@ export default function App() {
               </div>
             ) : (
               <div className="p-0">
-                <MusicStudio state={state} setState={setState} />
+                <MusicStudio state={state} setState={setState} onMenuClick={() => setShowSplash(true)} />
               </div>
             )}
           </div>
@@ -337,6 +371,14 @@ export default function App() {
           {/* Tab Navigation */}
           <div className="h-12 border-b border-[#242420] flex items-center px-6 gap-8 bg-[#0a0a08] z-50">
             <button 
+              onClick={() => setShowSplash(true)}
+              className="h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 text-[#444] hover:text-[#E8712A]"
+            >
+              <LayoutGrid size={16} />
+              MENU
+            </button>
+            <div className="w-px h-4 bg-[#242420]" />
+            <button 
               onClick={() => setState(prev => ({ ...prev, activeTab: 'visual' }))}
               className={`h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 border-b-2 ${state.activeTab === 'visual' ? 'border-[#E8712A] text-[#E8712A]' : 'border-transparent text-[#444] hover:text-[#666]'}`}
             >
@@ -355,7 +397,7 @@ export default function App() {
           <div className="flex-1 flex overflow-hidden">
             {state.activeTab === 'visual' ? (
               <div className="flex-1 flex flex-col overflow-hidden relative">
-                <Header />
+                <Header onMenuClick={() => setShowSplash(true)} />
                 
                 <div className="bg-[#0a0a08] border-b border-[#242420] px-[18px] py-2 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A]" />
@@ -461,18 +503,6 @@ export default function App() {
                           </div>
                         </div>
                         
-                        {results.context.concept && activeFilter === 'all' && (
-                          <div className="border border-[#242420] rounded-lg overflow-hidden mb-8">
-                            <div className="px-3 py-2 bg-[#141411] border-b border-[#242420] flex items-center gap-1.5">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A]" />
-                              <span className="font-mono text-[9px] tracking-widest uppercase text-[#888880]">Concept visuel</span>
-                            </div>
-                            <div className="p-3 text-[13px] leading-relaxed text-[#bbb]">
-                              {results.context.concept}
-                            </div>
-                          </div>
-                        )}
-
                         {state.mode === 'studio' && (activeFilter === 'all' || activeFilter === 'image') && (
                           <>
                             <div className="flex items-center gap-1.5 mb-2">
@@ -627,18 +657,6 @@ export default function App() {
                             </div>
                           </motion.div>
                         )}
-
-                        {results.context.caption && activeFilter === 'all' && (
-                          <div className="border border-[#242420] rounded-lg overflow-hidden mt-6">
-                            <div className="px-3 py-2 bg-[#141411] border-b border-[#242420] flex items-center gap-1.5">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A]" />
-                              <span className="font-mono text-[9px] tracking-widest uppercase text-[#888880]">CAPTION · SESSION {state.artist.toUpperCase()}</span>
-                            </div>
-                            <div className="p-3 font-mono text-[10px] leading-relaxed text-[#888]">
-                              {results.context.caption}
-                            </div>
-                          </div>
-                        )}
                       </motion.div>
                     )}
                   </div>
@@ -653,7 +671,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <MusicStudio state={state} setState={setState} />
+              <MusicStudio state={state} setState={setState} onMenuClick={() => setShowSplash(true)} />
             )}
           </div>
         </motion.div>

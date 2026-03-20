@@ -1,6 +1,7 @@
 import React from 'react';
 import { SessionState } from '../types';
 import { PLANS } from '../constants';
+import { Maximize, User, UserCheck, UserPlus, Camera, MoveHorizontal, ZoomIn, ZoomOut, StopCircle } from 'lucide-react';
 
 interface Props {
   state: SessionState;
@@ -32,6 +33,21 @@ const MOT_LABELS: Record<string, string> = {
   zoomout: '⊖ ZOOM −',
 };
 
+const PLAN_ICONS: Record<string, React.ReactNode> = {
+  'none': <Camera size={12} />,
+  'plan-entier': <Maximize size={12} />,
+  'plan-americain': <User size={12} />,
+  'plan-buste': <UserCheck size={12} />,
+  'plan-portrait': <UserPlus size={12} />,
+};
+
+const MOTION_ICONS: Record<string, React.ReactNode> = {
+  'static': <StopCircle size={12} />,
+  'trucklr': <MoveHorizontal size={12} />,
+  'zoomin': <ZoomIn size={12} />,
+  'zoomout': <ZoomOut size={12} />,
+};
+
 export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionChange }) => {
   const isLight = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
@@ -47,7 +63,8 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
   const totalH = Math.round(state.height * PX_PER_CM);
   const headTop = FLOOR - totalH;
   const headCy = headTop + 26;
-  const mouthY = headCy + 10;
+  const upperLipY = headCy + 8; // Precise upper lip level
+  const mouthY = headCy + 11; // Lower mouth
   const neckTop = headCy + 26;
   const torsoTop = neckTop + 12;
   const torsoH = Math.round(totalH * 0.32);
@@ -55,7 +72,7 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
   const legH = FLOOR - legTop;
   const shoeY = FLOOR + 6;
 
-  const micBodyBottom = mouthY;
+  const micBodyBottom = upperLipY; // Capsule at upper lip
   const micBodyTop = micBodyBottom - 32;
   const micConnTop = micBodyTop - 8;
 
@@ -128,6 +145,32 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
               
               <path d={iemPath} stroke="#888" strokeWidth="1" fill="none" opacity=".4" />
               
+              {/* Alignment Guide (Subtle) */}
+              <g opacity="0.4">
+                <line 
+                  x1="160" y1={upperLipY} x2="192" y2={upperLipY} 
+                  stroke="#E8712A" strokeWidth="0.2" strokeDasharray="1,1" 
+                />
+                <text 
+                  x="195" y={upperLipY + 1} 
+                  fontFamily="monospace" fontSize="3" fill="#E8712A" 
+                  className="uppercase tracking-tighter"
+                >
+                  Align: Upper Lip
+                </text>
+              </g>
+              
+              {/* HUD Elements */}
+              <g opacity="0.4">
+                <path d="M 10 10 L 30 10 M 10 10 L 10 30" stroke="white" strokeWidth="0.5" fill="none" />
+                <path d="M 446 10 L 426 10 M 446 10 L 446 30" stroke="white" strokeWidth="0.5" fill="none" />
+                <path d="M 10 246 L 30 246 M 10 246 L 10 226" stroke="white" strokeWidth="0.5" fill="none" />
+                <path d="M 446 246 L 426 246 M 446 246 L 446 226" stroke="white" strokeWidth="0.5" fill="none" />
+                
+                <line x1="228" y1="123" x2="228" y2="133" stroke="white" strokeWidth="0.5" />
+                <line x1="223" y1="128" x2="233" y2="128" stroke="white" strokeWidth="0.5" />
+              </g>
+
               <rect x="8" y="226" width="36" height="22" rx="1.5" fill={light ? '#1a1a1a' : '#ffffff'} fillOpacity={light ? '.85' : '.95'} />
               <text x="11" y="234" fontFamily="monospace" fontSize="6" fontWeight="bold" fill={light ? '#fff' : '#0a0a0a'}>AI</text>
               <text x="11" y="241" fontFamily="monospace" fontSize="5" fill={light ? '#bbb' : '#333'}>COL</text>
@@ -146,54 +189,82 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
         </div>
       </div>
 
-      <div className="p-3 bg-[#0d0d0b] flex flex-col gap-3">
+      <div className="p-3 bg-[#0d0d0b] flex flex-col gap-4">
         <div>
-          <label className="font-mono text-[8px] tracking-widest uppercase text-[#484840] mb-2 block font-bold">Cadrage & Optique</label>
-          <div className="grid grid-cols-5 gap-1">
+          <label className="font-mono text-[8px] tracking-widest uppercase text-[#484840] mb-3 block font-bold">Cadrage & Optique</label>
+          <div className="grid grid-cols-5 gap-2">
             {['none', 'plan-entier', 'plan-americain', 'plan-buste', 'plan-portrait'].map(pId => (
               <button
                 key={pId}
                 onClick={() => onPlanChange(pId)}
-                className={`border rounded-md py-2 transition-all flex flex-col items-center justify-center gap-1 ${
+                className={`relative group border rounded-xl p-2 transition-all flex flex-col items-center justify-center gap-2 overflow-hidden ${
                   state.selectedPlan === pId 
-                    ? 'border-[#E8712A] bg-[#17120a] shadow-[0_0_10px_rgba(232,113,42,0.15)]' 
-                    : 'border-[#242420] bg-[#141411] hover:border-[#333] grayscale opacity-60'
+                    ? 'border-[#E8712A] bg-[#17120a] shadow-[0_0_15px_rgba(232,113,42,0.2)]' 
+                    : 'border-[#242420] bg-[#141411] hover:border-[#333] grayscale opacity-50 hover:opacity-100 hover:grayscale-0'
                 }`}
               >
-                <div className={`font-bebas text-[11px] tracking-widest leading-none ${
-                  state.selectedPlan === pId ? 'text-[#E8712A]' : 'text-[#e8e4dc]'
+                <div className={`p-2 rounded-lg transition-colors ${
+                  state.selectedPlan === pId ? 'bg-[#E8712A]/20 text-[#E8712A]' : 'bg-white/5 text-white/40'
                 }`}>
-                  {pId === 'none' ? '—' : pId.split('-')[1].toUpperCase().substring(0, 3)}
+                  {PLAN_ICONS[pId]}
                 </div>
-                <div className="font-mono text-[6px] text-[#666660] uppercase tracking-tighter font-bold">
-                  {pId === 'none' ? 'AUTO' : PLANS.find(p => p.id === pId)?.focal}
+                
+                <div className="flex flex-col items-center">
+                  <div className={`font-bebas text-[10px] tracking-widest leading-none mb-1 ${
+                    state.selectedPlan === pId ? 'text-[#E8712A]' : 'text-[#e8e4dc]'
+                  }`}>
+                    {pId === 'none' ? 'AUTO' : pId.split('-')[1].toUpperCase().substring(0, 3)}
+                  </div>
+                  <div className="font-mono text-[6px] text-[#666660] uppercase tracking-tighter font-bold">
+                    {pId === 'none' ? 'FIXED' : PLANS.find(p => p.id === pId)?.focal}
+                  </div>
                 </div>
+
+                {state.selectedPlan === pId && (
+                  <div className="absolute top-0 right-0 w-4 h-4 bg-[#E8712A] flex items-center justify-center rounded-bl-lg">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  </div>
+                )}
               </button>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="font-mono text-[8px] tracking-widest uppercase text-[#484840] mb-2 block font-bold">Mouvement Caméra</label>
-          <div className="grid grid-cols-4 gap-1">
+          <label className="font-mono text-[8px] tracking-widest uppercase text-[#484840] mb-3 block font-bold">Mouvement Caméra</label>
+          <div className="grid grid-cols-4 gap-2">
             {['static', 'trucklr', 'zoomin', 'zoomout'].map(mId => (
               <button
                 key={mId}
                 onClick={() => onMotionChange(mId)}
-                className={`border rounded-md py-2 transition-all flex flex-col items-center justify-center gap-1 ${
+                className={`relative group border rounded-xl p-2 transition-all flex flex-col items-center justify-center gap-2 overflow-hidden ${
                   state.motion === mId 
-                    ? 'border-[#4a7aaa] bg-[#0a0f1a] shadow-[0_0_10px_rgba(74,122,170,0.15)]' 
-                    : 'border-[#242420] bg-[#141411] hover:border-[#333] grayscale opacity-60'
+                    ? 'border-[#4a7aaa] bg-[#0a0f1a] shadow-[0_0_15px_rgba(74,122,170,0.2)]' 
+                    : 'border-[#242420] bg-[#141411] hover:border-[#333] grayscale opacity-50 hover:opacity-100 hover:grayscale-0'
                 }`}
               >
-                <div className={`font-bebas text-[11px] tracking-widest leading-none ${
-                  state.motion === mId ? 'text-[#6a9adc]' : 'text-[#e8e4dc]'
+                <div className={`p-2 rounded-lg transition-colors ${
+                  state.motion === mId ? 'bg-[#4a7aaa]/20 text-[#6a9adc]' : 'bg-white/5 text-white/40'
                 }`}>
-                  {mId === 'static' ? 'FIXE' : mId === 'trucklr' ? '↔' : mId === 'zoomin' ? '⊕' : '⊖'}
+                  {MOTION_ICONS[mId]}
                 </div>
-                <div className="font-mono text-[6px] text-[#666660] uppercase tracking-tighter font-bold">
-                  {mId === 'static' ? 'STAT' : mId === 'trucklr' ? 'TRAV' : mId === 'zoomin' ? 'IN' : 'OUT'}
+
+                <div className="flex flex-col items-center">
+                  <div className={`font-bebas text-[10px] tracking-widest leading-none mb-1 ${
+                    state.motion === mId ? 'text-[#6a9adc]' : 'text-[#e8e4dc]'
+                  }`}>
+                    {mId === 'static' ? 'FIXE' : mId === 'trucklr' ? 'TRAV' : mId === 'zoomin' ? 'ZOOM' : 'ZOOM'}
+                  </div>
+                  <div className="font-mono text-[6px] text-[#666660] uppercase tracking-tighter font-bold">
+                    {mId === 'static' ? 'STAT' : mId === 'trucklr' ? 'L-R' : mId === 'zoomin' ? 'IN' : 'OUT'}
+                  </div>
                 </div>
+
+                {state.motion === mId && (
+                  <div className="absolute top-0 right-0 w-4 h-4 bg-[#4a7aaa] flex items-center justify-center rounded-bl-lg">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -202,3 +273,4 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
     </div>
   );
 };
+

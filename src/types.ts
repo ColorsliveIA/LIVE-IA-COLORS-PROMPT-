@@ -4,6 +4,13 @@ export type MotionType = 'none' | 'static' | 'trucklr' | 'zoomin' | 'zoomout';
 export type ModelType = 'flash' | 'pro';
 export type AppTab = 'visual' | 'music';
 
+export interface Verse {
+  id: string;
+  type: string;
+  text: string;
+  prompt: string;
+}
+
 export interface MusicState {
   genre: string;
   mood: string;
@@ -11,7 +18,7 @@ export interface MusicState {
   language: string;
   inspiredBy: string;
   era: string;
-  commerciality: string;
+  performanceActive: boolean;
   energy: number;
   emotionalIntensity: number;
   voiceType: string;
@@ -21,10 +28,20 @@ export interface MusicState {
   accent: string;
   vocalReference: string;
   emotionLevel: string;
-  lyrics: string;
+  instrumentation: string;
+  styleBlend: string;
+  bpm: number | null;
+  structure: string;
+  lyrics: Verse[];
   lipSyncExcerpt?: string;
+  duration: number;
   sunoPrompt: string;
   sunoPrompts?: string[];
+  negativePrompt?: string;
+  weirdnessAndStyleInfluence?: string;
+  artistName?: string;
+  songTitle?: string;
+  artistIdentitySummary?: string;
   quality?: {
     score: number;
     coherence: number;
@@ -35,12 +52,15 @@ export interface MusicState {
     message: string;
   };
   isGenerating: boolean;
+  isAnalyzingAudio: boolean;
   error?: string | null;
   history?: {
     id: string;
     timestamp: number;
     sunoPrompt: string;
-    lyrics: string;
+    negativePrompt?: string;
+    weirdnessAndStyleInfluence?: string;
+    lyrics: Verse[];
     lipSyncExcerpt?: string;
     quality: any;
   }[];
@@ -88,8 +108,6 @@ export interface SessionState {
   model: ModelType;
   bpm: number | null;
   manualBpm: boolean;
-  facePrompt: string;
-  faceActive: boolean;
   styleRefActive: boolean;
   styleRefSelected: string | null;
   expressionKey: string;
@@ -103,9 +121,9 @@ export interface SessionState {
   };
   wardrobe: {
     colors: string[];
-    mats: string[];
     sils: string[];
     styles: string[];
   };
+  selectedArtistOutfit: ArtistStyle | null;
   music: MusicState;
 }

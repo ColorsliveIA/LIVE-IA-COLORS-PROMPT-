@@ -1,61 +1,105 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&display=swap');
 
 @theme {
   --font-bebas: "Bebas Neue", sans-serif;
-  --font-mono: "Space Mono", monospace;
-  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  --color-accent: #E8712A;
+  --color-accent-hover: #ff7d2f;
+  --color-bg-deep: #050505;
+  --color-panel: #0a0a0a;
+  --color-glass: rgba(10, 10, 10, 0.7);
+  --color-glass-border: rgba(255, 255, 255, 0.05);
 }
 
 @layer utilities {
-  @keyframes mot-truck {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-36px); }
-    100% { transform: translateX(0); }
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(1000%); }
   }
-  @keyframes mot-zoomin {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.22); }
-    100% { transform: scale(1); }
+
+  .scanline-effect {
+    @apply absolute inset-0 pointer-events-none overflow-hidden opacity-[0.03];
+    background: linear-gradient(to bottom, transparent, theme('colors.accent'), transparent);
+    animation: scanline 10s linear infinite;
   }
-  @keyframes mot-zoomout {
-    0% { transform: scale(1); }
-    50% { transform: scale(.82); }
-    100% { transform: scale(1); }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(232, 113, 42, 0.5);
   }
-  .animate-truck {
-    animation: mot-truck 3.5s ease-in-out infinite;
+
+  .bg-grid-white {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
   }
-  .animate-zoomin {
-    animation: mot-zoomin 3.5s ease-in-out infinite;
+
+  .vu-meter-bar {
+    animation: vu-meter 0.5s ease-in-out infinite alternate;
   }
-  .animate-zoomout {
-    animation: mot-zoomout 3.5s ease-in-out infinite;
+
+  @keyframes vu-meter {
+    0% { height: 20%; }
+    100% { height: 80%; }
+  }
+
+  .atmosphere-bg {
+    background: 
+      radial-gradient(circle at 0% 0%, rgba(232, 113, 42, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(88, 28, 135, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 1) 0%, rgba(5, 5, 5, 1) 100%);
+  }
+
+  .mask-fade-y {
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
   }
 }
 
-body {
-  background: #0d0d0b;
-  color: #e8e4dc;
-  font-family: var(--font-sans);
-  min-height: 100vh;
-  font-size: 13px;
+@layer base {
+  body {
+    @apply bg-bg-deep text-white antialiased selection:bg-accent/30 selection:text-accent font-sans;
+    min-height: 100vh;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+@layer components {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-accent/40 transition-colors;
+  }
+
+  .glass-panel {
+    @apply bg-glass backdrop-blur-2xl border border-glass-border shadow-2xl;
+  }
+
+  .hardware-card {
+    @apply bg-panel/40 border border-white/5 rounded-2xl p-6 relative overflow-hidden transition-all duration-500 hover:bg-panel/60 hover:border-white/10;
+  }
+
+  .hardware-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent opacity-50;
+  }
+
+  .micro-label {
+    @apply font-mono text-[8px] uppercase tracking-[0.2em] text-white/30;
+  }
+
+  .editorial-heading {
+    @apply font-serif italic text-white/60 text-sm tracking-tight;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #242420;
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #E8712A;
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
