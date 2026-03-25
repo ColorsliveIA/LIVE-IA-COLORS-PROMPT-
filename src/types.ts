@@ -11,12 +11,28 @@ export interface Verse {
   prompt: string;
 }
 
+export interface ArtistMetadata {
+  id: string;
+  name: string;
+  country?: string;
+  lifeSpan?: {
+    begin?: string;
+    end?: string;
+    ended?: boolean;
+  };
+  type?: string;
+  gender?: string;
+  tags?: string[];
+  primaryGenre?: string;
+}
+
 export interface MusicState {
   genre: string;
   mood: string;
   theme: string;
   language: string;
   inspiredBy: string;
+  secondaryInspiredBy: string;
   era: string;
   performanceActive: boolean;
   energy: number;
@@ -29,6 +45,7 @@ export interface MusicState {
   vocalReference: string;
   emotionLevel: string;
   instrumentation: string;
+  productionStyle: string;
   styleBlend: string;
   bpm: number | null;
   structure: string;
@@ -38,10 +55,11 @@ export interface MusicState {
   sunoPrompt: string;
   sunoPrompts?: string[];
   negativePrompt?: string;
-  weirdnessAndStyleInfluence?: string;
+  customNegativePrompt?: string;
   artistName?: string;
   songTitle?: string;
   artistIdentitySummary?: string;
+  artistMetadata?: ArtistMetadata;
   quality?: {
     score: number;
     coherence: number;
@@ -53,13 +71,17 @@ export interface MusicState {
   };
   isGenerating: boolean;
   isAnalyzingAudio: boolean;
+  weirdness: number;
+  styleInfluence: number;
+  vocalTechnique: string;
+  productionFinish: string;
+  advancedTags: string[];
   error?: string | null;
   history?: {
     id: string;
     timestamp: number;
     sunoPrompt: string;
     negativePrompt?: string;
-    weirdnessAndStyleInfluence?: string;
     lyrics: Verse[];
     lipSyncExcerpt?: string;
     quality: any;
@@ -110,6 +132,7 @@ export interface SessionState {
   manualBpm: boolean;
   styleRefActive: boolean;
   styleRefSelected: string | null;
+  studioStyle: 'none' | 'epic' | 'film' | 'soundtrack';
   expressionKey: string;
   expressionPrompt: string;
   videoActive: boolean;
@@ -126,4 +149,5 @@ export interface SessionState {
   };
   selectedArtistOutfit: ArtistStyle | null;
   music: MusicState;
+  view: 'home' | 'studio' | 'suno';
 }

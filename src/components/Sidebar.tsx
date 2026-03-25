@@ -86,7 +86,23 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
     setActiveSection(prev => prev === id ? null : id);
   };
 
-  const setSex = (sex: Sex) => setState(prev => ({ ...prev, sex }));
+  const setSex = (sex: Sex) => {
+    setState(prev => {
+      // Find a default outfit for the new sex
+      const defaultOutfit = RAPPER_STYLES.find(s => s.gender === sex) || null;
+      
+      return { 
+        ...prev, 
+        sex,
+        selectedArtistOutfit: defaultOutfit,
+        // Ensure street style is selected to show the default rapper outfit
+        wardrobe: {
+          ...prev.wardrobe,
+          styles: prev.wardrobe.styles.includes('street') ? prev.wardrobe.styles : [...prev.wardrobe.styles, 'street']
+        }
+      };
+    });
+  };
   const setMode = (mode: GenerationMode) => setState(prev => ({ ...prev, mode }));
   const setModel = (model: ModelType) => setState(prev => ({ ...prev, model }));
   const setMotion = (motion: MotionType) => setState(prev => ({ ...prev, motion }));
@@ -325,7 +341,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   Randomize
                 </button>
               </div>
-              <div className="grid grid-cols-1 gap-2 max-h-[150px] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="grid grid-cols-1 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
                 {RAPPER_STYLES.map(s => (
                   <button
                     key={s.name}
@@ -354,7 +370,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   Randomize
                 </button>
               </div>
-              <div className="grid grid-cols-1 gap-2 max-h-[150px] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="grid grid-cols-1 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
                 {POP_ARTIST_STYLES.map(s => (
                   <button
                     key={s.name}
@@ -383,7 +399,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   Randomize
                 </button>
               </div>
-              <div className="grid grid-cols-1 gap-2 max-h-[150px] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="grid grid-cols-1 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
                 {RNB_ARTIST_STYLES.map(s => (
                   <button
                     key={s.name}
@@ -512,6 +528,27 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 font-mono text-[6px] text-white pointer-events-none bg-black/60 rounded-sm font-bold uppercase tracking-tighter">
                     {c.name}
                   </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="font-mono text-[9px] tracking-widest uppercase text-white/30 mb-2 block">Studio Slide / Style</label>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { id: 'none', name: 'AUCUN', sub: 'Standard' },
+                { id: 'epic', name: 'EPIC', sub: 'Grandiose' },
+                { id: 'film', name: 'FILM', sub: 'Cinematic' },
+                { id: 'soundtrack', name: 'BO MUSIQUE', sub: 'OST Style' }
+              ].map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => setState(prev => ({ ...prev, studioStyle: s.id as any }))}
+                  className={`border rounded-md p-2 text-center transition-all ${state.studioStyle === s.id ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 hover:border-white/20 text-white/40'}`}
+                >
+                  <div className="font-bebas text-[11px] tracking-widest leading-none">{s.name}</div>
+                  <div className="font-mono text-[7px] mt-1 uppercase tracking-tighter opacity-70">{s.sub}</div>
                 </button>
               ))}
             </div>

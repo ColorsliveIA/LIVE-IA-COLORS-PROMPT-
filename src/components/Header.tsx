@@ -3,9 +3,10 @@ import { LayoutGrid } from 'lucide-react';
 
 interface HeaderProps {
   onMenuClick?: () => void;
+  title?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+export const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'COLORS' }) => {
   return (
     <div className="flex items-stretch border-b border-white/5 h-[64px] bg-[#0a0a0a] relative overflow-hidden">
       {/* Scanline effect for header */}
@@ -20,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           <LayoutGrid size={20} />
         </button>
         <div className="flex flex-col justify-center gap-0.5">
-          <div className="font-bebas text-[32px] tracking-[0.2em] leading-none text-white">COLORS</div>
+          <div className="font-bebas text-[32px] tracking-[0.2em] leading-none text-white">{title}</div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-[#34D399] shadow-[0_0_8px_#34D399] animate-pulse" />
             <div className="font-mono text-[8px] tracking-[0.2em] text-white/30 uppercase font-bold">SYSTEM_ONLINE · v16.4.0</div>

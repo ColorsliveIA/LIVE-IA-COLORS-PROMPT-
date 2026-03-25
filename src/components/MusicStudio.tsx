@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { SessionState, MusicState, Verse } from '../types';
-import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Upload, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X } from 'lucide-react';
+import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Upload, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle } from 'lucide-react';
 import { generateMusicContext, analyzeAudio, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
+import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
-import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_ERAS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_INSTRUMENTATION, MUSIC_PRODUCTION_STYLES, MUSIC_STRUCTURES } from '../constants';
+import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_ERAS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_INSTRUMENTATION, MUSIC_PRODUCTION_STYLES, MUSIC_STRUCTURES, MUSIC_VOCAL_TECHNIQUES, MUSIC_PRODUCTION_FINISHES, MUSIC_VOCAL_TEXTURES, MUSIC_VOCAL_INTERPRETATIONS, MUSIC_FLOW_TAGS, MUSIC_WRITING_TAGS, MUSIC_DRUM_BASS_TAGS, MUSIC_MELODY_TAGS, MUSIC_ATMOSPHERE_TAGS, MUSIC_MIX_TAGS, MUSIC_STRUCTURE_TAGS } from '../constants';
 
 interface MusicStudioProps {
   state: SessionState;
@@ -17,6 +18,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [showMoodSelect, setShowMoodSelect] = useState(false);
   const [showLangSelect, setShowLangSelect] = useState(false);
   const [showArtistSelect, setShowArtistSelect] = useState(false);
+  const [showArtistModal, setShowArtistModal] = useState(false);
+  const [showSecondaryArtistModal, setShowSecondaryArtistModal] = useState(false);
+  const [showAdvancedTagsModal, setShowAdvancedTagsModal] = useState(false);
+  const [artistSearch, setArtistSearch] = useState('');
+  const [secondaryArtistSearch, setSecondaryArtistSearch] = useState('');
   const [showEraSelect, setShowEraSelect] = useState(false);
   const [showCommSelect, setShowCommSelect] = useState(false);
   const [showVoiceSelect, setShowVoiceSelect] = useState(false);
@@ -27,8 +33,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [showInstrumentationSelect, setShowInstrumentationSelect] = useState(false);
   const [showProductionSelect, setShowProductionSelect] = useState(false);
   const [showStructureSelect, setShowStructureSelect] = useState(false);
+  const [showVocalTechniqueSelect, setShowVocalTechniqueSelect] = useState(false);
+  const [showProductionFinishSelect, setShowProductionFinishSelect] = useState(false);
   const [showAllGenres, setShowAllGenres] = useState(false);
   const [showAllMoods, setShowAllMoods] = useState(false);
+  const [showAllSingingStyles, setShowAllSingingStyles] = useState(false);
+  const [showAllInstrumentation, setShowAllInstrumentation] = useState(false);
+  const [showAllProductionStyles, setShowAllProductionStyles] = useState(false);
   const [isScanningArtist, setIsScanningArtist] = useState(false);
   const [isSuggestingIdentity, setIsSuggestingIdentity] = useState(false);
   const [scannedIdentityArtist, setScannedIdentityArtist] = useState<string | null>(null);
@@ -74,15 +85,24 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       progressInterval = setInterval(() => {
         setLoadingProgress(p => {
           if (p >= 99) return 99;
-          const increment = p > 80 ? 0.5 : (p > 50 ? 1 : 2);
+          // ENHANCED PERFORMANCE: Slower progress as we approach 99% to avoid 'stuck' feeling
+          const increment = p > 95 ? 0.05 : (p > 90 ? 0.1 : (p > 80 ? 0.3 : (p > 50 ? 0.8 : 1.5)));
           return Math.min(99, p + increment);
         });
-      }, 150);
+      }, 100);
 
       let msgIndex = 0;
       messageInterval = setInterval(() => {
         msgIndex = (msgIndex + 1) % shuffled.length;
-        setLoadingMessage(shuffled[msgIndex]);
+        // If progress is high, show a 'still processing' message
+        setLoadingProgress(current => {
+          if (current >= 98) {
+            setLoadingMessage("L'IA peaufine les derniers détails... encore un instant.");
+          } else {
+            setLoadingMessage(shuffled[msgIndex]);
+          }
+          return current;
+        });
       }, 2500);
     }
 
@@ -105,6 +125,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     'TRAP SOUL': Sparkles,
     'LO-FI BEATS': Headphones,
     'EPIC ANIME': Star,
+    'BO De MUSIQUE': Disc,
     'AMAPIANO': Headphones,
     'AFROBEATS': Sun,
     'K-POP': Star,
@@ -148,6 +169,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     'JOYEUX': Sun,
     'NOSTALGIQUE': Clock,
     'CINÉMATIQUE': VideoIcon,
+    'EPIC': Star,
+    'FILM': VideoIcon,
     'HÉROÏQUE': Star,
     'TRIPPY': Sparkles,
     'RÊVEUR': Wind,
@@ -163,13 +186,30 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   };
 
   const updateMusicState = (updates: Partial<SessionState['music']>) => {
-    setState(prev => ({
-      ...prev,
-      music: {
-        ...prev.music,
-        ...updates
+    setState(prev => {
+      let newUpdates = { ...updates };
+      
+      // If inspiredBy is being updated, check if we have preset weirdness/influence
+      if (updates.inspiredBy && updates.inspiredBy !== prev.music.inspiredBy) {
+        const artistPreset = MUSIC_ARTISTS.find(a => a.name === updates.inspiredBy);
+        if (artistPreset) {
+          if ((artistPreset as any).weirdness !== undefined) {
+            newUpdates.weirdness = (artistPreset as any).weirdness;
+          }
+          if ((artistPreset as any).styleInfluence !== undefined) {
+            newUpdates.styleInfluence = (artistPreset as any).styleInfluence;
+          }
+        }
       }
-    }));
+
+      return {
+        ...prev,
+        music: {
+          ...prev.music,
+          ...newUpdates
+        }
+      };
+    });
   };
 
   const [customGenre, setCustomGenre] = useState('');
@@ -183,10 +223,15 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [customInstrumentation, setCustomInstrumentation] = useState('');
   const [customProduction, setCustomProduction] = useState('');
   const [customStructure, setCustomStructure] = useState('');
+  const [scanError, setScanError] = useState<string | null>(null);
 
   const handleScanArtist = async () => {
     const artistToScan = state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy;
     if (!artistToScan || artistToScan === 'Select Artist') return;
+    
+    // REDUCE API CALL: Prevent redundant scans for the same artist
+    if (artistToScan === scannedIdentityArtist && state.music.artistIdentitySummary) return;
+    if (isScanningArtist) return;
 
     setPreScanState({
       voiceType: state.music.voiceType,
@@ -195,12 +240,20 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       vocalPresence: state.music.vocalPresence,
       accent: state.music.accent,
       vocalReference: state.music.vocalReference,
-      language: state.music.language
+      language: state.music.language,
+      weirdness: state.music.weirdness,
+      styleInfluence: state.music.styleInfluence
     });
 
     setIsScanningArtist(true);
+    setScanError(null);
     try {
-      const identity = await getArtistVocalIdentity(artistToScan);
+      // Parallel calls for Gemini analysis and MusicBrainz metadata
+      const [identity, metadata] = await Promise.all([
+        getArtistVocalIdentity(artistToScan),
+        fetchArtistMetadata(artistToScan)
+      ]);
+
       if (identity) {
         let newLanguage = state.music.language;
         if (identity.language) {
@@ -224,13 +277,19 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           accent: identity.accent,
           vocalReference: identity.vocalReference,
           language: newLanguage,
-          artistIdentitySummary: identity.summary
+          weirdness: identity.weirdness || state.music.weirdness,
+          styleInfluence: identity.styleInfluence || state.music.styleInfluence,
+          artistIdentitySummary: identity.summary,
+          artistMetadata: metadata || undefined,
+          error: null
         });
         setScannedIdentityArtist(artistToScan);
       }
-    } catch (error) {
-      console.error("Failed to scan artist:", error);
-      updateMusicState({ error: "Failed to scan artist identity. Please try again." });
+    } catch (error: any) {
+      console.error("Scan error:", error);
+      const msg = error.message || "Une erreur est survenue lors du scan.";
+      setScanError(msg);
+      updateMusicState({ error: msg });
     } finally {
       setIsScanningArtist(false);
     }
@@ -240,7 +299,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     if (preScanState) {
       updateMusicState({
         ...preScanState,
-        artistIdentitySummary: undefined
+        artistIdentitySummary: undefined,
+        artistMetadata: undefined
       });
     }
     setScannedIdentityArtist(null);
@@ -290,15 +350,26 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       const finalGenre = state.music.genre === 'CUSTOM' ? customGenre : state.music.genre;
       const finalMood = state.music.mood === 'CUSTOM' ? customMood : state.music.mood;
       const result = await suggestArtistAndTitle(state.music.theme, finalGenre || '', finalMood || '');
-      updateMusicState({ artistName: result.artistName, songTitle: result.songTitle });
-    } catch (e) {
+      updateMusicState({ artistName: result.artistName, songTitle: result.songTitle, error: null });
+    } catch (e: any) {
       console.error("Error suggesting artist/title:", e);
+      updateMusicState({ error: e.message || "Impossible de suggérer un nom d'artiste et un titre." });
     } finally {
       setIsSuggestingIdentity(false);
     }
   };
 
+  const [isBangerExploding, setIsBangerExploding] = useState(false);
+
+  const handleBangerClick = () => {
+    if (state.music.isGenerating) return;
+    setIsBangerExploding(true);
+    setTimeout(() => setIsBangerExploding(false), 1000);
+    handleGenerate('all');
+  };
+
   const handleGenerate = async (mode: 'all' | 'lyrics' | 'style' = 'all') => {
+    if (state.music.isGenerating) return;
     setState(prev => ({ ...prev, music: { ...prev.music, isGenerating: true, error: null } }));
     
     const finalGenre = state.music.genre === 'CUSTOM' ? customGenre : state.music.genre;
@@ -310,6 +381,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     const finalTimbre = state.music.vocalTimbre === 'CUSTOM' ? customTimbre : state.music.vocalTimbre;
     const finalStyle = state.music.singingStyle === 'CUSTOM' ? customStyle : state.music.singingStyle;
     const finalInstrumentation = state.music.instrumentation === 'CUSTOM' ? customInstrumentation : state.music.instrumentation;
+    const finalProduction = state.music.productionStyle === 'CUSTOM' ? customProduction : state.music.productionStyle;
     const finalStyleBlend = state.music.styleBlend;
     const selectedStructureObj = MUSIC_STRUCTURES.find(s => s.name === state.music.structure);
     const finalStructure = state.music.structure === 'CUSTOM' 
@@ -317,11 +389,12 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       : (selectedStructureObj ? `${selectedStructureObj.name} (${selectedStructureObj.sub})` : '');
 
     try {
-      const result = await generateMusicContext(
+      // Add a timeout to the generation call
+      const generationPromise = generateMusicContext(
         finalGenre || state.genre,
         finalMood,
         state.music.theme,
-        state.artist || 'Artiste',
+        state.music.artistName || state.music.inspiredBy || state.artist || 'Artiste',
         finalLang || 'FRANÇAIS',
         finalArtist,
         finalEra,
@@ -336,11 +409,26 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         state.music.vocalReference,
         state.music.emotionLevel,
         finalInstrumentation,
+        finalProduction,
         state.manualBpm ? state.bpm : null,
         finalStructure,
         finalStyleBlend,
+        state.music.artistIdentitySummary,
+        state.music.customNegativePrompt,
+        state.music.weirdness,
+        state.music.styleInfluence,
+        state.music.vocalTechnique,
+        state.music.productionFinish,
+        state.music.secondaryInspiredBy,
+        state.music.advancedTags,
         mode
       );
+
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("La génération prend plus de temps que prévu. Veuillez réessayer.")), 90000)
+      );
+
+      const result = await Promise.race([generationPromise, timeoutPromise]) as any;
       
       setState(prev => {
         const newHistory = [
@@ -349,7 +437,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             timestamp: Date.now(),
             sunoPrompt: result.sunoPrompt,
             negativePrompt: result.negativePrompt,
-            weirdnessAndStyleInfluence: result.weirdnessAndStyleInfluence,
             lyrics: result.structuredLyrics,
             lipSyncExcerpt: result.lipSyncExcerpt,
             quality: result.quality
@@ -364,7 +451,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             sunoPrompt: mode === 'lyrics' ? prev.music.sunoPrompt : result.sunoPrompt,
             sunoPrompts: mode === 'lyrics' ? prev.music.sunoPrompts : result.sunoPrompts,
             negativePrompt: mode === 'lyrics' ? prev.music.negativePrompt : result.negativePrompt,
-            weirdnessAndStyleInfluence: mode === 'lyrics' ? prev.music.weirdnessAndStyleInfluence : result.weirdnessAndStyleInfluence,
+            artistName: result.artistName,
+            songTitle: result.songTitle,
             lyrics: mode === 'style' ? prev.music.lyrics : result.structuredLyrics,
             lipSyncExcerpt: mode === 'style' ? prev.music.lipSyncExcerpt : result.lipSyncExcerpt,
             quality: result.quality,
@@ -407,6 +495,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   };
 
   const handleRerollVerse = async (verse: Verse, index: number) => {
+    if (state.music.isGenerating) return;
     setState(prev => ({ ...prev, music: { ...prev.music, isGenerating: true, error: null } }));
     try {
       const context = {
@@ -490,7 +579,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const selectedPresence = MUSIC_VOCAL_PRESENCE.find(p => p.name === state.music.vocalPresence) || { name: '', sub: 'Select Presence' };
   const selectedEmotion = MUSIC_EMOTION_LEVELS.find(e => e.name === state.music.emotionLevel) || { name: '', sub: 'Select Emotion' };
   const selectedInstrumentation = MUSIC_INSTRUMENTATION.find(i => i.name === state.music.instrumentation) || { name: '', sub: 'Select Instrumentation' };
+  const selectedProduction = MUSIC_PRODUCTION_STYLES.find(p => p.name === state.music.productionStyle) || { name: '', sub: 'Select Production' };
   const selectedStructure = MUSIC_STRUCTURES.find(s => s.name === state.music.structure) || { name: '', sub: 'Select Structure' };
+  const selectedVocalTechnique = MUSIC_VOCAL_TECHNIQUES.find(t => t.name === state.music.vocalTechnique) || { name: '', sub: 'Select Technique' };
+  const selectedProductionFinish = MUSIC_PRODUCTION_FINISHES.find(f => f.name === state.music.productionFinish) || { name: '', sub: 'Select Finish' };
 
   return (
     <div className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative">
@@ -503,36 +595,91 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md"
           >
-            <div className="bg-[#0a0a0a] border border-accent/20 rounded-2xl p-8 max-w-md w-full mx-4 shadow-[0_0_50px_rgba(232,113,42,0.2)] relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-30" />
-              
-              <div className="flex flex-col items-center text-center gap-6">
+            {/* Background Glitch Effects */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+              <motion.div 
+                animate={{ 
+                  x: [-10, 10, -10],
+                  opacity: [0.1, 0.3, 0.1]
+                }}
+                transition={{ duration: 0.2, repeat: Infinity }}
+                className="absolute inset-0 bg-accent/10 mix-blend-overlay"
+              />
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+            </div>
+
+            <div className="bg-[#0a0a0a] border-2 border-accent/30 rounded-3xl p-10 max-w-lg w-full mx-4 shadow-[0_0_100px_rgba(232,113,42,0.3)] relative overflow-hidden">
+              {/* Animated Corner Accents */}
+              <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-accent/50 rounded-tl-3xl" />
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-accent/50 rounded-tr-3xl" />
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-accent/50 rounded-bl-3xl" />
+              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-accent/50 rounded-br-3xl" />
+
+              <div className="flex flex-col items-center text-center gap-8">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full animate-pulse" />
-                  <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center relative z-10">
-                    <RefreshCw size={24} className="text-accent animate-spin" />
+                  <motion.div 
+                    animate={{ 
+                      scale: [1, 1.5, 1],
+                      rotate: [0, 180, 360]
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 bg-accent/20 blur-2xl rounded-full" 
+                  />
+                  <div className="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center relative z-10 shadow-[0_0_30px_rgba(232,113,42,0.4)]">
+                    <Zap size={40} className="text-accent fill-current animate-pulse" />
                   </div>
                 </div>
                 
-                <div>
-                  <h2 className="font-bebas text-3xl tracking-widest text-white mb-2">BANGER EN COURS DE PRODUCTION...</h2>
-                  <p className="font-mono text-[10px] text-accent uppercase tracking-widest h-4">
-                    {loadingMessage || "Analyse des styles et génération des lyrics"}
-                  </p>
+                <div className="space-y-4">
+                  <motion.h2 
+                    animate={{ scale: [1, 1.02, 1] }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
+                    className="font-bebas text-5xl tracking-[0.2em] text-white"
+                  >
+                    BANGER IN THE MAKING
+                  </motion.h2>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="h-[1px] w-8 bg-accent/30" />
+                    <p className="font-mono text-xs text-accent uppercase tracking-[0.3em] font-bold">
+                      {loadingMessage || "COOKING THE VIBE"}
+                    </p>
+                    <div className="h-[1px] w-8 bg-accent/30" />
+                  </div>
                 </div>
 
-                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden relative">
-                  <motion.div 
-                    className="h-full bg-accent"
-                    initial={{ width: "0%" }}
-                    animate={{ width: `${loadingProgress}%` }}
-                    transition={{ duration: 0.2 }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                <div className="w-full space-y-3">
+                  <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative border border-white/10">
+                    <motion.div 
+                      className="h-full bg-gradient-to-r from-accent via-[#ff8c42] to-accent"
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${loadingProgress}%` }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+                  </div>
+                  <div className="flex justify-between items-center px-1">
+                    <span className="font-mono text-[10px] text-white/30 uppercase tracking-widest">Processing Audio DNA</span>
+                    <span className="font-mono text-sm text-accent font-bold">{Math.floor(loadingProgress)}%</span>
+                  </div>
                 </div>
-                <div className="font-mono text-[10px] text-white/40">{Math.floor(loadingProgress)}%</div>
+
+                {/* Status Indicators */}
+                <div className="grid grid-cols-3 gap-4 w-full pt-4 border-t border-white/5">
+                  <div className="flex flex-col items-center gap-1">
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 30 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <span className="font-mono text-[8px] text-white/20 uppercase">Lyrics</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 60 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <span className="font-mono text-[8px] text-white/20 uppercase">Style</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 90 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <span className="font-mono text-[8px] text-white/20 uppercase">Finalize</span>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -577,8 +724,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         
         <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 w-full sm:w-auto">
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-white/5 border border-white/10 rounded-full backdrop-blur-md">
-            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E8712A] shadow-[0_0_8px_#E8712A]" />
-            <span className="font-mono text-[8px] sm:text-[10px] text-white/70 font-medium uppercase tracking-widest">System Active</span>
+            <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${process.env.GEMINI_API_KEY ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'} animate-pulse`} />
+            <span className="font-mono text-[8px] sm:text-[10px] text-white/70 font-medium uppercase tracking-widest">
+              {process.env.GEMINI_API_KEY ? 'API: ACTIVE' : 'API: OFFLINE'}
+            </span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 border-l border-white/10 pl-3 sm:pl-6">
             <div className="flex flex-col items-end">
@@ -727,26 +876,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               )}
             </div>
 
-            {/* Style Blend Input */}
-            <div className="relative group">
-              <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Style Blending (Sub-genres/Influences)</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={state.music.styleBlend}
-                  onChange={(e) => updateMusicState({ styleBlend: e.target.value })}
-                  placeholder="e.g. Afrobeats, Synthwave, Dark Pop"
-                  className="w-full bg-[#1A1A1A] border border-white/5 rounded-xl px-4 py-3.5 font-mono text-xs text-white placeholder:text-white/10 focus:outline-none focus:border-[#E8712A]/50 transition-all"
-                />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
-                  <span className="font-mono text-[8px] text-[#E8712A]/40 uppercase tracking-tighter">V5.2 Feature</span>
-                </div>
-              </div>
-              <p className="mt-2 font-mono text-[8px] text-white/20 leading-relaxed ml-1">
-                Mix at least 3 sub-genres or influences for a unique sonic signature.
-              </p>
-            </div>
-
             {/* Inspired By Select */}
             <div className="relative">
               <div className="flex items-center justify-between mb-2.5 ml-1">
@@ -787,8 +916,23 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </button>
                 </div>
               </div>
+
+              {scanError && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-3 px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2"
+                >
+                  <AlertCircle size={12} className="text-red-500" />
+                  <span className="font-mono text-[9px] text-red-500 uppercase font-bold">{scanError}</span>
+                  <button onClick={() => setScanError(null)} className="ml-auto p-1 hover:bg-red-500/10 rounded">
+                    <X size={10} className="text-red-500" />
+                  </button>
+                </motion.div>
+              )}
+
               <button 
-                onClick={() => setShowArtistSelect(!showArtistSelect)}
+                onClick={() => setShowArtistModal(true)}
                 className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
               >
                 <div className="text-left flex items-center gap-3">
@@ -800,39 +944,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     </div>
                   </div>
                 </div>
-                <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showArtistSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
+                <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#E8712A]/10 transition-colors">
+                  <Search size={14} className="text-white/20 group-hover:text-[#E8712A]" />
+                </div>
               </button>
-
-              <AnimatePresence>
-                {showArtistSelect && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl z-[60] overflow-hidden backdrop-blur-xl"
-                  >
-                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
-                      {MUSIC_ARTISTS.map(a => (
-                        <button
-                          key={a.id}
-                          onClick={() => {
-                            updateMusicState({ inspiredBy: state.music.inspiredBy === a.name ? '' : a.name });
-                            setShowArtistSelect(false);
-                          }}
-                          className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                            state.music.inspiredBy === a.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
-                          }`}
-                        >
-                          <span className={`font-mono text-xs font-bold tracking-tight ${state.music.inspiredBy === a.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
-                            {a.name}
-                          </span>
-                          <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{a.sub}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
               {state.music.inspiredBy === 'CUSTOM' && (
                 <input 
@@ -842,6 +957,57 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   placeholder="Enter custom artist..."
                   className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
                 />
+              )}
+
+              {/* Exclude Style (Negative Prompt) */}
+              <div className="mt-4 space-y-3">
+                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1 flex items-center justify-between">
+                  <span>Exclude Styles (Negative Prompt)</span>
+                  <AlertCircle size={10} className="text-red-500/50" />
+                </label>
+                <div className="relative group">
+                  <input 
+                    type="text"
+                    value={state.music.customNegativePrompt || ''}
+                    onChange={(e) => updateMusicState({ customNegativePrompt: e.target.value })}
+                    placeholder="Ex: No autotune, No trap, No acoustic..."
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-red-500/40 outline-none transition-all placeholder:text-white/10"
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-focus-within:opacity-100 transition-opacity">
+                    <div className="px-1.5 py-0.5 rounded bg-red-500/10 border border-red-500/20 font-mono text-[8px] text-red-400 uppercase">Exclude</div>
+                  </div>
+                </div>
+              </div>
+
+              {state.music.artistMetadata && scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy) && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="mt-2 p-2.5 bg-white/5 border border-white/10 rounded-xl"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    {state.music.artistMetadata.country && (
+                      <div className="px-2 py-0.5 bg-white/5 rounded border border-white/10 flex items-center gap-1.5">
+                        <Globe size={10} className="text-white/40" />
+                        <span className="font-mono text-[8px] text-white/60 uppercase">{state.music.artistMetadata.country}</span>
+                      </div>
+                    )}
+                    {state.music.artistMetadata.primaryGenre && (
+                      <div className="px-2 py-0.5 bg-white/5 rounded border border-white/10 flex items-center gap-1.5">
+                        <Music size={10} className="text-white/40" />
+                        <span className="font-mono text-[8px] text-white/60 uppercase">{state.music.artistMetadata.primaryGenre}</span>
+                      </div>
+                    )}
+                    {state.music.artistMetadata.lifeSpan?.begin && (
+                      <div className="px-2 py-0.5 bg-white/5 rounded border border-white/10 flex items-center gap-1.5">
+                        <Clock size={10} className="text-white/40" />
+                        <span className="font-mono text-[8px] text-white/60 uppercase">
+                          Since {state.music.artistMetadata.lifeSpan.begin.split('-')[0]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
               )}
 
               {state.music.artistIdentitySummary && scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy) && (
@@ -863,55 +1029,69 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <Zap size={8} className="inline mr-1 text-[#E8712A]" />
                 AI will perform deep data scraping of the artist's lyrical style, song structure, and production approach for maximum authenticity.
               </p>
+
+              {/* Secondary Artist Selection (Blending) */}
+              <div className="space-y-3 mt-4">
+                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1 flex items-center gap-2">
+                  <Layers size={10} className="text-[#E8712A]" />
+                  <span>Secondary Artist (Style Blending)</span>
+                </label>
+                <button 
+                  onClick={() => setShowSecondaryArtistModal(true)}
+                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                >
+                  <div className="text-left flex items-center gap-3">
+                    <User size={14} className="text-white/40" />
+                    <div>
+                      <div className="font-mono text-xs text-white font-medium">{state.music.secondaryInspiredBy === 'none' ? 'None (Pure Style)' : state.music.secondaryInspiredBy}</div>
+                      <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">
+                        {state.music.secondaryInspiredBy === 'none' ? 'Single Artist DNA' : 'Hybrid DNA Active'}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#E8712A]/10 transition-colors">
+                    <Search size={14} className="text-white/20 group-hover:text-[#E8712A]" />
+                  </div>
+                </button>
+              </div>
             </div>
 
-            {/* Instrumentation Select */}
-            <div className="relative">
-              <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Instrumentation</label>
-              <button 
-                onClick={() => setShowInstrumentationSelect(!showInstrumentationSelect)}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
-              >
-                <div className="text-left">
-                  <div className="font-mono text-xs text-white font-medium">{state.music.instrumentation || 'Select Instrumentation'}</div>
-                  <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">
-                    {state.music.instrumentation === 'CUSTOM' ? 'User Defined Instrumentation' : selectedInstrumentation.sub}
-                  </div>
-                </div>
-                <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showInstrumentationSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {showInstrumentationSelect && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl z-[60] overflow-hidden backdrop-blur-xl"
-                  >
-                    <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
-                      {MUSIC_INSTRUMENTATION.map(i => (
-                        <button
-                          key={i.id}
-                          onClick={() => {
-                            updateMusicState({ instrumentation: state.music.instrumentation === i.name ? '' : i.name });
-                            setShowInstrumentationSelect(false);
-                          }}
-                          className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                            state.music.instrumentation === i.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
-                          }`}
-                        >
-                          <span className={`font-mono text-xs font-bold tracking-tight ${state.music.instrumentation === i.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
-                            {i.name}
-                          </span>
-                          <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{i.sub}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
+            {/* Instrumentation Selection Grid */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between ml-1">
+                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Instrumentation</label>
+                <button 
+                  onClick={() => setShowAllInstrumentation(!showAllInstrumentation)}
+                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                >
+                  {showAllInstrumentation ? 'Show Less' : 'Show All'}
+                </button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {(showAllInstrumentation ? MUSIC_INSTRUMENTATION : MUSIC_INSTRUMENTATION.slice(0, 4)).map((i) => {
+                  const isActive = state.music.instrumentation === i.name;
+                  return (
+                    <button
+                      key={i.id}
+                      onClick={() => updateMusicState({ instrumentation: isActive ? '' : i.name })}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
+                        isActive 
+                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                          : 'bg-black/40 border-white/5 hover:border-white/20'
+                      }`}
+                    >
+                      <Layers size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                      <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
+                        {i.name}
+                      </span>
+                      <span className="font-mono text-[7px] text-white/20 uppercase mt-1 tracking-tighter z-10 text-center line-clamp-1">
+                        {i.sub}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              
               {state.music.instrumentation === 'CUSTOM' && (
                 <input 
                   type="text"
@@ -921,6 +1101,96 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
+            </div>
+
+            {/* Variantes de production Selection Grid */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between ml-1">
+                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Variantes de production</label>
+                <button 
+                  onClick={() => setShowAllProductionStyles(!showAllProductionStyles)}
+                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                >
+                  {showAllProductionStyles ? 'Show Less' : 'Show All'}
+                </button>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {(showAllProductionStyles ? MUSIC_PRODUCTION_STYLES : MUSIC_PRODUCTION_STYLES.slice(0, 4)).map((p) => {
+                  const isActive = state.music.productionStyle === p.name;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => updateMusicState({ productionStyle: isActive ? '' : p.name })}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
+                        isActive 
+                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                          : 'bg-black/40 border-white/5 hover:border-white/20'
+                      }`}
+                    >
+                      <Sliders size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                      <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
+                        {p.name}
+                      </span>
+                      <span className="font-mono text-[7px] text-white/20 uppercase mt-1 tracking-tighter z-10 text-center line-clamp-1">
+                        {p.sub}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {state.music.productionStyle === 'CUSTOM' && (
+                <input 
+                  type="text"
+                  value={customProduction}
+                  onChange={(e) => setCustomProduction(e.target.value)}
+                  placeholder="Enter custom production style..."
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                />
+              )}
+            </div>
+
+            {/* Production Finish Select */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#E8712A]/10 flex items-center justify-center border border-[#E8712A]/20">
+                    <Layers size={20} className="text-[#E8712A]" />
+                  </div>
+                  <div>
+                    <h3 className="font-mono text-xs font-bold text-white uppercase tracking-[0.2em]">Production Finish</h3>
+                    <p className="font-mono text-[9px] text-white/30 uppercase mt-1 tracking-widest">Post-Processing & Texture (V5.2)</p>
+                  </div>
+                </div>
+                <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                  <span className="font-mono text-[8px] text-white/40 uppercase tracking-tighter">Suno V5.2 Engine</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {MUSIC_PRODUCTION_FINISHES.map(f => {
+                  const isSelected = state.music.productionFinish === f.name;
+                  return (
+                    <button
+                      key={f.id}
+                      onClick={() => updateMusicState({ productionFinish: isSelected ? '' : f.name })}
+                      className={`relative group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 overflow-hidden border ${
+                        isSelected 
+                          ? 'bg-[#E8712A]/20 border-[#E8712A]/50 shadow-[0_0_20px_rgba(232,113,42,0.2)]' 
+                          : 'bg-black/40 border-white/5 hover:border-white/20 hover:bg-white/5'
+                      }`}
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br from-[#E8712A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                      <span className={`font-mono text-[10px] font-bold tracking-tight z-10 text-center ${isSelected ? 'text-[#E8712A]' : 'text-white/60'}`}>
+                        {f.name}
+                      </span>
+                      <span className="font-mono text-[7px] text-white/20 uppercase mt-1 tracking-tighter z-10 text-center line-clamp-1">
+                        {f.sub}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Era Selection Grid */}
@@ -1066,8 +1336,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             <div>
               <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Thème des Paroles</label>
               <textarea 
-                value={state.music.theme}
-                onChange={(e) => updateMusicState({ theme: e.target.value })}
+                defaultValue={state.music.theme}
+                onBlur={(e) => updateMusicState({ theme: e.target.value })}
                 placeholder="De quoi parle la chanson ?"
                 rows={3}
                 className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all resize-none placeholder:text-white/20 shadow-inner"
@@ -1149,6 +1419,49 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
                   />
                 )}
+
+                {/* Advanced DNA Tags Button */}
+                <div className="mt-6 pt-6 border-t border-white/5">
+                  <button
+                    onClick={() => setShowAdvancedTagsModal(true)}
+                    className="w-full group relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-[#E8712A]/5 to-transparent border border-[#E8712A]/20 hover:border-[#E8712A]/40 transition-all"
+                  >
+                    <div className="flex items-center justify-between relative z-10">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20 group-hover:scale-110 transition-transform">
+                          <Sparkles size={16} className="text-[#E8712A]" />
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-bebas text-lg tracking-widest text-white">ADVANCED DNA TAGS</h4>
+                          <p className="font-mono text-[9px] text-white/30 uppercase tracking-widest">
+                            {state.music.advancedTags.length > 0 
+                              ? `${state.music.advancedTags.length} tags active` 
+                              : 'Inject specific sonic elements'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {state.music.advancedTags.length > 0 && (
+                          <div className="flex -space-x-1">
+                            {state.music.advancedTags.slice(0, 3).map((tag, i) => (
+                              <div key={i} className="w-5 h-5 rounded-full bg-[#E8712A] border border-black flex items-center justify-center">
+                                <span className="font-mono text-[8px] text-black font-bold">{tag[0]}</span>
+                              </div>
+                            ))}
+                            {state.music.advancedTags.length > 3 && (
+                              <div className="w-5 h-5 rounded-full bg-white/10 border border-black flex items-center justify-center">
+                                <span className="font-mono text-[8px] text-white/60">+{state.music.advancedTags.length - 3}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        <ChevronDown size={16} className="text-white/20 group-hover:text-[#E8712A] transition-colors" />
+                      </div>
+                    </div>
+                    {/* Animated Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E8712A]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1248,9 +1561,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
                 {/* Singing Style Selection Grid */}
                 <div className="space-y-3">
-                  <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1">Singing Style</label>
+                  <div className="flex items-center justify-between ml-1">
+                    <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Singing Style</label>
+                    <button 
+                      onClick={() => setShowAllSingingStyles(!showAllSingingStyles)}
+                      className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                    >
+                      {showAllSingingStyles ? 'Show Less' : 'Show All'}
+                    </button>
+                  </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {MUSIC_SINGING_STYLES.slice(0, 4).map((s) => {
+                    {(showAllSingingStyles ? MUSIC_SINGING_STYLES : MUSIC_SINGING_STYLES.slice(0, 4)).map((s) => {
                       const isActive = state.music.singingStyle === s.name;
                       return (
                         <button
@@ -1320,13 +1641,62 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </AnimatePresence>
                 </div>
 
+                {/* Vocal Technique Select */}
+                <div className="relative">
+                  <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Vocal Technique (V5.2)</label>
+                  <button 
+                    onClick={() => setShowVocalTechniqueSelect(!showVocalTechniqueSelect)}
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                  >
+                    <div className="text-left flex items-center gap-2">
+                      <Mic2 size={14} className="text-[#E8712A]" />
+                      <div>
+                        <div className="font-mono text-xs text-white font-medium">{state.music.vocalTechnique || 'Standard'}</div>
+                        <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">{selectedVocalTechnique.sub}</div>
+                      </div>
+                    </div>
+                    <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showVocalTechniqueSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {showVocalTechniqueSelect && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl z-[60] overflow-hidden backdrop-blur-xl"
+                      >
+                        <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
+                          {MUSIC_VOCAL_TECHNIQUES.map(t => (
+                            <button
+                              key={t.id}
+                              onClick={() => {
+                                updateMusicState({ vocalTechnique: state.music.vocalTechnique === t.name ? '' : t.name });
+                                setShowVocalTechniqueSelect(false);
+                              }}
+                              className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
+                                state.music.vocalTechnique === t.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
+                              }`}
+                            >
+                              <span className={`font-mono text-xs font-bold tracking-tight ${state.music.vocalTechnique === t.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
+                                {t.name}
+                              </span>
+                              <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{t.sub}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {/* Accent Input */}
                 <div>
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Accent / Language Color</label>
                   <input 
                     type="text"
-                    value={state.music.accent}
-                    onChange={(e) => updateMusicState({ accent: e.target.value })}
+                    defaultValue={state.music.accent}
+                    onBlur={(e) => updateMusicState({ accent: e.target.value })}
                     placeholder="e.g. British, Southern, Patois..."
                     className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
                   />
@@ -1345,8 +1715,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </div>
                   <textarea 
                     rows={2}
-                    value={state.music.vocalReference}
-                    onChange={(e) => updateMusicState({ vocalReference: e.target.value })}
+                    defaultValue={state.music.vocalReference}
+                    onBlur={(e) => updateMusicState({ vocalReference: e.target.value })}
                     placeholder="e.g. Jorja Smith-like restraint, airy falsetto with deep soul resonance..."
                     className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20 resize-none custom-scrollbar"
                   />
@@ -1465,6 +1835,40 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
                       />
                     </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-3">
+                        <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
+                          <Sparkles size={12} className="text-[#E8712A]" /> Weirdness (V5.2)
+                        </label>
+                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.weirdness}%</span>
+                      </div>
+                      <input 
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={state.music.weirdness}
+                        onChange={(e) => updateMusicState({ weirdness: parseInt(e.target.value) })}
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-3">
+                        <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
+                          <Flame size={12} className="text-[#E8712A]" /> Style Influence
+                        </label>
+                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.styleInfluence}%</span>
+                      </div>
+                      <input 
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={state.music.styleInfluence}
+                        onChange={(e) => updateMusicState({ styleInfluence: parseInt(e.target.value) })}
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                      />
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1534,34 +1938,68 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           >
             {/* Floating BANGER Button */}
             <div className="fixed bottom-3 right-3 sm:bottom-8 sm:right-8 z-50 group/banger flex items-center gap-2">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={handleRandomize}
-                className="p-3 sm:p-5 rounded-full bg-white/10 text-white hover:bg-white/20 border border-white/10 transition-all active:scale-[0.95]"
+                className="p-3 sm:p-5 rounded-full bg-white/10 text-white hover:bg-white/20 border border-white/10 transition-all shadow-lg backdrop-blur-md"
                 title="Randomize Parameters"
               >
                 <Sparkles size={20} className="sm:w-7 sm:h-7" />
-              </button>
-              <button
-                onClick={() => handleGenerate('all')}
-                disabled={state.music.isGenerating}
-                className={`px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bebas text-lg sm:text-xl tracking-[0.2em] transition-all flex items-center justify-center gap-2 relative overflow-hidden shadow-[0_0_20px_rgba(232,113,42,0.3)] hover:shadow-[0_0_30px_rgba(232,113,42,0.5)] ${
-                  state.music.isGenerating 
-                    ? 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed scale-0 opacity-0' 
-                    : 'bg-accent text-black hover:bg-accent-hover active:scale-[0.95] border border-accent/50'
-                }`}
-              >
-                {state.music.isGenerating ? (
-                  <>
-                    <RefreshCw size={18} className="sm:w-7 sm:h-7 animate-spin" />
-                    <span>PROCESSING...</span>
-                  </>
-                ) : (
-                  <>
-                    <Zap size={18} className="sm:w-7 sm:h-7 fill-current" />
-                    <span>BANGER</span>
-                  </>
-                )}
-              </button>
+              </motion.button>
+              
+              <div className="relative">
+                {/* Shockwave Effect */}
+                <AnimatePresence>
+                  {isBangerExploding && (
+                    <motion.div
+                      initial={{ scale: 1, opacity: 0.8 }}
+                      animate={{ scale: 2.5, opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 rounded-full bg-accent z-[-1]"
+                    />
+                  )}
+                </AnimatePresence>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleBangerClick}
+                  disabled={state.music.isGenerating || state.isGenerating}
+                  className={`px-4 py-2 sm:px-8 sm:py-4 rounded-full font-bebas text-lg sm:text-2xl tracking-[0.25em] transition-all flex items-center justify-center gap-3 relative overflow-hidden shadow-[0_0_30px_rgba(232,113,42,0.4)] hover:shadow-[0_0_50px_rgba(232,113,42,0.6)] group/btn ${
+                    (state.music.isGenerating || state.isGenerating) 
+                      ? 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed' 
+                      : 'bg-accent text-black hover:bg-accent-hover border-2 border-accent/50'
+                  }`}
+                >
+                  {/* Animated Background Shine */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] transition-transform" />
+                  
+                  {(state.music.isGenerating || state.isGenerating) ? (
+                    <>
+                      <RefreshCw size={20} className="sm:w-8 sm:h-8 animate-spin" />
+                      <span>{state.isGenerating ? 'VISUAL GEN...' : 'PROCESSING...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          rotate: [0, 10, -10, 0]
+                        }}
+                        transition={{ 
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <Zap size={20} className="sm:w-8 sm:h-8 fill-current" />
+                      </motion.div>
+                      <span className="relative z-10">BANGER</span>
+                    </>
+                  )}
+                </motion.button>
+              </div>
             </div>
 
             {state.music.error && (
@@ -1584,19 +2022,19 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-mono text-[10px] text-accent font-bold tracking-widest uppercase animate-pulse">
-                    Banger en cours de production...
+                    {loadingMessage || "Banger en cours de production..."}
                   </span>
                   <span className="font-mono text-[10px] text-white/50">
                     <RefreshCw size={10} className="inline animate-spin mr-1" />
-                    PROCESSING
+                    {Math.round(loadingProgress)}%
                   </span>
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                   <motion.div 
                     className="h-full bg-accent"
                     initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 15, ease: "linear" }}
+                    animate={{ width: `${loadingProgress}%` }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
@@ -1716,15 +2154,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                             {copiedText === `history-negative-${item.id}` ? <CheckCircle2 size={12} className="text-red-400" /> : <AlertCircle size={12} />}
                           </button>
                         )}
-                        {item.weirdnessAndStyleInfluence && (
-                          <button 
-                            onClick={() => copyToClipboard(item.weirdnessAndStyleInfluence || '', `history-weirdness-${item.id}`)}
-                            className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/40 transition-all"
-                            title="Copy Weirdness & Style Influence"
-                          >
-                            {copiedText === `history-weirdness-${item.id}` ? <CheckCircle2 size={12} className="text-purple-400" /> : <Sparkles size={12} />}
-                          </button>
-                        )}
                         <button 
                           onClick={() => copyToClipboard(item.lyrics, `history-lyrics-${item.id}`)}
                           className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all"
@@ -1784,8 +2213,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <label className="font-mono text-[8px] text-white/20 uppercase tracking-widest ml-1">Artist Name</label>
                 <input 
                   type="text"
-                  value={state.music.artistName || ''}
-                  onChange={(e) => updateMusicState({ artistName: e.target.value })}
+                  defaultValue={state.music.artistName || ''}
+                  onBlur={(e) => updateMusicState({ artistName: e.target.value })}
                   placeholder="ARTISTE"
                   className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/10"
                 />
@@ -1794,8 +2223,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <label className="font-mono text-[8px] text-white/20 uppercase tracking-widest ml-1">Song Title</label>
                 <input 
                   type="text"
-                  value={state.music.songTitle || ''}
-                  onChange={(e) => updateMusicState({ songTitle: e.target.value })}
+                  defaultValue={state.music.songTitle || ''}
+                  onBlur={(e) => updateMusicState({ songTitle: e.target.value })}
                   placeholder="TITRE"
                   className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/10"
                 />
@@ -1898,30 +2327,27 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             )}
 
-            {state.music.weirdnessAndStyleInfluence && (
-              <div className="mt-4 flex flex-col gap-3">
-                <div className="flex items-center gap-2 ml-1">
-                  <Sparkles size={12} className="text-purple-400/80" />
-                  <span className="font-mono text-[9px] text-purple-400/80 uppercase tracking-widest font-bold">Weirdness & Style Influence</span>
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <div className="flex items-center gap-2 mb-3 ml-1">
+                <div className="p-1 rounded bg-[#E8712A]/10 border border-[#E8712A]/20">
+                  <HelpCircle size={10} className="text-[#E8712A]" />
                 </div>
-                <div className="relative group/weirdness">
-                  <div className="bg-purple-900/10 border border-purple-500/20 rounded-xl p-4 font-mono text-[10px] text-purple-200/60 leading-relaxed shadow-inner hover:border-purple-500/40 transition-all">
-                    {state.music.weirdnessAndStyleInfluence}
-                  </div>
-                  <button 
-                    onClick={() => copyToClipboard(state.music.weirdnessAndStyleInfluence || '', 'weirdness')}
-                    className="absolute top-2 right-2 p-2 bg-purple-500/10 rounded-xl border border-purple-500/20 text-purple-400/60 hover:text-purple-400 hover:border-purple-500/60 transition-all opacity-0 group-hover/weirdness:opacity-100 backdrop-blur-md"
-                  >
-                    {copiedText === 'weirdness' ? <CheckCircle2 size={12} className="text-purple-400" /> : <Copy size={12} />}
-                  </button>
+                <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest font-bold">Suno V5.2 Workflow Guide</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 1</span>
+                  <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Style Prompt</span> dans la case "Style of Music" de Suno.</p>
+                </div>
+                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 2</span>
+                  <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Negative Prompt</span> dans "Exclude Styles" (Custom Mode).</p>
+                </div>
+                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 3</span>
+                  <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez les <span className="text-white/60">Lyrics</span>. Les balises [ ] et ( ) sont déjà optimisées.</p>
                 </div>
               </div>
-            )}
-            <div className="flex items-center gap-2 mt-2 ml-1">
-              <div className="w-1 h-1 rounded-full bg-accent" />
-              <p className="micro-label text-white/20 leading-relaxed">
-                Direction artistique sonore optimisée. Copiez ce prompt dans Suno AI.
-              </p>
             </div>
           </motion.div>
           <motion.div 
@@ -1949,10 +2375,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   onClick={() => handleGenerate('lyrics')}
                   disabled={state.music.isGenerating}
                   className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md"
-                  title="Remix Lyrics Only"
+                  title="Remix & Refine Lyrics to match artist style"
                 >
                   <RefreshCw size={14} className={state.music.isGenerating ? 'animate-spin' : ''} />
-                  Remix Lyrics
+                  Remix & Refine
                 </button>
                 {state.music.lyrics && (
                   <button 
@@ -2045,6 +2471,284 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           </motion.div>
         </motion.div>
       </div>
+      <AnimatePresence>
+        {showArtistModal && (
+          <ArtistSelectionModal 
+            isOpen={showArtistModal}
+            onClose={() => setShowArtistModal(false)}
+            artists={MUSIC_ARTISTS}
+            onSelect={(name) => updateMusicState({ inspiredBy: state.music.inspiredBy === name ? '' : name })}
+            selectedArtist={state.music.inspiredBy}
+            artistSearch={artistSearch}
+            setArtistSearch={setArtistSearch}
+            onCustomSelect={(name) => {
+              updateMusicState({ inspiredBy: 'CUSTOM' });
+              setCustomArtist(name);
+            }}
+          />
+        )}
+        {showSecondaryArtistModal && (
+          <ArtistSelectionModal 
+            isOpen={showSecondaryArtistModal}
+            onClose={() => setShowSecondaryArtistModal(false)}
+            artists={[{ id: 'none', name: 'none', sub: 'None (Pure Style)' }, ...MUSIC_ARTISTS]}
+            onSelect={(name) => {
+              updateMusicState({ secondaryInspiredBy: state.music.secondaryInspiredBy === name ? 'none' : name });
+              setShowSecondaryArtistModal(false);
+            }}
+            selectedArtist={state.music.secondaryInspiredBy}
+            artistSearch={secondaryArtistSearch}
+            setArtistSearch={setSecondaryArtistSearch}
+            onCustomSelect={(name) => {
+              updateMusicState({ secondaryInspiredBy: name });
+              setShowSecondaryArtistModal(false);
+            }}
+          />
+        )}
+        {showAdvancedTagsModal && (
+          <AdvancedTagsModal 
+            selectedTags={state.music.advancedTags}
+            onSelect={(tag) => {
+              const current = state.music.advancedTags || [];
+              const next = current.includes(tag) 
+                ? current.filter(t => t !== tag)
+                : [...current, tag];
+              updateMusicState({ advancedTags: next });
+            }}
+            onClose={() => setShowAdvancedTagsModal(false)}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArtist, artistSearch, setArtistSearch, onCustomSelect }: { 
+  isOpen: boolean; 
+  onClose: () => void; 
+  artists: typeof MUSIC_ARTISTS; 
+  onSelect: (name: string) => void; 
+  selectedArtist: string;
+  artistSearch: string;
+  setArtistSearch: (s: string) => void;
+  onCustomSelect: (s: string) => void;
+}) => {
+  if (!isOpen) return null;
+
+  const filteredArtists = artists.filter(a => 
+    a.name.toLowerCase().includes(artistSearch.toLowerCase()) || 
+    a.sub.toLowerCase().includes(artistSearch.toLowerCase())
+  );
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+      />
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+      >
+        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
+              <User size={20} className="text-[#E8712A]" />
+            </div>
+            <div>
+              <h2 className="font-bebas text-2xl tracking-widest text-white">SELECT ARTIST DNA</h2>
+              <p className="font-mono text-[10px] text-white/30 uppercase tracking-widest">Choose an inspiration for your track</p>
+            </div>
+          </div>
+          <button 
+            onClick={onClose}
+            className="p-2 hover:bg-white/5 rounded-xl transition-colors text-white/40 hover:text-white"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="p-6 bg-black/40">
+          <div className="relative group">
+            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#E8712A] transition-colors" />
+            <input
+              type="text"
+              value={artistSearch}
+              onChange={(e) => setArtistSearch(e.target.value)}
+              placeholder="Search by name, genre, or style..."
+              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-6 py-4 font-mono text-sm text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20 shadow-inner"
+              autoFocus
+            />
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 pt-0 custom-scrollbar">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {filteredArtists.map(a => (
+              <button
+                key={a.id}
+                onClick={() => {
+                  onSelect(a.name);
+                  onClose();
+                }}
+                className={`text-left p-4 rounded-2xl transition-all flex flex-col gap-1 group relative overflow-hidden ${
+                  selectedArtist === a.name 
+                    ? 'bg-[#E8712A]/10 border border-[#E8712A]/40 shadow-[0_0_20px_rgba(232,113,42,0.1)]' 
+                    : 'bg-white/[0.02] border border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
+                }`}
+              >
+                <div className="flex items-center justify-between relative z-10">
+                  <span className={`font-mono text-sm font-bold tracking-tight ${selectedArtist === a.name ? 'text-[#E8712A]' : 'text-white/80 group-hover:text-white'}`}>
+                    {a.name}
+                  </span>
+                  {selectedArtist === a.name && <CheckCircle2 size={14} className="text-[#E8712A]" />}
+                </div>
+                <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest relative z-10 group-hover:text-white/50 transition-colors">{a.sub}</span>
+                
+                {/* Hover Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#E8712A]/0 to-[#E8712A]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            ))}
+          </div>
+
+          {filteredArtists.length === 0 && (
+            <div className="py-12 text-center">
+              <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+                <Search size={24} className="text-white/10" />
+              </div>
+              <p className="font-mono text-xs text-white/20 uppercase tracking-[0.2em] mb-4">No artist found in database</p>
+              <button 
+                onClick={() => {
+                  onCustomSelect(artistSearch);
+                  onClose();
+                }}
+                className="px-6 py-3 bg-[#E8712A]/10 border border-[#E8712A]/20 rounded-xl font-mono text-[10px] text-[#E8712A] hover:bg-[#E8712A] hover:text-black transition-all uppercase font-bold tracking-widest"
+              >
+                Use "{artistSearch}" as custom artist
+              </button>
+            </div>
+          )}
+        </div>
+        
+        <div className="p-4 border-t border-white/5 bg-white/[0.01] flex justify-center">
+          <p className="font-mono text-[8px] text-white/20 uppercase tracking-[0.3em]">Select an artist to inject their DNA into the generation</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const AdvancedTagsModal: React.FC<{
+  selectedTags: string[];
+  onSelect: (tag: string) => void;
+  onClose: () => void;
+}> = ({ selectedTags, onSelect, onClose }) => {
+  const categories = [
+    { title: 'VOCAL TEXTURE', tags: MUSIC_VOCAL_TEXTURES },
+    { title: 'INTERPRETATION', tags: MUSIC_VOCAL_INTERPRETATIONS },
+    { title: 'FLOW & TECHNIQUE', tags: MUSIC_FLOW_TAGS },
+    { title: 'WRITING & THEMES', tags: MUSIC_WRITING_TAGS },
+    { title: 'DRUMS & BASS', tags: MUSIC_DRUM_BASS_TAGS },
+    { title: 'MELODY & HARMONY', tags: MUSIC_MELODY_TAGS },
+    { title: 'ATMOSPHERE', tags: MUSIC_ATMOSPHERE_TAGS },
+    { title: 'MIX & TEXTURE', tags: MUSIC_MIX_TAGS },
+    { title: 'STRUCTURE', tags: MUSIC_STRUCTURE_TAGS }
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+      />
+      
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="relative w-full max-w-4xl bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+      >
+        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
+              <Sparkles size={20} className="text-[#E8712A]" />
+            </div>
+            <div>
+              <h2 className="font-bebas text-2xl tracking-widest text-white">ADVANCED DNA TAGS</h2>
+              <p className="font-mono text-[10px] text-white/30 uppercase tracking-widest">Inject specific sonic & lyrical elements</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="px-3 py-1.5 rounded-full bg-[#E8712A]/10 border border-[#E8712A]/20">
+              <span className="font-mono text-[10px] text-[#E8712A] font-bold">{selectedTags.length} SELECTED</span>
+            </div>
+            <button 
+              onClick={onClose}
+              className="p-2 hover:bg-white/5 rounded-xl transition-colors text-white/40 hover:text-white"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-8">
+          {categories.map((cat, idx) => (
+            <div key={idx} className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-px flex-1 bg-white/5" />
+                <h3 className="font-mono text-[10px] text-white/40 uppercase tracking-[0.3em] font-bold">{cat.title}</h3>
+                <div className="h-px flex-1 bg-white/5" />
+              </div>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {cat.tags.map((tag) => {
+                  const isActive = selectedTags.includes(tag.name);
+                  return (
+                    <button
+                      key={tag.id}
+                      onClick={() => onSelect(tag.name)}
+                      className={`text-left p-3 rounded-xl transition-all flex flex-col gap-1 group relative overflow-hidden border ${
+                        isActive 
+                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.05)]' 
+                          : 'bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between relative z-10">
+                        <span className={`font-mono text-[10px] font-bold tracking-tight ${isActive ? 'text-[#E8712A]' : 'text-white/60 group-hover:text-white'}`}>
+                          {tag.name}
+                        </span>
+                        {isActive && <CheckCircle2 size={10} className="text-[#E8712A]" />}
+                      </div>
+                      <span className="font-mono text-[8px] text-white/20 uppercase tracking-tighter relative z-10 group-hover:text-white/40 transition-colors">{tag.sub}</span>
+                      
+                      {/* Hover Glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#E8712A]/0 to-[#E8712A]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="p-6 border-t border-white/5 bg-white/[0.01] flex justify-between items-center">
+          <p className="font-mono text-[8px] text-white/20 uppercase tracking-[0.2em]">Select multiple tags to refine the AI's musical direction</p>
+          <button 
+            onClick={onClose}
+            className="px-8 py-3 bg-[#E8712A] text-black rounded-xl font-bebas text-xl tracking-widest hover:bg-[#ff7d33] transition-all shadow-[0_0_20px_rgba(232,113,42,0.2)]"
+          >
+            CONFIRM SELECTION
+          </button>
+        </div>
+      </motion.div>
     </div>
   );
 };

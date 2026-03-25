@@ -151,6 +151,10 @@ export const RAPPER_STYLES: ArtistStyle[] = [
   { name: "Megan Thee Stallion", gender: "female", prompt: "fitted technical bodysuit, high-fashion athletic glamour, bold H-Town hottie energy" },
   { name: "Ice Spice", gender: "female", prompt: "cropped technical top, low-waist baggy denim, signature ginger afro, Bronx drill aesthetic" },
   { name: "Gazo", gender: "male", prompt: "all-black technical tracksuit, heavy silver chains, dark drill energy, French rap aesthetic" },
+  { name: "Kekra", gender: "male", prompt: "KINO aesthetic — full face mask or balaclava, oversized technical parka, high-fashion tactical gear, anonymous French rap mystery" },
+  { name: "Hamza", gender: "male", prompt: "luxury designer knitwear, diamond chains, polished melodic rap aesthetic, Sauce God energy" },
+  { name: "PLK", gender: "male", prompt: "technical tracksuit, clean sneakers, authentic Polish-French street aesthetic, high-energy rap" },
+  { name: "Ziak", gender: "male", prompt: "signature black bandana mask, all-black technical drill outfit, dark aggressive French drill energy" },
   { name: "Dave", gender: "male", prompt: "sharp all-black tailored suit, no tie, silver watch, minimalist UK rap elegance" },
   { name: "Tyler the Creator", gender: "male", prompt: "pastel polo shirt, wide-leg pleated trousers, loafers with socks, eccentric preppy style" },
   { name: "A$AP Rocky", gender: "male", prompt: "avant-garde designer tailoring, eclectic jewelry, high-fashion streetwear icon" },
@@ -188,10 +192,26 @@ export const RAPPER_STYLES: ArtistStyle[] = [
   { name: "Koba LaD", gender: "male", prompt: "designer technical jacket, relaxed denim, authentic French rap style" },
   { name: "Niska", gender: "male", prompt: "vibrant technical tracksuit, diamond chains, high-energy French rap energy" },
   { name: "Laylow", gender: "male", prompt: "futuristic technical outfit, digital aesthetic, high-concept French rap style" },
+  { name: "Jul", gender: "male", prompt: "technical tracksuit, clean sneakers, authentic Marseille street aesthetic, high-energy rap" },
+  { name: "PNL", gender: "male", prompt: "designer technical streetwear, long hair, cinematic cloud rap aesthetic, QLF energy" },
+  { name: "Nekfeu", gender: "male", prompt: "simple high-quality hoodie, relaxed denim, authentic Parisian rap energy, conscious aesthetic" },
+  { name: "Orelsan", gender: "male", prompt: "oversized graphic tee, baggy cargo pants, authentic Caen street style, relatable rap energy" },
+  { name: "Vald", gender: "male", prompt: "eccentric designer outfit, colorful accessories, avant-garde ironic rap style" },
+  { name: "Kaaris", gender: "male", prompt: "fitted technical vest, bare chest, heavy silver chains, aggressive Sevran drill energy" },
+  { name: "Maes", gender: "male", prompt: "luxury designer tracksuit, diamond watch, polished melodic rap aesthetic" },
+  { name: "Lacrim", gender: "male", prompt: "oversized leather jacket, multiple gold chains, raw street legend energy" },
+  { name: "Kalash Criminel", gender: "male", prompt: "signature white balaclava, all-black technical outfit, raw aggressive energy" },
+  { name: "Heuss L'enfoiré", gender: "male", prompt: "vibrant silk print shirt, designer sunglasses, energetic festive rap style" },
+  { name: "Soolking", gender: "male", prompt: "luxury designer knitwear, diamond chains, polished melodic raï-rap fusion" },
+  { name: "Salif", gender: "male", prompt: "vintage oversized tracksuit, heavy silver chain, raw authentic Boulogne street rap energy" },
+  { name: "Dicidens", gender: "male", prompt: "90s street rap aesthetic, baggy clothes, raw authentic Val-de-Marne energy" },
+  { name: "Shay", gender: "female", prompt: "fitted technical bodysuit, high-fashion athletic glamour, bold rap queen energy" },
+  { name: "Doria", gender: "female", prompt: "technical tracksuit, clean sneakers, authentic street rap aesthetic" },
   { name: "Paloalto", gender: "male", prompt: "oversized technical streetwear, clean Korean rap aesthetic" },
   { name: "Jay Park", gender: "male", prompt: "fitted technical vest, bare chest, multiple tattoos, energetic K-rap energy" },
   { name: "CL", gender: "female", prompt: "avant-garde designer tailoring, bold jewelry, legendary K-rap queen aesthetic" },
-  { name: "Jessi", gender: "female", prompt: "fitted technical bodysuit, bold makeup, confident K-rap glamour" }
+  { name: "Jessi", gender: "female", prompt: "fitted technical bodysuit, bold makeup, confident K-rap glamour" },
+  { name: "Alpha Wann", gender: "male", prompt: "oversized black hoodie, loose-fit denim, vintage sneakers, Don Dada aesthetic, no jewelry, raw technical rap authenticity" }
 ];
 
 export const ARTIST_STYLES: ArtistStyle[] = [
@@ -212,7 +232,16 @@ export const ARTIST_STYLES: ArtistStyle[] = [
   { name: "Doja Cat", gender: "female", prompt: "futuristic liquid silver metallic bodysuit, avant-garde sculptural glam, bold neon makeup, metallic platform boots, high-concept pop fashion" },
   { name: "Tyler the Creator", gender: "male", prompt: "pastel pink polo shirt, vintage wide-leg pleated trousers, leather loafers with white socks, leopard print ushanka hat, 70s-inspired preppy eccentricity" },
   { name: "Slowthai", gender: "male", prompt: "raw England-flag printed technical vest, no-shirt underneath, aggressive patriotic punk energy, silver chains, buzzed hair" },
-  { name: "Mahalia", gender: "female", prompt: "champagne silk slip dress, minimalist gold choker, soft feminine R&B sophistication, elegant evening-wear aesthetic" }
+  { name: "Mahalia", gender: "female", prompt: "champagne silk slip dress, minimalist gold choker, soft feminine R&B sophistication, elegant evening-wear aesthetic" },
+  { name: "Angèle", gender: "female", prompt: "vibrant colorful outfit, playful accessories, modern pop-indie elegance" },
+  { name: "Lomepal", gender: "male", prompt: "vintage graphic tee, relaxed denim, authentic skate-rap aesthetic" },
+  { name: "Stromae", gender: "male", prompt: "sculptural architectural suit, bold geometric patterns, avant-garde artistic presence" },
+  { name: "Pomme", gender: "female", prompt: "vintage floral dress, delicate jewelry, nostalgic indie-folk elegance" },
+  { name: "Woodkid", gender: "male", prompt: "sharp all-black tailored suit, dramatic lighting, epic cinematic presence" },
+  { name: "Bonnie Banane", gender: "female", prompt: "eclectic maximalist outfit, colorful makeup, avant-garde R&B-pop style" },
+  { name: "Ichon", gender: "male", prompt: "vibrant silk shirt, tailored trousers, expressive artistic energy" },
+  { name: "Theodora", gender: "female", prompt: "oversized vintage black leather blazer, sheer black mesh top, high-waist leather trousers, minimal silver choker, slicked-back hair, moody nocturnal Parisian club aesthetic, dark pop energy" },
+  { name: "Alpha Wann", gender: "male", prompt: "oversized black hoodie, loose-fit denim, vintage sneakers, Don Dada aesthetic, no jewelry, raw technical rap authenticity" }
 ];
 
 export const POP_ARTIST_STYLES: ArtistStyle[] = [
@@ -265,7 +294,10 @@ export const POP_ARTIST_STYLES: ArtistStyle[] = [
   { name: "The 1975 (Matty)", gender: "male", prompt: "disheveled black suit, loose tie, cigarette in hand, indie-pop rockstar energy" },
   { name: "Lizzo", gender: "female", prompt: "vibrant neon bodysuit, dramatic flute, bold body-positive pop maximalism" },
   { name: "Sabrina Carpenter", gender: "female", prompt: "vintage-inspired mini dress, platform heels, classic blonde pop starlet aesthetic" },
-  { name: "Tate McRae", gender: "female", prompt: "baggy cargo pants, cropped technical top, high-energy dance-pop streetwear" }
+  { name: "Tate McRae", gender: "female", prompt: "baggy cargo pants, cropped technical top, high-energy dance-pop streetwear" },
+  { name: "Louane", gender: "female", prompt: "chic minimalist outfit, oversized blazer, understated modern pop elegance" },
+  { name: "Kendji Girac", gender: "male", prompt: "vibrant silk print shirt, relaxed denim, energetic Gipsy-pop flair" },
+  { name: "Vianney", gender: "male", prompt: "simple high-quality knitwear, relaxed denim, authentic acoustic pop energy" }
 ];
 
 export const RNB_ARTIST_STYLES: ArtistStyle[] = [
@@ -318,7 +350,14 @@ export const RNB_ARTIST_STYLES: ArtistStyle[] = [
   { name: "Anderson .Paak", gender: "male", prompt: "vibrant patterned knitwear, colorful bucket hat, vintage sunglasses, energetic R&B-funk style" },
   { name: "SiR", gender: "male", prompt: "simple high-quality hoodie, relaxed denim, soulful TDE R&B aesthetic" },
   { name: "Blxst", gender: "male", prompt: "clean technical tracksuit, crisp white sneakers, polished West Coast R&B style" },
-  { name: "Pink Sweat$", gender: "male", prompt: "all-pink technical outfit, relaxed fit, soft approachable R&B energy" }
+  { name: "Pink Sweat$", gender: "male", prompt: "all-pink technical outfit, relaxed fit, soft approachable R&B energy" },
+  { name: "Aya Nakamura", gender: "female", prompt: "glamorous designer gown, massive diamond jewelry, unapologetic Afro-pop queen energy" },
+  { name: "Tayc", gender: "male", prompt: "silk shirt open at chest, tailored trousers, gold watch, sensual Afro-R&B flair" },
+  { name: "Dadju", gender: "male", prompt: "luxury designer knitwear, diamond watch, polished romantic R&B aesthetic" },
+  { name: "Ronisia", gender: "female", prompt: "fitted technical bodysuit, high-fashion athletic glamour, soft melodic R&B energy" },
+  { name: "Bianca Costa", gender: "female", prompt: "vibrant colorful outfit, Brazilian-inspired accessories, energetic Baile Funk-pop style" },
+  { name: "Nej'", gender: "female", prompt: "luxury designer outfit, diamond jewelry, polished melodic R&B-pop aesthetic" },
+  { name: "Monsieur NOV", gender: "male", prompt: "sharp tailored blazer, silk shirt, minimalist luxury watch, sophisticated French R&B elegance" }
 ];
 
 export const EXPRESSIONS = [
@@ -375,9 +414,11 @@ export const WARDROBE_STYLES = [
   { key: 'maximalist', name: 'MAXI', prompt: 'maximalist bold statement, complex details' },
   { key: 'vintage', name: 'VINTAGE', prompt: 'vintage 90s archive aesthetic, worn-in feel' },
   { key: 'futuristic', name: 'FUTUR', prompt: 'futuristic sci-fi techwear, avant-garde' },
+  { key: 'hyper-sexy', name: 'HYPER-SEXY', prompt: 'body-hugging latex or sheer fabrics, deep plunging necklines, high-cut bottoms, provocative cut-outs, and aggressive high-fashion elements' },
 ];
 
 export const MUSIC_GENRES = [
+  { id: 'hardcore-rap', name: 'HARDCORE RAP', sub: 'Raw / Aggressive / Street' },
   { id: 'rai-algerien', name: 'RAÏ ALGÉRIEN', sub: 'Emotional / Festive / Traditional' },
   { id: 'dark-rnb', name: 'DARK R&B', sub: 'Atmospheric / Melodic Trap' },
   { id: 'boom-bap-90s', name: '90s BOOM BAP', sub: 'East Coast / Gritty / Nas Style' },
@@ -391,11 +432,12 @@ export const MUSIC_GENRES = [
   { id: 'trap-soul', name: 'TRAP SOUL', sub: 'Modern PBR&B' },
   { id: 'lofi', name: 'LO-FI BEATS', sub: 'Study / Chill / Relax' },
   { id: 'epic-anime', name: 'EPIC ANIME', sub: 'Orchestral / J-Rock' },
+  { id: 'soundtrack', name: 'BO De MUSIQUE', sub: 'Soundtrack / OST / Cinematic' },
   { id: 'amapiano', name: 'AMAPIANO', sub: 'South African Deep House' },
   { id: 'afrobeats', name: 'AFROBEATS', sub: 'Vibrant / Burna Style' },
   { id: 'afro-trap', name: 'AFRO TRAP', sub: 'MHD Style / Energetic' },
   { id: 'kpop', name: 'K-POP', sub: 'Polished / High Energy' },
-  { id: 'cloud-rap', name: 'CLOUD RAP', sub: 'Dreamy / Atmospheric' },
+  { id: 'cloud-rap', name: 'CLOUD RAP', sub: 'Atmospheric / Melodic / Autotune' },
   { id: 'jersey-club', name: 'JERSEY CLUB', sub: 'Fast / Bouncy / 5-beat' },
   { id: 'uk-garage', name: 'UK GARAGE', sub: '2-Step / Speed Garage' },
   { id: 'french-touch', name: 'FRENCH TOUCH', sub: 'Filtered House / Disco' },
@@ -436,6 +478,8 @@ export const MUSIC_MOODS = [
   { id: 'happy', name: 'JOYEUX', sub: 'Uplifting / Feel Good' },
   { id: 'nostalgic', name: 'NOSTALGIQUE', sub: 'Retro / Lo-fi' },
   { id: 'cinematic', name: 'CINÉMATIQUE', sub: 'Epic / Grandiose' },
+  { id: 'epic', name: 'EPIC', sub: 'Powerful / Orchestral / Grand' },
+  { id: 'film', name: 'FILM', sub: 'Cinematic / Atmospheric / Score' },
   { id: 'heroic', name: 'HÉROÏQUE', sub: 'Epic / Orchestral' },
   { id: 'trippy', name: 'TRIPPY', sub: 'Psychedelic / Spacey' },
   { id: 'dreamy', name: 'RÊVEUR', sub: 'Cloudy / Atmospheric' },
@@ -452,6 +496,7 @@ export const MUSIC_MOODS = [
 ];
 
 export const MUSIC_LANGUAGES = [
+  { id: 'auto', name: 'AUCUNE', sub: 'Auto (Déduction)' },
   { id: 'fr', name: 'FRANÇAIS', sub: 'French' },
   { id: 'en', name: 'ANGLAIS', sub: 'English' },
   { id: 'es', name: 'ESPAGNOL', sub: 'Spanish' },
@@ -468,9 +513,9 @@ export const MUSIC_LANGUAGES = [
 
 export const MUSIC_ARTISTS = [
   { id: 'hugel', name: 'HUGEL', sub: 'Latin House / Tech House' },
-  { id: 'hamza', name: 'HAMZA', sub: 'Saucegod / R&B Trap' },
-  { id: 'werenoi', name: 'WERENOI', sub: 'Melancholic / Street' },
-  { id: 'vacra', name: 'VACRA', sub: 'Sensual / Afro R&B' },
+  { id: 'hamza', name: 'HAMZA', sub: 'Saucegod / R&B Trap', weirdness: 25, styleInfluence: 95 },
+  { id: 'werenoi', name: 'WERENOI', sub: 'Melancholic / Street', weirdness: 10, styleInfluence: 85 },
+  { id: 'vacra', name: 'VACRA', sub: 'Sensual / Afro R&B', weirdness: 30, styleInfluence: 90 },
   { id: 'augxst', name: 'AUGXST', sub: 'Dark R&B / Melodic Trap' },
   { id: 'lithe', name: 'LITHE', sub: 'Dark R&B / Melodic Trap' },
   { id: 'snoh-aalegra', name: 'SNOH AALEGRA', sub: 'Soulful R&B / Jazz' },
@@ -479,36 +524,70 @@ export const MUSIC_ARTISTS = [
   { id: 'reda-taliani', name: 'REDA TALIANI', sub: 'Raï Algérien / Festive' },
   { id: 'cheb-hasni', name: 'CHEB HASNI', sub: 'Raï Algérien / Emotional' },
   { id: 'khaled', name: 'KHALED', sub: 'Raï Algérien / King of Raï' },
-  { id: 'drake', name: 'DRAKE', sub: 'Melodic Rap / R&B' },
-  { id: 'sza', name: 'SZA', sub: 'Modern R&B / Soul' },
+  { id: 'drake', name: 'DRAKE', sub: 'Melodic Rap / R&B', weirdness: 10, styleInfluence: 90 },
+  { id: 'sza', name: 'SZA', sub: 'Modern R&B / Soul', weirdness: 25, styleInfluence: 95 },
   { id: 'sawano', name: 'HIROYUKI SAWANO', sub: 'Epic Anime / Orchestral' },
   { id: 'nujabes', name: 'NUJABES', sub: 'Lo-fi / Jazz Hop' },
   { id: 'newjeans', name: 'NEWJEANS', sub: 'K-Pop / Y2K' },
   { id: 'mhd', name: 'MHD', sub: 'Afro Trap' },
   { id: 'pinkpantheress', name: 'PINKPANTHERESS', sub: 'UK Garage / Alt-Pop' },
-  { id: 'carti', name: 'PLAYBOI CARTI', sub: 'Rage / Trap' },
-  { id: 'juice-wrld', name: 'JUICE WRLD', sub: 'Emo Rap / Melodic' },
+  { id: 'carti', name: 'PLAYBOI CARTI', sub: 'Rage / Trap', weirdness: 85, styleInfluence: 100 },
+  { id: 'juice-wrld', name: 'JUICE WRLD', sub: 'Emo Rap / Melodic', weirdness: 20, styleInfluence: 90 },
   { id: 'yamashita', name: 'TATSURO YAMASHITA', sub: 'City Pop / Disco' },
   { id: 'gilberto', name: 'ASTRUD GILBERTO', sub: 'Bossa Nova' },
   { id: 'dr-dre', name: 'DR. DRE', sub: 'G-Funk / West Coast' },
   { id: 'fred-again', name: 'FRED AGAIN..', sub: 'Modern Electronic' },
   { id: 'peggy-gou', name: 'PEGGY GOU', sub: 'House / Disco' },
-  { id: 'kanye', name: 'KANYE WEST', sub: 'Experimental / Soul' },
-  { id: 'travis', name: 'TRAVIS SCOTT', sub: 'Psychedelic Trap' },
+  { id: 'kanye', name: 'KANYE WEST', sub: 'Experimental / Soul', weirdness: 75, styleInfluence: 95 },
+  { id: 'travis', name: 'TRAVIS SCOTT', sub: 'Psychedelic Trap', weirdness: 65, styleInfluence: 100 },
   { id: 'kendrick', name: 'KENDRICK LAMAR', sub: 'Conscious / Jazz Rap' },
   { id: 'the-weeknd', name: 'THE WEEKND', sub: 'Synth-Pop / R&B' },
   { id: 'central-cee', name: 'CENTRAL CEE', sub: 'UK Drill' },
   { id: 'gazo', name: 'GAZO', sub: 'French Drill' },
-  { id: 'booba', name: 'BOOBA', sub: 'French Rap Legend' },
-  { id: 'sdm', name: 'SDM', sub: 'French Rap / Drill' },
-  { id: 'sch', name: 'SCH', sub: 'French Rap / Cinematic' },
-  { id: 'damso', name: 'DAMSO', sub: 'Melancholic / Deep' },
+  { id: 'booba', name: 'BOOBA', sub: 'French Rap Legend', weirdness: 15, styleInfluence: 100 },
+  { id: 'sdm', name: 'SDM', sub: 'French Rap / Drill', weirdness: 10, styleInfluence: 90 },
+  { id: 'sch', name: 'SCH', sub: 'French Rap / Cinematic', weirdness: 40, styleInfluence: 95 },
+  { id: 'damso', name: 'DAMSO', sub: 'Melancholic / Deep', weirdness: 50, styleInfluence: 95 },
+  { id: 'jul', name: 'JUL', sub: 'Marseille / High Energy', weirdness: 20, styleInfluence: 90 },
+  { id: 'pnl', name: 'PNL', sub: 'Cloud Rap / Melodic / Autotune', weirdness: 70, styleInfluence: 100 },
+  { id: 'nekfeu', name: 'NEKFEU', sub: 'Paris / Conscious', weirdness: 10, styleInfluence: 85 },
+  { id: 'orelsan', name: 'ORELSAN', sub: 'Caen / Relatable', weirdness: 20, styleInfluence: 85 },
+  { id: 'vald', name: 'VALD', sub: 'Experimental / Ironic', weirdness: 80, styleInfluence: 95 },
+  { id: 'kaaris', name: 'KAARIS', sub: 'Sevran / Aggressive', weirdness: 10, styleInfluence: 95 },
+  { id: 'maes', name: 'MAES', sub: 'Melodic / Street', weirdness: 15, styleInfluence: 90 },
+  { id: 'lacrim', name: 'LACRIM', sub: 'Raw / Street Legend', weirdness: 5, styleInfluence: 95 },
+  { id: 'salif', name: 'SALIF', sub: 'Boulogne / Street Legend', weirdness: 5, styleInfluence: 100 },
+  { id: 'dicidens', name: 'DICIDENS', sub: '92-94 / Street Legend / Raw', weirdness: 5, styleInfluence: 100 },
+  { id: 'aya-nakamura', name: 'AYA NAKAMURA', sub: 'Afro-Pop / Queen' },
+  { id: 'tayc', name: 'TAYC', sub: 'Afro-R&B / Sensual' },
+  { id: 'dadju', name: 'DADJU', sub: 'R&B / Romantic' },
+  { id: 'angele', name: 'ANGÈLE', sub: 'Pop / Indie' },
+  { id: 'stromae', name: 'STROMAE', sub: 'Artistic / Avant-Garde' },
+  { id: 'lomepal', name: 'LOMEPAL', sub: 'Skate-Rap / Melodic' },
+  { id: 'monsieur-nov', name: 'MONSIEUR NOV', sub: 'French R&B / Soul' },
+  { id: 'pomme', name: 'POMME', sub: 'Indie-Folk / Nostalgic' },
+  { id: 'woodkid', name: 'WOODKID', sub: 'Epic / Cinematic' },
   { id: 'burna-boy', name: 'BURNA BOY', sub: 'Afrobeats' },
-  { id: 'bad-bunny', name: 'BAD BUNNY', sub: 'Reggaeton / Latin' },
+  { id: 'bad-bunny', name: 'BAD BUNNY', sub: 'Reggaeton / Latin Trap / Spanish' },
   { id: 'daft-punk', name: 'DAFT PUNK', sub: 'French House' },
   { id: 'tame-impala', name: 'TAME IMPALA', sub: 'Psychedelic Pop' },
   { id: 'billie-eilish', name: 'BILLIE EILISH', sub: 'Alt-Pop / Dark' },
   { id: 'rosalia', name: 'ROSALÍA', sub: 'Flamenco / Experimental' },
+  { id: 'laylow', name: 'LAYLOW', sub: 'Digital / Futuristic / High-Concept', weirdness: 90, styleInfluence: 100 },
+  { id: 'tiakola', name: 'TIAKOLA', sub: 'Afro-Melodic / Rap', weirdness: 20, styleInfluence: 95 },
+  { id: 'tif', name: 'TIF', sub: 'Algerian Rap / Melodic / Nostalgic' },
+  { id: 'karol-g', name: 'KAROL G', sub: 'Reggaeton / Latin Pop' },
+  { id: 'justin-bieber', name: 'JUSTIN BIEBER', sub: 'Pop / R&B' },
+  { id: 'post-malone', name: 'POST MALONE', sub: 'Melodic Rap / Pop Rock' },
+  { id: 'j-balvin', name: 'J BALVIN', sub: 'Reggaeton / Global Pop' },
+  { id: 'soolking', name: 'SOOLKING', sub: 'Algerian Pop / Raï / Melodic' },
+  { id: 'rema', name: 'REMA', sub: 'Afrobeats / Rave / Global' },
+  { id: 'nate-dogg', name: 'NATE DOGG', sub: 'West Coast / G-Funk / King of Hooks' },
+  { id: 'ninho', name: 'NINHO', sub: 'French Rap / Superstar' },
+  { id: 'alpha-wann', name: 'ALPHA WANN', sub: 'Don Dada / Technical Rap / Boom Bap', weirdness: 5, styleInfluence: 95 },
+  { id: 'kalash', name: 'KALASH', sub: 'Martinique / Dancehall / Trap / Creole & French' },
+  { id: 'sade', name: 'SADE', sub: 'Smooth Soul / R&B' },
+  { id: 'theodora', name: 'THEODORA', sub: 'Electronic / Dark Pop' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -558,12 +637,16 @@ export const MUSIC_SINGING_STYLES = [
   { id: 'powerful', name: 'PUISSANTE', sub: 'Belting / Strong' },
   { id: 'intimate', name: 'INTIME', sub: 'Close / Soft' },
   { id: 'spoken', name: 'PARLÉ-CHANTÉ', sub: 'Spoken-Word / Flow' },
+  { id: 'rap-brut', name: 'RAP BRUT', sub: 'No Vocoder / Raw Flow' },
   { id: 'melismatic', name: 'MÉLISMATIQUE', sub: 'Riffs & Runs' },
   { id: 'autotuned', name: 'AUTO-TUNÉ', sub: 'Robotic / Modern' },
   { id: 'harmonic', name: 'HARMONIQUE', sub: 'Layered / Choral' },
   { id: 'operatic', name: 'OPÉRATIQUE', sub: 'Dramatic / High Range' },
   { id: 'aggressive', name: 'AGRESSIF', sub: 'Shouting / Raw' },
   { id: 'screamed', name: 'HURLÉ', sub: 'Metal / Punk' },
+  { id: 'double-time', name: 'DOUBLE-TIME', sub: 'Fast Technical Flow' },
+  { id: 'triplet', name: 'TRIPLET FLOW', sub: 'Migos / Trap Style' },
+  { id: 'syncopated', name: 'SYNCOPÉ', sub: 'Off-beat / Jazz Flow' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -588,16 +671,21 @@ export const MUSIC_INSTRUMENTATION = [
   { id: 'rhodes', name: 'RHODES / WURLI', sub: 'Vintage R&B' },
   { id: 'analog-synth', name: 'SYNTHÉ ANALOGIQUE', sub: 'Warm / Retro' },
   { id: 'digital-synth', name: 'SYNTHÉ NUMÉRIQUE', sub: 'Modern / Sharp' },
+  { id: 'modular-synth', name: 'SYNTHÉ MODULAIRE', sub: 'Experimental / Raw' },
   { id: 'strings', name: 'CORDES', sub: 'Orchestral / Emotional' },
   { id: 'brass', name: 'CUIVRES', sub: 'Funk / Jazz' },
   { id: '808', name: '808 BASS', sub: 'Trap / Drill' },
+  { id: 'sliding-808', name: 'SLIDING 808', sub: 'UK Drill / Grime' },
   { id: 'upright-bass', name: 'CONTREBASSE', sub: 'Jazz / Acoustic' },
   { id: 'live-drums', name: 'BATTERIE LIVE', sub: 'Rock / Funk' },
   { id: 'drum-machine', name: 'BOÎTE À RYTHME', sub: '80s / Electronic' },
+  { id: 'orchestral-percussion', name: 'PERCUSSIONS ORCHESTRALES', sub: 'Cinematic / Epic' },
+  { id: 'talkbox', name: 'TALKBOX / VOCODER', sub: 'Funk / G-Funk' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
 export const MUSIC_PRODUCTION_STYLES = [
+  { id: 'hardcore', name: 'V3 - HARDCORE / BRUT', sub: 'Rap Brut / No Vocoder / Raw' },
   { id: 'lofi', name: 'LO-FI', sub: 'Tape Hiss / Bitcrushed' },
   { id: 'hifi', name: 'HI-FI', sub: 'Crisp / Modern / Clean' },
   { id: 'analog', name: 'ANALOGIQUE', sub: 'Warm / Saturated' },
@@ -606,6 +694,9 @@ export const MUSIC_PRODUCTION_STYLES = [
   { id: 'reverberated', name: 'RÉVERBÉRÉ', sub: 'Dreamy / Spacey' },
   { id: 'dry', name: 'SEC', sub: 'Intimate / Direct' },
   { id: 'glitch', name: 'GLITCH', sub: 'Experimental / Digital' },
+  { id: 'binaural', name: 'BINAURAL', sub: '3D / Immersive' },
+  { id: 'saturated', name: 'SATURÉ', sub: 'Tape Saturation / Warmth' },
+  { id: 'bitcrushed', name: 'BITCRUSHED', sub: 'Digital Distortion' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -616,4 +707,150 @@ export const MUSIC_STRUCTURES = [
   { id: 'extended', name: 'EXTENDED', sub: 'V-V-C-V-V-C-B-C-C' },
   { id: 'experimental', name: 'EXPÉRIMENTAL', sub: 'A-B-C-D-E' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
+];
+
+export const MUSIC_VOCAL_TECHNIQUES = [
+  { id: 'none', name: 'AUCUNE', sub: 'Standard' },
+  { id: 'vocal-fry', name: 'VOCAL FRY', sub: 'Gritty / Low-end' },
+  { id: 'falsetto', name: 'FALSETTO', sub: 'High-pitched / Airy' },
+  { id: 'whisper', name: 'MURMURE', sub: 'Intimate / ASMR' },
+  { id: 'belted', name: 'PUISSANCE', sub: 'Strong / Belting' },
+  { id: 'melismatic', name: 'MÉLISMATIQUE', sub: 'R&B Runs / Soul' },
+  { id: 'staccato', name: 'STACCATO', sub: 'Sharp / Rhythmic' },
+  { id: 'breathy', name: 'SOUFFLÉ', sub: 'Soft / Vulnerable' }
+];
+
+export const MUSIC_VOCAL_TEXTURES = [
+  { id: 'dry-baritone', name: 'DRY BARITONE', sub: 'Deep / Dry' },
+  { id: 'deep-chest', name: 'DEEP CHEST', sub: 'Resonant' },
+  { id: 'dark-nasal', name: 'DARK NASAL', sub: 'Edgy' },
+  { id: 'grainy', name: 'GRAINY', sub: 'Textured' },
+  { id: 'rough-low', name: 'ROUGH LOW', sub: 'Gravelly' },
+  { id: 'smoky', name: 'SMOKY', sub: 'Sultry' },
+  { id: 'clean', name: 'CLEAN', sub: 'Unprocessed' },
+  { id: 'hoarse', name: 'HOARSE', sub: 'Controlled' },
+  { id: 'velvet-dark', name: 'VELVET DARK', sub: 'Smooth' },
+  { id: 'firm-mid', name: 'FIRM MIDRANGE', sub: 'Present' },
+  { id: 'cold-flat', name: 'COLD FLAT', sub: 'Monotone' },
+  { id: 'worn-out', name: 'WORN-OUT', sub: 'Aged' }
+];
+
+export const MUSIC_VOCAL_INTERPRETATIONS = [
+  { id: 'commanding', name: 'COMMANDING', sub: 'Powerful' },
+  { id: 'restrained', name: 'RESTRAINED', sub: 'Subtle' },
+  { id: 'explosive', name: 'EXPLOSIVE', sub: 'Accented' },
+  { id: 'calm-menacing', name: 'CALM MENACING', sub: 'Tense' },
+  { id: 'detached', name: 'DETACHED', sub: 'Monotone' },
+  { id: 'cold-aggression', name: 'COLD AGGRESSION', sub: 'Controlled' },
+  { id: 'smirking', name: 'SMIRKING', sub: 'Confident' },
+  { id: 'half-whisper', name: 'HALF-WHISPER', sub: 'Threatening' },
+  { id: 'tired-winner', name: 'TIRED WINNER', sub: 'Detached' },
+  { id: 'confessional', name: 'CONFESSIONAL', sub: 'Tense' },
+  { id: 'stoic', name: 'STOIC', sub: 'Firm' },
+  { id: 'predatory', name: 'PREDATORY', sub: 'Calm' }
+];
+
+export const MUSIC_FLOW_TAGS = [
+  { id: 'pocket-controlled', name: 'POCKET CONTROLLED', sub: 'Precise' },
+  { id: 'tight-pocket', name: 'TIGHT POCKET', sub: 'Locked' },
+  { id: 'rigid-grid', name: 'RIGID GRID', sub: 'Mechanical' },
+  { id: 'offbeat-pocket', name: 'OFFBEAT POCKET', sub: 'Swing' },
+  { id: 'syncopated', name: 'SYNCOPATED', sub: 'Rhythmic' },
+  { id: 'behind-beat', name: 'BEHIND THE BEAT', sub: 'Laid Back' },
+  { id: 'on-top-beat', name: 'ON TOP OF BEAT', sub: 'Driving' },
+  { id: 'elastic', name: 'ELASTIC', sub: 'Fluid' },
+  { id: 'dense-internal', name: 'DENSE INTERNAL', sub: 'Complex Rhymes' },
+  { id: 'multisyllabic', name: 'MULTISYLLABIC', sub: 'Rhyme Chains' },
+  { id: 'technical-switches', name: 'TECHNICAL SWITCHES', sub: 'Flow Variation' },
+  { id: 'cutthroat', name: 'CUTTHROAT', sub: 'Aggressive' },
+  { id: 'sniper-precision', name: 'SNIPER PRECISION', sub: 'Sharp' },
+  { id: 'staccato-attack', name: 'STACCATO ATTACK', sub: 'Short' },
+  { id: 'legato-glide', name: 'LEGATO GLIDE', sub: 'Smooth' },
+  { id: 'high-pressure', name: 'HIGH PRESSURE', sub: 'Urgent' }
+];
+
+export const MUSIC_WRITING_TAGS = [
+  { id: 'luxury-braggadocio', name: 'LUXURY BRAG', sub: 'Elite' },
+  { id: 'high-taste', name: 'HIGH TASTE', sub: 'Refined' },
+  { id: 'cold-status', name: 'COLD STATUS', sub: 'Dominant' },
+  { id: 'street-cinematic', name: 'STREET CINEMATIC', sub: 'Noir' },
+  { id: 'urban-survival', name: 'URBAN SURVIVAL', sub: 'Realism' },
+  { id: 'noir-poetry', name: 'NOIR POETRY', sub: 'Street' },
+  { id: 'cold-intellectual', name: 'COLD INTELLECTUAL', sub: 'Cerebral' },
+  { id: 'metaphorical-density', name: 'METAPHORICAL', sub: 'Complex' },
+  { id: 'suppressed-emotion', name: 'SUPPRESSED EMOTION', sub: 'Numb' },
+  { id: 'melancholic-detachment', name: 'MELANCHOLIC', sub: 'Isolated' },
+  { id: 'ego-death', name: 'EGO DEATH', sub: 'Introspective' },
+  { id: 'street-pressure', name: 'STREET PRESSURE', sub: 'Tense' }
+];
+
+export const MUSIC_DRUM_BASS_TAGS = [
+  { id: 'hard-boom-bap', name: 'HARD BOOM BAP', sub: 'Punchy' },
+  { id: 'tight-snare', name: 'TIGHT SNARE', sub: 'Sharp' },
+  { id: 'dry-drum-bus', name: 'DRY DRUM BUS', sub: 'Minimal' },
+  { id: 'minimal-trap', name: 'MINIMAL TRAP', sub: 'Modern' },
+  { id: 'rolling-hats', name: 'ROLLING HATS', sub: 'Fast' },
+  { id: 'heavy-sub', name: 'HEAVY SUB', sub: 'Deep' },
+  { id: 'dark-808', name: 'DARK 808', sub: 'Foundation' },
+  { id: '808-glide', name: '808 GLIDE', sub: 'Drill' },
+  { id: 'minimal-bass', name: 'MINIMAL BASS', sub: 'Tight' },
+  { id: 'distorted-kick', name: 'DISTORTED KICK', sub: 'Aggressive' },
+  { id: 'organic-percussion', name: 'ORGANIC PERC', sub: 'Natural' }
+];
+
+export const MUSIC_MELODY_TAGS = [
+  { id: 'dark-keys', name: 'DARK KEYS', sub: 'Minor' },
+  { id: 'sparse-piano', name: 'SPARSE PIANO', sub: 'Minimal' },
+  { id: 'cold-bells', name: 'COLD BELLS', sub: 'Icy' },
+  { id: 'noir-strings', name: 'NOIR STRINGS', sub: 'Cinematic' },
+  { id: 'distorted-synth', name: 'DISTORTED SYNTH', sub: 'Gritty' },
+  { id: 'analog-pads', name: 'ANALOG PADS', sub: 'Warm' },
+  { id: 'vocal-chops', name: 'VOCAL CHOPS', sub: 'Modern' },
+  { id: 'soul-sample', name: 'SOUL SAMPLE', sub: 'Vintage' },
+  { id: 'jazz-influence', name: 'JAZZ INFLUENCE', sub: 'Sophisticated' }
+];
+
+export const MUSIC_ATMOSPHERE_TAGS = [
+  { id: 'dark-luxury', name: 'DARK LUXURY', sub: 'Premium' },
+  { id: 'nocturnal', name: 'NOCTURNAL', sub: 'Night' },
+  { id: 'menacing-calm', name: 'MENACING CALM', sub: 'Tense' },
+  { id: 'paranoid-tension', name: 'PARANOID', sub: 'Suspense' },
+  { id: 'urban-isolation', name: 'URBAN ISOLATION', sub: 'Cold' },
+  { id: 'lonely-drive', name: 'LONELY DRIVE', sub: 'Melancholic' },
+  { id: 'sparse-keys', name: 'SPARSE KEYS', sub: 'Minimal' },
+  { id: 'cold-pads', name: 'COLD PADS', sub: 'Atmospheric' },
+  { id: 'cinematic-texture', name: 'CINEMATIC', sub: 'Epic' }
+];
+
+export const MUSIC_PRODUCTION_FINISHES = [
+  { id: 'none', name: 'AUCUN', sub: 'Standard' },
+  { id: 'binaural', name: 'BINAURAL 3D', sub: 'Immersive Space' },
+  { id: 'sidechain', name: 'SIDECHAIN', sub: 'Pumping / Electronic' },
+  { id: 'mid-side', name: 'MID-SIDE', sub: 'Ultra-wide Stereo' },
+  { id: 'tape-saturation', name: 'TAPE SATURATION', sub: 'Warm / Vintage' },
+  { id: 'bitcrush', name: 'BITCRUSH', sub: 'Digital Grime' },
+  { id: 'vinyl-crackle', name: 'VINYL CRACKLE', sub: 'Lo-fi / Retro' }
+];
+
+export const MUSIC_MIX_TAGS = [
+  { id: 'clean-punchy', name: 'CLEAN PUNCHY', sub: 'Modern' },
+  { id: 'high-fidelity', name: 'HI-FI', sub: 'Studio Polish' },
+  { id: 'crisp-top', name: 'CRISP TOP', sub: 'Sharp Highs' },
+  { id: 'tight-mid', name: 'TIGHT MIDRANGE', sub: 'Focused' },
+  { id: 'cold-studio', name: 'COLD STUDIO', sub: 'Dry' },
+  { id: 'zero-gloss', name: 'ZERO GLOSS', sub: 'Raw' },
+  { id: 'tape-texture', name: 'TAPE TEXTURE', sub: 'Analog' },
+  { id: 'vinyl-dust', name: 'VINYL DUST', sub: 'Lo-fi' },
+  { id: 'analog-edge', name: 'ANALOG EDGE', sub: 'Saturated' }
+];
+
+export const MUSIC_STRUCTURE_TAGS = [
+  { id: 'long-intro', name: 'LONG INTRO', sub: 'Build' },
+  { id: 'immediate-entry', name: 'IMMEDIATE', sub: 'No Intro' },
+  { id: 'verse-centric', name: 'VERSE CENTRIC', sub: 'Rap Focused' },
+  { id: 'short-hook', name: 'SHORT HOOK', sub: 'Minimal' },
+  { id: 'no-chorus', name: 'NO CHORUS', sub: 'Continuous' },
+  { id: 'beat-switch', name: 'BEAT SWITCH', sub: 'Transition' },
+  { id: 'half-time', name: 'HALF-TIME', sub: 'Drop' },
+  { id: 'atmospheric-outro', name: 'ATMOSPHERIC OUTRO', sub: 'Fade' }
 ];

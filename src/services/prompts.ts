@@ -43,8 +43,19 @@ function buildWardrobePrompt(state: SessionState) {
 
 export function buildStudioPrompt(state: SessionState) {
   const mouthH = Math.round(state.height * 0.89);
+  
+  let stylePrompt = '';
+  if (state.studioStyle === 'epic') {
+    stylePrompt = 'GRANDIOSE EPIC CINEMATIC ATMOSPHERE: Dramatic overhead lighting, large-scale feel, high-end production value, epic scale. ';
+  } else if (state.studioStyle === 'film') {
+    stylePrompt = 'CINEMATIC FILM AESTHETIC: 35mm film grain, anamorphic lens flares, rich textures, moody cinematic lighting, filmic look. ';
+  } else if (state.studioStyle === 'soundtrack') {
+    stylePrompt = 'SOUNDTRACK / OST ATMOSPHERE: Evocative and emotional lighting, professional recording studio vibe, musical score aesthetic. ';
+  }
+
   return `COLORSxSTUDIOS Berlin. Empty studio, NO PERSON, NO HUMAN, NO TV, NO MONITOR, NO TEXT ON WALLS.
 
+${stylePrompt}
 MONOCHROMATIC SPACE: ABSOLUTELY UNIFORM COLOR. All visible surfaces — back wall, side walls, and floor — MUST be the exact same flat matte ${state.color.name} (${state.color.hex}). The floor is painted with the EXACT SAME PAINT as the walls. Seamless cyclorama wall (cyc wall), no visible seam, no color difference between floor and wall. NO TAN FLOOR, NO ORANGE FLOOR, NO BROWN FLOOR.
 WALLS: Smooth flat matte painted plaster, ${state.color.hex}.
 FLOOR: Smooth matte painted surface, EXACTLY SAME COLOR AS WALLS (${state.color.hex}). No gloss. No texture.
@@ -71,8 +82,18 @@ export function buildArtistePrompt(state: SessionState, plan: CameraPlan) {
 
   const outfitDesc = buildWardrobePrompt(state);
 
+  let stylePrompt = '';
+  if (state.studioStyle === 'epic') {
+    stylePrompt = 'GRANDIOSE EPIC CINEMATIC ATMOSPHERE: Dramatic overhead lighting, large-scale feel, high-end production value, epic scale. ';
+  } else if (state.studioStyle === 'film') {
+    stylePrompt = 'CINEMATIC FILM AESTHETIC: 35mm film grain, anamorphic lens flares, rich textures, moody cinematic lighting, filmic look. ';
+  } else if (state.studioStyle === 'soundtrack') {
+    stylePrompt = 'SOUNDTRACK / OST ATMOSPHERE: Evocative and emotional lighting, professional recording studio vibe, musical score aesthetic. ';
+  }
+
   return `COLORSxSTUDIOS — ${plan.name} — ${state.artist.toUpperCase()}
 
+${stylePrompt}
 PLAN: ${plan.frame}. ${plan.id === 'plan-full' ? 'FEET MUST BE VISIBLE.' : ''}
 CAMERA: ARRI Alexa 35. ${plan.focal}, ${plan.fstop}, height ${plan.h}, working distance ${plan.dist}, 16:9 ratio, 24fps. ARRI Log-C4 color science, subtle film grain, natural skin texture, pores and fine details visible.
 
@@ -80,7 +101,9 @@ BACKGROUND: UNIFORM MONOCHROMATIC CUBE. Flat smooth matte ${state.color.name} ($
 
 MICROPHONE: Vox-O-Rama Type 47 (Neumann U47 clone). Silver body. Suspended from the ceiling by ONE SINGLE STRAIGHT vertical black cable. NO LOOPS, NO SIDE CABLES, NO EXTRA WIRES. NO MICROPHONE STAND. NO TRIPOD. CRITICAL: The microphone capsule (bottom mesh part) MUST be perfectly aligned with the artist's UPPER LIP, exactly ${mouthH}cm from floor. The capsule MUST NOT cover the nose and MUST NOT be below the mouth. It must sit exactly at the level of the philtrum/upper lip for perfect animation compatibility. ${plan.mic_pos}
 
-ARTIST: ${genderDesc}. Expression & posture: ${state.expressionPrompt}. Intense focus on the microphone capsule, looking intently at the mic. Face is clear and unobstructed by the microphone body.
+ARTIST: ${genderDesc}. 
+POSE: LIVE PERFORMANCE STANCE. The artist is captured in a dynamic moment, either just about to start or in the middle of a high-energy live performance. One hand might be reaching for the mic or gesturing emphatically. Body is slightly angled, showing movement and artistic presence. 
+EXPRESSION: ${state.expressionPrompt}. Intense focus on the microphone capsule, looking intently at the mic. Face is clear and unobstructed by the microphone body.
 ${outfitDesc}
 
 TEXT OVERLAY: In the bottom-left corner, a small clean white rectangular frame containing:
@@ -100,13 +123,24 @@ export function buildMultiShotPrompts(state: SessionState) {
   const gender = state.sex === 'female' ? `Female artist${ageStr}, ${state.height}cm` : `Male artist${ageStr}, ${state.height}cm`;
   const faceBlock = '';
 
+  let stylePrompt = '';
+  if (state.studioStyle === 'epic') {
+    stylePrompt = 'GRANDIOSE EPIC CINEMATIC ATMOSPHERE: Dramatic overhead lighting, large-scale feel, high-end production value, epic scale. ';
+  } else if (state.studioStyle === 'film') {
+    stylePrompt = 'CINEMATIC FILM AESTHETIC: 35mm film grain, anamorphic lens flares, rich textures, moody cinematic lighting, filmic look. ';
+  } else if (state.studioStyle === 'soundtrack') {
+    stylePrompt = 'SOUNDTRACK / OST ATMOSPHERE: Evocative and emotional lighting, professional recording studio vibe, musical score aesthetic. ';
+  }
+
   const outfitDesc = buildWardrobePrompt(state);
 
   const SESSION_ID = `
 SESSION IDENTITY — CONSISTENT ACROSS ALL 3 SHOTS:
+${stylePrompt}
 Artist: ${artist}. ${gender}. ${eth}
 Studio: UNIFORM flat matte ${s.name} (${s.hex}). Seamless cyclorama wall (cyc wall). FLOOR AND WALLS ARE IDENTICAL COLOR.
 Outfit: ${outfitDesc}
+POSE: LIVE PERFORMANCE STANCE. Dynamic and energetic, captured mid-performance or just before the first note. Emphatic gestures, body angled for movement.
 Expression: ${state.expressionPrompt}. Intense focus on the microphone capsule, looking intently at the mic.
 Microphone: Vox-O-Rama Type 47 (Neumann U47 clone) silver, suspended by ONE SINGLE STRAIGHT vertical black cable from the ceiling, NO LOOPS, capsule (bottom mesh part) perfectly aligned with the UPPER LIP (${mouthH}cm). The capsule MUST NOT cover the nose. NEVER below the mouth. NO STAND.
 Camera: ARRI Alexa 35. ARRI Log-C4 color science, subtle film grain, natural skin texture.

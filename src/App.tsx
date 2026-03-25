@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { StudioPreview } from './components/StudioPreview';
 import { PromptBlock } from './components/PromptBlock';
 import { MusicStudio } from './components/MusicStudio';
+import { Home } from './components/Home';
 import { SessionState, GenerationMode, MotionType, AppTab } from './types';
 import { COLORS, PLANS, ARTIST_STYLES, RAPPER_STYLES, POP_ARTIST_STYLES, RNB_ARTIST_STYLES, ETHNICITY_DESC, EXPRESSIONS, WARDROBE_SILHOUETTES, WARDROBE_STYLES } from './constants';
 import { buildStudioPrompt, buildArtistePrompt, buildMultiShotPrompts, buildKlingPrompt, buildVidmusePrompt, buildHiggsfieldPrompt, buildVidPrompt } from './services/prompts';
@@ -18,7 +19,7 @@ const INITIAL_STATE: SessionState = {
   age: 'none',
   ethnicity: 'none',
   genre: 'none',
-  mode: 'studio',
+  mode: 'artiste',
   color: COLORS[0],
   motion: 'none',
   selectedPlan: 'none',
@@ -36,18 +37,20 @@ const INITIAL_STATE: SessionState = {
   },
   styleRefActive: false,
   styleRefSelected: null,
+  studioStyle: 'none',
   wardrobe: {
     colors: [],
     sils: [],
-    styles: [],
+    styles: ['street'],
   },
-  selectedArtistOutfit: null,
+  selectedArtistOutfit: RAPPER_STYLES[0],
   music: {
     genre: '',
     mood: '',
-    theme: 'SUCCESS & AMBITION',
-    language: 'FRANÇAIS',
+    theme: '',
+    language: 'AUCUNE',
     inspiredBy: '',
+    secondaryInspiredBy: 'none',
     era: '',
     performanceActive: false,
     energy: 0,
@@ -60,17 +63,24 @@ const INITIAL_STATE: SessionState = {
     vocalReference: '',
     emotionLevel: '',
     instrumentation: '',
+    productionStyle: '',
     styleBlend: '',
     bpm: 120,
-    structure: '',
+    structure: 'STANDARD',
     lyrics: [],
     lipSyncExcerpt: '',
     duration: 180,
     sunoPrompt: '',
     isGenerating: false,
     isAnalyzingAudio: false,
+    weirdness: 0,
+    styleInfluence: 100,
+    vocalTechnique: 'none',
+    productionFinish: 'none',
+    advancedTags: [],
     history: []
-  }
+  },
+  view: 'home'
 };
 
 export default function App() {
@@ -95,6 +105,8 @@ export default function App() {
     const age = ages[Math.floor(Math.random() * ages.length)];
     
     const randomExp = EXPRESSIONS[Math.floor(Math.random() * EXPRESSIONS.length)];
+    const studioStyles: ('none' | 'epic' | 'film' | 'soundtrack')[] = ['none', 'epic', 'film', 'soundtrack'];
+    const studioStyle = studioStyles[Math.floor(Math.random() * studioStyles.length)];
 
     const availableSils = WARDROBE_SILHOUETTES.filter(s => s.gender === 'unisex' || s.gender === sex);
     const randomSils = Math.random() > 0.5 ? [availableSils[Math.floor(Math.random() * availableSils.length)].key] : [];
@@ -116,6 +128,7 @@ export default function App() {
       ethnicity,
       genre,
       age,
+      studioStyle,
       expressionKey: randomExp.key,
       expressionPrompt: randomExp.prompt,
       wardrobe: {
@@ -131,6 +144,7 @@ export default function App() {
   const generatePrompts = async () => {
     setIsGenerating(true);
     setGenProgress(0);
+    setGenStatus('Initialisation...');
     
     const steps = [
       { p: 15, m: 'Analyse du profil artiste...' },
@@ -165,39 +179,48 @@ export default function App() {
       setState(prev => ({ ...prev, selectedArtistOutfit: randomRnb }));
     }
 
-    const generationTask = (async () => {
-      try {
-        const studioPrompt = buildStudioPrompt(currentState);
-        const artistePrompts = PLANS.map(p => buildArtistePrompt(currentState, p));
-        const multishotPrompts = buildMultiShotPrompts(currentState);
-        const ensemblePrompt = buildArtistePrompt(currentState, PLANS[0]);
-        const klingPrompt = buildKlingPrompt(currentState);
-        const vidmusePrompt = buildVidmusePrompt(currentState);
-        const higgsfieldPrompt = buildHiggsfieldPrompt(currentState);
-        const vidPrompt = buildVidPrompt(currentState);
+    try {
+      const generationTask = (async () => {
+        try {
+          // Add a small artificial delay to ensure the UI has time to show the progress
+          await new Promise(r => setTimeout(r, 1000));
+          
+          const studioPrompt = buildStudioPrompt(currentState);
+          const artistePrompts = PLANS.map(p => buildArtistePrompt(currentState, p));
+          const multishotPrompts = buildMultiShotPrompts(currentState);
+          const ensemblePrompt = buildArtistePrompt(currentState, PLANS[0]);
+          const klingPrompt = buildKlingPrompt(currentState);
+          const vidmusePrompt = buildVidmusePrompt(currentState);
+          const higgsfieldPrompt = buildHiggsfieldPrompt(currentState);
+          const vidPrompt = buildVidPrompt(currentState);
 
-        return {
-          studioPrompt,
-          artistePrompts,
-          multishotPrompts,
-          ensemblePrompt,
-          klingPrompt,
-          vidmusePrompt,
-          higgsfieldPrompt,
-          vidPrompt
-        };
-      } catch (error) {
-        console.error(error);
-        return null;
+          return {
+            studioPrompt,
+            artistePrompts,
+            multishotPrompts,
+            ensemblePrompt,
+            klingPrompt,
+            vidmusePrompt,
+            higgsfieldPrompt,
+            vidPrompt
+          };
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      })();
+
+      const [res] = await Promise.all([generationTask, runSteps()]);
+      
+      if (res) {
+        setResults(res);
       }
-    })();
-
-    const [res] = await Promise.all([generationTask, runSteps()]);
-    
-    if (res) {
-      setResults(res);
+    } catch (error) {
+      console.error("Global generation error:", error);
+      setGenStatus("Erreur lors de la génération. Veuillez réessayer.");
+    } finally {
+      setIsGenerating(false);
     }
-    setIsGenerating(false);
   };
 
   const launchMode = (mode: 'desktop' | 'mobile') => {
@@ -207,58 +230,17 @@ export default function App() {
 
   return (
     <AnimatePresence mode="wait">
-      {showSplash ? (
-        <motion.div 
-          key="splash"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="fixed inset-0 bg-[#080806] z-[9999] flex flex-col items-center justify-center overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(232,113,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(232,113,42,0.03)_1px,transparent_1px)] bg-[length:40px_40px] pointer-events-none" />
-          <div className="absolute w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(232,113,42,0.06)_0%,transparent_70%)] pointer-events-none" />
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center gap-0 relative z-10"
-          >
-            <div className="font-mono text-[10px] tracking-[6px] text-[#585848] uppercase mb-3">Generative Studio · AI Production Tool</div>
-            <div className="font-bebas text-[120px] tracking-[16px] text-[#e8e4dc] leading-[0.9] bg-gradient-to-b from-white via-[#e8e4dc] to-[#9a8a70] bg-clip-text text-transparent">COLORS</div>
-            <div className="font-mono text-[10px] tracking-[4px] text-[#E8712A] uppercase mt-2">IA Studio Agent · v16</div>
-            
-            <div className="w-[1px] h-10 bg-gradient-to-b from-transparent via-[#2a2a24] to-transparent my-10" />
-            
-            <div className="font-mono text-[11px] tracking-[2px] text-[#888880] text-center leading-loose mb-12">
-              Génère des sessions studio monochromes<br/>
-              Prompts image · vidéo · multi-shot · coordonnés
-            </div>
-
-            <div className="flex gap-4">
-              <button 
-                onClick={() => launchMode('desktop')}
-                className="flex flex-col items-center gap-3 border border-[#1e1e18] rounded-lg p-7 min-w-[180px] bg-gradient-to-br from-[#111110] to-[#0d0d0b] cursor-pointer transition-all hover:border-[#E8712A]/40 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(232,113,42,0.1)] group"
-              >
-                <div className="text-3xl grayscale group-hover:grayscale-0 transition-all">🖥</div>
-                <div className="font-bebas text-[22px] tracking-[4px] text-[#e8e4dc]">DESKTOP</div>
-                <div className="font-mono text-[8px] tracking-widest text-[#666660] text-center leading-relaxed">
-                  Plein écran · Toutes fonctions<br/>Sidebar complète · Multi-shot
-                </div>
-              </button>
-
-              <button 
-                onClick={() => launchMode('mobile')}
-                className="flex flex-col items-center gap-3 border border-[#1e1e18] rounded-lg p-7 min-w-[180px] bg-gradient-to-br from-[#111110] to-[#0d0d0b] cursor-pointer transition-all hover:border-[#E8712A]/40 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(232,113,42,0.1)] group"
-              >
-                <div className="text-3xl grayscale group-hover:grayscale-0 transition-all">📱</div>
-                <div className="font-bebas text-[22px] tracking-[4px] text-[#e8e4dc]">MOBILE</div>
-                <div className="font-mono text-[8px] tracking-widest text-[#666660] text-center leading-relaxed">
-                  Interface tactile · Rapide<br/>Accordéon · FAB button
-                </div>
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
+      {state.view === 'home' ? (
+        <Home 
+          onSelect={(view) => {
+            setState(prev => ({ 
+              ...prev, 
+              view,
+              activeTab: view === 'suno' ? 'music' : 'visual'
+            }));
+            setShowSplash(false);
+          }} 
+        />
       ) : viewMode === 'mobile' ? (
         <motion.div 
           key="mobile"
@@ -274,15 +256,19 @@ export default function App() {
               >
                 <LayoutGrid size={18} />
               </button>
-              <div className="font-bebas text-[28px] tracking-[6px]">COLORS</div>
+              <div className="font-bebas text-[28px] tracking-[6px]">
+                {state.activeTab === 'visual' ? 'COLORS' : 'SUNO'}
+              </div>
             </div>
-            <button 
-              onClick={generatePrompts}
-              disabled={isGenerating}
-              className="bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[14px] tracking-[3px] px-4 py-2 rounded-md cursor-pointer disabled:opacity-50"
-            >
-              {isGenerating ? '...' : '⬤ GÉNÉRER'}
-            </button>
+            {state.activeTab === 'visual' && (
+              <button 
+                onClick={generatePrompts}
+                disabled={isGenerating || state.music.isGenerating}
+                className="bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[14px] tracking-[3px] px-4 py-2 rounded-md cursor-pointer disabled:opacity-50"
+              >
+                {isGenerating ? '...' : '⬤ GÉNÉRER'}
+              </button>
+            )}
           </div>
 
           {/* Mobile Tab Navigation */}
@@ -353,13 +339,15 @@ export default function App() {
             )}
           </div>
 
-          <button 
-            onClick={generatePrompts}
-            disabled={isGenerating}
-            className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[16px] tracking-[4px] px-10 py-3.5 rounded-full cursor-pointer shadow-[0_4px_20px_rgba(232,113,42,0.5)] z-[100] disabled:opacity-50"
-          >
-            {isGenerating ? 'GÉNÉRATION...' : '⬤ GÉNÉRER'}
-          </button>
+          {state.activeTab === 'visual' && (
+            <button 
+              onClick={generatePrompts}
+              disabled={isGenerating || state.music.isGenerating}
+              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[16px] tracking-[4px] px-10 py-3.5 rounded-full cursor-pointer shadow-[0_4px_20px_rgba(232,113,42,0.5)] z-[100] disabled:opacity-50"
+            >
+              {isGenerating ? 'GÉNÉRATION...' : '⬤ GÉNÉRER'}
+            </button>
+          )}
         </motion.div>
       ) : (
         <motion.div 
@@ -397,7 +385,10 @@ export default function App() {
           <div className="flex-1 flex overflow-hidden">
             {state.activeTab === 'visual' ? (
               <div className="flex-1 flex flex-col overflow-hidden relative">
-                <Header onMenuClick={() => setShowSplash(true)} />
+                <Header 
+                  onMenuClick={() => setShowSplash(true)} 
+                  title={state.activeTab === 'visual' ? 'COLORS' : 'SUNO'} 
+                />
                 
                 <div className="bg-[#0a0a08] border-b border-[#242420] px-[18px] py-2 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A]" />
@@ -664,7 +655,7 @@ export default function App() {
 
                 <button 
                   onClick={generatePrompts}
-                  disabled={isGenerating}
+                  disabled={isGenerating || state.music.isGenerating}
                   className="fixed bottom-5 right-5 z-[200] bg-[#E8712A] text-[#0d0d0b] border-none font-bebas text-[16px] tracking-[4px] px-6 py-3 rounded-md cursor-pointer shadow-[0_4px_22px_rgba(232,113,42,0.45)] transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95 disabled:bg-[#2a2a24] disabled:text-[#444] disabled:cursor-not-allowed disabled:shadow-none"
                 >
                   {isGenerating ? 'GÉNÉRATION...' : '⬤ GÉNÉRER'}
