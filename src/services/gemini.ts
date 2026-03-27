@@ -222,9 +222,9 @@ ${artistIdentitySummary}
   - PRODUCTION QUALITY : Vise une qualité "Studio Master". Utilise des tags comme [High-fidelity], [Pristine clarity], [Punchy transients], [Warm analog saturation], [Wide stereo image].
   - CODES DU STYLE : Intègre les tics de langage, les onomatopées et les placements rythmiques spécifiques au genre (ex: "Skrr", "Ouh", "Grrr" pour la Drill; ad-libs mélodiques pour le R&B).
   - ANTI-GÉNÉRIQUE & TEXTURES : BANNI les tags comme "Trap" ou "Pop". Utilise des textures sonores et vocales précises (ex: [Industrial Dark Techno], [Ethereal Cloud Rap], [Crisp high-end], [Warm analog saturation], [Lo-fi grit], [Sidechained compression], [Stereo widening], [Punchy transients]).
-  - ÉVITE LE "DARK ORCHESTRAL" SYSTÉMATIQUE : Pour le rap, n'utilise des éléments orchestraux (violons, choeurs) QUE si l'artiste ou le style le demande expressément (ex: Booba, SCH). Sinon, privilégie des textures plus sèches, jazzy, industrielles ou minimalistes.
-  - ÉVITE LE VOCODER/CHANT SYSTÉMATIQUE : Si l'artiste est un "lyriciste" ou "technicien" (ex: Alpha Wann, Nekfeu, Kendrick Lamar), INTERDICTION de chanter ou d'utiliser un autotune mélodique. Le flow doit être sec, articulé et purement rappé.
-  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques, de labels ou de slogans/ad-libs iconiques trop identifiables (ex: "Izi", "Saucegod", "It's Lit", "Bakel City").
+  - ÉVITE LE "DARK ORCHESTRAL" SYSTÉMATIQUE : Pour le rap, n'utilise des éléments orchestraux (violons, choeurs) QUE si l'artiste ou le style le demande expressément . Sinon, privilégie des textures plus sèches, jazzy, industrielles ou minimalistes.
+  - ÉVITE LE VOCODER/CHANT SYSTÉMATIQUE : Si l'artiste est un "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mélodique. Le flow doit être sec, articulé et purement rappé.
+  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques, de labels ou de slogans/ad-libs iconiques trop identifiables. Aucun surnom, aucune catchphrase, aucun tag vocal reconnaissable.
   - AD-LIBS : Utilise des ad-libs génériques mais stylés (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'énergie sans copier l'identité.
   - JSON : Réponds uniquement en JSON valide.
 
@@ -498,8 +498,8 @@ export async function getArtistVocalIdentity(artistName: string) {
   - L'utilisation de l'autotune et des effets (ex: Heavy autotune, subtle pitch correction, vocoder).
   - Des références d'interprétation spécifiques (ex: "chante comme s'il murmurait à l'oreille", "puissance gospel").
   - Sa langue principale de chant (ex: "FRANÇAIS", "ANGLAIS", "ARABE", "ESPAGNOL", etc.). Utilise exactement un de ces termes en majuscules si possible.
-  - WEIRDNESS (0-100) : À quel point son style est expérimental, non conventionnel ou "bizarre" (ex: Björk = 90, Drake = 10).
-  - STYLE INFLUENCE (0-100) : À quel point son identité stylistique est forte et doit dominer la production (ex: Travis Scott = 100, un artiste pop générique = 50).
+  - WEIRDNESS (0-100) : À quel point son style est expérimental, non conventionnel ou "bizarre" (ex: artiste avant-garde = 90, artiste mainstream = 10).
+  - STYLE INFLUENCE (0-100) : À quel point son identité stylistique est forte et doit dominer la production (ex: artiste à signature forte = 100, un artiste pop générique = 50).
 
   Utilise Google Search pour obtenir des informations basées sur des critiques musicales, des analyses techniques vocales et des interviews.
 
@@ -524,7 +524,7 @@ export async function getArtistVocalIdentity(artistName: string) {
       config: {
         responseMimeType: "application/json",
         tools: [{ googleSearch: {} }],
-        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques précises des voix d'artistes célèbres. IMPORTANT : Pour les artistes de CLOUD RAP (comme PNL), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
+        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques précises des voix d'artistes célèbres. IMPORTANT : Pour les artistes de CLOUD RAP , analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
       }
     });
 
@@ -554,7 +554,7 @@ export async function rerollVerse(
   - Utilise les balises de structure Suno V5.5 et les METATAGS V5.5 AVANCÉS si nécessaire.
   - Intègre les tags Vocal Style, Vocal Effect, Mood, Energy, Texture et Instrument sur des lignes séparées avant les lyrics.
   - Ajoute des directives d'interprétation vocale si approprié.
-  - INTERDICTION FORMELLE : Ne cite JAMAIS le nom d'un artiste réel (ex: Booba, SDM, SCH, etc.) dans le texte généré.
+  - INTERDICTION FORMELLE : Ne cite JAMAIS le nom d'un artiste réel , de marque ou de label dans le texte généré.
   - Utilise uniquement des noms et titres inventés qui capturent l'essence du style sans mentionner l'original.
   - Réponds UNIQUEMENT avec le nouveau texte des paroles.`;
 
