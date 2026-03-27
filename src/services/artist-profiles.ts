@@ -4,6 +4,9 @@
  * OPTIMIZATION: Instead of building 25+ conditional strings and injecting them ALL
  * into every prompt (wasting thousands of tokens), we store profiles in a dictionary
  * and inject ONLY the matching one(s). This saves ~80% of prompt tokens per request.
+ *
+ * POLICY: NO direct artist references — no artist-specific slang, gimmicks,
+ * catchphrases, or identifiable ad-libs. Only generic style/production descriptors.
  */
 
 export interface ArtistProfile {
@@ -14,205 +17,201 @@ export interface ArtistProfile {
 export const ARTIST_PROFILES: ArtistProfile[] = [
   {
     keywords: ["ALPHA WANN"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES ALPHA WANN (L'ESSENCE DU DON DADA) :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE TECHNIQUE FR :
 - STYLE : Elite Technical French Rap, Modern Boom Bap, Dark Luxury Minimalism.
-- VOCAL : Voix de baryton sÃ¨che, AUCUN AUTOTUNE, articulation hyper-prÃ©cise, dÃ©bit rapide et technique, agression froide et contrÃ´lÃ©e. Pas de chant.
-- AD-LIBS : Utilise des ad-libs trÃ¨s discrets et rythmÃ©s (Yeah, Hey, Ouh).
-- THÃMES : Excellence technique, rimes multisyllabiques denses, densitÃ© de rimes internes, Paris, indÃ©pendance, luxe sombre.
-- PRODUCTION : Piano sombre et minimaliste (Sparse Dark Keys), textures de cloches subtiles, drums lourds et percutants (Heavy Punchy Drums, Tight Snare Crack), ligne de basse minimale. INTERDICTION de sonoritÃ©s jazzy, de samples soulful ou de swing chaleureux.
+- VOCAL : Voix de baryton sèche, AUCUN AUTOTUNE, articulation hyper-précise, débit rapide et technique, agression froide et contrôlée. Pas de chant.
+- AD-LIBS : Très discrets et rythmés, purement génériques (Yeah, Hey, Ouh).
+- THÈMES : Excellence technique, rimes multisyllabiques denses, densité de rimes internes, vie urbaine parisienne, indépendance, luxe sombre.
+- PRODUCTION : Piano sombre et minimaliste (Sparse Dark Keys), textures de cloches subtiles, drums lourds et percutants (Heavy Punchy Drums, Tight Snare Crack), ligne de basse minimale. INTERDICTION de sonorités jazzy, de samples soulful ou de swing chaleureux.
 - SUNO TAGS : [Elite Technical French Rap], [Modern Boom Bap], [Dark Luxury Minimalism], [Dry Baritone Vocals], [No Autotune], [Hyper-Articulated Delivery], [Cold Controlled Aggression], [Dense Multisyllabic Rhymes], [90 BPM], [D Minor], [Clean High-Fidelity Mix], [Dry Vocal Front], [Cold Cinematic Atmosphere].
-- NOTE : Le flow doit Ãªtre une dÃ©monstration de technique pure, froid et chirurgical.`
+- NOTE : Le flow doit être une démonstration de technique pure, froid et chirurgical.`
   },
   {
     keywords: ["KALASH"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES KALASH :
-- Utilise un mÃ©lange authentique de CRÃOLE MARTINIQUAIS et de FRANÃAIS.
-- Le style musical doit Ãªtre un mÃ©lange de DANCEHALL moderne, de TRAP et de sonoritÃ©s CARIBÃENNES.
-- IntÃ¨gre des ad-libs typiques (ex: 'Mwaka Moon', 'Zess').
-- Le texte doit reflÃ©ter son identitÃ© : entre mÃ©lodie planante et rap percutant.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CARIBÉEN :
+- Utilise un mélange authentique de CRÉOLE MARTINIQUAIS et de FRANÇAIS.
+- Le style musical doit être un mélange de DANCEHALL moderne, de TRAP et de sonorités CARIBÉENNES.
+- AD-LIBS : Génériques et rythmés, interjections tropicales naturelles.
+- Le texte doit refléter une identité caribéenne : entre mélodie planante et rap percutant.`
   },
   {
     keywords: ["TIF"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES TIF :
-- Utilise un mÃ©lange 50/50 de FRANÃAIS et de DARIJA (Arabe AlgÃ©rien).
-- INSTRUMENTATION : IntÃ¨gre impÃ©rativement des sonoritÃ©s de OUD, MANDOLE ou DERBOUKA. Guitares acoustiques mÃ©lancoliques.
-- THÃMES : Nostalgie d'Alger (Houma), exil, mÃ©lancolie solaire, les deux rives, la mer, le destin (Mektoub).
-- FLOW : MÃ©lodique, chantÃ©/rappÃ© avec une Ã©motion brute, souvent avec un lÃ©ger autotune pour la texture.
-- SLANG : 'Sahbi', 'Khoya', 'Dz', 'El Ghorba'.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MAGHRÉBIN MÉLANCOLIQUE :
+- Utilise un mélange 50/50 de FRANÇAIS et de DARIJA (Arabe Algérien).
+- INSTRUMENTATION : Intègre impérativement des sonorités de OUD, MANDOLE ou DERBOUKA. Guitares acoustiques mélancoliques.
+- THÈMES : Nostalgie du quartier d'origine, exil, mélancolie solaire, les deux rives, la mer, le destin.
+- FLOW : Mélodique, chanté/rappé avec une émotion brute, souvent avec un léger autotune pour la texture.
+- VOCABULAIRE : Utilise un vocabulaire franco-arabe naturel, sans expressions ou catchphrases spécifiques à un artiste.`
   },
   {
     keywords: ["TIAKOLA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES TIAKOLA :
-- STYLE : Afro-mÃ©lodique pur (Melo).
-- FLOW : Ultra-mÃ©lodique, rapide, avec des variations de tonalitÃ© constantes.
-- AD-LIBS : Utilise des ad-libs mÃ©lodiques et rythmÃ©s.
-- THÃMES : RÃ©ussite, loyautÃ©, fÃªte, mÃ©lodie.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-MÉLODIQUE :
+- STYLE : Afro-mélodique pur (Melo).
+- FLOW : Ultra-mélodique, rapide, avec des variations de tonalité constantes.
+- AD-LIBS : Mélodiques et rythmés, génériques.
+- THÈMES : Réussite, loyauté, fête, mélodie.`
   },
   {
     keywords: ["PNL", "ADEMO", "NOS"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES PNL :
-- STYLE : Cloud Rap atmosphÃ©rique, planant, mÃ©lancolique.
-- LANGAGE : Utilise leur argot spÃ©cifique (ex: 'Igo', 'QLF', 'Le monde ou rien', 'Onizuka').
-- FLOW : Lent, autotunÃ© Ã  l'extrÃªme, spatial.
-- THÃMES : Solitude, famille, rÃ©ussite amÃ¨re, contemplation.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CLOUD RAP FR :
+- STYLE : Cloud Rap atmosphérique, planant, mélancolique.
+- LANGAGE : Français urbain avec argot de banlieue générique, sans expressions ou catchphrases identifiables.
+- FLOW : Lent, autotuné à l'extrême, spatial.
+- THÈMES : Solitude, famille, réussite amère, contemplation.`
   },
   {
-    keywords: ["ROSALÃA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES ROSALÃA :
-- STYLE : Flamenco expÃ©rimental, Art-Pop, Reggaeton dÃ©construit.
+    keywords: ["ROSALÍA"],
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE FLAMENCO EXPÉRIMENTAL :
+- STYLE : Flamenco expérimental, Art-Pop, Reggaeton déconstruit.
 - LANGAGE : Espagnol avec des expressions andalouses.
 - VOCAL : Textures vocales complexes, claquements de mains (Palmas) et harmonies flamenco.`
   },
   {
     keywords: ["BILLIE EILISH"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES BILLIE EILISH :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK POP :
 - STYLE : Dark Pop, Alt-Pop, Minimaliste.
-- VOCAL : Chant murmurÃ© (whisper vocals), trÃ¨s proche du micro, voix doublÃ©es et harmonisÃ©es de maniÃ¨re sombre.
+- VOCAL : Chant murmuré (whisper vocals), très proche du micro, voix doublées et harmonisées de manière sombre.
 - PRODUCTION : Basses lourdes et distordues, textures organiques et bruits de fond (ASMR-like).`
   },
   {
     keywords: ["AYA NAKAMURA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES AYA NAKAMURA :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-POP FR :
 - STYLE : Afro-Pop, R&B, Dancehall.
-- LANGAGE : Utilise son argot spÃ©cifique (ex: 'Djadja', 'Pookie', 'En catchu').
-- FLOW : ChaloupÃ©, hooks ultra-efficaces, voix puissante.`
+- LANGAGE : Français avec argot urbain naturel, sans expressions ou catchphrases identifiables.
+- FLOW : Chaloupé, hooks ultra-efficaces, voix puissante.`
   },
   {
     keywords: ["ORELSAN"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES ORELSAN :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAP NARRATIF :
 - STYLE : Rap narratif, Storytelling, Pop-Rap.
-- THÃMES : Quotidien, cynisme, nostalgie, Caen.
-- FLOW : Narratif, parlÃ©-chantÃ©, dÃ©bit technique.`
+- THÈMES : Quotidien, cynisme, nostalgie, province.
+- FLOW : Narratif, parlé-chanté, débit technique.`
   },
   {
     keywords: ["BURNA BOY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES BURNA BOY :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFROBEATS :
 - STYLE : Afrobeats, Afro-Fusion.
 - LANGAGE : Anglais, Pidgin, Yoruba.
 - INSTRUMENTATION : Cuivres (brass) puissants, percussions polyrythmiques.`
   },
   {
     keywords: ["BAD BUNNY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES BAD BUNNY :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE REGGAETON :
 - STYLE : Reggaeton, Latin Trap.
 - LANGAGE : Espagnol (accent Portoricain).
-- VOCAL : Voix grave, flow dembow syncopÃ©.`
+- VOCAL : Voix grave, flow dembow syncopé.`
   },
   {
     keywords: ["DAFT PUNK"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES DAFT PUNK :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE FRENCH HOUSE :
 - STYLE : French House, Electro-Funk.
 - VOCAL : Vocoder, Talkbox, voix robotique.
-- INSTRUMENTATION : SynthÃ©tiseurs vintage, boucles de basse funk.`
+- INSTRUMENTATION : Synthétiseurs vintage, boucles de basse funk.`
   },
   {
     keywords: ["TAME IMPALA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES TAME IMPALA :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE PSYCHÉDÉLIQUE :
 - STYLE : Psychedelic Pop, Indie Rock.
-- VOCAL : Falsetto aÃ©rien, rÃ©verbe/delay intense.
-- INSTRUMENTATION : SynthÃ©s analogiques, phaser sur la batterie.`
+- VOCAL : Falsetto aérien, réverbe/delay intense.
+- INSTRUMENTATION : Synthés analogiques, phaser sur la batterie.`
   },
   {
     keywords: ["SOOLKING"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES SOOLKING :
-- STYLE : RaÃ¯-Pop, Algerian Pop.
-- LANGAGE : FranÃ§ais, Arabe (Darija).
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAÏ-POP :
+- STYLE : Raï-Pop, Algerian Pop.
+- LANGAGE : Français, Arabe (Darija).
 - INSTRUMENTATION : Violons, guitares acoustiques, percussions orientales.`
   },
   {
     keywords: ["STROMAE"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES STROMAE :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE ART-POP BELGE :
 - STYLE : Art-Pop, Electro-Chanson.
-- LANGAGE : FranÃ§ais (accent Belge).
-- THÃMES : MÃ©lancolie dansante, critique sociale.
-- VOCAL : ArticulÃ©, thÃ©Ã¢tral, voix expressive.`
+- LANGAGE : Français (accent Belge).
+- THÈMES : Mélancolie dansante, critique sociale.
+- VOCAL : Articulé, théâtral, voix expressive.`
   },
   {
     keywords: ["KAARIS"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES KAARIS :
-- STYLE : Hardcore Trap, Sevran.
-- FLOW : Agressif, saccadÃ©, ad-libs gutturaux.
-- AD-LIBS : '2.7.0', 'Talsadoum'.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE TRAP :
+- STYLE : Hardcore Trap, Rap de banlieue.
+- FLOW : Agressif, saccadé, ad-libs gutturaux génériques.
+- AD-LIBS : Utilise des ad-libs gutturaux et percutants mais génériques (Grrr, Hey, Yeah).`
   },
   {
     keywords: ["NATE DOGG"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES NATE DOGG :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE G-FUNK :
 - STYLE : G-Funk, West Coast R&B.
-- VOCAL : Voix de baryton veloutÃ©e, hooks mÃ©lodiques ultra-smooth.
-- THÃMES : FÃªte, chill, West Coast life.`
+- VOCAL : Voix de baryton veloutée, hooks mélodiques ultra-smooth.
+- THÈMES : Fête, chill, West Coast life.`
   },
   {
     keywords: ["VALD"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES VALD :
-- STYLE : Rap expÃ©rimental, Ironique.
-- FLOW : ImprÃ©visible, rapide, variations de ton.
-- THÃMES : Absurde, ironie.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAP EXPÉRIMENTAL :
+- STYLE : Rap expérimental, Ironique.
+- FLOW : Imprévisible, rapide, variations de ton.
+- THÈMES : Absurde, ironie.`
   },
   {
     keywords: ["HAMZA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES HAMZA (L'ESSENCE DE LA SAUCE) :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC TRAP BELGE :
 - STYLE : Melodic Trap, R&B-infused Rap, Belgian Trap.
-- VOCAL : Autotune mÃ©lodique omniprÃ©sent, voix suave, nonchalante et sensuelle. Flow Ã©lastique.
-- AD-LIBS : Utilise des ad-libs gÃ©nÃ©riques (Yeah, Ouh, Skrr, Hey) mais placÃ©s de maniÃ¨re trÃ¨s aÃ©rÃ©e et mÃ©lodique.
-- THÃMES : Luxe, sensualitÃ©, vie nocturne, haute couture.
-- PRODUCTION : SynthÃ©s smooth, oniriques. Basses 808 profondes, rondes et 'expensive'. Hi-hats trÃ¨s nets et aÃ©rÃ©s.
-- SUNO TAGS : [Melodic Trap], [R&B-infused], [Smooth 808s], [Dreamy synths], [Expensive production], [Heavily autotuned melodic vocals], [Nocturnal vibe].
-- NOTE : INTERDICTION ABSOLUE d'utiliser les ad-libs 'Sauce' ou 'H-24'.`
+- VOCAL : Autotune mélodique omniprésent, voix suave, nonchalante et sensuelle. Flow élastique.
+- AD-LIBS : Génériques (Yeah, Ouh, Skrr, Hey) placés de manière très aérée et mélodique.
+- THÈMES : Luxe, sensualité, vie nocturne, haute couture.
+- PRODUCTION : Synthés smooth, oniriques. Basses 808 profondes, rondes et "expensive". Hi-hats très nets et aérés.
+- SUNO TAGS : [Melodic Trap], [R&B-infused], [Smooth 808s], [Dreamy synths], [Expensive production], [Heavily autotuned melodic vocals], [Nocturnal vibe].`
   },
   {
     keywords: ["BOOBA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES BOOBA (L'ESSENCE DU DUC) :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE RAP CINÉMATIQUE :
 - STYLE : Hardcore Rap, Dark Trap, Drill, Cinematic Rap.
-- VOCAL : Voix grave, autoritaire, imposante. Autotune sombre, profond et mÃ©lodique sur les refrains. Flow saccadÃ©, prÃ©cis, avec des punchlines percutantes.
-- AD-LIBS : Utilise des ad-libs gÃ©nÃ©riques (Grrr, Yeah, Hey, Ouh) placÃ©s de maniÃ¨re agressive et rythmÃ©e.
-- THÃMES : RÃ©ussite solitaire, rue, compÃ©tition fÃ©roce, luxe froid, trahison, hÃ©ritage.
+- VOCAL : Voix grave, autoritaire, imposante. Autotune sombre, profond et mélodique sur les refrains. Flow saccadé, précis, avec des punchlines percutantes.
+- AD-LIBS : Génériques (Grrr, Yeah, Hey, Ouh) placés de manière agressive et rythmée.
+- THÈMES : Réussite solitaire, rue, compétition féroce, luxe froid, trahison, héritage.
 - PRODUCTION : Dark, orchestrale, heavy 808s distordues, minimaliste mais massive.
-- SUNO TAGS : [Hardcore Rap], [Dark Trap], [Heavy 808s], [Cinematic production], [Authoritative deep vocals], [Dark autotune], [Orchestral textures].
-- NOTE : ÃVITE TOUTE MENTION DIRECTE DE 'IZI', 'RATPI', 'PIRATE' OU '92i' DANS LES PAROLES.`
+- SUNO TAGS : [Hardcore Rap], [Dark Trap], [Heavy 808s], [Cinematic production], [Authoritative deep vocals], [Dark autotune], [Orchestral textures].`
   },
   {
     keywords: ["TRAVIS SCOTT"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES TRAVIS SCOTT :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE PSYCHEDELIC TRAP :
 - STYLE : Psychedelic Trap, Dark Melodic.
-- VOCAL : Autotune Ã©pais, ad-libs gÃ©nÃ©riques (Yeah, Ouh, Hey).
-- PRODUCTION : Basses saturÃ©es, synthÃ©s atmosphÃ©riques, beat switches.
-- NOTE : INTERDICTION d'utiliser 'It's Lit' ou 'Straight Up'.`
+- VOCAL : Autotune épais, ad-libs génériques (Yeah, Ouh, Hey).
+- PRODUCTION : Basses saturées, synthés atmosphériques, beat switches.`
   },
   {
     keywords: ["DRAKE"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES DRAKE :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC RAP :
 - STYLE : Melodic Rap, R&B-infused Trap.
-- THÃMES : Relations, introspection, succÃ¨s, '6ix' culture.
-- FLOW : Transition fluide rap/chant, hooks mÃ©morables.`
+- THÈMES : Relations, introspection, succès, culture urbaine.
+- FLOW : Transition fluide rap/chant, hooks mémorables.`
   },
   {
     keywords: ["KENDRICK LAMAR"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES KENDRICK LAMAR :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CONSCIOUS RAP :
 - STYLE : Conscious Rap, Jazz-Rap, West Coast.
 - FLOW : Technique complexe, changements de voix, storytelling profond.
-- THÃMES : Social, politique, hÃ©ritage, religion.`
+- THÈMES : Social, politique, héritage, religion.`
   },
   {
     keywords: ["PLAYBOI CARTI"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES PLAYBOI CARTI :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAGE/VAMP :
 - STYLE : Rage, Vamp, Minimalist Trap.
-- VOCAL : Baby voice, ad-libs gÃ©nÃ©riques (What, Yeah, Slatt).
-- PRODUCTION : SynthÃ©s 8-bit, basses distordues.
-- NOTE : ÃVITE les ad-libs trop spÃ©cifiques Ã  l'artiste.`
+- VOCAL : Baby voice, ad-libs génériques et minimalistes (What, Yeah).
+- PRODUCTION : Synthés 8-bit, basses distordues.`
   },
   {
     keywords: ["KANYE WEST"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES KANYE WEST :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AVANT-GARDE RAP :
 - STYLE : Avant-Garde Rap, Gospel-Rap, Art-Pop.
-- PRODUCTION : Samples soul, choeurs, orchestration grandiose.
-- THÃMES : Ego, religion, mode, famille.`
+- PRODUCTION : Samples soul, chœurs, orchestration grandiose.
+- THÈMES : Ego, religion, mode, famille.`
   },
   {
     keywords: ["LANA DEL REY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES LANA DEL REY :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DREAM POP :
 - STYLE : Dream Pop, Sadcore, Cinematic.
-- VOCAL : Chant langoureux, murmures, harmonies Ã©thÃ©rÃ©es.
-- THÃMES : Nostalgie, glamour tragique, Americana.`
+- VOCAL : Chant langoureux, murmures, harmonies éthérées.
+- THÈMES : Nostalgie, glamour tragique, Americana.`
   },
 ];
 
@@ -234,6 +233,9 @@ export function getArtistSpecificInstructions(inspiredBy: string): string {
  * Detects the genre category from the inspiredBy field to select relevant
  * writing DNA instructions. Returns only the 2-3 most relevant genre blocks
  * instead of all 20.
+ *
+ * POLICY: No artist-specific slang, catchphrases or identifiable expressions.
+ * Only generic genre vocabulary guidelines.
  */
 export function getRelevantWritingDNA(inspiredBy: string, genre: string): string {
   const upper = (inspiredBy + " " + genre).toUpperCase();
@@ -241,83 +243,83 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   const DNA_BLOCKS: { keywords: string[]; text: string }[] = [
     {
       keywords: ["PNL", "SALIF", "GAZO", "FREEZE", "NINHO", "FRENCH RAP", "RAP FR"],
-      text: `RAP FR : Utilise le Verlan, l'Argot de rue (ex: "bicrave", "charbon", "keufs", "moula"). ThÃ¨mes : Rue, mÃ©lancolie, rÃ©ussite, trahison. Flow : SaccadÃ© ou planant (Cloud).`
+      text: `RAP FR : Utilise le Verlan et l'argot de rue naturel du genre (sans expressions ou catchphrases identifiables à un artiste précis). Thèmes : Rue, mélancolie, réussite, trahison. Flow : Saccadé ou planant (Cloud).`
     },
     {
       keywords: ["DRAKE", "TRAVIS", "CENTRAL CEE", "21 SAVAGE", "US RAP", "UK RAP", "DRILL"],
-      text: `US/UK RAP : Utilise l'ANGLAIS. Slang : "no cap", "opps", "sliding", "drilling", "stacks", "innit", "bruv". Flow : Melodic trap, Dark psychedelic, Drill.`
+      text: `US/UK RAP : Utilise l'ANGLAIS avec du slang urbain générique du genre (sans expressions identifiables à un artiste). Flow : Melodic trap, Dark psychedelic, Drill.`
     },
     {
       keywords: ["BAD BUNNY", "J BALVIN", "RAUW", "REGGAETON", "LATIN"],
-      text: `REGGAETON / LATIN : Utilise l'ESPAGNOL. Slang : "perreo", "bellaqueo", "duro", "mami", "la calle". Flow : Dembow syncopÃ©, sensuel ou agressif.`
+      text: `REGGAETON / LATIN : Utilise l'ESPAGNOL avec du vocabulaire urbain latin générique. Flow : Dembow syncopé, sensuel ou agressif.`
     },
     {
       keywords: ["REMA", "BURNA", "WIZKID", "AFROBEATS", "AFRO"],
-      text: `AFROBEATS : Utilise l'ANGLAIS / PIDGIN / YORUBA. Slang : "Odogwu", "Gbedu", "Jo". Flow : MÃ©lodique, percutant, cuivres puissants et percussions polyrythmiques.`
+      text: `AFROBEATS : Utilise l'ANGLAIS / PIDGIN / YORUBA avec du vocabulaire naturel du genre. Flow : Mélodique, percutant, cuivres puissants et percussions polyrythmiques.`
     },
     {
       keywords: ["KALASH", "MAVADO", "DANCEHALL", "CARIBBEAN"],
-      text: `CARIBBEAN / DANCEHALL : Utilise un mÃ©lange de CRÃOLE MARTINIQUAIS et FRANÃAIS. Slang : "Gyal", "Riddim", "Zess". Flow : Dancehall syncopÃ©, saccadÃ© ou chantÃ© avec autotune lÃ©ger.`
+      text: `CARIBBEAN / DANCEHALL : Utilise un mélange de CRÉOLE et FRANÇAIS avec du vocabulaire caribéen naturel. Flow : Dancehall syncopé, saccadé ou chanté avec autotune léger.`
     },
     {
-      keywords: ["TIF", "SOOLKING", "ALGÃRIEN", "CHAÃBI", "MAGHREB", "RAÃ"],
-      text: `MAGHREB / CHAÃBI-TRAP : Utilise FRANÃAIS et DARIJA. Slang : "Khoya", "Sahbi", "Mektoub". Flow : MÃ©lodique, influencÃ© par le RaÃ¯ et le ChaÃ¢bi (Oud, Mandole, Derbouka).`
+      keywords: ["TIF", "SOOLKING", "ALGÉRIEN", "CHAÂBI", "MAGHREB", "RAÏ"],
+      text: `MAGHREB / CHAÂBI-TRAP : Utilise FRANÇAIS et DARIJA avec du vocabulaire franco-arabe naturel (sans expressions identifiables). Flow : Mélodique, influencé par le Raï et le Chaâbi (Oud, Mandole, Derbouka).`
     },
     {
       keywords: ["TIAKOLA", "TAYC", "DADJU", "MELO", "AFRO-MELODIC"],
-      text: `AFRO-MELODIC / MELO : Utilise le FRANÃAIS avec influences Lingala ou Wolof. Flow : Ultra-mÃ©lodique, "Melo" signature, harmonies riches, autotune parfaitement maÃ®trisÃ©.`
+      text: `AFRO-MELODIC / MELO : Utilise le FRANÇAIS avec influences Lingala ou Wolof naturelles. Flow : Ultra-mélodique, harmonies riches, autotune parfaitement maîtrisé.`
     },
     {
       keywords: ["AYA NAKAMURA", "AFRO-POP"],
-      text: `AFRO-POP / NAKAMURA : Utilise le FRANÃAIS avec argot unique. Slang : "Pookie", "Djadja", "En catchu". Flow : ChaloupÃ©, hooks ultra-efficaces, voix puissante.`
+      text: `AFRO-POP : Utilise le FRANÇAIS avec argot urbain naturel (sans expressions identifiables). Flow : Chaloupé, hooks ultra-efficaces, voix puissante.`
     },
     {
       keywords: ["ORELSAN", "LOMEPAL", "NEKFEU", "STORYTELLING"],
-      text: `STORYTELLING : Utilise le FRANÃAIS standard, direct, imagÃ©. ThÃ¨mes : Quotidien, cynisme, nostalgie. Flow : Narratif, parlÃ©-chantÃ©, dÃ©bit technique.`
+      text: `STORYTELLING : Utilise le FRANÇAIS standard, direct, imagé. Thèmes : Quotidien, cynisme, nostalgie. Flow : Narratif, parlé-chanté, débit technique.`
     },
     {
       keywords: ["BOOBA", "KAARIS", "HARDCORE", "AGGRESSIVE"],
-      text: `HARDCORE RAP : Utilise le FRANÃAIS (argot 92i/Sevran). Flow : Voix grave, autoritaire, saccadÃ©, ad-libs caractÃ©ristiques.`
+      text: `HARDCORE RAP : Utilise le FRANÇAIS avec argot de rue agressif et naturel. Flow : Voix grave, autoritaire, saccadé.`
     },
     {
       keywords: ["HAMZA", "MELODIC TRAP", "SAUCE", "BELGIAN"],
-      text: `MELODIC TRAP / SAUCE : Utilise le FRANÃAIS (accent Belge) avec slang US. Flow : Ultra-mÃ©lodique, autotune parfaitement maÃ®trisÃ©, nonchalant et fluide.`
+      text: `MELODIC TRAP : Utilise le FRANÇAIS (accent Belge) avec influence US naturelle. Flow : Ultra-mélodique, autotune parfaitement maîtrisé, nonchalant et fluide.`
     },
     {
       keywords: ["DAFT PUNK", "JUSTICE", "HOUSE", "ELECTRO", "TECHNO"],
-      text: `FRENCH HOUSE / ELECTRO : Utilise l'ANGLAIS (vocodÃ©). Flow : Robotique, rythmÃ©, rÃ©pÃ©titif de maniÃ¨re addictive.`
+      text: `FRENCH HOUSE / ELECTRO : Utilise l'ANGLAIS (vocodé). Flow : Robotique, rythmé, répétitif de manière addictive.`
     },
     {
       keywords: ["TAME IMPALA", "PSYCHEDELIC", "INDIE"],
-      text: `PSYCHEDELIC POP / INDIE : Utilise l'ANGLAIS. Flow : Falsetto aÃ©rien, voix noyÃ©e dans rÃ©verbe/delay, mÃ©lodies oniriques.`
+      text: `PSYCHEDELIC POP / INDIE : Utilise l'ANGLAIS. Flow : Falsetto aérien, voix noyée dans réverbe/delay, mélodies oniriques.`
     },
     {
       keywords: ["STROMAE", "AVANT-GARDE", "ART-POP"],
-      text: `ARTISTIC / AVANT-GARDE : Utilise le FRANÃAIS (accent Belge). ThÃ¨mes : MÃ©lancolie dansante, critique sociale. Flow : ArticulÃ©, thÃ©Ã¢tral.`
+      text: `ARTISTIC / AVANT-GARDE : Utilise le FRANÇAIS (accent Belge). Thèmes : Mélancolie dansante, critique sociale. Flow : Articulé, théâtral.`
     },
     {
       keywords: ["NATE DOGG", "SNOOP", "G-FUNK", "WEST COAST"],
-      text: `G-FUNK / WEST COAST : Utilise l'ANGLAIS. Flow : ChantÃ© ultra-smooth, voix de baryton veloutÃ©e.`
+      text: `G-FUNK / WEST COAST : Utilise l'ANGLAIS. Flow : Chanté ultra-smooth, voix de baryton veloutée.`
     },
     {
       keywords: ["VALD", "EXPERIMENTAL", "IRONIC"],
-      text: `EXPERIMENTAL / IRONIC : Utilise le FRANÃAIS. Flow : ImprÃ©visible, rapide, variations de ton extrÃªmes.`
+      text: `EXPERIMENTAL / IRONIC : Utilise le FRANÇAIS. Flow : Imprévisible, rapide, variations de ton extrêmes.`
     },
     {
       keywords: ["BILLIE EILISH", "DARK POP", "ALT-POP"],
-      text: `DARK POP : Chant murmurÃ© (whisper vocals), basses lourdes et distordues, textures ASMR-like.`
+      text: `DARK POP : Chant murmuré (whisper vocals), basses lourdes et distordues, textures ASMR-like.`
     },
     {
       keywords: ["LANA DEL REY", "DREAM POP", "SADCORE"],
-      text: `DREAM POP / SADCORE : Chant langoureux, murmures, harmonies Ã©thÃ©rÃ©es. Nostalgie, glamour tragique, Americana.`
+      text: `DREAM POP / SADCORE : Chant langoureux, murmures, harmonies éthérées. Nostalgie, glamour tragique, Americana.`
     },
     {
       keywords: ["KENDRICK", "CONSCIOUS", "JAZZ-RAP"],
-      text: `CONSCIOUS RAP / JAZZ-RAP : Technique complexe, changements de voix, storytelling profond. ThÃ¨mes sociaux et politiques.`
+      text: `CONSCIOUS RAP / JAZZ-RAP : Technique complexe, changements de voix, storytelling profond. Thèmes sociaux et politiques.`
     },
     {
       keywords: ["PLAYBOI CARTI", "RAGE", "VAMP"],
-      text: `RAGE / VAMP : Baby voice, ad-libs minimalistes, synthÃ©s 8-bit, basses distordues.`
+      text: `RAGE / VAMP : Baby voice, ad-libs minimalistes, synthés 8-bit, basses distordues.`
     },
   ];
 
@@ -327,7 +329,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Always return at least a default if no match
   if (matches.length === 0) {
-    return "Adapte le style d'Ã©criture, le slang et le flow au genre et Ã  l'artiste demandÃ©.";
+    return "Adapte le style d'écriture et le flow au genre et à l'artiste demandé. N'utilise AUCUNE expression, slang ou gimmick identifiable à un artiste réel.";
   }
 
   return matches.slice(0, 3).join("\n\n"); // Max 3 relevant DNA blocks
