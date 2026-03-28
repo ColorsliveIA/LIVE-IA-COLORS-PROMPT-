@@ -5,213 +5,425 @@
  * into every prompt (wasting thousands of tokens), we store profiles in a dictionary
  * and inject ONLY the matching one(s). This saves ~80% of prompt tokens per request.
  *
- * POLICY: NO direct artist references â no artist-specific slang, gimmicks,
+ * POLICY: NO direct artist references — no artist-specific slang, gimmicks,
  * catchphrases, or identifiable ad-libs. Only generic style/production descriptors.
  */
 
 export interface ArtistProfile {
   keywords: string[];  // Match against inspiredBy.toUpperCase()
   instructions: string;
+  isMelodic?: boolean;  // Flag: true = melodic/singing artist, false/undefined = rap/lyricist
 }
 
 export const ARTIST_PROFILES: ArtistProfile[] = [
   {
+    keywords: ["JUL"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC MARSEILLE :
+- STYLE : Melodic Street Pop, Marseille Urban, Emotional Autotune, Sun-Kissed Mediterranean.
+- VOCAL : Autotune mélodique OMNIPRÉSENT — c'est la SIGNATURE. Voix aiguë, nasale, chantée en permanence. Flow ultra-mélodique, rapide, avec des montées de notes caractéristiques. JAMAIS de rap sec — tout est chanté.
+- AD-LIBS : Mélodiques et aériens, génériques (Ouh, Yeah, Hey, Aïe). Placés sur les temps faibles pour créer du rebond.
+- THÈMES : Quartier, loyauté, amour de rue, Marseille, soleil et mélancolie, famille, réussite populaire, vie quotidienne des quartiers. Langage DIRECT et POPULAIRE — pas intellectuel.
+- PRODUCTION : Piano mélodique lumineux ou mélancolique (SIGNATURE), 808 punchy et rebondissantes, hi-hats rapides et nets, synthés digitaux brillants, percs synthétiques légères. Ambiance à la fois solaire et émotionnelle. BPM typique 120-130.
+- PHONÉTIQUE : Accent marseillais marqué. Élisions naturelles du parler quotidien. Voyelles ouvertes, flow syllabique rapide.
+- REGISTRE : Langage familier, direct, parfois cru mais toujours accessible. Vocabulaire de la rue sans être hardcore.
+- NOTE : L'AUTOTUNE MÉLODIQUE est NON-NÉGOCIABLE. Le chant EST le style. INTERDICTION de produire du rap sec/technique pour cet artiste.`
+  },
+  {
+    keywords: ["NINHO"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC TRAP FR :
+- STYLE : Melodic Trap, Dark Emotional Rap, Street Melancholy.
+- VOCAL : Autotune mélodique maîtrisé, alternance fluide rap/chant. Voix moyenne, légèrement rauque. Flow technique ET mélodique — capable de rapper vite puis de chanter un refrain émotionnel.
+- AD-LIBS : Discrets, mélodiques (Ouh, Yeah), parfois des vocalises courtes.
+- THÈMES : Ascension depuis la rue, mélancolie du succès, solitude au sommet, famille, quartier (91), trahison, argent comme échappatoire.
+- PRODUCTION : 808 profondes et rondes, mélodies de piano sombres et émotionnelles, guitares acoustiques mélancoliques, hi-hats complexes (rolls, triolets), pads atmosphériques. BPM typique 130-145.
+- REGISTRE : Argot urbain authentique, verlan, langage de la rue mais avec une profondeur émotionnelle.
+- NOTE : La DUALITÉ rap technique / chant mélodique est la signature. Les deux doivent coexister.`
+  },
+  {
+    keywords: ["DAMSO"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK MELODIC BELGE :
+- STYLE : Dark R&B-Rap, Experimental Melodic, Belgian Dark Pop.
+- VOCAL : Voix grave et sensuelle, autotune subtil et artistique, alternance entre rap articulé et chant sombre. Diction très précise, phrasé unique avec des cassures rythmiques.
+- AD-LIBS : Minimalistes, souvent des respirations ou des murmures.
+- THÈMES : Sexualité crue, introspection sombre, relations toxiques, dualité bien/mal, philosophie de rue, provocation intellectuelle.
+- PRODUCTION : Basses 808 profondes et saturées, synthés sombres et atmosphériques, textures industrielles subtiles, drums minimalistes mais percutants. Ambiance nocturne et cinématique.
+- REGISTRE : Français sophistiqué mêlé d'argot belge et congolais. Vocabulaire riche, métaphores complexes, double sens permanent.
+- NOTE : Le côté PROVOCATEUR et INTELLECTUEL doit coexister. Ce n'est pas du rap street basique — c'est de l'art sombre.`
+  },
+  {
+    keywords: ["GAZO"],
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DRILL FR :
+- STYLE : French Drill, Dark Trap, Aggressive Street Rap.
+- VOCAL : Voix grave et agressive, flow drill caractéristique (sliding, syncopé), léger autotune sombre sur certains passages. Débit rapide et percutant.
+- AD-LIBS : Agressifs et rythmés (Grrr, Bah, Hey, Ouh). Gutturaux.
+- THÈMES : Rue, violence, compétition, argent sale, survie, intimidation. Langage TRÈS CRU.
+- PRODUCTION : 808 slides caractéristiques de la drill, hi-hats frénétiques (triolets rapides), mélodies sombres et menaçantes (piano/synthé), percs métalliques. BPM typique 140-145.
+- REGISTRE : Argot de rue hardcore, verlan, vocabulaire de la street. Vulgarité assumée.
+- NOTE : Le son DOIT être menaçant et sombre. Pas de mélodie joyeuse, pas de pop.`
+  },
+  {
+    keywords: ["FREEZE CORLEONE", "FREEZE"],
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK LYRICAL :
+- STYLE : Dark Boom Bap, Horrorcore FR, Lyrical Trap sombre.
+- VOCAL : Voix grave monotone, flow technique et dense, AUCUN autotune, débit rapide avec des placements complexes. Ton froid et détaché.
+- AD-LIBS : Très rares, sombres et discrets.
+- THÈMES : Théories complotistes, références occultes, suprématie lyricale, provocation intellectuelle, samples obscurs, rap comme art martial verbal.
+- PRODUCTION : Samples sombres (jazz, soul, classique détournés), drums boom bap lourds, basses profondes, ambiance cinématique lugubre. Parfois des beats trap minimalistes.
+- REGISTRE : Vocabulaire très dense, références culturelles multiples (anime, histoire, géopolitique), punchlines à tiroirs.
+- NOTE : Le flow doit être CHIRURGICAL et FROID. Aucune émotion apparente, technique pure.`
+  },
+  {
+    keywords: ["NEKFEU"],
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE LYRICAL POP-RAP :
+- STYLE : Lyrical Rap, Pop-Rap, Poetic Boom Bap moderne.
+- VOCAL : Voix claire et articulée, PAS d'autotune, flow technique avec des accélérations, capable de chanter sur les refrains. Diction impeccable.
+- AD-LIBS : Très discrets, naturels.
+- THÈMES : Voyage, amour, introspection, littérature, mélancolie douce, beauté du quotidien, Paris, créativité.
+- PRODUCTION : Mélodies lumineuses (guitares acoustiques, piano, samples jazz/soul chaleureux), drums organiques, basses rondes et chaudes. Alternance entre moments intimes et moments énergiques.
+- REGISTRE : Français soutenu mêlé d'argot léger, métaphores poétiques, références littéraires et cinématographiques.
+- NOTE : L'ÉCRITURE est la priorité absolue. Rimes multisyllabiques, images poétiques, storytelling. Le texte doit avoir une vraie valeur littéraire.`
+  },
+  {
+    keywords: ["LAYLOW"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DIGITAL EMOTION :
+- STYLE : Digital Trap, Experimental R&B-Rap, Futuristic Melodic.
+- VOCAL : Autotune artistique et expérimental, voix modulée entre rap et chant, effets vocaux créatifs (pitch shifts, layers). Flow élastique et imprévisible.
+- AD-LIBS : Mélodiques, souvent traités avec des effets (delay, reverb, pitch).
+- THÈMES : Technologie et émotions, solitude numérique, amour dystopique, futurisme, anxiété moderne, esthétique digitale.
+- PRODUCTION : Synthés futuristes et atmosphériques, 808 profondes, textures électroniques expérimentales, samples manipulés, glitches subtils. Ambiance cinématique et immersive.
+- REGISTRE : Français moderne, vocabulaire tech/digital, métaphores futuristes.
+- NOTE : L'aspect CONCEPTUEL et CINÉMATIQUE est essentiel. Chaque morceau doit sonner comme une scène de film futuriste.`
+  },
+  {
+    keywords: ["SDM"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-STREET MELODIC :
+- STYLE : Afro-Trap Mélodique, Street Melodic, Dark Afro.
+- VOCAL : Autotune mélodique, voix grave et posée, flow mélodique avec des accélérations rap. Alternance chant sombre / rap technique.
+- AD-LIBS : Mélodiques et graves (Ouh, Yeah).
+- THÈMES : Rue sombre, mélancolie nocturne, réussite amère, quartier, loyauté, trahison.
+- PRODUCTION : 808 profondes, mélodies sombres (piano, guitare), influences afro subtiles dans les percs, hi-hats complexes. Ambiance nocturne.
+- REGISTRE : Argot urbain, verlan, langage direct et émotionnel.`
+  },
+  {
+    keywords: ["NISKA"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-TRAP FESTIF :
+- STYLE : Afro-Trap, Dancehall-Rap, Festive Street.
+- VOCAL : Voix reconnaissable, autotune léger, flow dansant et rebondissant, alternance rap/chant. Énergie festive et contagieuse.
+- AD-LIBS : Rythmés et festifs, génériques (Hey, Ouh, Yeah, Allez).
+- THÈMES : Fête, danse, quartier, réussite, ambiance, énergie positive de la rue.
+- PRODUCTION : Percs afro (congas, djembé synthétiques), 808 rebondissantes, mélodies festives, influences dancehall. BPM typique 100-115.
+- REGISTRE : Argot urbain, expressions congolaises, langage festif et direct.`
+  },
+  {
+    keywords: ["CENTRAL CEE"],
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE UK RAP :
+- STYLE : UK Rap, Melodic Drill, London Street.
+- VOCAL : Voix claire, flow drill UK (sliding, syncopé), léger autotune mélodique sur les hooks. Accent londonien marqué. Alternance rap technique / mélodies accrocheuses.
+- AD-LIBS : Discrets, typés UK (Yeah, Uh).
+- THÈMES : Londres, hustling, flexing, relations, succès, street life UK.
+- PRODUCTION : 808 slides drill, hi-hats triolets, mélodies mélancoliques (piano, guitare), ambiance drill UK mais avec une touche mélodique. BPM typique 140-145.
+- REGISTRE : Anglais UK, slang londonien (mandem, ting, innit), MLE accent.
+- NOTE : Le son UK Drill est distinct du FR Drill — plus mélodique, moins agressif, plus "cool".`
+  },
+  {
     keywords: ["ALPHA WANN"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE TECHNIQUE FR :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE TECHNIQUE FR :
 - STYLE : Elite Technical French Rap, Modern Boom Bap, Dark Luxury Minimalism.
-- VOCAL : Voix de baryton sÃ¨che, AUCUN AUTOTUNE, articulation hyper-prÃ©cise, dÃ©bit rapide et technique, agression froide et contrÃ´lÃ©e. Pas de chant.
-- AD-LIBS : TrÃ¨s discrets et rythmÃ©s, purement gÃ©nÃ©riques (Yeah, Hey, Ouh).
-- THÃMES : Excellence technique, rimes multisyllabiques denses, densitÃ© de rimes internes, Paris, indÃ©pendance, luxe sombre.
-- PRODUCTION : Piano sombre et minimaliste (Sparse Dark Keys), textures de cloches subtiles, drums lourds et percutants (Heavy Punchy Drums, Tight Snare Crack), ligne de basse minimale. INTERDICTION de sonoritÃ©s jazzy, de samples soulful ou de swing chaleureux.
-- NOTE : Le flow doit Ãªtre une dÃ©monstration de technique pure, froid et chirurgical.`
+- VOCAL : Voix de baryton sèche, AUCUN AUTOTUNE, articulation hyper-précise, débit rapide et technique, agression froide et contrôlée. Pas de chant.
+- AD-LIBS : Très discrets et rythmés, purement génériques (Yeah, Hey, Ouh).
+- THÈMES : Excellence technique, rimes multisyllabiques denses, densité de rimes internes, Paris, indépendance, luxe sombre.
+- PRODUCTION : Piano sombre et minimaliste (Sparse Dark Keys), textures de cloches subtiles, drums lourds et percutants (Heavy Punchy Drums, Tight Snare Crack), ligne de basse minimale. INTERDICTION de sonorités jazzy, de samples soulful ou de swing chaleureux.
+- NOTE : Le flow doit être une démonstration de technique pure, froid et chirurgical.`
   },
   {
     keywords: ["KALASH"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE CARIBÃEN :
-- Utilise un mÃ©lange authentique de CRÃOLE MARTINIQUAIS et de FRANÃAIS.
-- Le style musical doit Ãªtre un mÃ©lange de DANCEHALL moderne, de TRAP et de sonoritÃ©s CARIBÃENNES.
-- IntÃ¨gre des ad-libs gÃ©nÃ©riques atmosphÃ©riques.
-- Le texte doit reflÃ©ter l'identitÃ© caribÃ©enne : entre mÃ©lodie planante et rap percutant.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CARIBÉEN :
+- STYLE : Dancehall moderne, Trap Caribéenne, Ragga-Rap.
+- VOCAL : Mélange chant mélodique / rap, autotune léger, accent antillais marqué. Flow dansant et rebondissant, alternance entre passages planants et percutants.
+- AD-LIBS : Atmosphériques et mélodiques, génériques.
+- THÈMES : Identité caribéenne, fierté insulaire, fête, mélancolie tropicale, rue, exil.
+- PRODUCTION : Riddims dancehall, percs tropicales, 808 rebondissantes, synthés atmosphériques, mélodies tropicales (steel drums, flûtes). BPM typique 90-110.
+- REGISTRE : Mélange CRÉOLE MARTINIQUAIS et FRANÇAIS. Expressions antillaises authentiques.
+- NOTE : Le mélange créole/français est NON-NÉGOCIABLE. L'identité caribéenne doit transparaître dans chaque ligne.`
   },
   {
     keywords: ["TIF"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE MAGHREB-MÃLO :
-- Utilise un mÃ©lange 50/50 de FRANÃAIS et de DARIJA (Arabe AlgÃ©rien).
-- INSTRUMENTATION : IntÃ¨gre impÃ©rativement des sonoritÃ©s de OUD, MANDOLE ou DERBOUKA dans le prompt de style. Utilise des guitares acoustiques mÃ©lancoliques.
-- THÃMES : Nostalgie d'Alger (Houma), exil, mÃ©lancolie solaire, les deux rives, la mer, le destin (Mektoub).
-- FLOW : MÃ©lodique, chantÃ©/rappÃ© avec une Ã©motion brute, souvent avec un lÃ©ger autotune pour la texture.
-- SLANG : 'Sahbi', 'Khoya', 'Dz', 'El Ghorba'.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MAGHREB-MÉLO :
+- STYLE : Raï-Trap, Algerian Urban Melodic, Mediterranean Melancholy.
+- VOCAL : Mélodique avec influences raï, autotune maîtrisé, voix émotionnelle, alternance chant/rap. Vibrato subtil sur les notes tenues.
+- AD-LIBS : Mélodiques, génériques.
+- THÈMES : Nostalgie d'Alger (Houma), exil, mélancolie solaire, les deux rives, la mer, le destin (Mektoub), amour impossible.
+- PRODUCTION : OUD, MANDOLE ou DERBOUKA intégrés dans le prompt de style. Guitares acoustiques mélancoliques, 808 profondes, mélodies orientales. Ambiance méditerranéenne émotionnelle.
+- REGISTRE : Mélange 50/50 FRANÇAIS et DARIJA (Arabe Algérien). Slang : 'Sahbi', 'Khoya', 'Dz', 'El Ghorba'.
+- NOTE : L'instrumentation orientale (oud, mandole, derbouka) est ESSENTIELLE à l'identité sonore.`
   },
   {
     keywords: ["TIAKOLA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE AFRO-MÃLO :
-- STYLE : Afro-mÃ©lodique pur (Melo).
-- FLOW : Ultra-mÃ©lodique, rapide, avec des variations de tonalitÃ© constantes.
-- AD-LIBS : Utilise des ad-libs mÃ©lodiques et rythmÃ©s, gÃ©nÃ©riques.
-- THÃMES : RÃ©ussite, loyautÃ©, fÃªte, mÃ©lodie.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-MÉLO :
+- STYLE : Afro-Mélodique pur, Melo, Afro-Pop urbaine.
+- VOCAL : Ultra-mélodique, AUTOTUNE MÉLODIQUE permanent, voix aiguë et lumineuse, variations de tonalité constantes, harmonies riches. Flow rapide et mélodique simultanément.
+- AD-LIBS : Mélodiques et rythmés, vocalises courtes, génériques (Ouh, Yeah, Hey).
+- THÈMES : Réussite, amour, loyauté, fête, danse, quartier, mélodie comme expression de joie et de douleur.
+- PRODUCTION : Percs afro (congas, shakers, djembé synthétiques), guitares mélodiques, 808 rebondissantes et chaudes, synthés lumineux, pads atmosphériques. BPM typique 100-120.
+- REGISTRE : Français avec influences Lingala subtiles, langage jeune et positif.
+- NOTE : La MÉLODIE est TOUT. Le chant ne s'arrête jamais. Chaque syllabe est chantée avec des variations mélodiques.`
   },
   {
     keywords: ["PNL", "ADEMO", "NOS"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE CLOUD RAP :
-- STYLE : Cloud Rap atmosphÃ©rique, planant, mÃ©lancolique.
-- LANGAGE : Utilise l'argot gÃ©nÃ©rique de la rue (verlan, argot urbain).
-- FLOW : Lent, autotunÃ© Ã  l'extrÃªme, spatial.
-- THÃMES : Solitude, famille, rÃ©ussite amÃ¨re, contemplation.
-- INTERDICTION : Aucun slang identifiable Ã  un artiste spÃ©cifique.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CLOUD RAP :
+- STYLE : Cloud Rap atmosphérique, Melodic Trap, Emotional Autotune.
+- VOCAL : Autotune OMNIPRÉSENT et artistique, voix planante, flow lent et spatial. Le chant mélodique EST le style — pas de rap sec. Voix doublées et superposées pour un effet éthéré.
+- AD-LIBS : Mélodiques, aériens, réverbérés (Ouh, Yeah). Très espacés.
+- THÈMES : Solitude, famille, réussite amère, contemplation urbaine, cité comme univers, nostalgie, mélancolie profonde.
+- PRODUCTION : Synthés atmosphériques et planants, 808 profondes et lentes, mélodies éthérées (piano, pads), réverb massive, production minimaliste mais immersive. BPM typique 70-90.
+- REGISTRE : Argot générique de la rue (verlan, argot urbain), langage émotionnel et introspectif.
+- NOTE : L'ambiance PLANANTE et MÉLANCOLIQUE est non-négociable. Tout doit flotter. INTERDICTION de flow agressif ou rapide.`
   },
   {
-    keywords: ["ROSALÃA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE FLAMENCO-FUSION :
-- STYLE : Flamenco expÃ©rimental, Art-Pop, Reggaeton dÃ©construit.
-- LANGAGE : Espagnol avec des expressions andalouses.
-- VOCAL : Textures vocales complexes, claquements de mains (Palmas), harmonies flamenco.`
+    keywords: ["ROSALÍA"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE FLAMENCO-FUSION :
+- STYLE : Flamenco expérimental, Art-Pop, Reggaeton déconstruit.
+- VOCAL : Voix puissante et expressive, mélismes flamenco, textures vocales complexes, claquements de mains (Palmas), harmonies flamenco. Capable de passer du murmure au cri.
+- AD-LIBS : Vocalisations flamenco (Ay, Olé), claquements rythmiques.
+- THÈMES : Féminité, pouvoir, tradition vs modernité, Andalousie, passion.
+- PRODUCTION : Palmas, guitare flamenca, 808 trap, synthés modernes, mélange organique/électronique.
+- REGISTRE : Espagnol avec expressions andalouses, vocabulaire viscéral.`
   },
   {
     keywords: ["BILLIE EILISH"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE DARK POP :
-- STYLE : Dark Pop, Alt-Pop, Minimaliste.
-- VOCAL : Chant murmurÃ© (whisper vocals), trÃ¨s proche du micro, voix doublÃ©es et harmonisÃ©es sombrement.
-- PRODUCTION : Basses lourdes et distordues, textures organiques et bruits de fond (ASMR-like).`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK POP :
+- STYLE : Dark Pop, Alt-Pop, Minimaliste, ASMR-Pop.
+- VOCAL : Chant murmuré (whisper vocals), très proche du micro, voix doublées et harmonisées sombrement. Passages entre murmure intime et moments de puissance brute.
+- AD-LIBS : Respirations audibles, murmures, sons organiques.
+- THÈMES : Anxiété, cauchemars, pouvoir silencieux, vulnérabilité, rébellion douce.
+- PRODUCTION : Basses lourdes et distordues (sub-bass extrême), textures organiques et bruits de fond (ASMR-like), minimalisme percutant, silence comme instrument.
+- NOTE : Le CONTRASTE silence/puissance et murmure/cri est la signature. La production doit être minimaliste mais massive.`
   },
   {
     keywords: ["AYA NAKAMURA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE AFRO-POP FR :
-- STYLE : Afro-Pop, R&B, Dancehall.
-- LANGAGE : FranÃ§ais avec argot urbain unique, expressions percutantes.
-- FLOW : ChaloupÃ©, hooks ultra-efficaces, voix puissante.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-POP FR :
+- STYLE : Afro-Pop, Pop-R&B urbaine, Dancehall-Pop.
+- VOCAL : Voix puissante et reconnaissable, autotune léger, flow chaloupé et dansant, hooks ultra-efficaces et mémorables. Chant mélodique dominant.
+- AD-LIBS : Rythmés et dansants (Hey, Allez, Ouh), ad-libs mélodiques courts.
+- THÈMES : Indépendance féminine, amour/désamour, danse, confiance en soi, vie nocturne.
+- PRODUCTION : Percs afro légères, guitares pop mélodiques, 808 chaudes et rebondissantes, production pop moderne et lumineuse. BPM typique 95-115.
+- REGISTRE : Français avec argot urbain unique, expressions percutantes et mémorables, langage direct et empowering.
+- NOTE : Les HOOKS sont la priorité. Chaque refrain doit être immédiatement mémorisable et dansant.`
   },
   {
     keywords: ["ORELSAN"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE STORYTELLING FR :
-- STYLE : Rap narratif, Storytelling, Pop-Rap.
-- THÃMES : Quotidien, cynisme, nostalgie, passage Ã  l'Ã¢ge adulte.
-- FLOW : Narratif, parlÃ©-chantÃ©, dÃ©bit technique.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE STORYTELLING FR :
+- STYLE : Rap narratif, Storytelling, Pop-Rap intelligent.
+- VOCAL : Voix naturelle et articulée, PAS d'autotune, flow narratif parlé-chanté, débit varié (lent/rapide selon la narration). Ton entre ironie et émotion sincère.
+- AD-LIBS : Quasi inexistants — la narration prime.
+- THÈMES : Quotidien, cynisme tendre, nostalgie, passage à l'âge adulte, absurdité de la vie moderne, province, classe moyenne, humour noir.
+- PRODUCTION : Productions variées (boom bap, électro, pop), samples créatifs, arrangements cinématiques pour les morceaux narratifs. Guitares, synthés, orchestrations ponctuelles.
+- REGISTRE : Français standard très accessible, humour, références culturelles populaires (pas élitistes), ton conversationnel.
+- NOTE : Le STORYTELLING est la signature. Chaque morceau raconte une histoire complète avec un arc narratif. L'écriture doit être spirituelle et touchante simultanément.`
   },
   {
     keywords: ["BURNA BOY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE AFROBEATS :
-- STYLE : Afrobeats, Afro-Fusion.
-- LANGAGE : Anglais, Pidgin, Yoruba.
-- INSTRUMENTATION : Cuivres (brass) puissants, percussions polyrythmiques.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFROBEATS :
+- STYLE : Afrobeats, Afro-Fusion, Afro-Pop.
+- VOCAL : Voix puissante et chaude, chant mélodique dominant, registre étendu (grave à aigu), légères influences reggae/dancehall dans le phrasé.
+- AD-LIBS : Vocalises africaines, exclamations mélodiques (Hey, Yeah, Jo).
+- THÈMES : Fierté africaine, fête, amour, résilience, Nigeria, pan-africanisme.
+- PRODUCTION : Cuivres (brass) puissants, percussions polyrythmiques (talking drums, congas, shakers), guitares afrobeat, basses groovy, mélodies lumineuses. BPM typique 100-120.
+- REGISTRE : Anglais, Pidgin Nigerian, Yoruba. Mélange linguistique naturel.
+- NOTE : L'ÉNERGIE FESTIVE et la FIERTÉ doivent dominer. Les cuivres et percussions polyrythmiques sont essentiels.`
   },
   {
     keywords: ["BAD BUNNY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE REGGAETON :
-- STYLE : Reggaeton, Latin Trap.
-- LANGAGE : Espagnol (accent Portoricain).
-- VOCAL : Voix grave, flow dembow syncopÃ©.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE REGGAETON :
+- STYLE : Reggaeton, Latin Trap, Perreo, Latin Urban.
+- VOCAL : Voix grave et distinctive, flow dembow syncopé, alternance rap/chant, autotune stylisé. Phrasé nonchalant et cool.
+- AD-LIBS : Latinos classiques (Yeh, Prr, Ouh), exclamations rythmées.
+- THÈMES : Fête, perreo, amour/désamour, fierté latine, Porto Rico, indépendance.
+- PRODUCTION : Dembow riddim (kick syncopé caractéristique), 808 lourdes, synthés latins, percs reggaeton, basses profondes. BPM typique 90-100.
+- REGISTRE : Espagnol portoricain, slang latino (perreo, bellaqueo, duro, mami, la calle).
+- NOTE : Le DEMBOW RIDDIM est non-négociable. Le rythme syncopé kick-snare est la base de tout.`
   },
   {
     keywords: ["DAFT PUNK"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE FRENCH HOUSE :
-- STYLE : French House, Electro-Funk.
-- VOCAL : Vocoder, Talkbox, voix robotique.
-- INSTRUMENTATION : SynthÃ©tiseurs vintage, boucles de basse funk.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE FRENCH HOUSE :
+- STYLE : French House, Electro-Funk, French Touch.
+- VOCAL : Vocoder, Talkbox, voix robotique. Très peu de paroles — la voix est un instrument.
+- AD-LIBS : Sons robotiques, vocoder glitches.
+- THÈMES : Technologie, futurisme, danse, nuit, émotion mécanique.
+- PRODUCTION : Synthétiseurs vintage (Moog, Juno), boucles de basse funk, side-chain pumping, samples funk/disco filtrés, drums électroniques précis.
+- NOTE : La VOIX ROBOTIQUE est la signature. Tout passe par le vocoder/talkbox.`
   },
   {
     keywords: ["TAME IMPALA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE PSYCHEDELIC :
-- STYLE : Psychedelic Pop, Indie Rock.
-- VOCAL : Falsetto aÃ©rien, rÃ©verbe/delay intense.
-- INSTRUMENTATION : SynthÃ©s analogiques, phaser sur la batterie.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE PSYCHEDELIC :
+- STYLE : Psychedelic Pop, Synth-Pop, Neo-Psychedelia.
+- VOCAL : Falsetto aérien, réverbe/delay intense, voix noyée dans la production, harmonies éthérées.
+- AD-LIBS : Vocalises réverbérées, sons planants.
+- THÈMES : Introspection, temps qui passe, solitude, transcendance, rêve éveillé.
+- PRODUCTION : Synthés analogiques (Juno, Prophet), phaser sur la batterie, basses groovy et profondes, réverb massive, production dense et immersive.
+- NOTE : La voix doit FLOTTER dans la production, pas dominer. L'immersion sonore est la priorité.`
   },
   {
     keywords: ["SOOLKING"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE RAÃ-POP :
-- STYLE : RaÃ¯-Pop, Algerian Pop.
-- LANGAGE : FranÃ§ais, Arabe (Darija).
-- INSTRUMENTATION : Violons, guitares acoustiques, percussions orientales.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAÏ-POP :
+- STYLE : Raï-Pop, Algerian Pop moderne, Mediterranean Urban.
+- VOCAL : Chant mélodique avec influences raï, autotune léger, voix émotionnelle et lumineuse.
+- AD-LIBS : Mélodiques, génériques.
+- THÈMES : Algérie, nostalgie, amour, fête, identité, deux cultures.
+- PRODUCTION : Violons orientaux, guitares acoustiques, percussions orientales (derbouka), mélodies pop modernes, 808 légères.
+- REGISTRE : Français et Darija, langage festif et émotionnel.`
   },
   {
     keywords: ["STROMAE"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE ART-POP :
-- STYLE : Art-Pop, Electro-Chanson.
-- LANGAGE : FranÃ§ais (accent Belge).
-- THÃMES : MÃ©lancolie dansante, critique sociale.
-- VOCAL : ArticulÃ©, thÃ©Ã¢tral, voix expressive.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE ART-POP :
+- STYLE : Art-Pop, Electro-Chanson, Belgian New Wave.
+- VOCAL : Articulé, théâtral, voix expressive et modulée, alternance entre chant puissant et parlé-chanté. Accent belge subtil.
+- AD-LIBS : Rares — la narration et la mélodie priment.
+- THÈMES : Mélancolie dansante, critique sociale, paternité, société moderne, solitude, absurdité.
+- PRODUCTION : Synthés électroniques modernes, influences africaines subtiles (rumba congolaise), beats dansants mais émotionnels, arrangements orchestraux ponctuels.
+- REGISTRE : Français (accent belge), langage accessible mais intelligent, humour noir.
+- NOTE : Le CONTRASTE entre mélancolie du texte et énergie dansante de la production est la signature.`
   },
   {
     keywords: ["KAARIS"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE HARDCORE TRAP :
-- STYLE : Hardcore Trap, Sevran.
-- FLOW : Agressif, saccadÃ©, ad-libs gutturaux.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE TRAP :
+- STYLE : Hardcore Trap, Aggressive Street Rap, Sevran.
+- VOCAL : Voix très grave et imposante, flow agressif et saccadé, AUCUN autotune mélodique, débit percutant. Ad-libs gutturaux.
+- AD-LIBS : Gutturaux et agressifs (Grrr, Ugh, Hey).
+- THÈMES : Violence, intimidation, rue, argent, compétition physique, survie.
+- PRODUCTION : 808 lourdes et saturées, drums percutants et agressifs, mélodies sombres minimalistes. BPM typique 130-145.
+- REGISTRE : Argot de rue hardcore, vocabulaire violent et direct, vulgarité comme ponctuation.
+- NOTE : L'AGRESSIVITÉ brute est non-négociable. Pas de mélodie, pas de douceur.`
   },
   {
     keywords: ["NATE DOGG"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE G-FUNK :
-- STYLE : G-Funk, West Coast R&B.
-- VOCAL : Voix de baryton veloutÃ©e, hooks mÃ©lodiques ultra-smooth.
-- THÃMES : FÃªte, chill, West Coast life.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE G-FUNK :
+- STYLE : G-Funk, West Coast R&B, Gangsta Soul.
+- VOCAL : Voix de baryton veloutée, hooks mélodiques ultra-smooth, harmonies riches. Chant R&B pur avec une attitude street.
+- THÈMES : Fête, chill, West Coast life, cruising, amour décontracté.
+- PRODUCTION : Synthés G-Funk (Moog/Minimoog), basses funk profondes, talk box, claps, drums groovy et lents. BPM typique 90-100.`
   },
   {
     keywords: ["VALD"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE EXPÃRIMENTAL :
-- STYLE : Rap expÃ©rimental, Ironique.
-- FLOW : ImprÃ©visible, rapide, variations de ton.
-- THÃMES : Absurde, ironie.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE EXPÉRIMENTAL :
+- STYLE : Rap expérimental, Ironique, Absurdiste.
+- VOCAL : Flow imprévisible et rapide, variations de ton constantes (grave/aigu, sérieux/comique), pas d'autotune. Capacité à rapper très vite.
+- AD-LIBS : Exclamations absurdes, onomatopées.
+- THÈMES : Absurde, ironie noire, satire sociale, provocation, humour trash, science-fiction.
+- PRODUCTION : Beats variés et imprévisibles (trap, boom bap, électro, rock), changements de tempo, samples inattendus.
+- REGISTRE : Français avec vocabulaire varié (soutenu → vulgaire), references geek et trash, jeux de mots.
+- NOTE : L'IMPRÉVISIBILITÉ est la signature. Chaque section peut changer de ton radicalement.`
   },
   {
     keywords: ["HAMZA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE MELODIC TRAP BELGE :
-- STYLE : Melodic Trap, R&B-infused Rap, Belgian Trap.
-- VOCAL : Autotune mÃ©lodique omniprÃ©sent, voix suave, nonchalante et sensuelle. Flow Ã©lastique.
-- AD-LIBS : GÃ©nÃ©riques (Yeah, Ouh, Hey) placÃ©s de maniÃ¨re aÃ©rÃ©e et mÃ©lodique.
-- THÃMES : Luxe, sensualitÃ©, vie nocturne, esthÃ©tique US.
-- PRODUCTION : SynthÃ©s smooth et luxueux. Basses 808 profondes, rondes. Hi-hats nets et aÃ©rÃ©s. Ambiance nocturne intense.
-- NOTE : INTERDICTION d'utiliser des ad-libs identifiables. Capture l'essence par la mÃ©lodie et le flow nonchalant.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC TRAP BELGE :
+- STYLE : Melodic Trap, R&B-infused Rap, Belgian Trap, Sauce Music.
+- VOCAL : Autotune mélodique omniprésent, voix suave, nonchalante et sensuelle. Flow élastique et fluide. Le chant mélodique EST le style.
+- AD-LIBS : Génériques (Yeah, Ouh, Hey) placés de manière aérée et mélodique.
+- THÈMES : Luxe, sensualité, vie nocturne, esthétique US, femmes, sauce, ambiance.
+- PRODUCTION : Synthés smooth et luxueux. Basses 808 profondes, rondes. Hi-hats nets et aérés. Ambiance nocturne intense. BPM typique 130-145.
+- REGISTRE : Français avec argot belge, anglicismes, vocabulaire luxe/mode.
+- NOTE : INTERDICTION de flow sec ou technique. Tout doit être MÉLODIQUE, SMOOTH et NONCHALANT.`
   },
   {
     keywords: ["BOOBA"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE HARDCORE RAP FR :
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE RAP FR :
 - STYLE : Hardcore Rap, Dark Trap, Drill, Cinematic Rap.
-- VOCAL : Voix grave, autoritaire, imposante. Autotune sombre sur les refrains. Flow saccadÃ©, prÃ©cis, punchlines percutantes.
-- AD-LIBS : GÃ©nÃ©riques (Grrr, Yeah, Hey, Ouh) placÃ©s de maniÃ¨re agressive.
-- THÃMES : RÃ©ussite solitaire, rue, compÃ©tition fÃ©roce, luxe froid, trahison, hÃ©ritage.
-- PRODUCTION : Dark, orchestrale, heavy 808s distordues, minimaliste mais massive. Choeurs sombres ou violons dramatiques.
-- NOTE : AUCUNE mention directe de surnoms, labels ou catchphrases identifiables.`
+- VOCAL : Voix grave, autoritaire, imposante. Autotune sombre sur les refrains uniquement. Flow saccadé, précis, punchlines percutantes. Rap technique dominant.
+- AD-LIBS : Génériques (Grrr, Yeah, Hey, Ouh) placés de manière agressive.
+- THÈMES : Réussite solitaire, rue, compétition féroce, luxe froid, trahison, héritage, domination.
+- PRODUCTION : Dark, orchestrale (choeurs sombres, violons dramatiques), heavy 808s distordues, minimaliste mais massive. Production cinématique.
+- REGISTRE : Vocabulaire riche et percutant, punchlines à double sens, argot de rue élaboré.
+- NOTE : La PUISSANCE et la DOMINATION sont non-négociables. Chaque punchline doit frapper.`
   },
   {
     keywords: ["TRAVIS SCOTT"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE PSYCHEDELIC TRAP :
-- STYLE : Psychedelic Trap, Dark Melodic.
-- VOCAL : Autotune Ã©pais, ad-libs gÃ©nÃ©riques (Yeah, Ouh, Hey).
-- PRODUCTION : Basses saturÃ©es, synthÃ©s atmosphÃ©riques, beat switches.
-- NOTE : INTERDICTION d'utiliser des catchphrases identifiables.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE PSYCHEDELIC TRAP :
+- STYLE : Psychedelic Trap, Dark Melodic Trap, Ambient Trap.
+- VOCAL : Autotune épais et artistique, voix modulée, ad-libs mélodiques génériques (Yeah, Ouh, Hey). Chant planant et spatial.
+- AD-LIBS : Mélodiques, réverbérés, récurrents et atmosphériques.
+- THÈMES : Nuit, fête cosmique, exaltation, chaos contrôlé, espace, substances.
+- PRODUCTION : Basses saturées et profondes, synthés atmosphériques et planants, beat switches fréquents, effets de phase/flanger, réverb massive. BPM typique 130-150.
+- NOTE : Les BEAT SWITCHES et l'ambiance COSMIQUE sont essentiels. La production doit évoluer constamment.`
   },
   {
     keywords: ["DRAKE"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE MELODIC RAP :
-- STYLE : Melodic Rap, R&B-infused Trap.
-- THÃMES : Relations, introspection, succÃ¨s.
-- FLOW : Transition fluide rap/chant, hooks mÃ©morables.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE MELODIC RAP :
+- STYLE : Melodic Rap, R&B-Trap, Emotional Pop-Rap.
+- VOCAL : Transition fluide rap/chant sans rupture, autotune léger et maîtrisé, hooks ultra-mémorables. Voix moyenne, flow smooth.
+- AD-LIBS : Discrets, mélodiques (Yeah, Ooh).
+- THÈMES : Relations amoureuses complexes, introspection, succès et solitude, nostalgie, Toronto, vulnérabilité masculine.
+- PRODUCTION : 808 profondes et chaudes, mélodies R&B (piano, guitare, pads), drums trap propres, ambiance nocturne et intime. BPM typique 130-145.
+- REGISTRE : Anglais, flow conversationnel, passages introspectifs.
+- NOTE : La DUALITÉ rap/chant fluide et les hooks mémorables sont la signature. Les refrains doivent être immédiatement fredonnables.`
   },
   {
     keywords: ["KENDRICK LAMAR"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE CONSCIOUS RAP :
-- STYLE : Conscious Rap, Jazz-Rap, West Coast.
-- FLOW : Technique complexe, changements de voix, storytelling profond.
-- THÃMES : Social, politique, hÃ©ritage, religion.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE CONSCIOUS RAP :
+- STYLE : Conscious Rap, Jazz-Rap, West Coast Lyrical, Experimental Hip-Hop.
+- VOCAL : Flow technique ultra-complexe, changements de voix et de personnages, storytelling profond. PAS d'autotune. Débit varié (lent/rapide), voix modulée selon le personnage.
+- AD-LIBS : Rares, intégrés à la narration.
+- THÈMES : Justice sociale, politique, héritage afro-américain, religion, introspection, Compton, dualité, rédemption.
+- PRODUCTION : Samples jazz (contrebasse, saxo, piano jazz), drums variés (boom bap, trap, live drums), éléments live, arrangements orchestraux, changements de tempo.
+- REGISTRE : Anglais, storytelling dense, métaphores profondes, références bibliques et politiques.
+- NOTE : La PROFONDEUR NARRATIVE et la TECHNIQUE VOCALE sont non-négociables. Chaque morceau doit avoir plusieurs niveaux de lecture.`
   },
   {
     keywords: ["PLAYBOI CARTI"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE RAGE/VAMP :
-- STYLE : Rage, Vamp, Minimalist Trap.
-- VOCAL : Baby voice, ad-libs gÃ©nÃ©riques (What, Yeah).
-- PRODUCTION : SynthÃ©s 8-bit, basses distordues.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAGE/VAMP :
+- STYLE : Rage, Vamp, Minimalist Trap, Punk Rap.
+- VOCAL : Baby voice, autotune extrême, voix aiguë et répétitive, flow minimaliste. Les mots sont des TEXTURES, pas du contenu — le son prime sur le sens.
+- AD-LIBS : Génériques omniprésents (What, Yeah, Slatt), répétés en boucle.
+- THÈMES : Minimalistes — style, flex, énergie pure, dark vibes, vampirisme esthétique.
+- PRODUCTION : Synthés 8-bit et distordus, basses extrêmement saturées, drums agressifs et minimalistes, mélodies dark et répétitives. BPM typique 150-175.
+- REGISTRE : Anglais minimaliste, phrases courtes et répétitives, onomatopées.
+- NOTE : Le MINIMALISME TEXTUEL est la signature. Peu de mots, beaucoup de vibe. La voix est un instrument rythmique, pas un véhicule narratif.`
   },
   {
     keywords: ["KANYE WEST"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE AVANT-GARDE RAP :
-- STYLE : Avant-Garde Rap, Gospel-Rap, Art-Pop.
-- PRODUCTION : Samples soul, choeurs, orchestration grandiose.
-- THÃMES : Ego, religion, mode, famille.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AVANT-GARDE RAP :
+- STYLE : Avant-Garde Rap, Gospel-Rap, Art-Pop, Maximalist Hip-Hop.
+- VOCAL : Voix expressive et variée, alternance rap/chant, flow imprévisible, autotune artistique ponctuellement. Capable de passer du murmure au cri.
+- AD-LIBS : Expressifs, exclamatifs (Hey, Hah, Yeah).
+- THÈMES : Ego, religion, mode, famille, grandiosité, santé mentale, art comme mission, controverse.
+- PRODUCTION : Samples soul choppés, choeurs gospel massifs, orchestration grandiose, drums percutants, changements de production radicaux. Maximalisme sonore.
+- REGISTRE : Anglais, vocabulaire varié, références culturelles larges (mode, art, religion).
+- NOTE : L'AMBITION ARTISTIQUE et les CHOEURS/SAMPLES SOUL sont non-négociables. Chaque morceau doit sonner comme un événement.`
   },
   {
     keywords: ["LANA DEL REY"],
-    instructions: `# INSTRUCTIONS SPÃCIFIQUES â STYLE DREAM POP :
-- STYLE : Dream Pop, Sadcore, Cinematic.
-- VOCAL : Chant langoureux, murmures, harmonies Ã©thÃ©rÃ©es.
-- THÃMES : Nostalgie, glamour tragique, Americana.`
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DREAM POP :
+- STYLE : Dream Pop, Sadcore, Cinematic, Americana.
+- VOCAL : Chant langoureux et traînant, murmures, harmonies éthérées, voix basse et veloutée. Phrasé lent et mélancolique.
+- AD-LIBS : Murmures, soupirs, vocalises mélancoliques.
+- THÈMES : Nostalgie, glamour tragique, Americana, amour toxique, Hollywood, beauté déchue, été éternel.
+- PRODUCTION : Réverbe massive, guitares surf, cordes cinématiques, drums lents et lourds, ambiance années 60 réimaginée.
+- REGISTRE : Anglais poétique, références à l'Amérique vintage, vocabulaire romantique et tragique.
+- NOTE : La LANGUEUR et la MÉLANCOLIE LUMINEUSE sont la signature. Tout doit sonner comme un souvenir doré.`
   }
 ];
 
@@ -230,6 +442,19 @@ export function getArtistSpecificInstructions(inspiredBy: string): string {
 }
 
 /**
+ * Check if the artist has a melodic profile (singing-dominant).
+ * Used to adapt system instructions (negative prompts, vocal rules).
+ */
+export function isArtistMelodic(inspiredBy: string): boolean {
+  if (!inspiredBy || inspiredBy === 'none') return false;
+  const upper = inspiredBy.toUpperCase();
+  const match = ARTIST_PROFILES.find(p =>
+    p.keywords.some(k => upper.includes(k))
+  );
+  return match?.isMelodic ?? false;
+}
+
+/**
  * Get relevant Writing DNA based on inspiredBy + genre.
  * Returns only the genre-relevant DNA section instead of all 20.
  */
@@ -238,73 +463,39 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   const dnaMap: Record<string, string> = {
     'RAP_FR': `RAP FR :
-- Utilise le Verlan, l'Argot de rue gÃ©nÃ©rique (ex: "charbon", "moula").
-- ThÃ¨mes : Rue, mÃ©lancolie, rÃ©ussite, trahison.
-- Flow : SaccadÃ© ou planant (Cloud).`,
+- Utilise le Verlan, l'Argot de rue générique (ex: "charbon", "moula").
+- Thèmes : Rue, mélancolie, réussite, trahison.
+- Flow : Saccadé ou planant (Cloud).`,
+
+    'MELODIC_STREET_POP': `MELODIC STREET POP / MARSEILLE :
+- Autotune mélodique omniprésent, voix chantée en permanence.
+- Thèmes : Quartier, loyauté, amour de rue, soleil et mélancolie.
+- Flow : Ultra-mélodique, rapide, rebondissant. Piano + 808 punchy.
+- INTERDICTION de flow rap sec pour ce style.`,
 
     'US_UK_RAP': `US/UK RAP :
-- Utilise impÃ©rativement l'ANGLAIS.
-- Slang US/UK gÃ©nÃ©rique : "no cap", "opps", "sliding", "stacks".
+- Utilise impérativement l'ANGLAIS.
+- Slang US/UK générique : "no cap", "opps", "sliding", "stacks".
 - Flow : Melodic trap, Dark psychedelic, Drill.`,
+includes('GAZO') || upper.includes('ALPHA') || upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('VALD') || upper.includes('NINHO') || upper.includes('DAMSO') || upper.includes('FREEZE'))) matchKeys.push('RAP_FR');
 
-    'REGGAETON': `REGGAETON / LATIN :
-- Utilise l'ESPAGNOL.
-- Slang : "perreo", "bellaqueo", "duro", "mami", "la calle".
-- Flow : Dembow syncopÃ©, flow sensuel ou agressif.`,
+  // Drill FR
+  if (upper.includes('DRILL') && upper.includes('FR') || upper.includes('GAZO')) matchKeys.push('DRILL_FR');
 
-    'AFROBEATS': `AFROBEATS :
-- Utilise l'ANGLAIS / PIDGIN / YORUBA.
-- Slang : "Gbedu", "Jo", "Vibe", "Rave".
-- Flow : MÃ©lodique, percutant, cuivres puissants.`,
+  // Dark Lyrical
+  if (upper.includes('FREEZE') || upper.includes('ALPHA WANN')) matchKeys.push('DARK_LYRICAL');
 
-    'CARIBBEAN': `CARIBBEAN / DANCEHALL :
-- Utilise un mÃ©lange de CRÃOLE et de FRANÃAIS (ou Patois).
-- Slang : "Gyal", "Shot", "Wine", "Riddim".
-- Flow : Dancehall syncopÃ©, saccadÃ© ou chantÃ© avec autotune lÃ©ger.`,
+  // US/UK Rap
+  if (upper.includes('DRAKE') || upper.includes('TRAVIS') || upper.includes('CENTRAL CEE') || upper.includes('KENDRICK') || upper.includes('CARTI') || upper.includes('KANYE') || upper.includes('DRILL') || upper.includes('UK')) matchKeys.push('US_UK_RAP');
 
-    'MAGHREB': `MAGHREB / CHAÃBI-TRAP :
-- Utilise un mÃ©lange de FRANÃAIS et d'ARABE (DARIJA).
-- Slang : "Khoya", "Sahbi", "Dz", "Mektoub".
-- Flow : MÃ©lodique, influencÃ© par le RaÃ¯ et le ChaÃ¢bi.`,
-
-    'AFRO_MELO': `AFRO-MELODIC / MELO :
-- Utilise le FRANÃAIS avec des influences Lingala ou Wolof.
-- ThÃ¨mes : Amour, rÃ©ussite, danse, mÃ©lodie pure.
-- Flow : Ultra-mÃ©lodique, harmonies riches, autotune maÃ®trisÃ©.`,
-
-    'STORYTELLING': `STORYTELLING / RELATABLE :
-- Utilise le FRANÃAIS standard, direct, imagÃ©.
-- ThÃ¨mes : Quotidien, cynisme, nostalgie, critique sociale.
-- Flow : Narratif, parlÃ©-chantÃ©, dÃ©bit technique.`,
-
-    'ELECTRO': `FRENCH HOUSE / ELECTRO :
-- Utilise l'ANGLAIS (souvent vocodÃ©).
-- ThÃ¨mes : Technologie, futurisme, danse.
-- Flow : Robotique, rythmÃ©, rÃ©pÃ©titif.`,
-
-    'MELODIC_TRAP': `MELODIC TRAP :
-- Autotune mÃ©lodique, voix suave et nonchalante.
-- ThÃ¨mes : Luxe, sensualitÃ©, vie nocturne.
-- Flow : Ultra-mÃ©lodique, flow nonchalant et fluide.`,
-
-    'HARDCORE': `HARDCORE RAP :
-- Voix grave, autoritaire. Autotune sombre sur les refrains.
-- ThÃ¨mes : RÃ©ussite, compÃ©tition, luxe froid.
-- Flow : SaccadÃ©, prÃ©cis, punchlines percutantes.`
-  };
-
-  // Match genre DNA
-  const matchKeys: string[] = [];
-  if (upper.includes('RAP') && (upper.includes('FR') || upper.includes('PNL') || upper.includes('GAZO') || upper.includes('ALPHA') || upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('VALD'))) matchKeys.push('RAP_FR');
-  if (upper.includes('DRAKE') || upper.includes('TRAVIS') || upper.includes('CENTRAL') || upper.includes('KENDRICK') || upper.includes('CARTI') || upper.includes('KANYE') || upper.includes('DRILL') || upper.includes('UK')) matchKeys.push('US_UK_RAP');
   if (upper.includes('REGGAETON') || upper.includes('LATIN') || upper.includes('BAD BUNNY') || upper.includes('BALVIN')) matchKeys.push('REGGAETON');
   if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('REMA') || upper.includes('WIZKID')) matchKeys.push('AFROBEATS');
   if (upper.includes('CARIBBEAN') || upper.includes('DANCEHALL') || upper.includes('KALASH')) matchKeys.push('CARIBBEAN');
-  if (upper.includes('MAGHREB') || upper.includes('RAÃ') || upper.includes('TIF') || upper.includes('SOOLKING') || upper.includes('ALGÃRI')) matchKeys.push('MAGHREB');
-  if (upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA') || upper.includes('TAYC') || upper.includes('DADJU'))) matchKeys.push('AFRO_MELO');
+  if (upper.includes('MAGHREB') || upper.includes('RAÏ') || upper.includes('TIF') || upper.includes('SOOLKING') || upper.includes('ALGÉRI')) matchKeys.push('MAGHREB');
+  if (upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA') || upper.includes('TAYC') || upper.includes('DADJU')) || upper.includes('NISKA') || upper.includes('SDM')) matchKeys.push('AFRO_MELO');
   if (upper.includes('ORELSAN') || upper.includes('LOMEPAL') || upper.includes('NEKFEU') || upper.includes('STORYTELL')) matchKeys.push('STORYTELLING');
   if (upper.includes('ELECTRO') || upper.includes('HOUSE') || upper.includes('DAFT') || upper.includes('JUSTICE') || upper.includes('STROMAE')) matchKeys.push('ELECTRO');
-  if (upper.includes('HAMZA') || upper.includes('MELODIC TRAP') || upper.includes('SAUCE')) matchKeys.push('MELODIC_TRAP');
+  if (upper.includes('HAMZA') || upper.includes('MELODIC TRAP') || upper.includes('SAUCE') || upper.includes('LAYLOW') || upper.includes('NINHO') || upper.includes('DAMSO')) matchKeys.push('MELODIC_TRAP');
   if (upper.includes('HARDCORE') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('KALASH CRIM')) matchKeys.push('HARDCORE');
 
   if (matchKeys.length === 0) {
