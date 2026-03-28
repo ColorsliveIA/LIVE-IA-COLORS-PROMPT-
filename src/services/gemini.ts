@@ -1,5 +1,5 @@
 import { Verse } from "../types";
-import { getArtistSpecificInstructions, getRelevantWritingDNA } from './artist-profiles';
+import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
 
 // Type enum replacement - these are used only in responseSchema
 const Type = {
@@ -125,10 +125,18 @@ export async function analyzeAudio(base64Data: string, mimeType: string) {
   });
 }
 
-function getGenreSpecificNegativePrompt(genre: string): string {
+// ARTIST-AWARE: Negative prompt adapts to melodic vs lyricist artists
+function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): string {
   const g = genre.toUpperCase();
+  const melodic = isArtistMelodic(inspiredBy);
+
   if (g.includes('RAP') || g.includes('HIP HOP') || g.includes('TRAP')) {
-    return "singing, pop vocals, acoustic guitar, happy, bright, cheesy, generic pop, country, rock, metal, opera, classical, high-pitched, autotune singing, melodic pop hooks, radio-friendly pop, bubblegum pop, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
+    if (melodic) {
+      // Melodic artists (JUL, PNL, Hamza, Ninho, etc.) — DO NOT exclude autotune/singing
+      return "country, rock, metal, opera, classical, high-pitched screaming, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
+    }
+    // Lyricist/technical artists — exclude melodic elements
+    return "singing, pop vocals, acoustic guitar, happy, bright, cheesy, generic pop, country, rock, metal, opera, classical, high-pitched, melodic pop hooks, radio-friendly pop, bubblegum pop, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
   }
   if (g.includes('HOUSE') || g.includes('TECHNO') || g.includes('ELECTRO')) {
     return "acoustic guitar, country, rock, metal, opera, classical, folk, jazz, blues, reggae, soul, funk, disco, r&b, hip hop, rap, trap, pop, ballad, slow, acoustic, unplugged, live";
@@ -179,7 +187,8 @@ export async function generateMusicContext(
   const productionFinishInfo = productionFinish !== 'none' ? `- Finition de Production : ${productionFinish}` : "";
   const secondaryArtistInfo = secondaryInspiredBy !== 'none' ? `- Artiste Secondaire (Style Blending) : ${secondaryInspiredBy}` : "";
   const advancedTagsInfo = advancedTags.length > 0 ? `- Tags ADN AvancÃ©s : ${advancedTags.join(', ')}` : "";
-  const genreNegativePrompt = getGenreSpecificNegativePrompt(genre);
+  // FIXED: Pass inspiredBy to make negative prompt artist-aware
+  const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
   const combinedNegativePrompt = [genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
   const negativePromptInfo = combinedNegativePrompt ? `- ÃLÃMENTS Ã EXCLURE ABSOLUMENT (NEGATIVE PROMPT) : ${combinedNegativePrompt}` : "";
   const weirdnessGuidanceText = "WEIRDNESS est un curseur UI Suno (0-100), pas un token texte. Recommande la valeur optimale pour ce genre/artiste. Style Influence sweet spot = 70-80%.";
@@ -209,6 +218,16 @@ ${artistIdentitySummary}
     ? "Langue : DÃ©duis la langue la plus appropriÃ©e selon le style de l'artiste inspirÃ©."
     : `Langue : ${language}`;
 
+  // ADAPTIVE: Vocal delivery rules change based on artist type (melodic vs lyricist)
+  const melodicArtist = isArtistMelodic(inspiredBy);
+  const vocalDeliveryRule = melodicArtist
+    ? `- VOCAL DELIVERY — ARTISTE MÉLODIQUE DÉTECTÉ : L'artiste "${inspiredBy}" est un artiste MÉLODIQUE. Le chant avec autotune EST sa signature. INTERDICTION de forcer un flow rap sec/technique. Privilégie le chant mélodique, les hooks chantés, les mélodies vocales. L'autotune mélodique est BIENVENU et ATTENDU.`
+    : `- VOCAL DELIVERY VARIETY : Pour le RAP/TRAP technique, privilégie un flow rythmique percutant (Staccato, Triplet flow, Off-beat) plutôt que du chant mélodique systématique. Varie entre [Rhythmic flow], [Melodic rap], [Aggressive chant] et [Spoken word].`;
+
+  const vocoderRule = melodicArtist
+    ? `- AUTOTUNE/VOCODER : Pour cet artiste mélodique, l'autotune est un OUTIL CRÉATIF ESSENTIEL, pas un défaut. Utilise-le de manière artistique et conforme à la signature de "${inspiredBy}".`
+    : `- ÉVITE LE VOCODER/CHANT SYSTÉMATIQUE : Si l'artiste est identifié comme "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mélodique. Le flow doit être sec, articulé et purement rappé.`;
+
   const systemInstruction = `Tu es un expert mondial en production musicale et en prompting pour Suno AI V5.5.
 
   RÃGLES CRITIQUES :
@@ -217,13 +236,13 @@ ${artistIdentitySummary}
   - REGISTRE DE LANGAGE : Adapte impÃ©rativement le vocabulaire selon l'intensitÃ© (${emotionalIntensity}/100) et l'Ã©nergie (${energy}/100).
     * Basse intensitÃ© : PoÃ©tique, imagÃ©, contemplatif.
     * Haute intensitÃ© : Cru, direct, percutant, utilisation d'argot technique.
-  - VOCAL DELIVERY VARIETY : Pour le RAP/TRAP, privilÃ©gie un flow rythmique percutant (Staccato, Triplet flow, Off-beat) plutÃ´t que du chant mÃ©lodique systÃ©matique. Varie entre [Rhythmic flow], [Melodic rap], [Aggressive chant] et [Spoken word].
+  ${vocalDeliveryRule}
   - VIBE & FLOW : La "vibe" est primordiale. Utilise des ad-libs atmosphÃ©riques (Ouh, Yeah, Skrr) pour crÃ©er de l'espace. Le "flow" doit Ãªtre Ã©lastique : alterne entre des moments rapides et des moments de silence ou de traÃ®nÃ©es vocales (vocal trails).
   - PRODUCTION QUALITY : Vise une qualitÃ© "Studio Master". Utilise des tags comme [High-fidelity], [Pristine clarity], [Punchy transients], [Warm analog saturation], [Wide stereo image].
   - CODES DU STYLE : IntÃ¨gre les tics de langage, les onomatopÃ©es et les placements rythmiques spÃ©cifiques au genre (ex: "Skrr", "Ouh", "Grrr" pour la Drill; ad-libs mÃ©lodiques pour le R&B).
   - ANTI-GÃNÃRIQUE & TEXTURES : BANNI les tags comme "Trap" ou "Pop". Utilise des textures sonores et vocales prÃ©cises (ex: [Industrial Dark Techno], [Ethereal Cloud Rap], [Crisp high-end], [Warm analog saturation], [Lo-fi grit], [Sidechained compression], [Stereo widening], [Punchy transients]).
   - ÃVITE LE "DARK ORCHESTRAL" SYSTÃMATIQUE : Pour le rap, n'utilise des Ã©lÃ©ments orchestraux (violons, choeurs) QUE si le profil artiste chargÃ© le demande expressÃ©ment. Sinon, privilÃ©gie des textures plus sÃ¨ches, jazzy, industrielles ou minimalistes.
-  - ÃVITE LE VOCODER/CHANT SYSTÃMATIQUE : Si l'artiste est identifiÃ© comme "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mÃ©lodique. Le flow doit Ãªtre sec, articulÃ© et purement rappÃ©.
+  ${vocoderRule}
   - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques, de labels ou de slogans/ad-libs iconiques trop identifiables. Aucun surnom, aucune catchphrase, aucun tag vocal reconnaissable.
   - AD-LIBS : Utilise des ad-libs gÃ©nÃ©riques mais stylÃ©s (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'Ã©nergie sans copier l'identitÃ©.
   - JSON : RÃ©ponds uniquement en JSON valide.
@@ -402,6 +421,7 @@ ${artistIdentitySummary}
       era: string;
       productionStyle: string;
       vocalSignature: string;
+      artistIdentitySummary?: string;
     }
   ): Promise<string> => {
     const variantGuidance = variantName === "EVOLUTION"
@@ -412,6 +432,10 @@ Exemple : si le CORE est du trap mélodique, explore le côté plus pop urbain, 
 Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
 Exemple : un rappeur sur une prod afrobeat, un chanteur pop sur une prod électro-minimaliste.`;
 
+    const identityBlock = artistContext.artistIdentitySummary
+      ? `\nANALYSE D'IDENTITÉ (données scannées) :\n${artistContext.artistIdentitySummary}\n`
+      : '';
+
     const variantPrompt = `Tu es un expert en production musicale Suno AI V5.5.
 
 ARTISTE DE RÉFÉRENCE : "${artistContext.inspiredBy}"
@@ -419,7 +443,7 @@ GENRE-RACINE : ${artistContext.genre}
 SIGNATURE VOCALE (À CONSERVER) : ${artistContext.vocalSignature}
 ERA : ${artistContext.era}
 STYLE DE PRODUCTION : ${artistContext.productionStyle}
-
+${identityBlock}
 CORE DNA (variante de base, pour référence) :
 "${coreVariant}"
 
@@ -515,8 +539,9 @@ Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caract
     const mainVariants = parsed.sunoPrompts || [coreVariant];
 
     // STEP 3: Build artist context from parsed response + input params
+    // FIXED: Regex was ]\] which created ]] and never matched — now uses single \]
     const artistVocalSig = parsed.sunoPrompt
-      ? (parsed.sunoPrompt.match(/\[([^\]]*(?:vocal|autotune|flow|raspy|breathy|melodic|singing)[^\]]*)]\]/i) || [])[1] || ""
+      ? (parsed.sunoPrompt.match(/\[([^\]]*(?:vocal|autotune|flow|raspy|breathy|melodic|singing)[^\]]*)\]/i) || [])[1] || ""
       : "";
     const artistContext = {
       inspiredBy: inspiredBy,
@@ -524,6 +549,8 @@ Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caract
       era: era,
       productionStyle: productionStyle,
       vocalSignature: artistVocalSig || `Style vocal caractéristique de ${inspiredBy}`
+      // FIXED: Pass artistIdentitySummary to variant calls so they benefit from the scan
+      artistIdentitySummary: artistIdentitySummary || undefined
     };
 
     // STEP 4: Generate EVOLUTION (temp 1.0) and FUSION (temp 1.3) in parallel
@@ -625,7 +652,7 @@ export async function getArtistVocalIdentity(artistName: string) {
       config: {
         responseMimeType: "application/json",
         tools: [{ googleSearch: {} }],
-        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques prÃ©cises des voix d'artistes cÃ©lÃ¨bres. IMPORTANT : Pour les artistes de CLOUD RAP, analyse avec une attention particuliÃ¨re le mÃ©lange entre chant mÃ©lodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
+        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques prÃ©cises des voix d'artistes cÃ©lÃ¨bres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mélodique, etc.), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
       }
     });
 
