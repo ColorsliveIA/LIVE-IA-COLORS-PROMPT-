@@ -330,28 +330,24 @@ ${artistIdentitySummary}
      - Inclus des textures de production prÃ©cises : [Tape saturation], [Vinyl crackle], [Bitcrushed], [Wide soundstage], [Analog warmth], [Distorted sub-bass].
      - Inclus des textures vocales prÃ©cises basÃ©es sur l'artiste : [Raspy vocals], [Breathy delivery], [Heavily autotuned], [Dry vocals], [Layered harmonies], [Whisper vocals].
      - Respecte impÃ©rativement le style de production demandÃ© : ${productionStyle}.
-  8. VARIANTS (sunoPrompts) â CONTRAINTES D'EXCLUSION CROISÃE :
-     Propose 3 variantes de style RADICALEMENT distinctes. Chaque variante DOIT diverger des autres sur AU MOINS 3 des 6 dimensions du Style Box.
-     - Variante 1 : **CORE DNA** (L'essence pure de l'artiste et du genre, Ã©quilibre parfait entre flow et mÃ©lodie).
-     - Variante 2 : **TWIST** (Direction inattendue. OBLIGATOIRE : BPM diffÃ©rent de Â±15, GRAIN opposÃ©, ÃRE dÃ©calÃ©e d'au moins 10 ans par rapport Ã  V1).
-     - Variante 3 : **WILD CARD** (ExpÃ©rimental, fusion cross-genre. OBLIGATOIRE : STYLE BLEND sans aucun sous-genre commun avec V1, INSTRUMENTS totalement diffÃ©rents, ESPACE inversÃ© par rapport Ã  V1 et V2).
+  8. VARIANTS (sunoPrompts) — DIVERGENCE GUIDÉE PAR L'ADN ARTISTE :
+     Propose 3 variantes de style qui explorent DIFFÉRENTES FACETTES de l'univers musical de "${inspiredBy}".
+     RÈGLE D'OR : Toutes les variantes DOIVENT rester reconnaissables comme l'artiste "${inspiredBy}". La signature vocale et le genre-racine sont VERROUILLÉS.
+     
+     - Variante 1 : **CORE DNA** — L'essence pure de l'artiste. Son son le plus iconique, fidèle à sa signature.
+     - Variante 2 : **EVOLUTION** — Une facette adjacente crédible. Même artiste, production légèrement différente (ex: si l'artiste fait du trap mélodique, explorer son côté plus pop urbain ou plus sombre). Diverge sur 2 dimensions max (BPM ±10-20, ERA ou GRAIN).
+     - Variante 3 : **FUSION** — L'artiste sur une production cross-genre cohérente (ex: un rappeur sur une prod afrobeat, un chanteur R&B sur une prod électro). Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
 
-     MATRICE D'EXCLUSION (respecter impÃ©rativement) :
-     | Dimension     | Si V1 utilise...           | V2 INTERDIT             | V3 INTERDIT                    |
-     | STYLE BLEND   | sous-genre X               | sous-genre X            | tous sous-genres de V1 et V2   |
-     | BPM           | fourchette A               | fourchette A Â±10        | fourchettes A et B Â±10         |
-     | GRAIN         | texture chaude (analog)    | texture chaude          | textures de V1 et V2           |
-     | ESPACE        | rÃ©verb large               | rÃ©verb large            | configs spatiales de V1 et V2  |
-     | INSTRUMENTS   | instrument dominant X      | instrument X            | instruments de V1 et V2        |
-     | ÃRE           | dÃ©cennie X                 | dÃ©cennie X ou adjacente | dÃ©cennies de V1 et V2          |
+     ANCRAGE OBLIGATOIRE (commun aux 3 variantes) :
+     - La SIGNATURE VOCALE de l'artiste est identique dans les 3 variantes (même delivery, même effet vocal)
+     - Le GENRE-RACINE reste présent ou adjacent (pas de saut vers un genre sans rapport)
+     - Le FORMAT est identique : [3 sous-genres/textures] + [BPM, Key] + [GRAIN] + [ESPACE] + [INSTRUMENTS] + [ERA]
+     - AUCUN label de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.) — juste les valeurs entre crochets
 
-     DIVERGENCE VOCALE CROISÃE :
-     - Si V1 = [Raspy flow], V2 DOIT utiliser un delivery opposÃ© ([Breathy melodic] ou [Spoken word])
-     - V3 DOIT utiliser un delivery absent de V1 et V2 ([Falsetto], [Whisper], [Belt], [Distorted])
-
-     EXEMPLES DE DIVERGENCE ATTENDUE :
-     - V1: [Dark Trap, Distorted 808, 140BPM, 2020s] â V2: [Neo-Soul Jazz, Upright Bass, 95BPM, 1990s] â V3: [Industrial Electro, Modular Synth, 170BPM, 2000s]
-     - V1: [Melodic Cloud Rap, Ethereal, 75BPM] â V2: [Aggressive Boom Bap, Dry/Punchy, 90BPM] â V3: [Ambient Downtempo, Tape-Saturated, 60BPM]
+     EXEMPLES DE DIVERGENCE COHÉRENTE (pour un artiste type JUL) :
+     - V1: [Melodic Marseille Urban, Street Pop, Emotional Autotune] + [126BPM, G Minor] + [Crisp Digital Clarity] + [Wide Stereo Reverb] + [Piano, Punchy 808, Synthetic Percs] + [2020s]
+     - V2: [Sun-Kissed Mediterranean Pop, Bouncy Urban, Light Autotune] + [112BPM, C Major] + [Bright Digital Polish] + [Airy Open Space] + [Tropical Synth, Melodic Bass, Steel Drums] + [2020s]
+     - V3: [Afro-Urban Marseille, Dancehall-Infused Street] + [105BPM, A Minor] + [Warm Tape Saturation] + [Intimate Club Presence] + [Afro Percussion, Deep 808, Brass Stabs] + [2020s]
   9. LYRICS & STRUCTURE :
      - GÃNÃRE UNE STRUCTURE COMPLÃTE ET PROFESSIONNELLE respectant impÃ©rativement la structure demandÃ©e (Intro, Verses, Choruses, etc.).
      - Utilise [ ] pour TOUTES les balises de structure et de production (ex: [Intro], [Chorus], [Build], [Drop]).
@@ -392,46 +388,54 @@ ${artistIdentitySummary}
 
   // --- TEMPERATURE-VARIED GENERATION ---
   // Main call (temp 0.7): generates everything + CORE DNA variant
-  // Then 2 parallel lightweight calls (temp 1.3 & 1.8) regenerate variants 2 & 3
+  // Then 2 parallel lightweight calls (temp 1.0 & 1.3) regenerate variants 2 & 3 with artist context
   const maxRetries = 3;
 
-  // Helper: generate a single style variant with specific temperature
+  // Helper: generate a single style variant with artist context anchoring
   const generateStyleVariant = async (
     variantName: string,
     temperature: number,
     coreVariant: string,
-    otherVariant: string | null
+    artistContext: {
+      inspiredBy: string;
+      genre: string;
+      era: string;
+      productionStyle: string;
+      vocalSignature: string;
+    }
   ): Promise<string> => {
-    const exclusionContext = otherVariant
-      ? `VARIANTE CORE DNA (EXCLURE CES ÃLÃMENTS) : "${coreVariant}"
-VARIANTE PRÃCÃDENTE (EXCLURE AUSSI) : "${otherVariant}"`
-      : `VARIANTE CORE DNA (EXCLURE CES ÃLÃMENTS) : "${coreVariant}"`;
+    const variantGuidance = variantName === "EVOLUTION"
+      ? `Tu dois créer une EVOLUTION du style de base. Même artiste, facette adjacente crédible.
+Diverge sur 2 dimensions maximum (BPM ±10-20, ERA ou GRAIN). Le reste doit rester proche du CORE DNA.
+Exemple : si le CORE est du trap mélodique, explore le côté plus pop urbain, ou plus sombre, ou plus festif.`
+      : `Tu dois créer une FUSION cross-genre cohérente. L'artiste "${artistContext.inspiredBy}" sur une production d'un genre adjacent.
+Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
+Exemple : un rappeur sur une prod afrobeat, un chanteur pop sur une prod électro-minimaliste.`;
 
-    const variantPrompt = `Tu es un expert en production musicale et en prompting Suno AI V5.5.
+    const variantPrompt = `Tu es un expert en production musicale Suno AI V5.5.
 
-Contexte de la session :
-- Genre : ${genre || 'NON SPÃCIFIÃ'}
-- Ambiance : ${mood || 'NON SPÃCIFIÃ'}
-- InspirÃ© par : ${inspiredBy}
-- Ãpoque/Era : ${era}
-- Production Style : ${productionStyle}
-- BPM base : ${bpmInfo}
-- Weirdness : ${weirdness}/100
-- Style Influence : ${styleInfluence}/100
+ARTISTE DE RÉFÉRENCE : "${artistContext.inspiredBy}"
+GENRE-RACINE : ${artistContext.genre}
+SIGNATURE VOCALE (À CONSERVER) : ${artistContext.vocalSignature}
+ERA : ${artistContext.era}
+STYLE DE PRODUCTION : ${artistContext.productionStyle}
 
-${exclusionContext}
+CORE DNA (variante de base, pour référence) :
+"${coreVariant}"
 
-MISSION : GÃ©nÃ¨re UNE SEULE variante de style prompt "${variantName}" pour Suno V5.5.
+MISSION : ${variantGuidance}
 
-RÃGLES :
-- Format 6 DIMENSIONS (200-250 chars) : [STYLE BLEND: 3 sous-genres/textures] + [BPM: fourchette, Key: tonalitÃ©] + [GRAIN: texture sonore] + [ESPACE: profondeur/rÃ©verb] + [INSTRUMENTS: Ã©lÃ©ments dominants] + [ÃRE: dÃ©cennie]
-- EXCLUSION ABSOLUE : Aucun sous-genre, aucune texture, aucun instrument, aucun BPM similaire aux variantes exclues ci-dessus.
-- Diverge sur AU MOINS 3 des 6 dimensions par rapport Ã  chaque variante exclue.
-- Front-load les textures les plus importantes. PrivilÃ©gie les adjectifs de texture aux noms de genre.
-- Inclus des textures de production prÃ©cises : [Tape saturation], [Vinyl crackle], [Bitcrushed], [Wide soundstage], [Analog warmth], [Distorted sub-bass].
-- ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques ou de labels.
+FORMAT STRICT (200-250 caractères) :
+[3 sous-genres/textures] + [BPM, Key] + [texture sonore] + [espace/réverb] + [instruments dominants] + [décennie]
 
-RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 caractÃ¨res), sans JSON, sans backticks, sans explication.`;
+RÈGLES ABSOLUES :
+- PAS de labels de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.)
+- La signature vocale de l'artiste DOIT transparaître dans les textures choisies
+- Le résultat DOIT sonner comme une chanson crédible de "${artistContext.inspiredBy}", pas comme un genre random
+- Front-load les textures. Privilégie les adjectifs de texture aux noms de genre.
+- ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques ou de labels.
+
+Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caractères), sans JSON, sans backticks, sans explication.`;
 
     try {
       const response = await withRetry(async () => {
@@ -440,14 +444,14 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 ca
           contents: variantPrompt,
           config: {
             temperature: temperature,
-            systemInstruction: "Tu es un expert en production musicale Suno V5.5. RÃ©ponds UNIQUEMENT avec le prompt de style demandÃ©, rien d'autre."
+            systemInstruction: `Tu es un expert en production musicale Suno V5.5 spécialisé dans le style de "${artistContext.inspiredBy}". Réponds UNIQUEMENT avec le prompt de style demandé, rien d'autre. Le résultat doit sonner comme cet artiste.`
           }
         });
-      }, 2); // 2 retries for variant calls (lighter)
+      }, 2);
       return (response.text || "").trim().replace(/^["']|["']$/g, '');
     } catch (e) {
       console.warn(`Variant "${variantName}" generation failed, using fallback from main call`);
-      return ""; // empty = keep main call's variant
+      return "";
     }
   };
 
@@ -510,17 +514,29 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 ca
     const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts && parsed.sunoPrompts[0]) || "";
     const mainVariants = parsed.sunoPrompts || [coreVariant];
 
-    // STEP 3: Generate TWIST (temp 1.3) and WILD CARD (temp 1.8) in parallel
-    const [twistVariant, wildVariant] = await Promise.all([
-      generateStyleVariant("TWIST", 1.3, coreVariant, null),
-      generateStyleVariant("WILD CARD", 1.8, coreVariant, mainVariants[1] || null)
+    // STEP 3: Build artist context from parsed response + input params
+    const artistVocalSig = parsed.sunoPrompt
+      ? (parsed.sunoPrompt.match(/\[([^\]]*(?:vocal|autotune|flow|raspy|breathy|melodic|singing)[^\]]*)]\]/i) || [])[1] || ""
+      : "";
+    const artistContext = {
+      inspiredBy: inspiredBy,
+      genre: genre || parsed.sunoPrompt?.split(',')[0]?.replace(/[\[\]]/g, '') || "",
+      era: era,
+      productionStyle: productionStyle,
+      vocalSignature: artistVocalSig || `Style vocal caractéristique de ${inspiredBy}`
+    };
+
+    // STEP 4: Generate EVOLUTION (temp 1.0) and FUSION (temp 1.3) in parallel
+    const [evolutionVariant, fusionVariant] = await Promise.all([
+      generateStyleVariant("EVOLUTION", 1.0, coreVariant, artistContext),
+      generateStyleVariant("FUSION", 1.3, coreVariant, artistContext)
     ]);
 
-    // STEP 4: Merge â use regenerated variants, fallback to main call's if generation failed
+    // STEP 5: Merge — use regenerated variants, fallback to main call's if generation failed
     const finalVariants = [
       coreVariant,
-      twistVariant || mainVariants[1] || coreVariant,
-      wildVariant || mainVariants[2] || coreVariant
+      evolutionVariant || mainVariants[1] || coreVariant,
+      fusionVariant || mainVariants[2] || coreVariant
     ];
 
     return {
