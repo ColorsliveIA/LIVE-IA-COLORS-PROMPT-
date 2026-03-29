@@ -1,5 +1,6 @@
 import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
+import { getArtistSonicDNA } from './sonic-dna';
 
 // Type enum replacement - these are used only in responseSchema
 const Type = {
@@ -132,10 +133,10 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
 
   if (g.includes('RAP') || g.includes('HIP HOP') || g.includes('TRAP')) {
     if (melodic) {
-      // Melodic artists (JUL, PNL, Hamza, Ninho, etc.) — DO NOT exclude autotune/singing
+      // Melodic artists (JUL, PNL, Hamza, Ninho, etc.) â DO NOT exclude autotune/singing
       return "country, rock, metal, opera, classical, high-pitched screaming, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
     }
-    // Lyricist/technical artists — exclude melodic elements
+    // Lyricist/technical artists â exclude melodic elements
     return "singing, pop vocals, acoustic guitar, happy, bright, cheesy, generic pop, country, rock, metal, opera, classical, high-pitched, melodic pop hooks, radio-friendly pop, bubblegum pop, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
   }
   if (g.includes('HOUSE') || g.includes('TECHNO') || g.includes('ELECTRO')) {
@@ -189,7 +190,11 @@ export async function generateMusicContext(
   const advancedTagsInfo = advancedTags.length > 0 ? `- Tags ADN AvancÃ©s : ${advancedTags.join(', ')}` : "";
   // FIXED: Pass inspiredBy to make negative prompt artist-aware
   const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
-  const combinedNegativePrompt = [genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
+  // SONIC DNA: Load pre-tested Suno V5.5 style template for this artist
+  const sonicDNA = getArtistSonicDNA(inspiredBy);
+  const artistExcludeStyles = sonicDNA?.sunoExcludeStyles || '';
+  // SONIC DNA: Use artist-specific exclude styles if available, fallback to genre-based
+  const combinedNegativePrompt = [artistExcludeStyles || genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
   const negativePromptInfo = combinedNegativePrompt ? `- ÃLÃMENTS Ã EXCLURE ABSOLUMENT (NEGATIVE PROMPT) : ${combinedNegativePrompt}` : "";
   const weirdnessGuidanceText = "WEIRDNESS est un curseur UI Suno (0-100), pas un token texte. Recommande la valeur optimale pour ce genre/artiste. Style Influence sweet spot = 70-80%.";
   const sunoV55Info = `
@@ -221,12 +226,12 @@ ${artistIdentitySummary}
   // ADAPTIVE: Vocal delivery rules change based on artist type (melodic vs lyricist)
   const melodicArtist = isArtistMelodic(inspiredBy);
   const vocalDeliveryRule = melodicArtist
-    ? `- VOCAL DELIVERY — ARTISTE MÉLODIQUE DÉTECTÉ : L'artiste "${inspiredBy}" est un artiste MÉLODIQUE. Le chant avec autotune EST sa signature. INTERDICTION de forcer un flow rap sec/technique. Privilégie le chant mélodique, les hooks chantés, les mélodies vocales. L'autotune mélodique est BIENVENU et ATTENDU.`
-    : `- VOCAL DELIVERY VARIETY : Pour le RAP/TRAP technique, privilégie un flow rythmique percutant (Staccato, Triplet flow, Off-beat) plutôt que du chant mélodique systématique. Varie entre [Rhythmic flow], [Melodic rap], [Aggressive chant] et [Spoken word].`;
+    ? `- VOCAL DELIVERY â ARTISTE MÃLODIQUE DÃTECTÃ : L'artiste "${inspiredBy}" est un artiste MÃLODIQUE. Le chant avec autotune EST sa signature. INTERDICTION de forcer un flow rap sec/technique. PrivilÃ©gie le chant mÃ©lodique, les hooks chantÃ©s, les mÃ©lodies vocales. L'autotune mÃ©lodique est BIENVENU et ATTENDU.`
+    : `- VOCAL DELIVERY VARIETY : Pour le RAP/TRAP technique, privilÃ©gie un flow rythmique percutant (Staccato, Triplet flow, Off-beat) plutÃ´t que du chant mÃ©lodique systÃ©matique. Varie entre [Rhythmic flow], [Melodic rap], [Aggressive chant] et [Spoken word].`;
 
   const vocoderRule = melodicArtist
-    ? `- AUTOTUNE/VOCODER : Pour cet artiste mélodique, l'autotune est un OUTIL CRÉATIF ESSENTIEL, pas un défaut. Utilise-le de manière artistique et conforme à la signature de "${inspiredBy}".`
-    : `- ÉVITE LE VOCODER/CHANT SYSTÉMATIQUE : Si l'artiste est identifié comme "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mélodique. Le flow doit être sec, articulé et purement rappé.`;
+    ? `- AUTOTUNE/VOCODER : Pour cet artiste mÃ©lodique, l'autotune est un OUTIL CRÃATIF ESSENTIEL, pas un dÃ©faut. Utilise-le de maniÃ¨re artistique et conforme Ã  la signature de "${inspiredBy}".`
+    : `- ÃVITE LE VOCODER/CHANT SYSTÃMATIQUE : Si l'artiste est identifiÃ© comme "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mÃ©lodique. Le flow doit Ãªtre sec, articulÃ© et purement rappÃ©.`;
 
   const systemInstruction = `Tu es un expert mondial en production musicale et en prompting pour Suno AI V5.5.
 
@@ -271,7 +276,7 @@ ${artistIdentitySummary}
   - [Instrument: Piano/808 Bass/Strings (Legato)/Synth Pads/etc.]
   SYMBOLES DE DYNAMIQUE :
   - MAJUSCULES = criÃ©/emphase forte
-  - (texte) = chÅurs/backing vocals
+  - (texte) = choeurs/backing vocals
   - ~mot~ = note allongÃ©e/mÃ©lisme
   - *mot* = emphase
   - mot- = coupÃ© abruptement
@@ -289,6 +294,21 @@ ${artistIdentitySummary}
     ? `\n# INSTRUCTION FINITION PRODUCTION (V5.5) :\n- FINITION : ${productionFinish}.\n- NOTE : Utilise des tags de production spÃ©cifiques pour obtenir ce rendu sonore (ex: [Binaural], [Sidechain], [Mid-Side]).\n`
     : "";
 
+  // SONIC DNA BLOCK: Inject pre-tested Suno template as foundation for style generation
+  const sonicDNABlock = sonicDNA ? `
+# SONIC DNA (PRE-TESTED SUNO V5.5 TEMPLATE â USE AS FOUNDATION):
+CRITICAL: Le template ci-dessous a Ã©tÃ© testÃ© et validÃ© sur Suno V5.5 pour reproduire fidÃ¨lement le son de "${inspiredBy}".
+Tu DOIS l'utiliser comme BASE FONDAMENTALE pour le sunoPrompt principal (variante CORE DNA).
+Tu peux l'enrichir, l'affiner ou le rÃ©ordonner, mais les tokens-clÃ©s et textures DOIVENT rester prÃ©sents.
+
+TEMPLATE VALIDÃ: ${sonicDNA.sunoStyleTemplate}
+BPM RANGE: ${sonicDNA.sunoBpmRange}
+KEY: ${sonicDNA.sunoKey}
+VOCAL TAGS Ã INTÃGRER: ${sonicDNA.sunoVocalTags.join(' ')}
+WEIRDNESS OPTIMAL: ${sonicDNA.sunoWeirdness}/100
+STYLE INFLUENCE OPTIMAL: ${sonicDNA.sunoStyleInfluence}/100
+` : '';
+
   // OPTIMIZED: Artist-specific instructions loaded from dictionary (saves ~80% tokens)
   const artistSpecifics = getArtistSpecificInstructions(inspiredBy);
 
@@ -303,6 +323,8 @@ ${artistIdentitySummary}
   ${advancedTagsInfo}
 
   ${artistSpecifics}
+
+  ${sonicDNABlock}
 
   ${artistIdentityInfo}
 
@@ -349,21 +371,21 @@ ${artistIdentitySummary}
      - Inclus des textures de production prÃ©cises : [Tape saturation], [Vinyl crackle], [Bitcrushed], [Wide soundstage], [Analog warmth], [Distorted sub-bass].
      - Inclus des textures vocales prÃ©cises basÃ©es sur l'artiste : [Raspy vocals], [Breathy delivery], [Heavily autotuned], [Dry vocals], [Layered harmonies], [Whisper vocals].
      - Respecte impÃ©rativement le style de production demandÃ© : ${productionStyle}.
-  8. VARIANTS (sunoPrompts) — DIVERGENCE GUIDÉE PAR L'ADN ARTISTE :
-     Propose 3 variantes de style qui explorent DIFFÉRENTES FACETTES de l'univers musical de "${inspiredBy}".
-     RÈGLE D'OR : Toutes les variantes DOIVENT rester reconnaissables comme l'artiste "${inspiredBy}". La signature vocale et le genre-racine sont VERROUILLÉS.
-     
-     - Variante 1 : **CORE DNA** — L'essence pure de l'artiste. Son son le plus iconique, fidèle à sa signature.
-     - Variante 2 : **EVOLUTION** — Une facette adjacente crédible. Même artiste, production légèrement différente (ex: si l'artiste fait du trap mélodique, explorer son côté plus pop urbain ou plus sombre). Diverge sur 2 dimensions max (BPM ±10-20, ERA ou GRAIN).
-     - Variante 3 : **FUSION** — L'artiste sur une production cross-genre cohérente (ex: un rappeur sur une prod afrobeat, un chanteur R&B sur une prod électro). Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
+  8. VARIANTS (sunoPrompts) â DIVERGENCE GUIDÃE PAR L'ADN ARTISTE :
+     Propose 3 variantes de style qui explorent DIFFÃRENTES FACETTES de l'univers musical de "${inspiredBy}".
+     RÃGLE D'OR : Toutes les variantes DOIVENT rester reconnaissables comme l'artiste "${inspiredBy}". La signature vocale et le genre-racine sont VERROUILLÃS.
+
+     - Variante 1 : **CORE DNA** â L'essence pure de l'artiste. Son son le plus iconique, fidÃ¨le Ã  sa signature.
+     - Variante 2 : **EVOLUTION** â Une facette adjacente crÃ©dible. MÃªme artiste, production lÃ©gÃ¨rement diffÃ©rente (ex: si l'artiste fait du trap mÃ©lodique, explorer son cÃ´tÃ© plus pop urbain ou plus sombre). Diverge sur 2 dimensions max (BPM Â±10-20, ERA ou GRAIN).
+     - Variante 3 : **FUSION** â L'artiste sur une production cross-genre cohÃ©rente (ex: un rappeur sur une prod afrobeat, un chanteur R&B sur une prod Ã©lectro). Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractÃ©ristique.
 
      ANCRAGE OBLIGATOIRE (commun aux 3 variantes) :
-     - La SIGNATURE VOCALE de l'artiste est identique dans les 3 variantes (même delivery, même effet vocal)
-     - Le GENRE-RACINE reste présent ou adjacent (pas de saut vers un genre sans rapport)
+     - La SIGNATURE VOCALE de l'artiste est identique dans les 3 variantes (mÃ©me delivery, mÃªme effet vocal)
+     - Le GENRE-RACINE reste prÃ©sent ou adjacent (pas de saut vers un genre sans rapport)
      - Le FORMAT est identique : [3 sous-genres/textures] + [BPM, Key] + [GRAIN] + [ESPACE] + [INSTRUMENTS] + [ERA]
-     - AUCUN label de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.) — juste les valeurs entre crochets
+     - AUCUN label de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.) â juste les valeurs entre crochets
 
-     EXEMPLES DE DIVERGENCE COHÉRENTE (pour un artiste type JUL) :
+     EXEMPLES DE DIVERGENCE COHÃRENTE (pour un artiste type JUL) :
      - V1: [Melodic Marseille Urban, Street Pop, Emotional Autotune] + [126BPM, G Minor] + [Crisp Digital Clarity] + [Wide Stereo Reverb] + [Piano, Punchy 808, Synthetic Percs] + [2020s]
      - V2: [Sun-Kissed Mediterranean Pop, Bouncy Urban, Light Autotune] + [112BPM, C Major] + [Bright Digital Polish] + [Airy Open Space] + [Tropical Synth, Melodic Bass, Steel Drums] + [2020s]
      - V3: [Afro-Urban Marseille, Dancehall-Infused Street] + [105BPM, A Minor] + [Warm Tape Saturation] + [Intimate Club Presence] + [Afro Percussion, Deep 808, Brass Stabs] + [2020s]
@@ -407,7 +429,7 @@ ${artistIdentitySummary}
 
   // --- TEMPERATURE-VARIED GENERATION ---
   // Main call (temp 0.7): generates everything + CORE DNA variant
-  // Then 2 parallel lightweight calls (temp 1.0 & 1.3) regenerate variants 2 & 3 with artist context
+  // Then 2 parallel lightweight calls (temp 1.0 & 1.3 with artist context) regenerate variants 2 & 3
   const maxRetries = 3;
 
   // Helper: generate a single style variant with artist context anchoring
@@ -422,44 +444,49 @@ ${artistIdentitySummary}
       productionStyle: string;
       vocalSignature: string;
       artistIdentitySummary?: string;
+      sonicDNATemplate?: string;
     }
   ): Promise<string> => {
     const variantGuidance = variantName === "EVOLUTION"
-      ? `Tu dois créer une EVOLUTION du style de base. Même artiste, facette adjacente crédible.
-Diverge sur 2 dimensions maximum (BPM ±10-20, ERA ou GRAIN). Le reste doit rester proche du CORE DNA.
-Exemple : si le CORE est du trap mélodique, explore le côté plus pop urbain, ou plus sombre, ou plus festif.`
-      : `Tu dois créer une FUSION cross-genre cohérente. L'artiste "${artistContext.inspiredBy}" sur une production d'un genre adjacent.
-Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
-Exemple : un rappeur sur une prod afrobeat, un chanteur pop sur une prod électro-minimaliste.`;
+      ? `Tu dois crÃ©er une EVOLUTION du style de base. MÃªme artiste, facette adjacente crÃ©dible.
+Diverge sur 2 dimensions maximum (BPM Â±10-20, ERA ou GRAIN). Le reste doit rester proche du CORE DNA.
+Exemple : si le CORE est du trap mÃ©lodique, explore le cÃ´tÃ© plus pop urbain, ou plus sombre, ou plus festif.`
+      : `Tu dois crÃ©er une FUSION cross-genre cohÃ©rente. L'artiste "${artistContext.inspiredBy}" sur une production d'un genre adjacent.
+Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractÃ©ristique.
+Exemple : un rappeur sur une prod afrobeat, un chanteur pop sur une prod Ã©lectro-minimaliste.`;
 
     const identityBlock = artistContext.artistIdentitySummary
-      ? `\nANALYSE D'IDENTITÉ (données scannées) :\n${artistContext.artistIdentitySummary}\n`
+      ? `\nANALYSE D'IDENTITÃ (donnÃ©es scannÃ©es) :\n${artistContext.artistIdentitySummary}\n`
+      : '';
+
+    const sonicAnchor = artistContext.sonicDNATemplate
+      ? `\nSONIC DNA (template prÃ©-testÃ©, utilise comme ancrage) :\n"${artistContext.sonicDNATemplate}"\n`
       : '';
 
     const variantPrompt = `Tu es un expert en production musicale Suno AI V5.5.
 
-ARTISTE DE RÉFÉRENCE : "${artistContext.inspiredBy}"
+ARTISTE DE RÃFÃRENCE : "${artistContext.inspiredBy}"
 GENRE-RACINE : ${artistContext.genre}
-SIGNATURE VOCALE (À CONSERVER) : ${artistContext.vocalSignature}
+SIGNATURE VOCALE (Ã CONSERVER) : ${artistContext.vocalSignature}
 ERA : ${artistContext.era}
 STYLE DE PRODUCTION : ${artistContext.productionStyle}
-${identityBlock}
-CORE DNA (variante de base, pour référence) :
+${identityBlock}${sonicAnchor}
+CORE DNA (variante de base, pour rÃ©fÃ©rence) :
 "${coreVariant}"
 
 MISSION : ${variantGuidance}
 
-FORMAT STRICT (200-250 caractères) :
-[3 sous-genres/textures] + [BPM, Key] + [texture sonore] + [espace/réverb] + [instruments dominants] + [décennie]
+FORMAT STRICT (200-250 caractÃ¨res) :
+[3 sous-genres/textures] + [BPM, Key] + [texture sonore] + [espace/rÃ©verb] + [instruments dominants] + [dÃ©cennie]
 
-RÈGLES ABSOLUES :
+RÃGLES ABSOLUES :
 - PAS de labels de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.)
-- La signature vocale de l'artiste DOIT transparaître dans les textures choisies
-- Le résultat DOIT sonner comme une chanson crédible de "${artistContext.inspiredBy}", pas comme un genre random
-- Front-load les textures. Privilégie les adjectifs de texture aux noms de genre.
-- ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques ou de labels.
+- La signature vocale de l'artiste DOIT transparaÃ®tre dans les textures choisies
+- Le rÃ©sultat DOIT sonner comme une chanson crÃ©dible de "${artistContext.inspiredBy}", pas comme un genre random
+- Front-load les textures. PrivilÃ©gie les adjectifs de texture aux noms de genre.
+- ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques ou de labels.
 
-Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caractères), sans JSON, sans backticks, sans explication.`;
+RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 caractÃ¨res), sans JSON, sans backticks, sans explication.`;
 
     try {
       const response = await withRetry(async () => {
@@ -468,7 +495,7 @@ Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caract
           contents: variantPrompt,
           config: {
             temperature: temperature,
-            systemInstruction: `Tu es un expert en production musicale Suno V5.5 spécialisé dans le style de "${artistContext.inspiredBy}". Réponds UNIQUEMENT avec le prompt de style demandé, rien d'autre. Le résultat doit sonner comme cet artiste.`
+            systemInstruction: `Tu es un expert en production musicale Suno V5.5 spÃ©cialisÃ© dans le style de "${artistContext.inspiredBy}". RÃ©ponds UNIQUEMENT avec le prompt de style demandÃ©, rien d'autre. Le rÃ©sultat doit sonner comme cet artiste.`
           }
         });
       }, 2);
@@ -539,7 +566,7 @@ Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caract
     const mainVariants = parsed.sunoPrompts || [coreVariant];
 
     // STEP 3: Build artist context from parsed response + input params
-    // FIXED: Regex was ]\] which created ]] and never matched — now uses single \]
+    // FIXED: Regex was ]\] which created ]] and never matched â now uses single \]
     const artistVocalSig = parsed.sunoPrompt
       ? (parsed.sunoPrompt.match(/\[([^\]]*(?:vocal|autotune|flow|raspy|breathy|melodic|singing)[^\]]*)\]/i) || [])[1] || ""
       : "";
@@ -548,18 +575,20 @@ Réponds UNIQUEMENT avec le prompt de style (une seule chaîne de 200-250 caract
       genre: genre || parsed.sunoPrompt?.split(',')[0]?.replace(/[\[\]]/g, '') || "",
       era: era,
       productionStyle: productionStyle,
-      vocalSignature: artistVocalSig || `Style vocal caractéristique de ${inspiredBy}`
+      vocalSignature: artistVocalSig || `Style vocal caractÃ©ristique de ${inspiredBy}`,
       // FIXED: Pass artistIdentitySummary to variant calls so they benefit from the scan
-      artistIdentitySummary: artistIdentitySummary || undefined
+      artistIdentitySummary: artistIdentitySummary || undefined,
+      // SONIC DNA: Pass pre-tested template for variant anchoring
+      sonicDNATemplate: sonicDNA?.sunoStyleTemplate || undefined
     };
 
-    // STEP 4: Generate EVOLUTION (temp 1.0) and FUSION (temp 1.3) in parallel
+    // STEP 4: Generate EVOLUTION (temp 1.0) and FUSION (temp 1.3) in parallel with artist context
     const [evolutionVariant, fusionVariant] = await Promise.all([
       generateStyleVariant("EVOLUTION", 1.0, coreVariant, artistContext),
       generateStyleVariant("FUSION", 1.3, coreVariant, artistContext)
     ]);
 
-    // STEP 5: Merge — use regenerated variants, fallback to main call's if generation failed
+    // STEP 5: Merge â use regenerated variants, fallback to main call's if generation failed
     const finalVariants = [
       coreVariant,
       evolutionVariant || mainVariants[1] || coreVariant,
@@ -652,7 +681,7 @@ export async function getArtistVocalIdentity(artistName: string) {
       config: {
         responseMimeType: "application/json",
         tools: [{ googleSearch: {} }],
-        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques prÃ©cises des voix d'artistes cÃ©lÃ¨bres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mélodique, etc.), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
+        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques prÃ©cises des voix d'artistes cÃ©lÃ¨bres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mÃ©lodique, etc.), analyse avec une attention particuliÃ¨re le mÃ©lange entre chant mÃ©lodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
       }
     });
 
