@@ -844,6 +844,138 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       instrument: "African Percussion, Synth Bass, Marimba, Electronic Strings"
     }
   },
+  SCH: {
+    sunoStyleTemplate: "Cinematic Mafieux Rap, Dark Orchestral Strings, Italian Noir Atmosphere, Storytelling Narratif, 125-140 BPM, Key: C# Minor, Studio polished, Cathedral reverb, Dark Orchestral String Sweeps, Deep Cinematic 808 Bass, Dramatic Piano Movements, Choir Pads Ominous, Tense Percussion Build-Ups, Deep Grave Baritone Commanding Theatrical Delivery, Slow Cinematic Build Tension to Explosive Climax, Polished Cinematic Mix Wide Stereo Depth, Marseille Mafia Saga JVLIVS Universe, 2020s",
+    sunoExcludeStyles: "bright happy pop, festive energy, country folk, acoustic soft, lo-fi chill, generic trap, boom-bap traditional, dancehall reggaeton",
+    sunoVocalTags: ["[deep grave theatrical baritone]", "[cinematic narrative delivery]", "[commanding authoritative tone]", "[dramatic pause mastery]"],
+    sunoWeirdness: 32,
+    sunoStyleInfluence: 82,
+    sunoBpmRange: "125-140",
+    sunoKey: "C# Minor",
+    vocalDNA: "Deep grave baritone with theatrical commanding presence. Cinematic narrative delivery treating each track as a film scene. Authoritative tone conveying power and menace. Dramatic pause mastery creating tension. Voice used as storytelling instrument within orchestral arrangements.",
+    flowPattern: "Cinematic phrasing with dramatic tension-release cycles. Slow deliberate verse delivery building to explosive chorus moments. Narrative focus with clear word articulation for story comprehension. Rhythmic control emphasizing dramatic effect over technical speed.",
+    productionFingerprint: "Dark orchestral string sweeps creating cinematic atmosphere, deep cinematic 808 bass rumbling beneath, dramatic piano movements supporting emotional peaks, ominous choir pads adding menace, tense percussion build-ups, Italian mafia film atmosphere, polished mix with cathedral reverb creating massive space",
+    culturalAnchors: "JVLIVS mafia saga universe, Marseille street mythology meets Italian cinema, Mediterranean gangster narrative, Aubagne identity, cinematic storytelling ambition, artistic evolution through alter ego",
+    antiPatterns: "Never bright happy pop, never festive celebratory, never lo-fi chill, never generic trap patterns, never acoustic soft warmth, never boom-bap traditional",
+    sunoMetatags: {
+      vocalStyle: "Power Rap",
+      vocalEffect: "Reverb, Compressed",
+      mood: "Dark",
+      energy: "Medium→High",
+      texture: "Studio polished",
+      instrument: "Orchestral Strings, 808 Bass, Piano, Choir Pads"
+    }
+  },
+  WERENOI: {
+    sunoStyleTemplate: "Melodic Street Rap, Warm Melancholic Flow, Emotional Autotune Sensitivity, Nostalgic Night Drive, 125-138 BPM, Key: E Minor, Tape saturation, Room ambience, Melancholic Piano Arpeggios, Deep Warm 808 Bass, Soft Pad Layers, Clean Hi-Hat Patterns, Warm Melodic Autotune Sensitive Tenor, Gentle Build Intimate Verse to Emotional Hook, Warm Analog Mix Round Low-End, Seine-Saint-Denis Melodic Street Soul, 2020s",
+    sunoExcludeStyles: "aggressive drill, hard trap, metal screaming, industrial noise, country folk, opera classical, festive party energy, boom-bap raw",
+    sunoVocalTags: ["[warm sensitive tenor]", "[melodic autotune flow]", "[emotional vulnerable delivery]", "[nostalgic melancholic phrasing]"],
+    sunoWeirdness: 12,
+    sunoStyleInfluence: 82,
+    sunoBpmRange: "125-138",
+    sunoKey: "E Minor",
+    vocalDNA: "Warm sensitive tenor with melodic autotune applied smoothly enhancing emotional quality. Vulnerable delivery conveying authenticity and melancholy. Old school meets new school fusion in vocal approach. Nostalgic phrasing suggesting both pain and hope.",
+    flowPattern: "Melodic flow riding behind the beat with emotional weight. Syllables stretched for melodic effect. Verses build from intimate conversational delivery to emotional melodic hooks. Rhythmic pocket comfortable and accessible.",
+    productionFingerprint: "Melancholic piano arpeggios as melodic foundation, deep warm 808 bass with round sustained tail, soft synth pad layers creating atmosphere, clean hi-hat patterns with subtle swing, tape saturation adding analog warmth, overall warm and emotional sonic space",
+    culturalAnchors: "Seine-Saint-Denis street reality, melodic street rap evolution, emotional vulnerability in gangster context, immigrant identity themes, success and loss narratives, 93 cultural pride",
+    antiPatterns: "Never aggressive hard drill, never metal or screaming, never industrial noise, never festive party energy, never raw boom-bap, never detached cold delivery",
+    sunoMetatags: {
+      vocalStyle: "Melodic Autotune",
+      vocalEffect: "Auto-tune, Reverb",
+      mood: "Melancholic",
+      energy: "Medium",
+      texture: "Tape-Saturated",
+      instrument: "Piano, 808 Bass, Soft Pads"
+    }
+  },
+  MAES: {
+    sunoStyleTemplate: "Melodic Street Anthem Rap, Raw-to-Catchy Hybrid, Hard Melody Street Pop, 128-142 BPM, Key: G Minor, Studio polished, Underground bunker, Heavy Punchy 808 Bass, Dark Piano Melody Hooks, Aggressive Hi-Hat Rolls, Dramatic Synth Stabs, Deep Versatile Voice Alternating Raw and Melodic, Dynamic Build Hard Verse to Catchy Pop Hook, Polished Mix Hard Low-End Clean Top, Sevran Street Reality Pop Crossover, 2020s",
+    sunoExcludeStyles: "soft acoustic, country folk, opera classical, lo-fi chill, slow ballad, experimental avant-garde, boom-bap traditional",
+    sunoVocalTags: ["[deep versatile delivery]", "[raw-to-melodic shifting]", "[street authority tone]", "[catchy hook instinct]"],
+    sunoWeirdness: 15,
+    sunoStyleInfluence: 82,
+    sunoBpmRange: "128-142",
+    sunoKey: "G Minor",
+    vocalDNA: "Deep versatile male voice alternating between raw aggressive delivery and catchy melodic hooks. Street authority tone with pop crossover instinct. Capable of hard rap verses transitioning to radio-friendly chorus. Natural hook-writing ability.",
+    flowPattern: "Hard aggressive verses with rapid syllable delivery shifting to melodic catchy hooks. Rhythmic versatility between street rap and pop accessibility. On-beat aggressive attacks in verses, behind-the-beat melodic pocket in choruses. Dynamic flow matching production energy.",
+    productionFingerprint: "Heavy punchy 808 bass as foundation, dark piano melody hooks creating memorable moments, aggressive hi-hat rolls, dramatic synth stabs punctuating, polished studio clarity, hard low-end combined with clean top-end for street-pop crossover sound",
+    culturalAnchors: "Sevran street reality narratives, raw-to-mainstream crossover success, melodic street rap evolution, collaboration culture (Booba connection), Moroccan-French identity, street credibility maintained through pop success",
+    antiPatterns: "Never soft acoustic, never country folk, never lo-fi chill, never slow ballad, never experimental avant-garde, never boom-bap traditional",
+    sunoMetatags: {
+      vocalStyle: "Melodic Rap",
+      vocalEffect: "Subtle Auto-tune, Reverb",
+      mood: "Aggressive",
+      energy: "High",
+      texture: "Studio polished",
+      instrument: "808 Bass, Piano, Hi-Hats, Synth Stabs"
+    }
+  },
+  THEODORA: {
+    sunoStyleTemplate: "Bouyon Afro-Urbain Fusion, Hyperpop Energy Burst, Multi-Genre Dancehall Pop, Explosive Rhythmic Carnival, 100-120 BPM, Key: F Minor, Digital crisp, Open air, Bouncy Caribbean Bass, Bouyon Percussion Patterns, Synth Brass Stabs, Electronic Textures, Powerful Female Voice Rap-Singing Switch-Up, Explosive Build Festival Drop to Dancehall Groove, Bright Polished Mix Maximum Energy, 93 Banlieue Meets Congo Meets Caribbean, 2020s",
+    sunoExcludeStyles: "slow ballad, dark depressing, country folk, opera classical, lo-fi chill, boom-bap traditional, minimal sparse, soft acoustic",
+    sunoVocalTags: ["[powerful female rap-singing]", "[explosive energetic delivery]", "[multilingual phrasing]", "[dancehall-influenced flow]"],
+    sunoWeirdness: 35,
+    sunoStyleInfluence: 75,
+    sunoBpmRange: "100-120",
+    sunoKey: "F Minor",
+    vocalDNA: "Powerful female voice with explosive energy and versatile rap-singing ability. Multilingual phrasing blending French, Creole, and Lingala. Dancehall-influenced rhythmic delivery. Capable of rapid genre-switching within single track. Festival-level projection.",
+    flowPattern: "Explosive rhythmic bursts with Caribbean syncopation. Genre-switching flow moving between rap, singing, dancehall toasting. High energy maintained throughout with dynamic peaks. Percussive consonant delivery with melodic hooks.",
+    productionFingerprint: "Bouyon percussion as rhythmic foundation, bouncy Caribbean bass with punchy attack, synth brass stabs adding carnival energy, electronic textures and hyperpop elements layered, bright digital clarity, festival-level energy production, multi-genre fusion aesthetic",
+    culturalAnchors: "Franco-Congolese identity, bouyon genre pioneer in France, 93 banlieue culture meets Caribbean energy, Kongolese heritage pride, Gen Z cultural fusion, viral dancehall energy",
+    antiPatterns: "Never slow or depressing, never dark minimal, never lo-fi chill, never acoustic soft, never boom-bap traditional, never sparse production",
+    sunoMetatags: {
+      vocalStyle: "Power",
+      vocalEffect: "Reverb, Auto-tune",
+      mood: "Uplifting",
+      energy: "Maximum",
+      texture: "Crisp Digital",
+      instrument: "Bouyon Percussion, Caribbean Bass, Synth Brass, Electronic Textures"
+    }
+  },
+  LITHE: {
+    sunoStyleTemplate: "Spectral Dark R&B, Futuristic Trap Soul, Nocturnal Lo-Fi Atmosphere, Immersive Ghostly Textures, 120-135 BPM, Key: Db Minor, Lo-fi grit, Void space, Deep Submerged 808, Ghostly Pad Layers, Sparse Glitch Percussion, Reverb-Drenched Melodic Elements, Smooth Dark Tenor Spectral Autotune, Slow Haunting Build to Immersive Drop, Dark Lo-Fi Mix Submerged Frequencies, Melbourne Underground Nocturnal Soul, 2020s",
+    sunoExcludeStyles: "bright happy pop, festive energy, country folk, opera classical, boom-bap traditional, aggressive drill, hard trap, clean polished pop",
+    sunoVocalTags: ["[smooth dark tenor]", "[spectral autotune processing]", "[ghostly intimate delivery]", "[nocturnal emotional tone]"],
+    sunoWeirdness: 25,
+    sunoStyleInfluence: 78,
+    sunoBpmRange: "120-135",
+    sunoKey: "Db Minor",
+    vocalDNA: "Smooth dark tenor with spectral autotune processing creating ghostly quality. Intimate delivery suggesting nocturnal vulnerability. Voice submerged within production creating immersive texture. Futuristic soul quality balancing warmth and digital processing.",
+    flowPattern: "Behind-the-beat placement creating haunting lag effect. Melodic rap-singing with spectral vocal layers. Syllables drift through production space rather than locking rigidly. Sparse delivery allowing atmosphere to breathe.",
+    productionFingerprint: "Deep submerged 808 bass creating underwater rumble, ghostly pad layers drifting through mix, sparse glitch percussion creating rhythmic tension, reverb-drenched melodic elements, lo-fi grit and tape warmth, overall dark immersive nocturnal atmosphere",
+    culturalAnchors: "Melbourne underground R&B scene, nocturnal emotional vulnerability, futuristic spectral aesthetics, hip-hop meets soul innovation, dark introspective narratives, Fall Back viral breakthrough",
+    antiPatterns: "Never bright happy pop, never festive energy, never country folk, never aggressive drill, never clean polished pop, never boom-bap traditional",
+    sunoMetatags: {
+      vocalStyle: "Melodic Autotune",
+      vocalEffect: "Auto-tune, Reverb, Delay",
+      mood: "Dark",
+      energy: "Low→Medium",
+      texture: "Lo-fi",
+      instrument: "Sub-808, Ghostly Pads, Glitch Percs"
+    }
+  },
+  VACRA: {
+    sunoStyleTemplate: "Sensual Rap-Chanté Romantique, Smooth Pop-Trap Melodic, Warm Intimate Love Ballad, Seductive Night Groove, 100-118 BPM, Key: Bb Minor, Studio polished, Room ambience, Warm Round 808 Bass, Melodic Guitar Riffs, Soft Synth Pad Layers, Clean Hi-Hat Patterns, Smooth High Tenor Seductive Crooning, Gentle Build Whispered Verse to Soaring Romantic Hook, Warm Polished Mix Intimate Stereo, Mysterious Romantic French Rap-Chanté, 2020s",
+    sunoExcludeStyles: "aggressive drill, dark orchestral, metal screaming, industrial noise, country folk, opera classical, hard trap, boom-bap raw",
+    sunoVocalTags: ["[smooth high tenor]", "[seductive crooning delivery]", "[romantic intimate phrasing]", "[soft melodic versatility]"],
+    sunoWeirdness: 20,
+    sunoStyleInfluence: 82,
+    sunoBpmRange: "100-118",
+    sunoKey: "Bb Minor",
+    vocalDNA: "Smooth high tenor venturing into high notes with seductive crooning quality. Romantic intimate delivery celebrating sensuality and love. Soft melodic versatility between rap phrasing and singing. Mysterious persona adding depth to vocal performance.",
+    flowPattern: "Smooth melodic flow prioritizing romance and sensuality over technical display. Behind-the-beat pocket creating seductive laid-back feel. Verses whispered and intimate building to soaring romantic hooks. Rhythmic phrasing emphasizing groove and mood.",
+    productionFingerprint: "Warm round 808 bass providing groove, melodic guitar riffs adding romantic texture, soft synth pad layers creating intimate atmosphere, clean hi-hat patterns, polished studio clarity, overall warm romantic production aesthetic",
+    culturalAnchors: "Mysterious romantic persona, French rap-chanté tradition, sensuality and love celebration, Fontainebleau identity, Pygmalion artistic concept, anonymous artist mythology",
+    antiPatterns: "Never aggressive drill or hard trap, never dark orchestral, never metal or screaming, never industrial noise, never boom-bap raw, never cold detached delivery",
+    sunoMetatags: {
+      vocalStyle: "Soft Melodic Rap",
+      vocalEffect: "Reverb, Subtle Auto-tune",
+      mood: "Romantic",
+      energy: "Medium",
+      texture: "Studio polished",
+      instrument: "808 Bass, Guitar, Soft Synth Pads"
+    }
+  },
   AUGXST: {
     sunoStyleTemplate: "Intimate Cinematic R&B, Melodic Rap-Singing Hybrid, Warm Emotional Vulnerability, Dreamy Atmospheric Soul, 75-90 BPM, Key: Ab Major, Warm analog saturation, Spacious intimate reverb, Lush Pad Layers, Soft Round Sub Bass, Rhodes Electric Piano, Ambient Guitar Textures, Delicate Hi-Hat Taps, Smooth Warm Tenor Rap-Singing Natural Voice, Gentle Build Whispered Verse to Soaring Melodic Hook, Warm Cinematic Master Wide Stereo Depth, Fashion-Forward Boston Soul Late-Night Emotion, 2020s Modern R&B",
     sunoExcludeStyles: "afro trap, glitchy experimental, harsh distortion, aggressive trap, heavy 808, country rock, metal, opera, boom-bap, drill, hard bass, industrial, vocoder heavy, basic autotune pitch correction",
