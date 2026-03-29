@@ -6,7 +6,7 @@
 
 export interface SonicDNA {
   // Core production parameters
-  sunoStyleTemplate: string;      // 200-250 chars, ultra-specific textures instead of generic genres
+  sunoStyleTemplate: string;      // 500-600 chars, ultra-specific textures with 10 dimensions
   sunoExcludeStyles: string;      // Styles to explicitly exclude
   sunoVocalTags: string[];        // Unique vocal characteristics per artist
   sunoWeirdness: number;          // Creative/unconventional factor (0-50)
@@ -31,7 +31,7 @@ export interface SonicDNA {
 
 export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
   JUL: {
-    sunoStyleTemplate: "Melodic Autotune Marseille Pop, Bouncy Chanté-Rappé, Bright Festival Energy, 122-128 BPM, Key: G Minor, Crisp digital clarity, Wide stereo reverb, Piano, Punchy 808, Synthetic Percs, Shimmering Hi-Hats, 2020s",
+    sunoStyleTemplate: "Melodic Autotune Marseille Pop, Bouncy Chanté-Rappé, Bright Festival Energy, Euphorique Street Anthem, 122-128 BPM, Key: G Minor, Crisp digital clarity, Wide stereo reverb, Piano Stabs, Punchy 808, Synthetic Percs, Shimmering Hi-Hats, High-Pitched Nasal Autotune Crystalline Vocals, Building Verse to Euphoric Chorus Drop, Bright Polished Master Loud Stereo Width, Mediterranean Sun-Kissed Party Energy, 2020s",
     sunoExcludeStyles: "dark orchestral, aggressive rap technique, country, rock, opera, classical, slow ballad, industrial, somber atmosphere",
     sunoVocalTags: ["[nasal crystalline voice]", "[high-pitched autotune]", "[Marseille accent inflection]", "[bouncy rhythmic delivery]"],
     sunoWeirdness: 12,
@@ -53,7 +53,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   NINHO: {
-    sunoStyleTemplate: "Melodic Trap Street Soul, Fluid Rap-Singing Hybrid, Warm Intimate Delivery, 132-142 BPM, Key: D Minor, Warm tape saturation, Intimate dry booth, Melancholic Piano, Deep Round 808, Acoustic Guitar, Complex Hi-Hats, 2020s",
+    sunoStyleTemplate: "Melodic Trap Street Soul, Fluid Rap-Singing Hybrid, Warm Intimate Delivery, Emotional Street Confessional, 132-142 BPM, Key: D Minor, Warm tape saturation, Intimate dry booth, Melancholic Piano Broken Chords, Deep Round 808 Sustained Tail, Acoustic Guitar Layers, Complex Hi-Hat Rolls with Swing, Smooth Warm Autotune Elastic Vocals, Slow Build Intimate Verse to Melodic Chorus, Warm Analog Master Gentle Compression, Seine-Saint-Denis Immigrant Soul, 2020s",
     sunoExcludeStyles: "boom-bap acoustic, country, rock, opera, classical, bright happy production, aggressive trap, industrial noise",
     sunoVocalTags: ["[warm fluid baritone-tenor]", "[elastic syllable stretching]", "[smooth autotune application]", "[intimate vulnerable delivery]"],
     sunoWeirdness: 18,
@@ -75,7 +75,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   DAMSO: {
-    sunoStyleTemplate: "Dark Whisper Rap, Intimate Sensual Delivery, Nocturnal R&B Noir, 125-140 BPM, Key: Eb Minor, Lo-fi grit, Void space, Industrial Synths, Sub-Bass Rumble, Sparse Minimal Drums, 2020s",
+    sunoStyleTemplate: "Dark Whisper Rap, Intimate Sensual Delivery, Nocturnal R&B Noir, Hypnotic Bedroom Vulnerability, 125-140 BPM, Key: Eb Minor, Lo-fi grit, Void space, Industrial Synths, Sub-Bass Rumble, Sparse Minimal Drums, Grave Cavernous Baritone Whisper Vocals, Slow Hypnotic Build with Rare Intensity Spikes, Dark Minimalist Mix Heavy Sub Frequencies, Belgian Underground Existential Darkness, 2020s",
     sunoExcludeStyles: "bright production, fast tempos, cheerful atmosphere, country, rock, opera, classical, aggressive shouting, festive energy",
     sunoVocalTags: ["[grave cavernous baritone]", "[intimate whisper-like delivery]", "[saturated vocal grain]", "[dramatic pause master]"],
     sunoWeirdness: 30,
@@ -119,7 +119,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "FREEZE CORLEONE": {
-    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Dark Vinyl Samples, Chopped Orchestral Loops, Dense Triplet Hi-Hats, Deep Sub-808, 2020s",
+    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, Occult Esoteric Atmosphere, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Dark Vinyl Sample Loops, Chopped Orchestral Loops Pitched Down, Dense Triplet Hi-Hat Rolls, Deep Sub-808 Rumble, Monotone Compressed Nasal Mechanical Precision Vocals, Relentless Metronomic Density No Breathing Room, Dark Compressed Mix Heavy Mid-Range, 667 Occultism Pan-African Esoteric Codes, 2020s",
     sunoExcludeStyles: "singing autotune, emotional delivery, bright production, major keys, humor, simple rhyme schemes, acoustic instruments, soulful warmth",
     sunoVocalTags: ["[monotone compressed midrange]", "[mechanical precision delivery]", "[zero melodic inflection]", "[clinical detachment]"],
     sunoWeirdness: 28,
@@ -207,7 +207,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   BOOBA: {
-    sunoStyleTemplate: "Aggressive Trap-Orchestral Rap, Heavy 808 Dominance, Cinematic Dark Power, 130-142 BPM, Key: C# Minor, Studio polished, Stadium reverb, Massive Distorted 808, Dark Choir Pads, Dramatic Strings, Hard Trap Drums, 2020s",
+    sunoStyleTemplate: "Aggressive Trap-Orchestral Rap, Heavy 808 Dominance, Cinematic Dark Power, Stadium Authority Anthem, 130-142 BPM, Key: C# Minor, Studio polished, Stadium reverb, Massive Distorted 808 Bass, Dark Choir Pads, Dramatic String Sweeps, Hard Trap Kick Snare Patterns, Deep Authoritative Baritone Power Projection, Explosive Percussion Assault Building to Stadium Drop, Loud Polished Master Maximum Stereo Impact, French Rap Godfather Street Hierarchy, 2020s",
     sunoExcludeStyles: "soft acoustic pop, country folk gentle, happy bright atmosphere, nursery rhymes, lo-fi chill, smooth R&B warmth, acoustic guitar layers",
     sunoVocalTags: ["[deep authoritative baritone]", "[dominant aggressive delivery]", "[stadium-filling projection]", "[orchestral dramatic phrasing]"],
     sunoWeirdness: 18,
@@ -361,7 +361,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   NEKFEU: {
-    sunoStyleTemplate: "Lyrical Boom-Bap Pop-Rap, Chopped Soul Sample Hooks, Warm Poetic Hip-Hop, 90-105 BPM, Key: A Minor, Analog warmth, Room ambience, Boom-Bap Drums, Chopped Soul Samples, Warm Synth Bass, Piano Chords, 2010s",
+    sunoStyleTemplate: "Lyrical Boom-Bap Pop-Rap, Chopped Soul Sample Hooks, Warm Poetic Hip-Hop, Introspective Narrative Flow, 90-105 BPM, Key: A Minor, Analog warmth, Room ambience, Boom-Bap Punchy Kicks Crisp Snares, Chopped Soul Vocal Samples, Warm Synth Bass, Jazz Piano Chords, Clear Articulate Natural Voice Poetic Delivery, Storytelling Verse Building to Melodic Hook, Warm Analog Mix Round Low-End, Parisian Intellectual Poetic Tradition, 2010s",
     sunoExcludeStyles: "heavy autotune distortion, generic trap beats, dark orchestral horror, aggressive screaming, industrial noise, fast drill energy",
     sunoVocalTags: ["[clear articulate delivery]", "[poetic narrative phrasing]", "[storytelling mastery]", "[warm conversational tone]"],
     sunoWeirdness: 20,
@@ -471,7 +471,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "ALPHA WANN": {
-    sunoStyleTemplate: "Elite Technical Boom-Bap, Chopped Soul Sample Loops, Dusty Vinyl Hip-Hop, 88-98 BPM, Key: D Minor, Dusty sample, Intimate dry booth, Vinyl Drum Breaks, Jazz Saxophone, Chopped Soul Vocals, Round NY Bass, 2010s",
+    sunoStyleTemplate: "Elite Technical Boom-Bap, Chopped Soul Sample Loops, Dusty Vinyl Hip-Hop, Surgical Lyrical Precision, 88-98 BPM, Key: D Minor, Dusty sample, Intimate dry booth, Vinyl Drum Breaks Crisp Snares, Jazz Saxophone Melodic Loops, Chopped Soul Vocal Samples, Round NY Bass Foundation, Cold Surgical Technical Delivery Razor Articulation, Steady Metronomic Flow Zero Wasted Syllables, Dusty Vintage Mix Vinyl Warmth, Parisian Underground Boom-Bap Purist Legacy, 2010s",
     sunoExcludeStyles: "singing melodic, autotune warmth, bright uplifting, country folk, opera classical, festive energy, lo-fi chill, trap generic, drill",
     sunoVocalTags: ["[clinical precise delivery]", "[technical rap mastery]", "[cold detached tone]", "[surgical syllable placement]"],
     sunoWeirdness: 22,
@@ -537,7 +537,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   VALD: {
-    sunoStyleTemplate: "Dark Aggressive Trap-Rap, Heavy 808 Distorted Bass, Experimental Horrorcore Hip-Hop, 130-145 BPM, Key: D Minor, Raw unprocessed, Underground bunker, Heavy Distorted 808, Dark Trap Hi-Hats, Eerie Synth Melodies, Aggressive Kick Patterns, 2020s",
+    sunoStyleTemplate: "Dark Aggressive Trap-Rap, Heavy 808 Distorted Bass, Experimental Horrorcore Hip-Hop, Sardonic Dark Humor Flow, 130-145 BPM, Key: D Minor, Raw unprocessed, Underground bunker, Heavy Distorted 808, Dark Trap Hi-Hat Rolls, Eerie Synth Melodies, Aggressive Kick Patterns, Cold Aggressive Rapid-Fire Technical Vocals, Explosive Bursts then Deadpan Sardonic Drops, Raw Compressed Mix Aggressive Low-End, French Experimental Provocateur Dark Satire, 2020s",
     sunoExcludeStyles: "singing melodic, bright happy pop, country folk, opera classical, festive energy, smooth R&B",
     sunoVocalTags: ["[cold aggressive delivery]", "[rapid-fire technical flow]", "[dark sardonic tone]", "[explosive energy bursts]"],
     sunoWeirdness: 26,
@@ -581,7 +581,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "KANYE WEST": {
-    sunoStyleTemplate: "Gospel Soul-Sampling Hip-Hop, Chopped Chipmunk Soul Vocals, Maximalist 808 Production, 90-110 BPM, Key: C Minor, Studio polished, Cathedral reverb, Heavy 808 Bass, Gospel Choir, Chopped Soul Samples, Orchestral Strings, 2010s",
+    sunoStyleTemplate: "Gospel Soul-Sampling Hip-Hop, Chopped Chipmunk Soul Vocals, Maximalist 808 Production, Ambitious Cinematic Vision, 90-110 BPM, Key: C Minor, Studio polished, Cathedral reverb, Heavy 808 Bass Cinematic Low-End, Gospel Choir Layers Triumphant, Chipmunk Pitched Soul Vocal Samples, Orchestral String Sweeps, Melodic Voice Rapping and Singing Emotional Conviction, Maximalist Build Multiple Beat Switches per Track, Loud Polished Master Layered Complexity, Soul Heritage Gospel Innovation Ambition, 2010s",
     sunoExcludeStyles: "country folk, minimal sparse, lo-fi chill, aggressive metal screaming, industrial harsh noise",
     sunoVocalTags: ["[melodic sampling voice]", "[ambitious delivery]", "[innovative vocal placement]", "[soulful emotional tone]"],
     sunoWeirdness: 24,
@@ -603,7 +603,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "KENDRICK LAMAR": {
-    sunoStyleTemplate: "Conscious Jazz-Funk Hip-Hop, Live Drum Grooves, West Coast G-Funk Soul, 85-105 BPM, Key: D Minor, Raw unprocessed, Room ambience, Funk Bass Guitar, Jazz Trumpet, Live Drums, Saxophone, Soul Piano, 2010s",
+    sunoStyleTemplate: "Conscious Jazz-Funk Hip-Hop, Live Drum Grooves, West Coast G-Funk Soul, Storytelling Cinematic Narrative, 85-105 BPM, Key: D Minor, Raw unprocessed, Room ambience, Funk Bass Guitar Groove, Jazz Trumpet Brass Section, Live Acoustic Drums with Swing, Saxophone Solo Passages, Soul Piano Chords, Dynamic Versatile Voice Shifting Aggressive to Vulnerable, Building Intensity Verse to Climactic Bridge, Organic Raw Mix Live Room Feel, Compton West Coast Conscious Legacy, 2010s",
     sunoExcludeStyles: "repetitive trap beats, generic pop production, country folk, opera classical, overly autotune distortion",
     sunoVocalTags: ["[dynamic versatile delivery]", "[storytelling mastery]", "[emotional intelligence]", "[rhythmic precision]"],
     sunoWeirdness: 22,
@@ -691,7 +691,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   ORELSAN: {
-    sunoStyleTemplate: "French Alt-Rap Electronic, Synth-Driven Introspective Hip-Hop, Cinematic Pop-Rap Hybrid, 85-100 BPM, Key: D Minor, Studio polished, Room ambience, Analog Synth Layers, Punchy Electronic Drums, Warm Sub-Bass, Orchestral Swells, 2010s",
+    sunoStyleTemplate: "French Alt-Rap Electronic, Synth-Driven Introspective Hip-Hop, Cinematic Pop-Rap Hybrid, Witty Narrative Storytelling, 85-100 BPM, Key: D Minor, Studio polished, Room ambience, Analog Synth Layers, Punchy Electronic Drum Programming, Warm Sub-Bass Foundation, Orchestral Swells at Emotional Peaks, Conversational Natural Voice Intellectual Delivery, Dynamic Build from Intimate Verse to Cinematic Chorus, Polished Clean Mix Wide Soundstage, Norman Identity Social Commentary Wit, 2010s",
     sunoExcludeStyles: "aggressive trap, heavy autotune, dark orchestral, minimalist sparse, country folk, opera classical",
     sunoVocalTags: ["[conversational storytelling]", "[poetic narrative voice]", "[warm introspective tone]", "[intellectual delivery]"],
     sunoWeirdness: 18,
@@ -823,7 +823,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   STROMAE: {
-    sunoStyleTemplate: "Belgian Electro-World Pop, Rumba Congolaise Rhythms, Dark Danceable Chanson, 100-120 BPM, Key: E Minor, Digital crisp, Room ambience, African Percussion, Synth Bass, World Drum Patterns, Marimba, Electronic Strings, 2010s",
+    sunoStyleTemplate: "Belgian Electro-World Pop, Rumba Congolaise Rhythms, Dark Danceable Chanson, Theatrical Dramatic Performance, 100-120 BPM, Key: E Minor, Digital crisp, Room ambience, African Percussion Polyrhythms, Synth Bass Driving Groove, Congolaise Drum Patterns, Marimba Melodic Textures, Electronic String Arrangements, Clear Dynamic Voice Whisper to Powerful Projection, Danceable Build African Rhythms to Electronic Climax, Clean Digital Master Precise Stereo Imaging, Rwandan-Belgian Heritage Jacques Brel Chanson Drama, 2010s",
     sunoExcludeStyles: "country rock metal, opera classical, aggressive dark orchestral, loud noise industrial, acoustic guitar warmth, generic trap",
     sunoVocalTags: ["[clear intelligent delivery]", "[witty lyrical phrasing]", "[dramatic vocal dynamics]", "[chanson-meets-electro tone]"],
     sunoWeirdness: 22,

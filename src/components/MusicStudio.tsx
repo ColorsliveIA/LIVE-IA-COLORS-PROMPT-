@@ -2368,8 +2368,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     autoFocus
                   />
                   <div className="absolute bottom-3 right-3 flex items-center gap-2">
-                    <span className={`font-mono text-[9px] font-bold ${editedPrompt.length > 1000 ? 'text-red-500' : 'text-white/30'}`}>
-                      {editedPrompt.length}/1000
+                    <span className={`font-mono text-[9px] font-bold ${editedPrompt.length > 3000 ? 'text-red-500' : 'text-white/30'}`}>
+                      {editedPrompt.length}/3000
                     </span>
                     <button
                       onClick={() => { setIsEditingPrompt(false); setEditedPrompt(''); }}
@@ -2392,8 +2392,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               )}
               {!isEditingPrompt && (
                 <div className="absolute bottom-3 right-3 flex items-center gap-2">
-                  <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 1000 ? 'text-red-500' : 'text-white/20'}`}>
-                    {(state.music.sunoPrompt || '').length}/1000
+                  <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 3000 ? 'text-red-500' : 'text-white/20'}`}>
+                    {(state.music.sunoPrompt || '').length}/3000
                   </span>
                   {state.music.sunoPrompt && (
                     <>

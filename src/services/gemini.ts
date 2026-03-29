@@ -236,7 +236,7 @@ ${artistIdentitySummary}
   const systemInstruction = `Tu es un expert mondial en production musicale et en prompting pour Suno AI V5.5.
 
   RÃGLES CRITIQUES :
-  - STYLE PROMPT : 200-250 caractÃ¨res. Suno pÃ¨se les premiers tokens plus lourdement â front-load les textures. Format 6 DIMENSIONS (ordre strict) : [STYLE BLEND: 3 sous-genres/textures] + [BPM: fourchette, Key: tonalitÃ©] + [GRAIN: texture sonore] + [ESPACE: profondeur/rÃ©verb] + [INSTRUMENTS: Ã©lÃ©ments dominants] + [ÃRE: dÃ©cennie]. RÃGLE: Texture over Genre â privilÃ©gier les adjectifs de texture aux noms de genre.
+  - STYLE PROMPT : 500-600 caractÃ¨res. Suno pÃ¨se les premiers tokens plus lourdement â front-load les textures. Format 10 DIMENSIONS (ordre strict) : [STYLE BLEND: 3-5 sous-genres/textures] + [BPM: fourchette, Key: tonalitÃ©] + [GRAIN: texture sonore] + [ESPACE: profondeur/rÃ©verb] + [INSTRUMENTS: Ã©lÃ©ments dominants] + [VOCAL TEXTURE: grain et couleur vocale] + [DYNAMIC: progression build/drop] + [MIX: saturation, stereo, compression] + [CULTURAL FLAVOR: ancrage culturel] + [ÃRE: dÃ©cennie]. RÃGLE: Texture over Genre â privilÃ©gier les adjectifs de texture aux noms de genre.
   - LYRICS : Structure complÃ¨te adaptÃ©e au genre. Utilise [ ] pour les balises de structure et ( ) pour les ad-libs. Suno V5.5 supporte des balises avancÃ©es comme [Pre-Chorus], [Post-Chorus], [Bridge], [Interlude], [Solo: Instrument], [Break], [Build], [Drop].
   - REGISTRE DE LANGAGE : Adapte impÃ©rativement le vocabulaire selon l'intensitÃ© (${emotionalIntensity}/100) et l'Ã©nergie (${energy}/100).
     * Basse intensitÃ© : PoÃ©tique, imagÃ©, contemplatif.
@@ -392,7 +392,7 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
   4. ANTI-GÃNÃRIQUE & TEXTURES : Pour Ã©viter que tous les sons se ressemblent, BANNI les tags gÃ©nÃ©riques comme "Trap" ou "Pop". Utilise des descriptions de textures et de sous-genres ultra-prÃ©cises. Exemples : "Industrial Dark Techno with distorted kick", "Ethereal Cloud Rap with heavy reverb and high-pass filters", "Aggressive UK Drill with sliding 808s", "Vintage Soul-infused Boom Bap with vinyl crackle".
   5. RICHESSE LYRIQUE : Je veux des textes d'une grande richesse littÃ©raire. Utilise des rimes multisyllabiques, des rimes internes complexes et un vocabulaire imagÃ©. Ãvite les clichÃ©s.
   6. ESSENCE ARTISTIQUE : Le style doit Ãªtre au plus proche de l'essence de "${inspiredBy}" (philosophie, thÃ¨mes, placement rythmique) sans jamais copier ses textes existants.
-  7. STYLE PROMPT BOX (SUNO V5.5 OPTIMIZED) : RÃ©dige un prompt de style de 200-250 CARACTÃRES. Format 6 DIMENSIONS : [STYLE BLEND: 3 sous-genres/textures] + [BPM: fourchette, Key: tonalitÃ©] + [GRAIN: texture sonore] + [ESPACE: profondeur/rÃ©verb] + [INSTRUMENTS: Ã©lÃ©ments dominants] + [ÃRE: dÃ©cennie]. Front-load les textures les plus importantes. PrivilÃ©gie les adjectifs de texture aux noms de genre.
+  7. STYLE PROMPT BOX (SUNO V5.5 OPTIMIZED) : RÃ©dige un prompt de style de 500-600 CARACTÃRES. Format 10 DIMENSIONS : [STYLE BLEND: 3-5 sous-genres/textures] + [BPM: fourchette, Key: tonalitÃ©] + [GRAIN: texture sonore] + [ESPACE: profondeur/rÃ©verb] + [INSTRUMENTS: Ã©lÃ©ments dominants] + [VOCAL TEXTURE: grain et couleur vocale] + [DYNAMIC: progression build/drop] + [MIX: saturation, stereo, compression] + [CULTURAL FLAVOR: ancrage culturel] + [ÃRE: dÃ©cennie]. Front-load les textures les plus importantes. PrivilÃ©gie les adjectifs de texture aux noms de genre.
      - Inclus des textures de production prÃ©cises : [Tape saturation], [Vinyl crackle], [Bitcrushed], [Wide soundstage], [Analog warmth], [Distorted sub-bass].
      - Inclus des textures vocales prÃ©cises basÃ©es sur l'artiste : [Raspy vocals], [Breathy delivery], [Heavily autotuned], [Dry vocals], [Layered harmonies], [Whisper vocals].
      - Respecte impÃ©rativement le style de production demandÃ© : ${productionStyle}.
@@ -407,7 +407,7 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
      ANCRAGE OBLIGATOIRE (commun aux 3 variantes) :
      - La SIGNATURE VOCALE de l'artiste est identique dans les 3 variantes (mÃ©me delivery, mÃªme effet vocal)
      - Le GENRE-RACINE reste prÃ©sent ou adjacent (pas de saut vers un genre sans rapport)
-     - Le FORMAT est identique : [3 sous-genres/textures] + [BPM, Key] + [GRAIN] + [ESPACE] + [INSTRUMENTS] + [ERA]
+     - Le FORMAT est identique : [3-5 sous-genres/textures] + [BPM, Key] + [GRAIN] + [ESPACE] + [INSTRUMENTS] + [VOCAL TEXTURE] + [DYNAMIC] + [MIX] + [CULTURAL FLAVOR] + [ERA]
      - AUCUN label de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.) â juste les valeurs entre crochets
 
      EXEMPLES DE DIVERGENCE COHÃRENTE (pour un artiste type JUL) :
@@ -427,7 +427,7 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
   {
     "artistName": "Un nom d'artiste inventÃ© cohÃ©rent",
     "songTitle": "Un titre de chanson inventÃ© cohÃ©rent",
-    "sunoPrompt": "Le prompt de style optimisÃ© (200-250 chars - Format 6 DIMENSIONS)",
+    "sunoPrompt": "Le prompt de style optimisÃ© (500-600 chars - Format 10 DIMENSIONS)",
     "sunoPrompts": ["Variante 1", "Variante 2", "Variante 3"],
     "negativePrompt": "ÃlÃ©ments Ã  exclure (max 200 chars)",
     "weirdnessGuidance": "Recommandation Weirdness optimale pour ce genre/artiste basÃ©e sur les paramÃ¨tres",
@@ -510,8 +510,8 @@ CORE DNA (variante de base, pour rÃ©fÃ©rence) :
 
 MISSION : ${variantGuidance}
 
-FORMAT STRICT (200-250 caractÃ¨res) :
-[3 sous-genres/textures] + [BPM, Key] + [texture sonore] + [espace/rÃ©verb] + [instruments dominants] + [dÃ©cennie]
+FORMAT STRICT (500-600 caractÃ¨res) :
+[3-5 sous-genres/textures] + [BPM, Key] + [texture sonore] + [espace/rÃ©verb] + [instruments dominants] + [vocal texture] + [dynamic] + [mix] + [cultural flavor] + [dÃ©cennie]
 
 RÃGLES ABSOLUES :
 - PAS de labels de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.)
@@ -520,7 +520,7 @@ RÃGLES ABSOLUES :
 - Front-load les textures. PrivilÃ©gie les adjectifs de texture aux noms de genre.
 - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques ou de labels.
 
-RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 caractÃ¨res), sans JSON, sans backticks, sans explication.`;
+RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 500-600 caractÃ¨res), sans JSON, sans backticks, sans explication.`;
 
     try {
       const response = await withRetry(async () => {
