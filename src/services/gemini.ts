@@ -296,17 +296,31 @@ ${artistIdentitySummary}
 
   // SONIC DNA BLOCK: Inject pre-tested Suno template as foundation for style generation
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA (PRE-TESTED SUNO V5.5 TEMPLATE â USE AS FOUNDATION):
-CRITICAL: Le template ci-dessous a Ã©tÃ© testÃ© et validÃ© sur Suno V5.5 pour reproduire fidÃ¨lement le son de "${inspiredBy}".
-Tu DOIS l'utiliser comme BASE FONDAMENTALE pour le sunoPrompt principal (variante CORE DNA).
-Tu peux l'enrichir, l'affiner ou le rÃ©ordonner, mais les tokens-clÃ©s et textures DOIVENT rester prÃ©sents.
+# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – USE AS ABSOLUTE FOUNDATION):
+CRITICAL: Ce template a été testé et validé sur Suno V5.5 pour reproduire fidèlement le son de "${inspiredBy}".
+Tu DOIS l'utiliser comme BASE FONDAMENTALE. Les tokens-clés et textures DOIVENT rester présents.
 
-TEMPLATE VALIDÃ: ${sonicDNA.sunoStyleTemplate}
+STYLE TEMPLATE VALIDÉ: ${sonicDNA.sunoStyleTemplate}
 BPM RANGE: ${sonicDNA.sunoBpmRange}
 KEY: ${sonicDNA.sunoKey}
-VOCAL TAGS Ã INTÃGRER: ${sonicDNA.sunoVocalTags.join(' ')}
+VOCAL TAGS À INTÉGRER: ${sonicDNA.sunoVocalTags.join(' ')}
 WEIRDNESS OPTIMAL: ${sonicDNA.sunoWeirdness}/100
 STYLE INFLUENCE OPTIMAL: ${sonicDNA.sunoStyleInfluence}/100
+
+# VOCAL DNA (SIGNATURE VOCALE ABSOLUE – NE PAS DÉVIER):
+${sonicDNA.vocalDNA || 'Non spécifié'}
+
+# FLOW PATTERN (PLACEMENT RYTHMIQUE SIGNATURE):
+${sonicDNA.flowPattern || 'Non spécifié'}
+
+# PRODUCTION FINGERPRINT (SONS DE PRODUCTION SIGNATURE):
+${sonicDNA.productionFingerprint || 'Non spécifié'}
+
+# CULTURAL ANCHORS (UNIVERS THÉMATIQUE ET LINGUISTIQUE):
+${sonicDNA.culturalAnchors || 'Non spécifié'}
+
+# ANTI-PATTERNS (CE QUE L'ARTISTE NE FAIT JAMAIS – EXCLURE ABSOLUMENT):
+${sonicDNA.antiPatterns || 'Non spécifié'}
 ` : '';
 
   // OPTIMIZED: Artist-specific instructions loaded from dictionary (saves ~80% tokens)
@@ -445,6 +459,9 @@ STYLE INFLUENCE OPTIMAL: ${sonicDNA.sunoStyleInfluence}/100
       vocalSignature: string;
       artistIdentitySummary?: string;
       sonicDNATemplate?: string;
+      vocalDNA?: string;
+      flowPattern?: string;
+      antiPatterns?: string;
     }
   ): Promise<string> => {
     const variantGuidance = variantName === "EVOLUTION"
@@ -460,7 +477,13 @@ Exemple : un rappeur sur une prod afrobeat, un chanteur pop sur une prod Ã©lec
       : '';
 
     const sonicAnchor = artistContext.sonicDNATemplate
-      ? `\nSONIC DNA (template prÃ©-testÃ©, utilise comme ancrage) :\n"${artistContext.sonicDNATemplate}"\n`
+      ? `
+SONIC DNA (template pré-testé, utilise comme ancrage) :
+"${artistContext.sonicDNATemplate}"
+${artistContext.vocalDNA ? `VOCAL DNA: ${artistContext.vocalDNA}
+` : ''}${artistContext.flowPattern ? `FLOW PATTERN: ${artistContext.flowPattern}
+` : ''}${artistContext.antiPatterns ? `ANTI-PATTERNS: ${artistContext.antiPatterns}
+` : ''}`
       : '';
 
     const variantPrompt = `Tu es un expert en production musicale Suno AI V5.5.
@@ -579,7 +602,10 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 ca
       // FIXED: Pass artistIdentitySummary to variant calls so they benefit from the scan
       artistIdentitySummary: artistIdentitySummary || undefined,
       // SONIC DNA: Pass pre-tested template for variant anchoring
-      sonicDNATemplate: sonicDNA?.sunoStyleTemplate || undefined
+      sonicDNATemplate: sonicDNA?.sunoStyleTemplate || undefined,
+      vocalDNA: sonicDNA?.vocalDNA || undefined,
+      flowPattern: sonicDNA?.flowPattern || undefined,
+      antiPatterns: sonicDNA?.antiPatterns || undefined
     };
 
     // STEP 4: Generate EVOLUTION (temp 1.0) and FUSION (temp 1.3) in parallel with artist context
