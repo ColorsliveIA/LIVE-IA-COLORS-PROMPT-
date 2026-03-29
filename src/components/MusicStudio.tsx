@@ -2457,7 +2457,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             )}
 
-            {/* SONIC DNA RECOMMENDED SETTINGS */}
+            {/* SONIC DNA — AUTO-APPLIED SETTINGS */}
             {state.music.inspiredBy && (() => {
               const dnaSettings = getArtistSunoSettings(state.music.inspiredBy);
               if (!dnaSettings) return null;
@@ -2465,39 +2465,31 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <div className="mt-4 flex flex-col gap-3">
                   <div className="flex items-center gap-2 ml-1">
                     <Sliders size={12} className="text-[#E8712A]/80" />
-                    <span className="font-mono text-[9px] text-[#E8712A]/80 uppercase tracking-widest font-bold">Réglages Suno recommandés — {state.music.inspiredBy}</span>
+                    <span className="font-mono text-[9px] text-[#E8712A]/80 uppercase tracking-widest font-bold">Sonic DNA — Auto-applied · {state.music.inspiredBy}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="relative group/setting bg-[#E8712A]/5 border border-[#E8712A]/20 rounded-xl p-4 hover:border-[#E8712A]/40 transition-all">
-                      <span className="font-mono text-[8px] text-[#E8712A] block mb-2 uppercase tracking-wider">Weirdness</span>
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-2xl text-white/90 font-bold">{dnaSettings.weirdness}</span>
-                        <span className="font-mono text-[9px] text-white/30">/100</span>
-                      </div>
-                      <button
-                        onClick={() => updateMusicState({ weirdness: dnaSettings.weirdness })}
-                        className="mt-2 w-full py-1.5 bg-[#E8712A]/10 border border-[#E8712A]/30 rounded-lg font-mono text-[9px] text-[#E8712A] hover:bg-[#E8712A]/20 transition-all"
-                      >
-                        Appliquer
-                      </button>
+                  <div className="grid grid-cols-4 gap-2">
+                    <div className="bg-[#E8712A]/5 border border-[#E8712A]/15 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-[#E8712A]/70 block mb-1 uppercase tracking-wider">Weirdness</span>
+                      <span className="font-mono text-lg text-white/90 font-bold">{dnaSettings.weirdness}</span>
+                      <span className="font-mono text-[8px] text-white/25 ml-0.5">/100</span>
                     </div>
-                    <div className="relative group/setting bg-[#E8712A]/5 border border-[#E8712A]/20 rounded-xl p-4 hover:border-[#E8712A]/40 transition-all">
-                      <span className="font-mono text-[8px] text-[#E8712A] block mb-2 uppercase tracking-wider">Style Influence</span>
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-2xl text-white/90 font-bold">{dnaSettings.styleInfluence}</span>
-                        <span className="font-mono text-[9px] text-white/30">%</span>
-                      </div>
-                      <button
-                        onClick={() => updateMusicState({ styleInfluence: dnaSettings.styleInfluence })}
-                        className="mt-2 w-full py-1.5 bg-[#E8712A]/10 border border-[#E8712A]/30 rounded-lg font-mono text-[9px] text-[#E8712A] hover:bg-[#E8712A]/20 transition-all"
-                      >
-                        Appliquer
-                      </button>
+                    <div className="bg-[#E8712A]/5 border border-[#E8712A]/15 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-[#E8712A]/70 block mb-1 uppercase tracking-wider">Style Infl.</span>
+                      <span className="font-mono text-lg text-white/90 font-bold">{dnaSettings.styleInfluence}</span>
+                      <span className="font-mono text-[8px] text-white/25 ml-0.5">%</span>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-white/30 block mb-1 uppercase tracking-wider">BPM</span>
+                      <span className="font-mono text-[11px] text-white/60 font-medium">{dnaSettings.bpmRange}</span>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-white/30 block mb-1 uppercase tracking-wider">Key</span>
+                      <span className="font-mono text-[11px] text-white/60 font-medium">{dnaSettings.key}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 px-2">
-                    <Info size={10} className="text-white/20 flex-shrink-0" />
-                    <span className="font-mono text-[8px] text-white/20">BPM: {dnaSettings.bpmRange} · Key: {dnaSettings.key} — Valeurs optimales testées pour cet artiste</span>
+                    <CheckCircle2 size={10} className="text-emerald-500/50 flex-shrink-0" />
+                    <span className="font-mono text-[8px] text-emerald-500/40">Valeurs calibrées automatiquement pour {state.music.inspiredBy}</span>
                   </div>
                 </div>
               );
