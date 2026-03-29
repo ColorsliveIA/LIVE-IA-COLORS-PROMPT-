@@ -119,7 +119,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "FREEZE CORLEONE": {
-    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Sliding 808, Dense Triplet Hi-Hats, Pitched-Down Orchestral Samples, 2020s",
+    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Dark Vinyl Samples, Chopped Orchestral Loops, Dense Triplet Hi-Hats, Deep Sub-808, 2020s",
     sunoExcludeStyles: "singing autotune, emotional delivery, bright production, major keys, humor, simple rhyme schemes, acoustic instruments, soulful warmth",
     sunoVocalTags: ["[monotone compressed midrange]", "[mechanical precision delivery]", "[zero melodic inflection]", "[clinical detachment]"],
     sunoWeirdness: 28,
@@ -128,7 +128,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoKey: "C Minor",
     vocalDNA: "Monotone cold clinical delivery with slightly nasal compressed midrange register. Zero melodic inflection maintaining constant pitch level regardless of lyrical content. Mechanical precision with metronomic syllable placement. Voice used purely as percussion instrument.",
     flowPattern: "Strictly metronomic on-beat syllable placement with mathematical density of multi-syllabic internal rhymes creating rhythmic complexity. Voice becomes percussion within the beat grid. No syncopation or behind-the-beat phrasing, purely mathematical alignment.",
-    productionFingerprint: "Dark drill base with boom-bap drum structures, sliding 808s creating pitch movement unease, dense triplet hi-hat rolls at rapid tempo, pitched-down orchestral samples creating ominous atmosphere, sparse melodic elements",
+    productionFingerprint: "Dark vinyl sample loops creating ominous atmosphere, chopped orchestral loops pitched down for menace, boom-bap drum patterns with hard-hitting snares, deep sub-808 bass rumble, dense triplet hi-hat rolls, dark drill energy with boom-bap structure",
     culturalAnchors: "Occultism and Raëlism references, 667 collective mythology, conspiracy theory language, coded esoteric communication, manga/anime references, Pan-Africanism, sports metaphors as life narrative",
     antiPatterns: "NEVER sings or uses melodic inflection, NEVER uses autotune, NEVER emotional vulnerable delivery, NEVER humor or lightness, NEVER bright uplifting production, NEVER simple rhyme schemes",
     sunoMetatags: {
@@ -137,7 +137,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       mood: "Dark",
       energy: "Medium",
       texture: "Raw unprocessed",
-      instrument: "Boom-Bap Drums, Dark Strings, Sub-Bass"
+      instrument: "Dark Vinyl Samples, Orchestral Loops, Boom-Bap Drums, Sub-808"
     }
   },
   NIRO: {
@@ -207,7 +207,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   BOOBA: {
-    sunoStyleTemplate: "Cinematic Dark Orchestral Rap, Authoritative Baritone Power, Aggressive Percussion Assault, 130-142 BPM, Key: C# Minor, Studio polished, Stadium reverb, Heavy Distorted 808, Dark Choir Pads, Dramatic Strings, Aggressive Drums, 2020s",
+    sunoStyleTemplate: "Aggressive Trap-Orchestral Rap, Heavy 808 Dominance, Cinematic Dark Power, 130-142 BPM, Key: C# Minor, Studio polished, Stadium reverb, Massive Distorted 808, Dark Choir Pads, Dramatic Strings, Hard Trap Drums, 2020s",
     sunoExcludeStyles: "soft acoustic pop, country folk gentle, happy bright atmosphere, nursery rhymes, lo-fi chill, smooth R&B warmth, acoustic guitar layers",
     sunoVocalTags: ["[deep authoritative baritone]", "[dominant aggressive delivery]", "[stadium-filling projection]", "[orchestral dramatic phrasing]"],
     sunoWeirdness: 18,
@@ -216,16 +216,16 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoKey: "C# Minor",
     vocalDNA: "Deep authoritative baritone with commanding projection designed to fill stadiums. Aggressive vocal strikes emphasizing power and dominance. Orchestral phrasing treating voice as instrument within symphonic arrangement. Minimal melodic inflection, focus on vocal power.",
     flowPattern: "Saccadic rhythmic attacks with sudden pauses and dramatic emphasis. Syllables struck with percussive force locking to kick/snare. Breath control emphasizing power over flow smoothness. Occasional long-held syllables for dramatic effect.",
-    productionFingerprint: "Dark orchestral arrangement with choir pads creating menace, dramatic string sweeps, aggressive percussion layers with multiple kick/snare hits, heavy distorted 808 bass creating sub-bass rumble, stadium reverb creating massive space",
+    productionFingerprint: "Massive distorted 808 bass as foundation of every track, hard trap drum patterns with aggressive kick/snare, dark orchestral arrangement with choir pads creating menace, dramatic string sweeps, stadium reverb creating massive space, modern trap hi-hat rolls layered with orchestral power",
     culturalAnchors: "French rap godfather mythology, criminal undertones and street hierarchy, material success narratives, international dominance claims, generational authority, African heritage pride",
     antiPatterns: "Never soft or gentle delivery, never acoustic warmth, never happy uplifting tone, never lo-fi minimalist production, never vulnerable emotional display",
     sunoMetatags: {
       vocalStyle: "Power Rap",
-      vocalEffect: "Reverb",
+      vocalEffect: "Reverb, Compressed",
       mood: "Aggressive",
       energy: "High",
       texture: "Studio polished",
-      instrument: "808 Bass, Choir Pads, Orchestral Strings"
+      instrument: "Massive 808 Bass, Trap Drums, Choir Pads, Orchestral Strings"
     }
   },
   HAMZA: {
@@ -361,7 +361,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   NEKFEU: {
-    sunoStyleTemplate: "Lyrical Pop-Rap Storytelling, Poetic Boom-Bap Flow, Warm Narrative Delivery, 90-105 BPM, Key: A Minor, Analog warmth, Room ambience, Acoustic Guitar, Jazz Piano, Organic Drums, Round Bass, 2010s",
+    sunoStyleTemplate: "Lyrical Boom-Bap Pop-Rap, Chopped Soul Sample Hooks, Warm Poetic Hip-Hop, 90-105 BPM, Key: A Minor, Analog warmth, Room ambience, Boom-Bap Drums, Chopped Soul Samples, Warm Synth Bass, Piano Chords, 2010s",
     sunoExcludeStyles: "heavy autotune distortion, generic trap beats, dark orchestral horror, aggressive screaming, industrial noise, fast drill energy",
     sunoVocalTags: ["[clear articulate delivery]", "[poetic narrative phrasing]", "[storytelling mastery]", "[warm conversational tone]"],
     sunoWeirdness: 20,
@@ -370,16 +370,16 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoKey: "A Minor",
     vocalDNA: "Clear articulate male voice emphasizing lyrical clarity and narrative phrasing. Poetic intonation suggesting intellectualism and emotional depth. Zero autotune processing, organic delivery emphasizing vocal authenticity. Warm tone inviting listener intimacy.",
     flowPattern: "Behind-the-beat phrasing creating pocket comfort and lyrical emphasis. Storytelling focus with clear enunciation. Verse construction prioritizing narrative arc over technical rhyme density. Melodic variation supporting emotional content.",
-    productionFingerprint: "Warm round bass providing foundation, acoustic guitar melody lines adding warmth, jazz piano chord sophistication supporting harmony, organic drum character with emphasis on live feel, studio polished clarity without coldness",
+    productionFingerprint: "Boom-bap drum patterns with punchy kicks and crisp snares, chopped soul vocal samples as melodic hooks, warm synth bass providing foundation, piano chord progressions adding sophistication, occasional guitar loops layered for texture",
     culturalAnchors: "Parisian intellectual hip-hop, poetic storytelling tradition, introspective narrative themes, social commentary, personal memoir elements, lyrical sophistication emphasis",
     antiPatterns: "Never heavy autotune or vocal distortion, never generic trap production, never dark orchestral atmosphere, never aggressive screaming, never fast drill energy",
     sunoMetatags: {
-      vocalStyle: "Spoken Word",
-      vocalEffect: "Dry",
+      vocalStyle: "Rap",
+      vocalEffect: "Subtle Reverb",
       mood: "Melancholic",
       energy: "Medium",
       texture: "Analog warmth",
-      instrument: "Acoustic Guitar, Jazz Piano, Organic Drums"
+      instrument: "Boom-Bap Drums, Soul Samples, Synth Bass, Piano"
     }
   },
   LAYLOW: {
@@ -471,25 +471,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "ALPHA WANN": {
-    sunoStyleTemplate: "Elite Technical French Rap, Cold Surgical Boom-Bap, Minimalist Dark Flow, 88-98 BPM, Key: D Minor, Raw unprocessed, Intimate dry booth, Minimal Dark Bass, Sparse Piano, Heavy Punchy Drums, Tight Snare, 2010s",
-    sunoExcludeStyles: "singing melodic, autotune warmth, bright uplifting, country folk, opera classical, festive energy, lo-fi chill",
+    sunoStyleTemplate: "Elite Technical Boom-Bap, Chopped Soul Sample Loops, Dusty Vinyl Hip-Hop, 88-98 BPM, Key: D Minor, Dusty sample, Intimate dry booth, Vinyl Drum Breaks, Jazz Saxophone, Chopped Soul Vocals, Round NY Bass, 2010s",
+    sunoExcludeStyles: "singing melodic, autotune warmth, bright uplifting, country folk, opera classical, festive energy, lo-fi chill, trap generic, drill",
     sunoVocalTags: ["[clinical precise delivery]", "[technical rap mastery]", "[cold detached tone]", "[surgical syllable placement]"],
     sunoWeirdness: 22,
     sunoStyleInfluence: 76,
     sunoBpmRange: "88-98",
     sunoKey: "D Minor",
     vocalDNA: "Clinical precise male voice emphasizing technical accuracy and cold detached delivery. Zero emotional inflection, pure technical display. Surgical syllable placement with mechanical precision. Intellectual positioning through vocal austerity.",
-    flowPattern: "Surgical syllable placement with metronomic precision on boom-bap grid. Internal rhyme density maximized within minimalist arrangement. Technical display emphasis over groove comfort. Zero syncopation, pure mathematical alignment.",
-    productionFingerprint: "Cold surgical boom-bap with minimal instrumentation, raw unprocessed sound, intimate dry booth recording, minimal dark bass, sparse piano stabs, heavy punchy drums with tight snare, overall sparse aesthetic",
-    culturalAnchors: "French technical rap excellence, intellectual lyrical depth, minimalist production philosophy, Parisian underground credibility, literary artistic positioning, refined hip-hop culture",
-    antiPatterns: "Never singing or melodic inflection, never autotune warmth, never bright uplifting, never festive energy, never lo-fi chill aesthetic",
+    flowPattern: "Surgical syllable placement with metronomic precision on boom-bap grid. Internal rhyme density maximized within sampled arrangement. Technical display emphasis over groove comfort. Behind-the-beat pocket with mathematical alignment.",
+    productionFingerprint: "Chopped soul sample loops providing melodic bed, dusty vinyl drum breaks with heavy kick and snapping snare, jazz saxophone loops weaving through arrangement, round warm NY-style bass, vinyl crackle texture, overall golden-era boom-bap modernized",
+    culturalAnchors: "French technical rap excellence, intellectual lyrical depth, boom-bap purist philosophy, Parisian underground credibility, literary artistic positioning, refined hip-hop culture",
+    antiPatterns: "Never singing or melodic inflection, never autotune warmth, never bright uplifting, never festive energy, never lo-fi chill aesthetic, never generic trap production",
     sunoMetatags: {
       vocalStyle: "Rap",
       vocalEffect: "Dry",
       mood: "Dark",
       energy: "Medium",
-      texture: "Raw unprocessed",
-      instrument: "Boom-Bap Drums, Piano, Minimal Bass"
+      texture: "Dusty sample",
+      instrument: "Vinyl Drum Breaks, Jazz Saxophone, Chopped Soul Samples, Round Bass"
     }
   },
   KAARIS: {
@@ -537,25 +537,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   VALD: {
-    sunoStyleTemplate: "Dark Experimental Lyrical Rap, Cold Detached Delivery, Introspective Minimal Beat, 90-100 BPM, Key: D Minor, Raw unprocessed, Intimate dry booth, Dark Minimal Bass, Distorted Synth Stabs, Sparse Drums, 2010s",
-    sunoExcludeStyles: "singing melodic, bright happy pop, country folk, opera classical, aggressive screaming, festive energy",
-    sunoVocalTags: ["[cold clinical voice]", "[detached intellectual delivery]", "[dark introspective tone]", "[minimalist phrasing]"],
+    sunoStyleTemplate: "Dark Aggressive Trap-Rap, Heavy 808 Distorted Bass, Experimental Horrorcore Hip-Hop, 130-145 BPM, Key: D Minor, Raw unprocessed, Underground bunker, Heavy Distorted 808, Dark Trap Hi-Hats, Eerie Synth Melodies, Aggressive Kick Patterns, 2020s",
+    sunoExcludeStyles: "singing melodic, bright happy pop, country folk, opera classical, festive energy, smooth R&B",
+    sunoVocalTags: ["[cold aggressive delivery]", "[rapid-fire technical flow]", "[dark sardonic tone]", "[explosive energy bursts]"],
     sunoWeirdness: 26,
     sunoStyleInfluence: 74,
-    sunoBpmRange: "90-100",
+    sunoBpmRange: "130-145",
     sunoKey: "D Minor",
-    vocalDNA: "Cold clinical male voice with detached intellectual delivery and dark introspective tone. Minimalist phrasing emphasizing silence over sound. Zero warmth in vocal approach, maximum cerebral focus. Lyrical complexity over vocal beauty.",
-    flowPattern: "Sparse syllable placement with extended silence, behind-the-beat phrasing creating distance, conversational intellectual delivery, word articulation emphasized for lyrical complexity. Minimal ad-libs or embellishments.",
-    productionFingerprint: "Raw unprocessed sound, intimate dry booth recording, dark minimal bass foundation, distorted synth stabs creating darkness, sparse drum pattern, overall minimalist dark aesthetic, emphasis on lyrics over production",
-    culturalAnchors: "Experimental French rap innovation, dark introspection and philosophy, intellectual artistic positioning, minimal aesthetic embrace, underground credibility, avant-garde musical approach",
-    antiPatterns: "Never singing or melodic, never bright happy, never country folk, never opera classical, never aggressive screaming, never festive energy",
+    vocalDNA: "Cold aggressive male voice shifting between rapid-fire technical delivery and sardonic detached tone. Capable of explosive energy bursts and dark humor. Technical precision with intentional raw edge. Versatile between introspective and aggressive modes.",
+    flowPattern: "Rapid-fire syllable density with technical multisyllabic rhymes, aggressive on-beat attacks, shifting between fast technical passages and dramatic pauses for punchlines. Dark humor delivered with deadpan timing.",
+    productionFingerprint: "Heavy distorted 808 bass creating aggressive low-end, dark trap hi-hat rolls with complex patterns, eerie synth melodies creating unsettling atmosphere, aggressive kick patterns, experimental beat switches, overall dark aggressive trap aesthetic",
+    culturalAnchors: "Experimental French rap innovation, dark humor and satire, provocative shock value, intellectual artistic positioning, horror-adjacent imagery, boundary-pushing content",
+    antiPatterns: "Never singing or melodic, never bright happy, never country folk, never opera classical, never festive energy, never smooth R&B",
     sunoMetatags: {
-      vocalStyle: "Spoken Word",
-      vocalEffect: "Dry",
-      mood: "Dark",
-      energy: "Low",
+      vocalStyle: "Rap",
+      vocalEffect: "Dry, Compressed",
+      mood: "Aggressive",
+      energy: "High",
       texture: "Raw unprocessed",
-      instrument: "Minimal Bass, Distorted Synths, Sparse Drums"
+      instrument: "Heavy 808, Trap Hi-Hats, Dark Synths, Aggressive Drums"
     }
   },
   "PLAYBOI CARTI": {
@@ -581,7 +581,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "KANYE WEST": {
-    sunoStyleTemplate: "Orchestral Soul-Sampling Hip-Hop, Ambitious Melodic Innovation, Chopped Soul Textures, 90-110 BPM, Key: C Minor, Studio polished, Cathedral reverb, Deep Warm Bass, Orchestral Strings, Chopped Soul Samples, 2010s",
+    sunoStyleTemplate: "Gospel Soul-Sampling Hip-Hop, Chopped Chipmunk Soul Vocals, Maximalist 808 Production, 90-110 BPM, Key: C Minor, Studio polished, Cathedral reverb, Heavy 808 Bass, Gospel Choir, Chopped Soul Samples, Orchestral Strings, 2010s",
     sunoExcludeStyles: "country folk, minimal sparse, lo-fi chill, aggressive metal screaming, industrial harsh noise",
     sunoVocalTags: ["[melodic sampling voice]", "[ambitious delivery]", "[innovative vocal placement]", "[soulful emotional tone]"],
     sunoWeirdness: 24,
@@ -590,7 +590,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoKey: "C Minor",
     vocalDNA: "Melodic male voice capable of both rapping and singing with emotional conviction. Ambitious delivery emphasizing innovation and emotional accessibility. Vocal flexibility allowing multiple approaches within single track. Soulful emotional expression.",
     flowPattern: "Flexible phrasing shifting between rap, sung passages, and ad-libs, behind-the-beat placement creating pocket, conversational accessibility with occasional melodic flourishes, rhythm control emphasizing emotional over technical.",
-    productionFingerprint: "Studio polished clarity, cathedral reverb creating space, deep warm bass providing foundation, orchestral string arrangements, chopped soul samples creating texture and emotion, layered production complexity",
+    productionFingerprint: "Chipmunk soul vocal samples pitched up as melodic hooks, heavy 808 bass providing cinematic low-end, gospel choir layers building triumphant atmosphere, orchestral string sweeps, chopped soul samples creating emotional texture, maximalist layered production with beat switches",
     culturalAnchors: "Hip-hop production innovation, ambitious artistic vision mythology, soul music heritage celebration, emotional vulnerability in rap, generational influence positioning, artistic evolution narrative",
     antiPatterns: "Never country folk, never minimal sparse, never lo-fi chill, never aggressive metal, never industrial harsh, never detached cold tone",
     sunoMetatags: {
@@ -599,11 +599,11 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       mood: "Triumphant",
       energy: "High",
       texture: "Studio polished",
-      instrument: "Orchestral Strings, Soul Samples, 808 Bass"
+      instrument: "808 Bass, Gospel Choir, Soul Samples, Orchestral Strings"
     }
   },
   "KENDRICK LAMAR": {
-    sunoStyleTemplate: "Conscious Jazz-Rap, Dynamic Storytelling Flow, Emotionally Intelligent Delivery, 85-105 BPM, Key: D Minor, Raw unprocessed, Room ambience, Organic Bass, Jazz Piano, Orchestral Elements, Varied Drums, 2010s",
+    sunoStyleTemplate: "Conscious Jazz-Funk Hip-Hop, Live Drum Grooves, West Coast G-Funk Soul, 85-105 BPM, Key: D Minor, Raw unprocessed, Room ambience, Funk Bass Guitar, Jazz Trumpet, Live Drums, Saxophone, Soul Piano, 2010s",
     sunoExcludeStyles: "repetitive trap beats, generic pop production, country folk, opera classical, overly autotune distortion",
     sunoVocalTags: ["[dynamic versatile delivery]", "[storytelling mastery]", "[emotional intelligence]", "[rhythmic precision]"],
     sunoWeirdness: 22,
@@ -612,16 +612,16 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoKey: "D Minor",
     vocalDNA: "Dynamic versatile male voice capable of shifting between aggressive, melodic, and vulnerable delivery within single track. Storytelling mastery through vocal nuance. Emotional intelligence conveyed through phrasing control. Technical precision meets soulful expression.",
     flowPattern: "Dynamic flow shifting between aggressive bursts and vulnerable moments, behind-the-beat pocket for introspection, on-beat attack for emphasis, conversational accessibility within complex narrative structures, rhythmic control emphasizing emotional arc.",
-    productionFingerprint: "Raw organic elements paired with orchestral arrangements, room ambience creating intimacy, organic bass foundation, jazz piano supporting harmonic sophistication, orchestral string arrangements, varied drum patterns per section",
+    productionFingerprint: "Live jazz-funk instrumentation with funk bass guitar driving groove, jazz trumpet and saxophone adding harmonic richness, live acoustic drums with swing feel, soul piano chords providing warmth, West Coast G-funk influence, orchestral arrangements for cinematic moments",
     culturalAnchors: "Conscious hip-hop tradition, storytelling narrative complexity, emotional vulnerability in rap, social commentary depth, West Coast rap legacy, artistic mastery positioning",
     antiPatterns: "Never repetitive trap beats, never generic pop production, never country folk, never opera classical, never overly autotune distorted",
     sunoMetatags: {
       vocalStyle: "Rap",
-      vocalEffect: "Dry",
+      vocalEffect: "Dry, Subtle Reverb",
       mood: "Melancholic",
       energy: "Medium→High",
       texture: "Raw unprocessed",
-      instrument: "Jazz Piano, Bass, Orchestral Elements"
+      instrument: "Funk Bass, Jazz Trumpet, Live Drums, Saxophone, Piano"
     }
   },
   "LANA DEL REY": {
@@ -691,25 +691,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   ORELSAN: {
-    sunoStyleTemplate: "French Alt-Rap Storytelling, Poetic Introspective Boom-Bap, Warm Narrative Delivery, 85-95 BPM, Key: D Minor, Analog warmth, Room ambience, Organic Bass, Jazz Piano, Acoustic Guitar, Organic Drums, 2010s",
+    sunoStyleTemplate: "French Alt-Rap Electronic, Synth-Driven Introspective Hip-Hop, Cinematic Pop-Rap Hybrid, 85-100 BPM, Key: D Minor, Studio polished, Room ambience, Analog Synth Layers, Punchy Electronic Drums, Warm Sub-Bass, Orchestral Swells, 2010s",
     sunoExcludeStyles: "aggressive trap, heavy autotune, dark orchestral, minimalist sparse, country folk, opera classical",
     sunoVocalTags: ["[conversational storytelling]", "[poetic narrative voice]", "[warm introspective tone]", "[intellectual delivery]"],
     sunoWeirdness: 18,
     sunoStyleInfluence: 76,
-    sunoBpmRange: "85-95",
+    sunoBpmRange: "85-100",
     sunoKey: "D Minor",
     vocalDNA: "Conversational male voice with poetic narrative sensibility and warm introspective tone. Intellectual positioning through vocal authenticity and lyrical complexity. Emotional accessibility without melodrama. Organic delivery emphasizing authenticity.",
     flowPattern: "Behind-the-beat phrasing creating pocket comfort, storytelling focus with clear word articulation, conversational accessibility within complex rhyme schemes, dynamic phrasing supporting narrative emotional arc.",
-    productionFingerprint: "Analog warmth throughout, room ambience creating intimacy, organic bass foundation, jazz piano supporting harmonic sophistication, acoustic guitar layers adding texture, organic drum patterns with live feel",
+    productionFingerprint: "Synth-driven electronic production with analog warmth, cinematic orchestral swells building emotional peaks, punchy electronic drum programming, layered synth textures creating atmosphere, warm sub-bass foundation, Skread signature production with pop-rap accessibility",
     culturalAnchors: "French poetic rap tradition, introspective narrative storytelling, intellectual artistic positioning, Norman cultural identity, social commentary depth, literary artistic credibility",
     antiPatterns: "Never aggressive trap, never heavy autotune, never dark orchestral, never minimalist sparse, never country folk, never opera classical",
     sunoMetatags: {
-      vocalStyle: "Spoken Word",
-      vocalEffect: "Dry",
+      vocalStyle: "Rap",
+      vocalEffect: "Subtle Reverb",
       mood: "Melancholic",
       energy: "Medium",
-      texture: "Analog warmth",
-      instrument: "Jazz Piano, Acoustic Guitar, Organic Drums"
+      texture: "Studio polished",
+      instrument: "Analog Synths, Electronic Drums, Sub-Bass, Orchestral Strings"
     }
   },
   "BURNA BOY": {
@@ -823,25 +823,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   STROMAE: {
-    sunoStyleTemplate: "Belgian Electro-Pop Introspection, Dark Witty Minimalist, Electronic Vocal Processing, 95-108 BPM, Key: E Minor, Digital crisp, Room ambience, Minimal Synth Bass, Sparse Electronic Percs, Layered Synth Pads, 2010s",
+    sunoStyleTemplate: "Belgian Electro-World Pop, Rumba Congolaise Rhythms, Dark Danceable Chanson, 100-120 BPM, Key: E Minor, Digital crisp, Room ambience, African Percussion, Synth Bass, World Drum Patterns, Marimba, Electronic Strings, 2010s",
     sunoExcludeStyles: "country rock metal, opera classical, aggressive dark orchestral, loud noise industrial, acoustic guitar warmth, generic trap",
-    sunoVocalTags: ["[clear intelligent delivery]", "[witty lyrical phrasing]", "[electronic vocal processing]", "[minimalist tone approach]"],
+    sunoVocalTags: ["[clear intelligent delivery]", "[witty lyrical phrasing]", "[dramatic vocal dynamics]", "[chanson-meets-electro tone]"],
     sunoWeirdness: 22,
     sunoStyleInfluence: 78,
-    sunoBpmRange: "95-108",
+    sunoBpmRange: "100-120",
     sunoKey: "E Minor",
-    vocalDNA: "Clear intelligent male voice with witty lyrical phrasing and electronic vocal processing subtlety. Intellectual positioning emphasized through delivery. Minimal emotional expression, maximum cerebral focus. Belgian accent inflecting delivery.",
-    flowPattern: "Minimalist syllable placement with surgical precision, on-beat emphasis with occasional electronic syncopation, word articulation emphasized for wit comprehension, intelligent delivery supporting lyrical complexity.",
-    productionFingerprint: "Clean digital production precision, room ambience moderate reverb, minimal synth bass presence, sparse percussion minimalism, layered synth pad support, overall clean minimalist aesthetic",
-    culturalAnchors: "Belgian electro-pop innovation, intellectual witty wordplay, dark introspection balanced with pop accessibility, social commentary through humor, European indie credibility",
+    vocalDNA: "Clear intelligent male voice with dramatic dynamics shifting between whisper and powerful projection. Belgian-Rwandan heritage infusing phrasing with African rhythmic sensibility. Chanson française tradition meets electronic pop. Emotional range from dark humor to raw vulnerability.",
+    flowPattern: "Rhythmic syllable placement locked to African polyrhythmic percussion, on-beat emphasis with danceable syncopation, word articulation emphasized for wit comprehension, dramatic vocal dynamics building to powerful choruses.",
+    productionFingerprint: "Rumba congolaise and African percussion patterns as rhythmic foundation, electronic synth bass driving groove, marimba and world percussion textures, electronic string arrangements, danceable world-pop fusion production, Jacques Brel dramatic chanson influence",
+    culturalAnchors: "Belgian electro-pop innovation, intellectual witty wordplay, Rwandan-Belgian identity, rumba congolaise heritage, dark introspection balanced with pop accessibility, social commentary through humor",
     antiPatterns: "Never country rock metal, never opera classical, never aggressive dark orchestral, never loud industrial noise, never acoustic guitar warmth",
     sunoMetatags: {
-      vocalStyle: "Spoken Word",
-      vocalEffect: "Vocoder, Reverb",
+      vocalStyle: "Melodic Rap",
+      vocalEffect: "Reverb, Subtle Vocoder",
       mood: "Melancholic",
-      energy: "Medium",
+      energy: "Medium→High",
       texture: "Digital crisp",
-      instrument: "Synth Bass, Electronic Percs, Synth Pads"
+      instrument: "African Percussion, Synth Bass, Marimba, Electronic Strings"
     }
   },
 };
