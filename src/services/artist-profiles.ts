@@ -477,7 +477,67 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Utilise impérativement l'ANGLAIS.
 - Slang US/UK générique : "no cap", "opps", "sliding", "stacks".
 - Flow : Melodic trap, Dark psychedelic, Drill.`,
-includes('GAZO') || upper.includes('ALPHA') || upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('VALD') || upper.includes('NINHO') || upper.includes('DAMSO') || upper.includes('FREEZE'))) matchKeys.push('RAP_FR');
+
+    'DRILL_FR': `DRILL FR :
+- 808 slides agressives, hi-hats frénétiques en triolets, piano sombre.
+- Flow syncopé, brutal, avec pauses dramatiques.
+- Langage cru, street, territorial.`,
+
+    'DARK_LYRICAL': `DARK LYRICAL :
+- Flow technique dense, zéro mélodie, syllabe = percussion.
+- Production sombre : boom-bap hybride drill, samples orchestraux pitchés.
+- Références occultes, culturelles, multi-couches.`,
+
+    'REGGAETON': `REGGAETON / LATIN URBAN :
+- Dembow riddim obligatoire, basses rondes et rebondissantes.
+- Flow rythmique espagnol, hooks catchy et dansants.
+- Thèmes : fête, séduction, dancefloor.`,
+
+    'AFROBEATS': `AFROBEATS :
+- Percussion afro authentique, grooves infectieux.
+- Mélodies joyeuses, hooks dansants, énergie positive.
+- Thèmes : célébration, fierté culturelle, danse.`,
+
+    'CARIBBEAN': `CARIBBEAN / DANCEHALL :
+- Riddim dancehall, basse chaude et groovy.
+- Flow bouncy avec inflexion caribéenne.
+- Énergie festive, positive, dancefloor tropical.`,
+
+    'MAGHREB': `MAGHREB / RAÏ :
+- Instrumentations orientales (oud, derbouka, qanun).
+- Mélodies en gammes arabes, émotion brute.
+- Thèmes : nostalgie, amour, exil, fête.`,
+
+    'AFRO_MELO': `AFRO-MELODIC :
+- Autotune mélodique sur production afro-trap.
+- 808 chaudes, percussions afro, mélodies lumineuses.
+- Alternance rap/chant, énergie festive-mélancolique.`,
+
+    'STORYTELLING': `STORYTELLING / ALT-RAP :
+- Narration poétique, flow conversationnel.
+- Production organique : piano jazz, guitare acoustique, drums live.
+- Introspection, humour, observations sociales.`,
+
+    'ELECTRO': `ELECTRO / HOUSE :
+- Production électronique précise, synthés dominants.
+- Groove dancefloor, vocoder ou voix traitée.
+- Structures répétitives, build-ups, drops.`,
+
+    'MELODIC_TRAP': `MELODIC TRAP :
+- Autotune mélodique, alternance rap/chant fluide.
+- 808 profondes, mélodies sombres (piano, guitare), hi-hats complexes.
+- Thèmes : succès, mélancolie, nuit, introspection.`,
+
+    'HARDCORE': `HARDCORE RAP :
+- Voix grave, agressive, zéro mélodie.
+- Production massive : orchestrale sombre ou trap lourde.
+- Langage cru, dominance, confrontation.`
+  };
+
+  const matchKeys: string[] = [];
+
+  // Rap FR
+  if (upper.includes('JUL') || upper.includes('GAZO') || upper.includes('ALPHA') || upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('VALD') || upper.includes('NINHO') || upper.includes('DAMSO') || upper.includes('FREEZE')) matchKeys.push('RAP_FR');
 
   // Drill FR
   if (upper.includes('DRILL') && upper.includes('FR') || upper.includes('GAZO')) matchKeys.push('DRILL_FR');
