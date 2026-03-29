@@ -588,6 +588,9 @@ export const MUSIC_ARTISTS = [
   { id: 'kalash', name: 'KALASH', sub: 'Martinique / Dancehall / Trap / Creole & French' },
   { id: 'sade', name: 'SADE', sub: 'Smooth Soul / R&B' },
   { id: 'theodora', name: 'THEODORA', sub: 'Electronic / Dark Pop' },
+  { id: 'freeze-corleone', name: 'FREEZE CORLEONE', sub: 'Dark Drill / Occult / 667', weirdness: 45, styleInfluence: 100 },
+  { id: 'niro', name: 'NIRO', sub: 'Rap Technique / Nord / Street', weirdness: 10, styleInfluence: 90 },
+  { id: 'zaho', name: 'ZAHO', sub: 'R&B Algérien-Français / Pop', weirdness: 15, styleInfluence: 85 },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
