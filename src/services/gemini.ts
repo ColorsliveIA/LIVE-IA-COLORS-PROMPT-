@@ -297,8 +297,9 @@ ${artistIdentitySummary}
   // SONIC DNA BLOCK: Inject pre-tested Suno template as foundation for style generation
   const sonicDNABlock = sonicDNA ? `
 # SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – USE AS ABSOLUTE FOUNDATION):
-CRITICAL: Ce template a été testé et validé sur Suno V5.5 pour reproduire fidèlement le son de "${inspiredBy}".
-Tu DOIS l'utiliser comme BASE FONDAMENTALE. Les tokens-clés et textures DOIVENT rester présents.
+CRITICAL: Ce template est le prompt Suno FINAL pré-validé. NE PAS le modifier, le reformuler ou le résumer.
+Le champ sunoPrompt de ta réponse JSON DOIT être EXACTEMENT: "${sonicDNA.sunoStyleTemplate}"
+Les lyrics doivent intégrer les METATAGS V5.5 pré-calibrés ci-dessous dans CHAQUE section.
 
 STYLE TEMPLATE VALIDÉ: ${sonicDNA.sunoStyleTemplate}
 BPM RANGE: ${sonicDNA.sunoBpmRange}
@@ -321,6 +322,16 @@ ${sonicDNA.culturalAnchors || 'Non spécifié'}
 
 # ANTI-PATTERNS (CE QUE L'ARTISTE NE FAIT JAMAIS – EXCLURE ABSOLUMENT):
 ${sonicDNA.antiPatterns || 'Non spécifié'}
+
+# METATAGS V5.5 PRÉ-CALIBRÉS (INJECTER DANS CHAQUE SECTION DE LYRICS):
+Tu DOIS utiliser ces metatags au début de chaque section de lyrics:
+[Vocal Style: ${sonicDNA.sunoMetatags?.vocalStyle || 'Rap'}]
+[Vocal Effect: ${sonicDNA.sunoMetatags?.vocalEffect || 'Reverb'}]
+[Mood: ${sonicDNA.sunoMetatags?.mood || 'Dark'}]
+[Energy: ${sonicDNA.sunoMetatags?.energy || 'Medium'}]
+[Texture: ${sonicDNA.sunoMetatags?.texture || 'Crisp Digital'}]
+[Instrument: ${sonicDNA.sunoMetatags?.instrument || '808 Bass'}]
+RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal Style] et [Vocal Effect] sont NON-NÉGOCIABLES pour la fidélité artiste.
 ` : '';
 
   // OPTIMIZED: Artist-specific instructions loaded from dictionary (saves ~80% tokens)
@@ -583,6 +594,12 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 200-250 ca
 
     if (!response.text) throw new Error("Empty response from Gemini");
     const parsed = JSON.parse(response.text);
+
+    // PROPOSITION A: BYPASS GEMINI — Force Sonic DNA template as direct Suno prompt
+    // This eliminates translation loss from Gemini's reinterpretation
+    if (sonicDNA?.sunoStyleTemplate) {
+      parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+    }
 
     // STEP 2: Extract CORE DNA variant (V1) from main call
     const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts && parsed.sunoPrompts[0]) || "";
