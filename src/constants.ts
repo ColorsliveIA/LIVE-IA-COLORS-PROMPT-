@@ -516,7 +516,7 @@ export const MUSIC_ARTISTS = [
   { id: 'hamza', name: 'HAMZA', sub: 'Saucegod / R&B Trap', weirdness: 25, styleInfluence: 95 },
   { id: 'werenoi', name: 'WERENOI', sub: 'Melancholic / Street', weirdness: 10, styleInfluence: 85 },
   { id: 'vacra', name: 'VACRA', sub: 'Sensual / Afro R&B', weirdness: 30, styleInfluence: 90 },
-  { id: 'augxst', name: 'AUGXST', sub: 'Dark R&B / Melodic Trap' },
+  { id: 'augxst', name: 'AUGXST', sub: 'Cinematic R&B / Rap-Singing Intimiste', weirdness: 15, styleInfluence: 82 },
   { id: 'lithe', name: 'LITHE', sub: 'Dark R&B / Melodic Trap' },
   { id: 'snoh-aalegra', name: 'SNOH AALEGRA', sub: 'Soulful R&B / Jazz' },
   { id: 'mobb-deep', name: 'MOBB DEEP', sub: '90s East Coast / Gritty' },

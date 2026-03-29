@@ -844,6 +844,28 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       instrument: "African Percussion, Synth Bass, Marimba, Electronic Strings"
     }
   },
+  AUGXST: {
+    sunoStyleTemplate: "Intimate Cinematic R&B, Melodic Rap-Singing Hybrid, Warm Emotional Vulnerability, Dreamy Atmospheric Soul, 75-90 BPM, Key: Ab Major, Warm analog saturation, Spacious intimate reverb, Lush Pad Layers, Soft Round Sub Bass, Rhodes Electric Piano, Ambient Guitar Textures, Delicate Hi-Hat Taps, Smooth Warm Tenor Rap-Singing Natural Voice, Gentle Build Whispered Verse to Soaring Melodic Hook, Warm Cinematic Master Wide Stereo Depth, Fashion-Forward Boston Soul Late-Night Emotion, 2020s Modern R&B",
+    sunoExcludeStyles: "afro trap, glitchy experimental, harsh distortion, aggressive trap, heavy 808, country rock, metal, opera, boom-bap, drill, hard bass, industrial, vocoder heavy, basic autotune pitch correction",
+    sunoVocalTags: ["[warm smooth tenor]", "[natural rap-singing delivery]", "[intimate whispered verses]", "[soaring melodic hooks]", "[emotional vulnerability]"],
+    sunoWeirdness: 15,
+    sunoStyleInfluence: 82,
+    sunoBpmRange: "75-90",
+    sunoKey: "Ab Major",
+    vocalDNA: "Warm smooth tenor with natural grain and emotional transparency. Rap-singing hybrid where spoken verses flow seamlessly into melodic hooks without hard transitions. Intimate whispered delivery in verses building to soaring open-chested singing in choruses. No heavy vocoder or autotune — voice carries raw, organic, vulnerable.",
+    flowPattern: "Fluid rap-singing where syllables glide between spoken word and melody. Verses delivered in intimate whispered cadence with rhythmic phrasing. Choruses open up into full melodic singing with sustained notes. Syllable placement rides behind the beat creating dreamy laid-back feel.",
+    productionFingerprint: "Lush ambient pad layers creating cinematic depth, soft sub bass with rounded warmth, Rhodes electric piano chords with gentle shimmer, ambient reverb-drenched guitar textures, delicate programmed hi-hats with minimal percussion, spacious mix with wide stereo imaging, tape-warm saturation on vocals",
+    culturalAnchors: "Boston independent artist identity, cinematic emotional storytelling, fashion-forward aesthetic (Gucci/Demna Milan connection), manifestation through music, intimate late-night atmosphere, vulnerability as strength, from-nothing-to-something narrative",
+    antiPatterns: "Never afro trap or dancehall energy, never glitchy experimental textures, never heavy vocoder or pitch-corrected robotic vocals, never aggressive hard-hitting 808s, never fast BPM party music, never basic trap patterns, never harsh distorted production",
+    sunoMetatags: {
+      vocalStyle: "Rap-Singing",
+      vocalEffect: "Light Reverb, Warm Saturation",
+      mood: "Intimate",
+      energy: "Low→Medium",
+      texture: "Warm Analog",
+      instrument: "Rhodes Piano, Ambient Pads, Sub Bass, Guitar Textures"
+    }
+  },
 };
 
 /**
