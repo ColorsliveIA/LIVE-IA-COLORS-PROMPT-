@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SessionState, MusicState, Verse } from '../types';
-import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Upload, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle } from 'lucide-react';
+import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Upload, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle, Edit3, RotateCcw } from 'lucide-react';
 import { generateMusicContext, analyzeAudio, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
 import { getArtistSunoSettings } from '../services/sonic-dna';
 import { fetchArtistMetadata } from '../services/musicbrainz';
@@ -49,6 +49,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [activeTab, setActiveTab] = useState<'composition' | 'vocals' | 'performance'>('composition');
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [isEditingPrompt, setIsEditingPrompt] = useState(false);
+  const [editedPrompt, setEditedPrompt] = useState('');
+  const [genreSearch, setGenreSearch] = useState('');
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
 
   const LOADING_MESSAGES = [
     "Un producteur légendaire rentre dans le studio...",
@@ -484,16 +488,35 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     }
   };
 
+  const showToast = useCallback((text: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToastMessage({ text, type });
+    setTimeout(() => setToastMessage(null), 2500);
+  }, []);
+
   const copyToClipboard = (text: string, type: string = 'text') => {
     if (!text) return;
     try {
       copy(text);
       setCopiedText(type);
+      showToast('Copié dans le presse-papiers', 'success');
       setTimeout(() => setCopiedText(null), 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
+      showToast('Erreur de copie', 'error');
     }
   };
+
+  // Keyboard shortcut: Cmd/Ctrl + Enter to generate
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && !state.music.isGenerating) {
+        e.preventDefault();
+        handleGenerate('all');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.music.isGenerating]);
 
   const handleRerollVerse = async (verse: Verse, index: number) => {
     if (state.music.isGenerating) return;
@@ -588,7 +611,30 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   return (
     <div className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative">
       <div className="scanline-effect" />
-      
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -30, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -20, x: '-50%' }}
+            className={`fixed top-5 left-1/2 z-[200] px-5 py-3 rounded-xl border backdrop-blur-xl shadow-2xl font-mono text-[11px] font-bold tracking-wider ${
+              toastMessage.type === 'success' ? 'bg-green-950/80 border-green-500/30 text-green-300' :
+              toastMessage.type === 'error' ? 'bg-red-950/80 border-red-500/30 text-red-300' :
+              'bg-[#E8712A]/10 border-[#E8712A]/30 text-[#E8712A]'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {toastMessage.type === 'success' && <CheckCircle2 size={14} />}
+              {toastMessage.type === 'error' && <AlertCircle size={14} />}
+              {toastMessage.type === 'info' && <Info size={14} />}
+              {toastMessage.text}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Full-screen Loading Overlay */}
       <AnimatePresence>
         {state.music.isGenerating && (
@@ -827,15 +873,27 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             <div className="space-y-3">
               <div className="flex items-center justify-between ml-1">
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Genre & Style</label>
-                <button 
+                <button
                   onClick={() => setShowAllGenres(!showAllGenres)}
                   className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
                 >
                   {showAllGenres ? 'Show Less' : 'Show All'}
                 </button>
               </div>
+              {showAllGenres && (
+                <div className="relative">
+                  <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
+                  <input
+                    type="text"
+                    value={genreSearch}
+                    onChange={(e) => setGenreSearch(e.target.value)}
+                    placeholder="Rechercher un genre..."
+                    className="w-full bg-black/40 border border-white/10 rounded-xl pl-8 pr-3 py-2.5 font-mono text-[10px] text-white/60 placeholder-white/20 focus:outline-none focus:border-[#E8712A]/40 transition-all"
+                  />
+                </div>
+              )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(showAllGenres ? MUSIC_GENRES : MUSIC_GENRES.slice(0, 8)).map((g) => {
+                {(showAllGenres ? MUSIC_GENRES.filter(g => !genreSearch || g.name.toLowerCase().includes(genreSearch.toLowerCase()) || (g.sub && g.sub.toLowerCase().includes(genreSearch.toLowerCase()))) : MUSIC_GENRES.slice(0, 8)).map((g) => {
                   const Icon = GENRE_ICONS[g.name] || Music;
                   const isActive = state.music.genre === g.name;
                   return (
@@ -1810,7 +1868,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         </label>
                         <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.energy}%</span>
                       </div>
-                      <input 
+                      <input
                         type="range"
                         min="0"
                         max="100"
@@ -1818,6 +1876,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         onChange={(e) => updateMusicState({ energy: parseInt(e.target.value) })}
                         className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
                       />
+                      <div className="flex justify-between mt-1">
+                        <span className="font-mono text-[7px] text-white/15">Calme</span>
+                        <span className="font-mono text-[7px] text-white/15">Explosif</span>
+                      </div>
                     </div>
 
                     <div>
@@ -1827,7 +1889,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         </label>
                         <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.emotionalIntensity}%</span>
                       </div>
-                      <input 
+                      <input
                         type="range"
                         min="0"
                         max="100"
@@ -1835,6 +1897,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         onChange={(e) => updateMusicState({ emotionalIntensity: parseInt(e.target.value) })}
                         className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
                       />
+                      <div className="flex justify-between mt-1">
+                        <span className="font-mono text-[7px] text-white/15">Neutre</span>
+                        <span className="font-mono text-[7px] text-white/15">Intense</span>
+                      </div>
                     </div>
 
                     <div>
@@ -1844,7 +1910,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         </label>
                         <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.weirdness}%</span>
                       </div>
-                      <input 
+                      <input
                         type="range"
                         min="0"
                         max="100"
@@ -1852,6 +1918,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         onChange={(e) => updateMusicState({ weirdness: parseInt(e.target.value) })}
                         className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
                       />
+                      <div className="flex justify-between mt-1">
+                        <span className="font-mono text-[7px] text-white/15">Classique</span>
+                        <span className="font-mono text-[7px] text-white/15">Expérimental</span>
+                      </div>
                     </div>
 
                     <div>
@@ -1861,7 +1931,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         </label>
                         <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.styleInfluence}%</span>
                       </div>
-                      <input 
+                      <input
                         type="range"
                         min="0"
                         max="100"
@@ -1869,6 +1939,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         onChange={(e) => updateMusicState({ styleInfluence: parseInt(e.target.value) })}
                         className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
                       />
+                      <div className="flex justify-between mt-1">
+                        <span className="font-mono text-[7px] text-white/15">Libre</span>
+                        <span className="font-mono text-[7px] text-white/15">Fidèle</span>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -1997,6 +2071,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         <Zap size={20} className="sm:w-8 sm:h-8 fill-current" />
                       </motion.div>
                       <span className="relative z-10">BANGER</span>
+                      <span className="hidden sm:inline font-mono text-[8px] opacity-40 ml-1">⌘↵</span>
                     </>
                   )}
                 </motion.button>
@@ -2155,12 +2230,26 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                             {copiedText === `history-negative-${item.id}` ? <CheckCircle2 size={12} className="text-red-400" /> : <AlertCircle size={12} />}
                           </button>
                         )}
-                        <button 
+                        <button
                           onClick={() => copyToClipboard(item.lyrics, `history-lyrics-${item.id}`)}
                           className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all"
                           title="Copy Lyrics"
                         >
                           {copiedText === `history-lyrics-${item.id}` ? <CheckCircle2 size={12} className="text-[#E8712A]" /> : <Mic size={12} />}
+                        </button>
+                        <button
+                          onClick={() => {
+                            updateMusicState({
+                              sunoPrompt: item.sunoPrompt,
+                              negativePrompt: item.negativePrompt || '',
+                              lyrics: item.parsedLyrics || state.music.lyrics,
+                            });
+                            showToast('Génération restaurée', 'info');
+                          }}
+                          className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-green-400 hover:bg-green-500/10 hover:border-green-500/40 transition-all"
+                          title="Restaurer cette génération"
+                        >
+                          <RotateCcw size={12} />
                         </button>
                       </div>
                     </div>
@@ -2270,22 +2359,62 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             </div>
             
             <div className="relative group/prompt">
-              <div className="bg-black/60 border border-white/5 rounded-xl p-5 font-mono text-[10px] text-white/60 leading-relaxed min-h-[100px] shadow-inner backdrop-blur-md">
-                {state.music.sunoPrompt || "Le prompt de style Suno apparaîtra ici..."}
-              </div>
-              <div className="absolute bottom-3 right-3 flex items-center gap-3">
-                <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 1000 ? 'text-red-500' : 'text-white/20'}`}>
-                  {(state.music.sunoPrompt || '').length}/1000
-                </span>
-                {state.music.sunoPrompt && (
-                  <button 
-                    onClick={() => copyToClipboard(state.music.sunoPrompt, 'sunoPrompt')}
-                    className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
-                  >
-                    {copiedText === 'sunoPrompt' ? <CheckCircle2 size={14} className="text-[#E8712A]" /> : <Copy size={14} />}
-                  </button>
-                )}
-              </div>
+              {isEditingPrompt ? (
+                <div className="relative">
+                  <textarea
+                    value={editedPrompt}
+                    onChange={(e) => setEditedPrompt(e.target.value)}
+                    className="w-full bg-black/80 border border-[#E8712A]/40 rounded-xl p-5 font-mono text-[10px] text-white/80 leading-relaxed min-h-[120px] shadow-inner backdrop-blur-md resize-y focus:outline-none focus:border-[#E8712A]/60 focus:ring-1 focus:ring-[#E8712A]/20"
+                    autoFocus
+                  />
+                  <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                    <span className={`font-mono text-[9px] font-bold ${editedPrompt.length > 1000 ? 'text-red-500' : 'text-white/30'}`}>
+                      {editedPrompt.length}/1000
+                    </span>
+                    <button
+                      onClick={() => { setIsEditingPrompt(false); setEditedPrompt(''); }}
+                      className="px-3 py-1.5 bg-white/5 rounded-lg border border-white/10 text-white/40 hover:text-white/60 text-[9px] font-mono uppercase tracking-widest transition-all"
+                    >
+                      Annuler
+                    </button>
+                    <button
+                      onClick={() => { updateMusicState({ sunoPrompt: editedPrompt }); setIsEditingPrompt(false); showToast('Prompt mis à jour', 'success'); }}
+                      className="px-3 py-1.5 bg-[#E8712A]/20 rounded-lg border border-[#E8712A]/40 text-[#E8712A] hover:bg-[#E8712A]/30 text-[9px] font-mono uppercase tracking-widest font-bold transition-all"
+                    >
+                      Appliquer
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-black/60 border border-white/5 rounded-xl p-5 font-mono text-[10px] text-white/60 leading-relaxed min-h-[100px] shadow-inner backdrop-blur-md">
+                  {state.music.sunoPrompt || "Le prompt de style Suno apparaîtra ici..."}
+                </div>
+              )}
+              {!isEditingPrompt && (
+                <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                  <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 1000 ? 'text-red-500' : 'text-white/20'}`}>
+                    {(state.music.sunoPrompt || '').length}/1000
+                  </span>
+                  {state.music.sunoPrompt && (
+                    <>
+                      <button
+                        onClick={() => { setEditedPrompt(state.music.sunoPrompt); setIsEditingPrompt(true); }}
+                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
+                        title="Modifier le prompt"
+                      >
+                        <Edit3 size={14} />
+                      </button>
+                      <button
+                        onClick={() => copyToClipboard(state.music.sunoPrompt, 'sunoPrompt')}
+                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
+                        title="Copier le prompt"
+                      >
+                        {copiedText === 'sunoPrompt' ? <CheckCircle2 size={14} className="text-[#E8712A]" /> : <Copy size={14} />}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             {state.music.sunoPrompts && state.music.sunoPrompts.length > 0 && (
