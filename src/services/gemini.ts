@@ -32,7 +32,7 @@ async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 3): Promi
         e?.message?.includes('high demand');
 
       if (isRetryable && i < maxRetries) {
-        const delay = (e?.message?.includes('429') || e?.error?.code === 429)
+        const delay = (e?.message?.includes('429') || e?.status === 429 || e?.error?.code === 429)
           ? 5000 * (i + 1)
           : 1000 * (i + 1);
         console.warn(`Gemini API call failed (attempt ${i + 1}), retrying in ${delay}ms...`, e);
