@@ -49,6 +49,12 @@ const ALLOWED_MODELS = new Set([
   "gemini-2.0-flash-lite",
 ]);
 
+// ── Model fallback chain (if primary model hits 429, try next) ───────
+const MODEL_FALLBACKS: Record<string, string[]> = {
+  "gemini-3-flash-preview": ["gemini-2.5-flash-preview-05-20", "gemini-2.0-flash"],
+  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash"],
+};
+
 // ── CORS ─────────────────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
   "https://live-ia-colors-prompt.vercel.app",
@@ -127,21 +133,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({ model, contents, config });
-    const text = response.text || "";
+    const modelsToTry = [model, ...(MODEL_FALLBACKS[model] || [])];
+    let lastError: any = null;
 
-    if (cacheKey && text.length < 10_000) {
-      responseCache.set(cacheKey, { text, cachedAt: Date.now() });
-      if (responseCache.size > 200) {
-        const now = Date.now();
-        for (const [k, v] of responseCache) {
-          if (now - v.cachedAt > CACHE_TTL_MS) responseCache.delete(k);
+    for (const currentModel of modelsToTry) {
+      try {
+        const response = await ai.models.generateContent({ model: currentModel, contents, config });
+        const text = response.text || "";
+
+        if (cacheKey && text.length < 10_000) {
+          responseCache.set(cacheKey, { text, cachedAt: Date.now() });
+          if (responseCache.size > 200) {
+            const now = Date.now();
+            for (const [k, v] of responseCache) {
+              if (now - v.cachedAt > CACHE_TTL_MS) responseCache.delete(k);
+            }
+          }
         }
+
+        return res.status(200).json({ text, model: currentModel });
+      } catch (e: any) {
+        lastError = e;
+        const is429 = e?.status === 429 || e?.error?.code === 429;
+        const is503 = e?.status === 503 || e?.error?.code === 503;
+        if ((is429 || is503) && currentModel !== modelsToTry[modelsToTry.length - 1]) {
+          console.warn(`Model ${currentModel} returned ${is429 ? 429 : 503}, falling back...`);
+          continue;
+        }
+        break;
       }
     }
 
-    return res.status(200).json({ text });
-  } catch (error: any) {
+    const error = lastError;
     console.error("Gemini API error:", error?.message || error);
     let statusCode = 500;
     let message = error?.message || "Gemini API request failed";
