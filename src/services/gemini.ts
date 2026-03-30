@@ -25,6 +25,9 @@ async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 3): Promi
         e?.message?.includes('429') ||
         e?.status === 429 ||
         e?.error?.code === 429 ||
+        e?.message?.includes('504') ||
+        e?.status === 504 ||
+        e?.error?.code === 504 ||
         e?.error?.status === 'RESOURCE_EXHAUSTED' ||
         e?.message?.includes('high demand');
 

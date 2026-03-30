@@ -771,9 +771,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         
         <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 w-full sm:w-auto">
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 bg-white/5 border border-white/10 rounded-full backdrop-blur-md">
-            <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${process.env.GEMINI_API_KEY ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'} animate-pulse`} />
+            <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)] animate-pulse`} />
             <span className="font-mono text-[8px] sm:text-[10px] text-white/70 font-medium uppercase tracking-widest">
-              {process.env.GEMINI_API_KEY ? 'API: ACTIVE' : 'API: OFFLINE'}
+              API: ACTIVE
             </span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 border-l border-white/10 pl-3 sm:pl-6">

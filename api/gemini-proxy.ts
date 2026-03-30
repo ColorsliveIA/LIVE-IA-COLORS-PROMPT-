@@ -51,6 +51,7 @@ const ALLOWED_MODELS = new Set([
 
 // ── CORS ─────────────────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
+  "https://live-ia-colors-prompt.vercel.app",
   "https://live-ia-colors-prompt-sn4y.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
