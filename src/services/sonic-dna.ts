@@ -801,25 +801,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   SOOLKING: {
-    sunoStyleTemplate: "Algerian Afro-Pop Dancehall, Caribbean Melodic Energy, Infectious Groove Celebration, 98-110 BPM, Key: C Minor, Digital crisp, Open air, Bouncy Round Bass, Afro Percussion, Synth Horn Stabs, Riddim Drums, 2020s",
-    sunoExcludeStyles: "dark depressing atmosphere, metal aggressive, classical opera, slow ballad, industrial noise, minimalist sparse production",
-    sunoVocalTags: ["[confident energetic delivery]", "[afro-influenced phrasing]", "[dancing rhythm locking]", "[positive uplifting tone]"],
+    sunoStyleTemplate: "Modern Raï-Pop Algerian, Melodic French-Arabic Rap-Singing, Warm Mediterranean Groove, 95-112 BPM, Key: C Minor, Studio polished, Wide reverb, Warm 808 Bass, Oriental Piano Melodies, Modern Accordion Layers, Darbuka-Trap Hybrid Drums, Mandole Accents, Smooth Raï Tenor French-Arabic Melodic Delivery, Emotional Build Intimate Verse to Catchy Pop-Raï Chorus, Warm Polished Mix Oriental-Pop Balance, Algiers-Paris Raï-Pop Modern Pioneer Liberté, 2020s",
+    sunoExcludeStyles: "dark depressing atmosphere, metal aggressive, classical opera, industrial noise, hard drill, country folk, boom-bap traditional",
+    sunoVocalTags: ["[smooth raï tenor]", "[French-Arabic bilingual flow]", "[melodic pop-raï delivery]", "[warm emotional singing]"],
     sunoWeirdness: 14,
     sunoStyleInfluence: 80,
-    sunoBpmRange: "98-110",
+    sunoBpmRange: "95-112",
     sunoKey: "C Minor",
-    vocalDNA: "Confident energetic male voice with afro-influenced phrasing and dancing rhythm-locking ability. Conversational accessibility with infectious energy. Positive uplifting delivery emphasizing joy. Caribbean-influenced inflection.",
-    flowPattern: "Groove-locking placement emphasizing infectious bounce and head-nod rhythm, syncopated afro-dancehall phrasing, call-and-response moments with infectious energy, rhythmic pocket emphasized throughout.",
-    productionFingerprint: "Digital crisp clarity, open air space with wide stereo, bouncy round bass pocket, authentic afro percussion layers, synth horn stab accents, riddim drum patterns, infectious positive atmosphere",
-    culturalAnchors: "Afro-dancehall cultural bridge, Caribbean-African diaspora fusion, infectious groove celebration, festival culture energy, pan-African pride positioning, modern cultural innovation",
-    antiPatterns: "Never dark depressing atmosphere, never metal aggressive, never classical operatic, never slow ballad approach, never industrial noise, never minimalist sparse",
+    vocalDNA: "Smooth raï tenor with French-Arabic bilingual melodic flow. Warm emotional singing blending modern pop accessibility with raï ornamentation. Voice carries both street credibility and pop polish. Algerian accent natural and authentic, switching fluidly between darija and French.",
+    flowPattern: "Melodic rap-singing alternating French verses with Arabic melodic hooks. Raï ornamentation on chorus sustained notes. Pop-friendly verse structure with catchy refrains. Smooth rhythmic pocket blending trap timing with raï groove.",
+    productionFingerprint: "Warm 808 bass providing modern groove, oriental piano melodies as harmonic foundation, modern accordion layers adding raï authenticity, darbuka-trap hybrid drum patterns, mandole accents on melodic passages, polished studio clarity with warm Mediterranean feel",
+    culturalAnchors: "Liberté iconic anthem, Algiers-Paris cultural bridge, modern raï-pop pioneer, Guerilla artistic depth, Dalida emotional maturity, Algerian diaspora voice, raï modernization without losing roots",
+    antiPatterns: "Never afro-dancehall, never Caribbean riddim, never dark orchestral, never industrial, never hard drill, never boom-bap, never pure anglophone style",
     sunoMetatags: {
       vocalStyle: "Melodic Rap",
-      vocalEffect: "Auto-tune, Reverb",
+      vocalEffect: "Auto-tune Light, Reverb",
       mood: "Uplifting",
-      energy: "High",
-      texture: "Crisp Digital",
-      instrument: "Bass, Afro Percussion, Synth Horns"
+      energy: "Medium→High",
+      texture: "Studio polished",
+      instrument: "808 Bass, Oriental Piano, Accordion, Darbuka, Mandole"
     }
   },
   STROMAE: {
@@ -1107,23 +1107,23 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb, Delay", mood: "Melancholic", energy: "Low→Medium", texture: "Analog warmth", instrument: "Strings, Bass Guitar, Jazz Piano, Brush Drums" }
   },
   "REDA TALIANI": {
-    sunoStyleTemplate: "Festive Modern Raï, Algerian Pop Energy, Mediterranean Celebration, Warm Festive Groove, 105-120 BPM, Key: Bb Minor, Analog warmth, Open air, Darbuka Percussion, Oud Melodic Lines, Synth Strings, Punchy Bass, Powerful Raï Tenor Emotional Ornamented Vocals, Festive Build to Celebratory Peak, Warm Live Mix Festival Energy, Algerian Diaspora Festive Pride, 2010s",
-    sunoExcludeStyles: "metal screaming, country folk, opera classical, dark orchestral, industrial noise, lo-fi chill, hard drill",
-    sunoVocalTags: ["[powerful raï tenor]", "[ornamental melisma]", "[festive emotional delivery]", "[Algerian vocal tradition]"],
+    sunoStyleTemplate: "Urban Raï-Chaâbi Algerian, Street Energy Oriental Groove, Raw Festive Mediterranean, 105-120 BPM, Key: Bb Minor, Analog warmth, Open air, Darbuka Heavy Percussion, Mandole Melodic Lines, Oriental Violin Stabs, Derbouka Patterns, Punchy Bass, Powerful Raï Tenor Raw Urban Delivery, Dynamic Build Street Verse to Festive Chaâbi Chorus, Warm Live Mix Raw Festival Energy, Algerian Urban Raï-Chaâbi Modernizer, 2010s",
+    sunoExcludeStyles: "metal screaming, country folk, opera classical, dark orchestral, industrial noise, lo-fi chill, hard drill, soft ballad whisper",
+    sunoVocalTags: ["[powerful raw raï tenor]", "[urban chaâbi energy]", "[Arabic darija delivery]", "[festive street ornamentation]"],
     sunoWeirdness: 10, sunoStyleInfluence: 85, sunoBpmRange: "105-120", sunoKey: "Bb Minor",
-    vocalDNA: "Powerful raï tenor with ornamental melisma and Algerian vocal tradition. Festive emotional delivery combining celebration with melancholy. Arabic ornamentation adding cultural authenticity. Voice fills festive spaces with warmth.",
-    flowPattern: "Raï melodic phrasing with Arabic ornamentation. Festive rhythm-locked delivery with celebratory energy. Call-and-response moments with audience. Dynamic range from intimate verses to powerful celebratory choruses.",
-    productionFingerprint: "Darbuka percussion driving festive rhythm, oud melodic lines adding Algerian authenticity, synth string arrangements, punchy bass providing groove, warm analog production, open air festival energy",
-    culturalAnchors: "Algerian raï tradition modernization, diaspora festive culture, Mediterranean celebration energy, Algerian identity pride, wedding and festival music heritage",
-    antiPatterns: "Never metal screaming, never country folk, never dark orchestral, never industrial, never lo-fi chill, never cold detached delivery",
-    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Reverb", mood: "Uplifting", energy: "High", texture: "Analog warmth", instrument: "Darbuka, Oud, Synth Strings, Bass" }
+    vocalDNA: "Powerful raw raï tenor with urban chaâbi energy and street credibility. Arabic darija delivery with festive ornamentation. Voice combines celebration with raw street emotion. Algerian accent proudly present, singing in darija with occasional French switches.",
+    flowPattern: "Raï-chaâbi melodic phrasing with urban street energy. Festive rhythm-locked delivery building from intimate street stories to celebratory chaâbi chorus peaks. Call-and-response with audience. Dynamic range from raw verse to powerful festive release.",
+    productionFingerprint: "Darbuka heavy percussion driving groove, mandole melodic lines providing Algerian identity, oriental violin stabs on emotional peaks, derbouka rhythmic patterns, punchy bass groove, warm analog production with live festival energy",
+    culturalAnchors: "Algerian urban raï-chaâbi fusion, street-to-festival energy, C'est la vie cultural impact, diaspora urban identity, wedding and festival heritage, Algerian street pride",
+    antiPatterns: "Never metal screaming, never country folk, never dark orchestral, never industrial, never lo-fi chill, never cold detached, never afro-dancehall",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Reverb", mood: "Uplifting", energy: "High", texture: "Analog warmth", instrument: "Darbuka, Mandole, Oriental Violin, Derbouka, Bass" }
   },
   "CHEB HASNI": {
     sunoStyleTemplate: "Sentimental Raï Love Ballad, Emotional Algerian Romance, Warm Intimate Vocal, 90-110 BPM, Key: G Minor, Analog warmth, Room ambience, Oud Melodic Foundation, Darbuka Light Percussion, Accordion Melody, Soft Synth Pads, Warm Emotional Tenor Heartbreak Delivery, Gentle Intimate Build to Emotional Vocal Peak, Warm Analog Mix Intimate Feel, Algerian Raï Sentimental King of Love, 1990s",
     sunoExcludeStyles: "aggressive rap, metal screaming, industrial noise, fast party tempo, hard drill, heavy bass trap, country folk",
-    sunoVocalTags: ["[warm emotional raï tenor]", "[heartbreak vocal delivery]", "[Algerian romantic phrasing]", "[sentimental melisma]"],
+    sunoVocalTags: ["[warm emotional raï tenor]", "[heartbreak darija vocal delivery]", "[Algerian romantic melisma]", "[sentimental Arabic ornamentation]"],
     sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "90-110", sunoKey: "G Minor",
-    vocalDNA: "Warm emotional raï tenor with heartbreak delivery and sentimental melisma. Voice carries deep romantic vulnerability. Algerian romantic phrasing with traditional ornamentation. King of raï sentimental tradition.",
+    vocalDNA: "Warm emotional raï tenor with heartbreak delivery and sentimental Arabic melisma. Voice carries deep romantic vulnerability in Algerian darija. Oranic raï phrasing with traditional maqam ornamentation. King of raï sentimental — singing exclusively in Arabic dialect with pure vocal emotion.",
     flowPattern: "Sentimental melodic phrasing with emotional weight. Gentle rhythm following heartbeat tempo. Arabic ornamentation on sustained notes. Intimate delivery building to emotional vocal peaks.",
     productionFingerprint: "Oud melodic foundation, light darbuka percussion, accordion melody adding sentimental texture, soft synth pads, warm analog production, intimate room ambience, overall romantic sentimental atmosphere",
     culturalAnchors: "King of raï sentimental, Algerian romantic tradition, love ballad heritage, Oran musical legacy, sentimental pop-raï, generational influence on North African music",
@@ -1133,7 +1133,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
   KHALED: {
     sunoStyleTemplate: "Anthemic Raï Pop, Grand Mediterranean Celebration, Powerful Emotional Vocal, Festival Euphoric Energy, 100-118 BPM, Key: A Minor, Studio polished, Stadium reverb, Grand Orchestral Arrangement, Darbuka Festival Percussion, Oud and Mandole Melodic, Synth Brass Section, Powerful Raï Baritone-Tenor Grand Emotional Delivery, Epic Build Verse to Anthemic Festival Chorus, Polished Grand Mix Stadium Ready, King of Raï Global Anthem Legacy, 2000s",
     sunoExcludeStyles: "metal screaming, industrial noise, lo-fi chill, dark depressing, hard drill, country folk",
-    sunoVocalTags: ["[powerful grand raï voice]", "[anthemic emotional delivery]", "[Mediterranean warmth]", "[festival-commanding presence]"],
+    sunoVocalTags: ["[powerful grand raï voice]", "[anthemic Arabic-French delivery]", "[Mediterranean maqam warmth]", "[festival-commanding darija presence]"],
     sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "100-118", sunoKey: "A Minor",
     vocalDNA: "Powerful grand raï baritone-tenor with anthemic emotional delivery and Mediterranean warmth. Voice designed to fill stadiums and festivals. Grand emotional presence commanding attention. King of Raï vocal authority.",
     flowPattern: "Grand melodic phrasing building to anthemic chorus moments. Festival-commanding delivery with audience participation design. Emotional crescendo architecture. Mediterranean groove pocket with Arabic ornamentation.",
