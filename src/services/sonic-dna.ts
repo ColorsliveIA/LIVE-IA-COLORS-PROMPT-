@@ -778,28 +778,6 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       instrument: "Synth Bass, House Drums, Synth Strings"
     }
   },
-  "TAME IMPALA": {
-    sunoStyleTemplate: "Psychedelic Dreamy Indie Pop, Ethereal Layered Textures, Lo-Fi Ambient Immersion, 100-115 BPM, Key: D Minor, Analog warmth, Cathedral reverb, Fuzzy Warm Bass, Lush Synth Pads, Distorted Guitar, Delayed Drums, 2010s",
-    sunoExcludeStyles: "aggressive metal hard rock, country rap, dark orchestral, opera classical, loud industrial noise, boom-bap hip-hop",
-    sunoVocalTags: ["[falsetto layered harmony]", "[ethereal vocal delivery]", "[dreamy vocal texture]", "[psychedelic vocal processing]"],
-    sunoWeirdness: 32,
-    sunoStyleInfluence: 78,
-    sunoBpmRange: "100-115",
-    sunoKey: "D Minor",
-    vocalDNA: "Falsetto layered vocal harmony creating ethereal texture and dreamy quality. Psychedelic vocal processing creating spacious effect. Vocal layering emphasizing texture over clarity. Ethereal emotional expression conveyed through processing.",
-    flowPattern: "Spacious phrasing with extended reverb creating distance, syncopation minimal with floating sensation, delayed drum patterns creating rhythmic ambiguity, vocal placement emphasizing space and texture.",
-    productionFingerprint: "Distorted guitar wall creation emphasizing texture, cathedral reverb space creating massive environment, fuzzy warm bass providing foundation, lush synth pad layering, delayed drum patterns creating rhythmic ambiguity",
-    culturalAnchors: "Psychedelic indie rock innovation, dreamy ethereal aesthetics, lo-fi ambient exploration, youth nostalgia mythology, Australian indie credibility, experimental production boundary-pushing",
-    antiPatterns: "Never aggressive metal hard rock, never country rap approach, never dark orchestral, never opera classical, never loud industrial noise",
-    sunoMetatags: {
-      vocalStyle: "Falsetto",
-      vocalEffect: "Reverb, Delay",
-      mood: "Peaceful",
-      energy: "Medium",
-      texture: "Analog warmth",
-      instrument: "Synth Pads, Distorted Guitar, Bass"
-    }
-  },
   SOOLKING: {
     sunoStyleTemplate: "Modern Raï-Pop Algerian, Melodic French-Arabic Rap-Singing, Warm Mediterranean Groove, 95-112 BPM, Key: C Minor, Studio polished, Wide reverb, Warm 808 Bass, Oriental Piano Melodies, Modern Accordion Layers, Darbuka-Trap Hybrid Drums, Mandole Accents, Smooth Raï Tenor French-Arabic Melodic Delivery, Emotional Build Intimate Verse to Catchy Pop-Raï Chorus, Warm Polished Mix Oriental-Pop Balance, Algiers-Paris Raï-Pop Modern Pioneer, 2020s",
     sunoExcludeStyles: "dark depressing atmosphere, metal aggressive, classical opera, industrial noise, hard drill, country folk, boom-bap traditional",
@@ -1058,18 +1036,6 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     antiPatterns: "Never heavy autotune, never generic trap, never bright pop, never cloud rap, never festive party, never cold mechanical delivery",
     sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Subtle Reverb", mood: "Melancholic", energy: "Medium", texture: "Dusty sample", instrument: "Jazz Piano Samples, Boom-Bap Drums, Saxophone, Vinyl Bass" }
   },
-  "MOBB DEEP": {
-    sunoStyleTemplate: "Dark Grimy East Coast Boom-Bap, Cold Minimalist Production, Raw Queensbridge Menace, 85-95 BPM, Key: D Minor, Raw unprocessed, Underground bunker, Dark Minor Key Piano Loops, Hard Boom-Bap Kicks, Eerie String Samples, Sparse Percussion, Cold Menacing Dual Delivery Raw and Grimy, Relentless Dark Energy No Relief, Raw Compressed Mix Dark Low-End, Queensbridge Infamous Dark Reality, 1990s",
-    sunoExcludeStyles: "bright happy pop, melodic singing, autotune, festive energy, country folk, soft acoustic, smooth R&B, lo-fi chill",
-    sunoVocalTags: ["[cold menacing delivery]", "[raw grimy tone]", "[dual voice interplay]", "[Queensbridge street authority]"],
-    sunoWeirdness: 12, sunoStyleInfluence: 85, sunoBpmRange: "85-95", sunoKey: "D Minor",
-    vocalDNA: "Cold menacing dual delivery between gravelly mid-range and rawer aggressive tone. East Coast street authority conveyed through relentless dark energy. Zero melodic inflection, pure raw street rap. Voice as weapon of cold menace.",
-    flowPattern: "Locked to boom-bap grid with aggressive on-beat delivery. Dual voice interplay creating call-and-response menace. Medium syllable density with sharp consonant strikes. Relentless dark energy with no relief or lightness.",
-    productionFingerprint: "Dark minor key piano loops creating ominous atmosphere, hard boom-bap kick and snare patterns, eerie string samples adding tension, sparse minimalist percussion, raw compressed mix emphasizing dark low-end, cold Queensbridge production aesthetic",
-    culturalAnchors: "East Coast dark mythology, 90s grimy street reality, street survival narratives, cold menacing atmosphere, self-produced dark beats mastery, golden era dark hip-hop",
-    antiPatterns: "Never bright happy pop, never melodic singing, never autotune, never festive energy, never soft acoustic, never smooth R&B",
-    sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Compressed", mood: "Dark", energy: "High", texture: "Raw unprocessed", instrument: "Dark Piano Loops, Boom-Bap Drums, Eerie Strings" }
-  },
   MHD: {
     sunoStyleTemplate: "Afro Trap Fusion Originator, Danceable African Rhythms over Trap Base, Festive Multilingual Energy, 100-115 BPM, Key: G Minor, Digital crisp, Open air, Bouncy 808 Bass, African Drum Patterns, Trap Hi-Hats, Synth Horn Stabs, Energetic Confident Rap-Singing Multilingual Flow, Infectious Dance Build to Festival Drop, Bright Polished Mix Maximum Energy, Paris-Senegal Afro Trap Pioneer, 2010s",
     sunoExcludeStyles: "dark depressing, metal screaming, classical opera, slow ballad, industrial noise, lo-fi chill, boom-bap traditional",
@@ -1142,77 +1108,149 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     antiPatterns: "Never metal screaming, never industrial, never lo-fi chill, never dark depressing, never hard drill, never cold detached delivery",
     sunoMetatags: { vocalStyle: "Power", vocalEffect: "Reverb, Delay", mood: "Uplifting", energy: "High", texture: "Studio polished", instrument: "Orchestra, Darbuka, Oud, Synth Brass" }
   },
-  "HIROYUKI SAWANO": {
-    sunoStyleTemplate: "Epic Anime Orchestral, Cinematic Dramatic Score, Powerful Choir and Electronic Hybrid, 130-160 BPM, Key: D Minor, Studio polished, Cathedral reverb, Massive Orchestral Strings, Epic Choir Layers, Electronic Drum Patterns, Distorted Guitar Power, Grand Piano Dramatic, Operatic Female Vocal Soaring Over Electronic Base, Epic Cinematic Build to Maximum Intensity Climax, Polished Maximum Dynamic Range, Epic Anime Score Maximum Intensity Energy, 2010s",
-    sunoExcludeStyles: "lo-fi chill, country folk, soft acoustic, slow ballad, minimal sparse, reggaeton dembow, boom-bap hip-hop",
-    sunoVocalTags: ["[operatic female soprano]", "[epic choir harmonies]", "[dramatic German-inspired phrasing]", "[soaring power delivery]"],
-    sunoWeirdness: 25, sunoStyleInfluence: 82, sunoBpmRange: "130-160", sunoKey: "D Minor",
-    vocalDNA: "Operatic female soprano soaring over electronic-orchestral base. Epic choir harmonies creating massive wall of sound. Dramatic delivery with German-inspired phrasing and operatic vocal layering. Voice as instrument of maximum dramatic intensity.",
-    flowPattern: "Dramatic build from quiet orchestral intro to maximum intensity climax. Epic phrasing with long sustained powerful notes. Choir layers building pressure. Electronic and orchestral elements interweaving with increasing intensity.",
-    productionFingerprint: "Massive orchestral string sections, epic choir layers creating wall of sound, electronic drum patterns adding modern energy, distorted guitar power sections, grand piano dramatic moments, cathedral reverb creating massive space",
-    culturalAnchors: "Iconic anime battle scores, anime soundtrack mastery, epic cinematic composition, Japanese orchestral-electronic fusion, dramatic narrative scoring, operatic vocal collaboration trademark",
-    antiPatterns: "Never lo-fi chill, never country folk, never soft acoustic, never slow ballad, never minimal sparse, never reggaeton",
-    sunoMetatags: { vocalStyle: "Operatic", vocalEffect: "Reverb, Delay", mood: "Triumphant", energy: "Maximum", texture: "Studio polished", instrument: "Orchestra, Choir, Electronic Drums, Distorted Guitar, Piano" }
+  "CHEB MAMI": {
+    sunoStyleTemplate: "High Tenor Raï Orchestral, Melismatic Arabic Vocal Virtuosity, Mediterranean Crossover Elegance, 90-115 BPM, Key: C Minor, Analog warmth, Wide reverb, Darbuka Percussion, Violin Oriental Lines, Accordion Melodic, Electric Guitar Wah, Synth String Pads, High Emotional Tenor Melismatic Raï Delivery, Intimate Verse to Soaring Orchestral Chorus, Warm Polished Mix Raï-World Balance, Oran Raï Crossover Vocal Pioneer, 2000s",
+    sunoExcludeStyles: "heavy trap, metal screaming, industrial noise, hard drill, country folk, lo-fi chill, aggressive rap, heavy autotune",
+    sunoVocalTags: ["[high raï tenor]", "[melismatic Arabic phrasing]", "[darija emotional delivery]", "[three-octave range]"],
+    sunoWeirdness: 12, sunoStyleInfluence: 85, sunoBpmRange: "90-115", sunoKey: "C Minor",
+    vocalDNA: "High raï tenor with three-octave range and melismatic Arabic phrasing. Darija emotional delivery with improvised vocal ornamentation. Raw poignant timbre conveying deep romantic vulnerability. Organic delivery without autotune, pure vocal virtuosity.",
+    flowPattern: "Melismatic raï phrasing stretching syllables for emotional intensity. Intimate verse delivery building to soaring vocal peaks. Arabic maqam ornamentation on sustained notes. Mediterranean groove pocket with organic feel.",
+    productionFingerprint: "Darbuka percussion providing raï groove, oriental violin lines adding emotional depth, accordion melodic counterpoint, wah electric guitar adding funk texture, synth string pads for orchestral warmth, warm analog production",
+    culturalAnchors: "Oran raï vocal tradition, three-octave vocal mastery, Mediterranean-Andalusian heritage, raï-world music crossover pioneer, 1990s-2000s world fusion era, romantic longing themes",
+    antiPatterns: "Never heavy trap, never metal screaming, never autotune, never hard drill, never aggressive rap, never cold electronic delivery",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Reverb, Delay", mood: "Romantic", energy: "Medium", texture: "Analog warmth", instrument: "Darbuka, Violin, Accordion, Electric Guitar, Synth Strings" }
   },
-  NUJABES: {
-    sunoStyleTemplate: "Jazz Hop Lo-Fi Soul, Warm Sample Chop Grooves, Meditative Boom-Bap Flow, Spiritual Chill Atmosphere, 80-95 BPM, Key: F Minor, Analog warmth, Room ambience, Chopped Jazz Piano Samples, Warm Vinyl Boom-Bap Drums, Upright Bass Samples, Jazz Flute Melodic, Vinyl Crackle Texture, Warm Soulful Vocal Samples Floating Over Beat, Meditative Groove No Climax Just Flow, Dusty Warm Mix Vinyl Warmth, Tokyo Jazz Hop Spiritual Pioneer, 2000s",
-    sunoExcludeStyles: "aggressive trap, metal screaming, industrial noise, bright pop, hard drill, fast party energy, autotune heavy",
-    sunoVocalTags: ["[warm sampled vocal chops]", "[jazz-influenced phrasing]", "[meditative delivery]", "[spiritual chill tone]"],
-    sunoWeirdness: 20, sunoStyleInfluence: 78, sunoBpmRange: "80-95", sunoKey: "F Minor",
-    vocalDNA: "Warm sampled vocal chops floating over beat creating meditative atmosphere. When rap features present, smooth laid-back delivery. Jazz-influenced phrasing with spiritual quality. Vocal elements serve groove rather than dominate.",
-    flowPattern: "Meditative groove maintaining steady flow without dramatic builds. Behind-the-beat pocket creating zen-like relaxation. Smooth continuous rhythm without interruption. Beat as meditation rather than energy vehicle.",
-    productionFingerprint: "Chopped jazz piano samples creating melodic warmth, warm vinyl boom-bap drums with organic swing, upright bass samples providing groove, jazz flute melodic passages, vinyl crackle texture adding nostalgic warmth, overall meditative warm atmosphere",
-    culturalAnchors: "Tokyo jazz hop pioneer, iconic anime soundtrack legacy, spiritual hip-hop meditation, Japanese-American cultural bridge, vinyl culture celebration, lo-fi hip-hop ancestor",
-    antiPatterns: "Never aggressive trap, never metal screaming, never bright pop, never hard drill, never fast party, never autotune heavy",
-    sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb", mood: "Peaceful", energy: "Low", texture: "Dusty sample", instrument: "Jazz Piano Samples, Boom-Bap Drums, Upright Bass, Flute" }
+  RIMK: {
+    sunoStyleTemplate: "Dark Raï-Rap Street Fusion, Gritty Minimalist Maghreb Beat, Raw Urban Arabic-French Delivery, 90-110 BPM, Key: D Minor, Raw unprocessed, Underground bunker, Dark Synth Bass Heavy, Darbuka Hip-Hop Hybrid Drums, Distorted Electric Guitar, Minimal Dark Pads, Raspy Deep Baritone Raw Street Rap Delivery, Relentless Dark Build to Aggressive Peak, Dark Compressed Mix Street Grit, Banlieue Raï-Rap Street Fusion Pioneer, 2010s",
+    sunoExcludeStyles: "bright pop, melodic singing, festive party, soft acoustic, country folk, smooth R&B, lo-fi chill, opera classical",
+    sunoVocalTags: ["[raspy deep baritone]", "[raw street rap delivery]", "[Arabic-French bilingual flow]", "[percussive aggressive tone]"],
+    sunoWeirdness: 15, sunoStyleInfluence: 82, sunoBpmRange: "90-110", sunoKey: "D Minor",
+    vocalDNA: "Raspy deep baritone with raw street authority. Percussive aggressive rap delivery with Algerian raï inflections. Arabic-French bilingual flow switching between darija phrases and French rap. No autotune, raw organic vocal grit.",
+    flowPattern: "Hard-edged rhythmic rap delivery over dark minimalist production. Maghreb-influenced syllable placement with hip-hop groove. Aggressive on-beat attacks with occasional raï melodic turns. Street narrative focus with raw energy.",
+    productionFingerprint: "Dark synth bass heavy foundation, darbuka patterns merged with hip-hop breakbeats, distorted electric guitar grit, minimal dark atmospheric pads, raw compressed mix, dark minimalist raï-rap aesthetic",
+    culturalAnchors: "Paris banlieue raï-rap fusion, Algerian immigrant street experience, dark minimalist production aesthetic, 2000s French rap evolution, street culture authenticity, zero commercial compromise",
+    antiPatterns: "Never bright pop, never melodic singing, never festive party, never soft acoustic, never smooth R&B, never lo-fi chill",
+    sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Compressed", mood: "Dark", energy: "High", texture: "Raw unprocessed", instrument: "Dark Synth Bass, Darbuka, Electric Guitar, Dark Pads" }
   },
-  NEWJEANS: {
-    sunoStyleTemplate: "Y2K K-Pop Minimalist, Retro R&B-Pop Fusion, Clean Bright Nostalgic, Catchy Hook-Focused Pop, 100-120 BPM, Key: E Major, Digital crisp, Wide stereo reverb, Warm Retro Synth Bass, Clean Drum Machine, Bright Melodic Synths, Soft Pad Layers, Sweet Clean Female Vocal Harmonies Y2K Delivery, Catchy Minimal Build to Infectious Hook, Clean Bright Mix Maximum Clarity, 2000s Nostalgia K-Pop Innovation, 2020s",
-    sunoExcludeStyles: "aggressive rap, metal screaming, dark orchestral, industrial noise, country folk, heavy bass trap, lo-fi gritty",
-    sunoVocalTags: ["[sweet clean female harmonies]", "[Y2K nostalgic delivery]", "[catchy hook precision]", "[bright airy tone]"],
-    sunoWeirdness: 15, sunoStyleInfluence: 82, sunoBpmRange: "100-120", sunoKey: "E Major",
-    vocalDNA: "Sweet clean female vocal harmonies with Y2K nostalgic quality. Bright airy tone with catchy hook precision. Multiple voice layering creating texture. K-pop vocal training meets 2000s pop accessibility.",
-    flowPattern: "Catchy hook-focused design with memorable melodic phrases. Minimal verse-to-chorus build maximizing hook impact. Clean rhythmic pocket with pop precision. Y2K R&B-influenced phrasing with modern K-pop execution.",
-    productionFingerprint: "Warm retro synth bass creating nostalgic groove, clean drum machine patterns, bright melodic synths adding sparkle, soft pad layers, digital crisp clarity throughout, Y2K-inspired minimalist production aesthetic",
-    culturalAnchors: "Y2K nostalgia movement, K-pop minimalist innovation, visionary label artistic direction, 2000s pop revival, Gen Z cultural impact, global K-pop bridge",
-    antiPatterns: "Never aggressive rap, never metal screaming, never dark orchestral, never industrial, never heavy bass trap, never lo-fi gritty",
-    sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb", mood: "Uplifting", energy: "Medium", texture: "Crisp Digital", instrument: "Retro Synth Bass, Drum Machine, Bright Synths, Soft Pads" }
+  "DJMAWI AFRICA": {
+    sunoStyleTemplate: "Chaâbi-Gnaoua-Rock Fusion, World Ensemble Energy, North African Festival Groove, 100-130 BPM, Key: G Minor, Live room warmth, Open air, Guembri Bass Lines, Qraqab Iron Castanets, Darbuka Chaâbi Groove, Electric Guitar Rock Riffs, Clarinet Melodic Lines, Kora Harp Textures, Ensemble Vocal Call-and-Response Chaâbi Delivery, Festival Build Chaâbi Verse to Rock Climax, Warm Live Mix Ensemble Energy, North African World Fusion Festival Band, 2010s",
+    sunoExcludeStyles: "pure electronic, autotune, trap beats, gentle ballad, industrial noise, lo-fi chill, country folk, minimalist sparse",
+    sunoVocalTags: ["[ensemble call-and-response]", "[chaâbi folk vocal energy]", "[darija festival delivery]", "[rock-influenced projection]"],
+    sunoWeirdness: 28, sunoStyleInfluence: 75, sunoBpmRange: "100-130", sunoKey: "G Minor",
+    vocalDNA: "Ensemble vocal delivery with call-and-response chaâbi tradition. Multiple voices creating festival energy. Darija folk singing with rock-influenced projection. Soulful grounded chaâbi vocal quality anchoring world fusion production.",
+    flowPattern: "Chaâbi groove-locked ensemble delivery with festival energy. Call-and-response vocal patterns building communal atmosphere. Rock energy crescendos within traditional North African rhythmic framework. Multilingual switching between darija and French.",
+    productionFingerprint: "Guembri bass providing gnaoua foundation, qraqab iron castanets creating hypnotic rhythm, darbuka chaâbi groove, electric guitar rock riffs layered, clarinet melodic lines, kora harp textures, live room warmth with ensemble energy",
+    culturalAnchors: "Gnaoua spiritual-ritual music tradition, North African chaâbi street heritage, rock-metal fusion experimentation, multi-instrumental live ensemble aesthetic, cross-genre world fusion rooted in tradition",
+    antiPatterns: "Never pure electronic, never autotune, never trap beats, never gentle ballad, never minimalist, never cold synthetic production",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Live Room Reverb", mood: "Uplifting", energy: "High", texture: "Live room warmth", instrument: "Guembri, Qraqab, Darbuka, Electric Guitar, Clarinet, Kora" }
   },
-  PINKPANTHERESS: {
-    sunoStyleTemplate: "Nostalgic UK Garage Pop, Breakbeat Drum and Bass Bedroom, Intimate Short-Form Pop, Hushed Vocal over Dance Beats, 140-170 BPM, Key: G Minor, Lo-fi grit, Close-mic presence, Breakbeat Drum Patterns, Garage Bass Wobble, Nostalgic 2000s Samples, Soft Synth Pads, Hushed Intimate Female Vocal Over Breakbeat Energy, Short Sweet Build to Nostalgic Hook, Lo-Fi Intimate Mix Bedroom Warmth, UK Garage Nostalgia Bedroom Pop Pioneer, 2020s",
-    sunoExcludeStyles: "aggressive rap, metal screaming, country folk, opera classical, dark orchestral, slow ballad, boom-bap traditional",
-    sunoVocalTags: ["[hushed intimate voice]", "[bedroom pop delivery]", "[nostalgic emotional tone]", "[UK garage phrasing]"],
-    sunoWeirdness: 22, sunoStyleInfluence: 78, sunoBpmRange: "140-170", sunoKey: "G Minor",
-    vocalDNA: "Hushed intimate female voice contrasting with high-energy breakbeat production beneath. Bedroom pop delivery creating romantic intimacy. Nostalgic emotional tone referencing 2000s. Self-produced with GarageBand origin authenticity.",
-    flowPattern: "Short-form melodic phrasing with memorable hooks in under 2 minutes. Hushed delivery riding over breakbeat energy. Nostalgic melodic contours referencing 2000s pop. Intimate vocal placement against energetic production contrast.",
-    productionFingerprint: "Breakbeat drum and bass patterns at high tempo, UK garage bass wobble, nostalgic 2000s sample sources, soft synth pads creating warmth, lo-fi bedroom production aesthetic, intimate mix contrasting with dance energy",
-    culturalAnchors: "UK garage nostalgia revival, bedroom pop innovation, TikTok viral emergence, self-production authenticity, short-form music pioneer, 2000s dance music modernization",
-    antiPatterns: "Never aggressive rap, never metal screaming, never country folk, never dark orchestral, never slow ballad, never boom-bap traditional",
-    sunoMetatags: { vocalStyle: "Whisper", vocalEffect: "Reverb, Delay", mood: "Melancholic", energy: "Medium→High", texture: "Lo-fi", instrument: "Breakbeat Drums, Garage Bass, 2000s Samples, Soft Pads" }
+  BABYLONE: {
+    sunoStyleTemplate: "Acoustic Dziri Pop-Raï, Intimate Mediterranean Warmth, Storytelling Romantic Ballad, 95-110 BPM, Key: G Major, Analog warmth, Room ambience, Acoustic Guitar Fingerpicked, Darbuka Subtle Percussion, Piano Emotional, Soft Violin Strings, Light Bass Melodic, Smooth Warm Tenor Darija Storytelling Delivery, Gentle Intimate Build to Emotional Acoustic Chorus, Warm Organic Mix Acoustic Mediterranean Feel, Algerian Dziri Acoustic Romance, 2010s",
+    sunoExcludeStyles: "electronic production, trap beats, aggressive rap, heavy rock, industrial noise, autotune, fast dance tempo, hard drill",
+    sunoVocalTags: ["[smooth warm tenor]", "[darija storytelling delivery]", "[intimate conversational tone]", "[emotional restraint]"],
+    sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "95-110", sunoKey: "G Major",
+    vocalDNA: "Smooth warm tenor with intimate storytelling quality. Darija delivery with clear enunciation for lyrical accessibility. Emotional but restrained, conveying vulnerability without excess. Conversational intimate tone inviting listener closeness.",
+    flowPattern: "Gentle melodic phrasing with acoustic guitar accompaniment. Story-driven verse delivery building to emotional chorus peaks. Relaxed Mediterranean groove with organic feel. No rushing, space between phrases for emotional breathing.",
+    productionFingerprint: "Acoustic guitar fingerpicked as primary foundation, subtle darbuka percussion, emotional piano accompaniment, soft violin string arrangements, light melodic bass, warm organic production with room ambience, no electronic elements",
+    culturalAnchors: "Algerian dziri urban storytelling tradition, acoustic Mediterranean romance, intimate love narratives, modern raï-pop acoustic accessibility, diaspora nostalgia and homeland themes",
+    antiPatterns: "Never electronic production, never trap beats, never aggressive delivery, never heavy rock, never autotune, never fast dance tempo",
+    sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Subtle Reverb", mood: "Romantic", energy: "Low→Medium", texture: "Analog warmth", instrument: "Acoustic Guitar, Darbuka, Piano, Violin, Bass" }
   },
-  "TATSURO YAMASHITA": {
-    sunoStyleTemplate: "Japanese City Pop Groove, Funk-Disco Sophistication, Warm Summer Drive, 105-120 BPM, Key: D Major, Analog warmth, Stadium reverb, Funk Bass Guitar Groove, Electric Piano Rhodes, Brass Section Punchy, Lush String Arrangement, Crisp Funk Drums, Warm Smooth Tenor Sophisticated Pop Delivery, Groove-Locked Build to Euphoric Chorus, Warm Analog Mix Maximum Groove, Tokyo Bay Summer City Pop Legend, 1980s",
-    sunoExcludeStyles: "aggressive rap, metal screaming, industrial noise, dark orchestral, lo-fi gritty, country folk, opera classical",
-    sunoVocalTags: ["[warm smooth Japanese tenor]", "[sophisticated pop delivery]", "[funk-influenced phrasing]", "[summer drive energy]"],
-    sunoWeirdness: 12, sunoStyleInfluence: 82, sunoBpmRange: "105-120", sunoKey: "D Major",
-    vocalDNA: "Warm smooth Japanese tenor with sophisticated pop delivery. Funk-influenced phrasing with summer groove energy. Voice conveys effortless cool sophistication. City Pop vocal tradition at its peak.",
-    flowPattern: "Groove-locked melodic delivery riding funk bass pocket. Sophisticated verse-to-chorus structure with euphoric choruses. Funky syncopation in phrasing. Summer drive energy maintained throughout.",
-    productionFingerprint: "Funk bass guitar driving groove, electric piano Rhodes chords, punchy brass section, lush string arrangements, crisp funk drum patterns, warm analog production, overall sophisticated summer city pop aesthetic",
-    culturalAnchors: "Japanese City Pop legend, Ride on Time iconic summer anthem, Tokyo Bay summer drive aesthetic, funk-disco sophistication, 1980s Japanese musical golden age, global City Pop revival",
-    antiPatterns: "Never aggressive rap, never metal screaming, never industrial, never dark orchestral, never lo-fi gritty, never cold detached delivery",
-    sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb, Delay", mood: "Uplifting", energy: "Medium→High", texture: "Analog warmth", instrument: "Funk Bass, Rhodes Piano, Brass Section, Strings, Funk Drums" }
+  "L'ALGERINO": {
+    sunoStyleTemplate: "Melodic Raï-Trap-Pop Hybrid, Oriental Beat Modern Production, Marseille Mediterranean Crossover, 90-110 BPM, Key: E Minor, Studio polished, Wide reverb, Trap 808 Bass, Derbouka-Trap Hybrid Drums, Synth Oriental Melodies, Electric Guitar Modern, Atmospheric Pads, Smooth Melodic Rap-Singing Auto-tune Raï Delivery, Catchy Build to Pop-Raï Hook, Polished Modern Mix Oriental-Trap Balance, Marseille Raï-Rap Mediterranean Crossover, 2010s",
+    sunoExcludeStyles: "pure acoustic raï, classical orchestral, metal screaming, boom-bap traditional, country folk, industrial noise, lo-fi minimal",
+    sunoVocalTags: ["[smooth melodic rap-singing]", "[French-darija bilingual flow]", "[auto-tune raï delivery]", "[catchy hook instinct]"],
+    sunoWeirdness: 14, sunoStyleInfluence: 80, sunoBpmRange: "90-110", sunoKey: "E Minor",
+    vocalDNA: "Smooth melodic rap-singing blend with bilingual French-darija delivery. Auto-tune used as creative instrument adding modern raï texture. Soulful not harsh, prioritizing catchiness and groove. Laid-back reggae-influenced inflection at times.",
+    flowPattern: "Melodic rap-singing alternating between French verses and darija melodic hooks. Catchy hook-focused design with pop accessibility. Laid-back rhythmic pocket blending trap timing with raï groove. Behind-the-beat relaxed delivery.",
+    productionFingerprint: "Trap 808 bass providing modern low-end, derbouka-trap hybrid drum patterns, synth oriental melodies as hooks, modern electric guitar, atmospheric pads, polished production bridging street and pop",
+    culturalAnchors: "Marseille raï-rap Mediterranean fusion, Algerian diaspora urban identity, melodic street crossover, 2000s French rap evolution, social consciousness with street mentality balance",
+    antiPatterns: "Never pure acoustic raï, never classical orchestral, never metal screaming, never boom-bap traditional, never lo-fi minimal",
+    sunoMetatags: { vocalStyle: "Melodic Rap", vocalEffect: "Auto-tune, Reverb", mood: "Uplifting", energy: "Medium", texture: "Studio polished", instrument: "808 Bass, Derbouka, Oriental Synths, Electric Guitar" }
   },
-  "ASTRUD GILBERTO": {
-    sunoStyleTemplate: "Classic Bossa Nova Intimacy, Whispered Brazilian Cool, Gentle Acoustic Warmth, 110-130 BPM, Key: C Major, Analog warmth, Room ambience, Nylon Guitar Fingerpicking, Upright Bass Walking, Soft Brush Drums, Warm Flute Melody, Whispered Cool Female Vocal Effortless Brazilian Delivery, Gentle Continuous Flow No Dynamic Climax, Warm Intimate Mix Natural Room, Rio de Janeiro Bossa Nova Golden Era, 1960s",
-    sunoExcludeStyles: "aggressive rap, metal screaming, industrial noise, electronic dance, heavy bass, fast tempo, autotune",
-    sunoVocalTags: ["[whispered cool delivery]", "[effortless Brazilian phrasing]", "[intimate gentle tone]", "[bossa nova tradition]"],
-    sunoWeirdness: 10, sunoStyleInfluence: 88, sunoBpmRange: "110-130", sunoKey: "C Major",
-    vocalDNA: "Whispered cool female voice with effortless Brazilian delivery. Intimate gentle tone suggesting casual sophistication. Bossa nova vocal tradition emphasizing restraint over power. Voice floats above acoustic arrangement with grace.",
-    flowPattern: "Gentle continuous flow without dramatic dynamic shifts. Bossa nova rhythmic phrasing with subtle syncopation. Effortless delivery suggesting spontaneity. Minimalist vocal approach letting arrangement breathe.",
-    productionFingerprint: "Nylon guitar fingerpicking as melodic foundation, upright bass walking lines, soft brush drums maintaining bossa nova rhythm, warm flute melody, analog warmth throughout, intimate room ambience",
-    culturalAnchors: "Bossa nova golden era, Girl from Ipanema iconic legacy, Rio de Janeiro sophistication, Brazilian-American cultural bridge, 1960s cool jazz connection, timeless bossa nova elegance",
-    antiPatterns: "Never aggressive, never metal screaming, never electronic dance, never heavy bass, never fast tempo, never autotune",
-    sunoMetatags: { vocalStyle: "Whisper", vocalEffect: "Subtle Reverb", mood: "Peaceful", energy: "Low", texture: "Analog warmth", instrument: "Nylon Guitar, Upright Bass, Brush Drums, Flute" }
+  "MOHAMED LAMINE": {
+    sunoStyleTemplate: "Emotional Raï Love Ballad, Orchestral Sentimental Romance, Warm Intimate Vocal Performance, 80-100 BPM, Key: E Minor, Analog warmth, Room ambience, Accordion Raï Melodic, Violin Orchestral Sweeps, Darbuka Light Percussion, Piano Emotional, Electric Guitar Gentle, String Arrangements, Warm Emotional Tenor Melismatic Darija Love Delivery, Gentle Intimate Build to Emotional Vocal Climax, Warm Analog Mix Intimate Orchestral Feel, Oran Raï-Love Sentimental Ballad Tradition, 2000s",
+    sunoExcludeStyles: "aggressive rap, trap beats, electronic dance, metal screaming, industrial noise, fast party tempo, hard drill, cold detached delivery",
+    sunoVocalTags: ["[warm emotional raï tenor]", "[melismatic darija delivery]", "[vulnerable intimate quality]", "[sentimental ornamentation]"],
+    sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "80-100", sunoKey: "E Minor",
+    vocalDNA: "Rich warm tenor voice focused on emotional expression. Melismatic phrasing stretching notes for romantic feeling. Sings purely in darija with vulnerable intimate quality. Sentimental vocal ornamentation rooted in Oran raï-love tradition.",
+    flowPattern: "Sentimental melodic phrasing with emotional weight on every word. Gentle rhythm following heartbeat tempo. Arabic maqam ornamentation on sustained notes. Intimate delivery building to emotional vocal peaks with orchestral support.",
+    productionFingerprint: "Accordion raï melodic lead providing sentimental color, violin orchestral sweeps on emotional peaks, light darbuka percussion, emotional piano accompaniment, gentle electric guitar, string arrangements adding warmth, analog production with intimate room ambience",
+    culturalAnchors: "Oran raï-love sentimental tradition, romantic heartbreak and devotion themes, duet culture with female vocalists, 1990s-2000s golden raï era, raï ballad heritage, sentimental Arabic melody mastery",
+    antiPatterns: "Never aggressive rap, never trap beats, never electronic dance, never metal screaming, never fast party, never cold detached delivery",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Reverb, Delay", mood: "Romantic", energy: "Low→Medium", texture: "Analog warmth", instrument: "Accordion, Violin, Darbuka, Piano, Electric Guitar, Strings" }
+  },
+  "CHEBA ZAHOUANIA": {
+    sunoStyleTemplate: "Festive Raï Féminin Puissant, Celebration Wedding Energy, Powerful Female Oriental Groove, 120-135 BPM, Key: D Major, Analog warmth, Open air, Accordion Lead Melodic, Bendir Frame Drum, Electric Guitar Rhythm, Qanun Strings, Electric Bass Punchy, Powerful Female Mezzo-Soprano Festive Raï Delivery, High Energy Festive Build to Celebratory Dance Peak, Warm Bright Mix Festival Energy, Algerian Female Raï Festive Pioneer, 2000s",
+    sunoExcludeStyles: "slow ballad, melancholic minor, dark orchestral, industrial noise, lo-fi chill, aggressive rap, metal screaming, intimate whisper",
+    sunoVocalTags: ["[powerful female raï voice]", "[festive assertive delivery]", "[darija celebration phrasing]", "[sharp vocal ornamentation]"],
+    sunoWeirdness: 10, sunoStyleInfluence: 85, sunoBpmRange: "120-135", sunoKey: "D Major",
+    vocalDNA: "Powerful mezzo-soprano with assertive festive projection. Sharp clear articulation with raï vocal ornamentation on word endings. Confident commanding tone filling festive spaces. Slight vibrato on held notes adding emotional warmth.",
+    flowPattern: "Festive raï phrasing locked to dance groove. High energy delivery maintaining celebration throughout. Call-and-response patterns with audience energy. Powerful vocal projection designed for wedding and festival atmosphere.",
+    productionFingerprint: "Accordion lead melodic counterpoint, bendir frame drum driving pulse, electric guitar rhythm, qanun or synth strings adding oriental texture, punchy electric bass, bright warm analog production, open air festival energy",
+    culturalAnchors: "Female raï empowerment pioneer, wedding celebration atmosphere, Algerian festive culture, powerful female voice in traditional space, urban Algerian social gathering energy, joy and resilience themes",
+    antiPatterns: "Never slow ballad, never melancholic, never dark orchestral, never industrial, never lo-fi, never intimate whisper",
+    sunoMetatags: { vocalStyle: "Power", vocalEffect: "Reverb", mood: "Uplifting", energy: "High", texture: "Analog warmth", instrument: "Accordion, Bendir, Electric Guitar, Qanun, Bass" }
+  },
+  "BILAL SGHIR": {
+    sunoStyleTemplate: "Modern Raï Sentimental, Lovesick Melancholic Groove, Emotional Tenor Arabic Romance, 100-115 BPM, Key: E Major, Analog warmth, Room ambience, Accordion Melancholic Lead, Electric Guitar Overdrive Bluesy, Darbuka Steady Groove, Bouzouki Oud Textures, Synth Atmospheric Pads, Raspy Emotional Tenor Breathy Darija Love Delivery, Melancholic Build Intimate Verse to Emotional Vocal Peak, Warm Analog Mix Intimate Romance, Modern Raï Sentimental Lovesick Heir, 2020s",
+    sunoExcludeStyles: "festive upbeat party, aggressive rap, metal screaming, industrial noise, bright pop, hard drill, country folk, fast dance tempo",
+    sunoVocalTags: ["[raspy emotional raï tenor]", "[breathy darija phrasing]", "[lovesick melancholic delivery]", "[sentimental vocal cracks]"],
+    sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "100-115", sunoKey: "E Major",
+    vocalDNA: "Raspy emotional tenor with breathy phrasing on vulnerable lines. Glottal attacks for emotional emphasis. Smooth legato between phrases with minor vocal cracks conveying authenticity. Darija love delivery rooted in modern raï sentimental tradition.",
+    flowPattern: "Sentimental melodic phrasing with melancholic emotional weight. Slower introspective pace allowing emotional breathing. Arabic ornamentation on sustained romantic notes. Intimate verse delivery building to emotional vocal peaks.",
+    productionFingerprint: "Accordion melancholic lead providing sentimental color, electric guitar with bluesy overdrive bends, steady darbuka groove, bouzouki/oud melodic textures, atmospheric synth pads, warm analog production with intimate room feel",
+    culturalAnchors: "Modern raï sentimental movement, romantic heartbreak narratives, urban Algerian youth perspective, late-night emotional intensity, heir to classic raï emotional tradition, darija love ballad evolution",
+    antiPatterns: "Never festive party, never aggressive rap, never bright pop, never hard drill, never fast dance, never cold electronic delivery",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Reverb, Delay", mood: "Melancholic", energy: "Medium", texture: "Analog warmth", instrument: "Accordion, Electric Guitar, Darbuka, Bouzouki, Synth Pads" }
+  },
+  "DJALIL PALERMO": {
+    sunoStyleTemplate: "Urban Raï Moderne, Trap-Raï Hybrid Youth, Street Confident Groove, 90-110 BPM, Key: F# Minor, Digital crisp, Wide reverb, 808 Bass Heavy, Trap Hi-Hat Rolls, Guitar Trap Rhythmic, Minimal Synth Strings, Atmospheric Pads, Youthful Tenor Rap-Sung Darija Street Delivery, Modern Build Verse to Catchy Urban Hook, Crisp Digital Mix Trap-Raï Balance, New Generation Urban Raï Street Pioneer, 2020s",
+    sunoExcludeStyles: "classical orchestral, pure acoustic raï, slow romantic ballad, metal screaming, country folk, opera classical, industrial noise, boom-bap traditional",
+    sunoVocalTags: ["[youthful confident tenor]", "[rap-sung darija hybrid]", "[urban street delivery]", "[modern melodic hooks]"],
+    sunoWeirdness: 15, sunoStyleInfluence: 78, sunoBpmRange: "90-110", sunoKey: "F# Minor",
+    vocalDNA: "Youthful tenor with conversational rap-sung hybrid delivery. Street vernacular darija pronunciation and modern slang. Rhythmic percussive vocal delivery with minimal vibrato. Confident urban energy with melodic hook instinct.",
+    flowPattern: "Urban rap-sung delivery locked to trap-raï groove. Conversational verse flow building to catchy melodic hooks. Rhythmic percussive phrasing with modern cadence. Ad-libs and vocal layering adding depth.",
+    productionFingerprint: "808 bass heavy foundation, trap hi-hat rolls mechanical and fast, rhythmic guitar trap patterns, minimal synth strings atmospheric, digital crisp production, modern trap-raï hybrid aesthetic",
+    culturalAnchors: "New generation urban raï movement, Algerian street culture youth perspective, trap-raï genre fusion pioneer, digital-native production aesthetic, urban rebellion and confidence themes, modern streaming era raï evolution",
+    antiPatterns: "Never classical orchestral, never pure acoustic raï, never slow ballad, never metal screaming, never boom-bap traditional, never overly sentimental delivery",
+    sunoMetatags: { vocalStyle: "Melodic Rap", vocalEffect: "Auto-tune Light, Reverb", mood: "Aggressive", energy: "Medium→High", texture: "Crisp Digital", instrument: "808 Bass, Trap Hi-Hats, Guitar, Synth Strings" }
+  },
+  FAIRUZ: {
+    sunoStyleTemplate: "Classical Arabic Orchestral, Timeless Lebanese Elegance, Ethereal Female Voice Masterpiece, 80-110 BPM, Key: F Major, Analog warmth, Concert hall reverb, Full Orchestral Strings Lush, Oud Rhythmic Melodic, Qanun Delicate Ornamental, French Horn Woodwinds, Acoustic Guitar Fingerpicked, Contralto Crystalline Ethereal Pure Arabic Delivery, Elegant Orchestral Build to Emotional Vocal Climax, Warm Analog Mix Concert Hall Grandeur, Timeless Classical Arabic Vocal Legend, 1970s",
+    sunoExcludeStyles: "electronic production, trap beats, aggressive rap, heavy rock, industrial noise, autotune, modern pop compression, fast dance tempo",
+    sunoVocalTags: ["[crystalline contralto]", "[ethereal pure Arabic delivery]", "[classical maqam ornamentation]", "[intimate yet grand projection]"],
+    sunoWeirdness: 10, sunoStyleInfluence: 90, sunoBpmRange: "80-110", sunoKey: "F Major",
+    vocalDNA: "Crystalline contralto-mezzo with ethereal pure quality. Perfectly controlled classical vibrato. Lyrical legato where every word is poetic. Minimal artifice, pure emotional expression. Breathy intimate moments despite orchestral grandeur surrounding.",
+    flowPattern: "Elegant classical phrasing with poetic lyrical delivery. Moderate pacing with grand emotional arcs. Arabic maqam melodic structure guiding vocal movement. Intimate verse moments expanding to orchestral emotional climax.",
+    productionFingerprint: "Full orchestral string arrangements lush and sweeping, oud rhythmic accompaniment in verses, qanun delicate ornamental passages, French horn and woodwinds adding classical depth, fingerpicked acoustic guitar, concert hall reverb creating grand space, zero electronic elements",
+    culturalAnchors: "Timeless classical Arabic vocal tradition, mid-20th century golden age preservation, pan-Arab cultural pride, intimate storytelling with orchestral grandeur, romantic and patriotic themes, Lebanese musical heritage preservation",
+    antiPatterns: "Never electronic production, never trap beats, never autotune, never heavy rock, never modern compression, never fast dance tempo",
+    sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Concert Hall Reverb", mood: "Peaceful", energy: "Low→Medium", texture: "Analog warmth", instrument: "Orchestral Strings, Oud, Qanun, Woodwinds, Acoustic Guitar" }
+  },
+  "AMR DIAB": {
+    sunoStyleTemplate: "Modern Egyptian Pop King, Romantic Arabic Pop Upbeat, Polished Mediterranean Dance, 110-130 BPM, Key: G Major, Studio polished, Wide stereo, Bright Synth Leads, Electric Guitar Melodic, Modern Drum Kit Crisp, Acoustic Oud Verse Touch, Keyboard Atmospheric Pads, Backing Vocal Harmonies, Smooth Polished Tenor Romantic Arabic Pop Delivery, Bright Build to Uplifting Pop-Arabic Hook, Clean Polished Mix Radio Ready, Egyptian Pop Romantic Superstar, 2010s",
+    sunoExcludeStyles: "heavy raï accordion, classical orchestral strings only, melancholic dark, aggressive rap, metal screaming, country folk, industrial noise, lo-fi minimal",
+    sunoVocalTags: ["[smooth polished tenor]", "[romantic Arabic pop delivery]", "[melodic hook precision]", "[controlled emotional projection]"],
+    sunoWeirdness: 10, sunoStyleInfluence: 85, sunoBpmRange: "110-130", sunoKey: "G Major",
+    vocalDNA: "Smooth polished tenor with romantic expressiveness and controlled emotion. Melodic hook-driven phrasing designed for maximum radio impact. Clean theatrical projection with occasional vocal runs on held notes. Arabic pop vocal tradition with modern production polish.",
+    flowPattern: "Hook-driven pop phrasing with upbeat Mediterranean groove. Romantic verse delivery building to bright infectious chorus. Clean rhythmic pocket designed for dancefloor and radio. Melodic precision prioritizing catchiness and accessibility.",
+    productionFingerprint: "Bright synth leads providing modern pop energy, melodic electric guitar, modern crisp drum kit production, acoustic oud touch in verses for authenticity, keyboard atmospheric pads, layered backing vocal harmonies, polished studio clarity",
+    culturalAnchors: "Egyptian pop stardom, radio-friendly romantic themes, bridge between traditional Arabic music and contemporary pop, pan-Arab commercial appeal, love and celebration narratives, Mediterranean modern pop sound",
+    antiPatterns: "Never heavy accordion raï, never classical strings only, never dark melancholic, never aggressive rap, never metal screaming, never lo-fi minimal",
+    sunoMetatags: { vocalStyle: "Melodic", vocalEffect: "Reverb", mood: "Uplifting", energy: "Medium→High", texture: "Studio polished", instrument: "Synth Leads, Electric Guitar, Modern Drums, Oud, Keyboards" }
+  },
+  "NANCY AJRAM": {
+    sunoStyleTemplate: "Danceable Lebanese Oriental Pop, Energetic Arabic Club Groove, Bright Feminine Pop Energy, 120-140 BPM, Key: E Major, Studio polished, Wide stereo, Synth Dance-Pop Leads, Modern Drum Machine Club, Electric Guitar Energetic, Electric Bass Groove, Oud Qanun Oriental Samples, Backing Female Harmonies, Bright Playful Soprano Energetic Arabic Pop Delivery, High Energy Build to Infectious Dance-Pop Hook, Bright Polished Mix Maximum Club Energy, Lebanese Oriental Pop Dance Queen, 2010s",
+    sunoExcludeStyles: "melancholic introspective, slow ballad, heavy orchestra alone, aggressive rap, metal screaming, raï accordion, country folk, industrial noise, lo-fi chill",
+    sunoVocalTags: ["[bright playful soprano]", "[energetic Arabic pop delivery]", "[rhythmic punchy articulation]", "[youthful infectious tone]"],
+    sunoWeirdness: 10, sunoStyleInfluence: 82, sunoBpmRange: "120-140", sunoKey: "E Major",
+    vocalDNA: "Bright playful soprano with energetic youthful quality. Rhythmic punchy articulation with syllables perfectly placed for dance groove. Some vocal melismas kept upbeat. Girl-next-door intimacy despite polished pop production. Infectious tone designed for club and radio impact.",
+    flowPattern: "Dance-pop phrasing locked to club groove. Energetic delivery maintaining high energy throughout. Catchy hook design with memorable melodic phrases. Upbeat Arabic pop structure with infectious chorus moments.",
+    productionFingerprint: "Synth dance-pop leads uplifting, modern drum machine club-ready patterns, energetic electric guitar, groove-driven electric bass, oud and qanun samples adding oriental flavor in modern mix, stacked female backing harmonies, bright polished production",
+    culturalAnchors: "Modern Lebanese pop glamour, club and party energy, youth-oriented playful confidence, blending Arabic pop with global dance trends, celebration and fun themes, feminine empowerment through music",
+    antiPatterns: "Never melancholic introspective, never slow ballad, never heavy orchestra alone, never aggressive rap, never raï accordion, never lo-fi chill",
+    sunoMetatags: { vocalStyle: "Melodic", vocalEffect: "Reverb", mood: "Uplifting", energy: "High", texture: "Studio polished", instrument: "Dance Synths, Drum Machine, Electric Guitar, Bass, Oud, Qanun" }
   },
   "FRED AGAIN..": {
     sunoStyleTemplate: "Emotional Sampling Electronic, Voice-Memo Dance Music, Euphoric Rave Intimacy, 125-140 BPM, Key: C Minor, Digital crisp, Cathedral reverb, Pulsing House Bass, Breakbeat Drums, Pitched Vocal Samples, Warm Synth Pads, Sampled Voice Memos as Melodic Foundation, Emotional Build from Intimate Sample to Euphoric Rave Drop, Bright Reverbed Mix Maximum Emotion, London Emotional Dance Music Pioneer, 2020s",
@@ -1345,18 +1383,6 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     culturalAnchors: "French indie-folk sensitivity, Victoires de la Musique recognition, Lyon artistic identity, Saisons album with Aaron Dessner, LGBTQ+ representation, nostalgic vulnerability as artistic identity",
     antiPatterns: "Never aggressive rap, never metal screaming, never heavy bass trap, never fast party, never dark drill, never electronic dance, never autotune",
     sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Subtle Reverb", mood: "Melancholic", energy: "Low", texture: "Analog warmth", instrument: "Acoustic Guitar, Autoharp, String Quartet, Piano" }
-  },
-  WOODKID: {
-    sunoStyleTemplate: "Epic Orchestral Art-Pop, Cinematic Dramatic Power, Thunderous Percussion Grandeur, 110-130 BPM, Key: D Minor, Studio polished, Cathedral reverb, Massive Marching Drum Patterns, Bold Brass Fanfares, Lush String Sections, Choral Vocal Harmonies, Deep Baritone Grand Theatrical Delivery, Epic Build from Whisper to Maximum Orchestral Climax, Polished Cinematic Mix Maximum Dynamic Range, Lyon Epic Cinematic Art-Pop Visionary, 2010s",
-    sunoExcludeStyles: "lo-fi chill, country folk, reggaeton, generic trap, soft acoustic folk, minimal sparse, bright cheerful pop",
-    sunoVocalTags: ["[deep theatrical baritone]", "[epic dramatic delivery]", "[grand orchestral phrasing]", "[cinematic emotional power]"],
-    sunoWeirdness: 25, sunoStyleInfluence: 80, sunoBpmRange: "110-130", sunoKey: "D Minor",
-    vocalDNA: "Deep theatrical baritone with epic dramatic delivery. Grand orchestral phrasing treating voice as part of symphonic arrangement. Cinematic emotional power conveying grandeur. Iron and Run Boy Run iconic vocal quality.",
-    flowPattern: "Epic build from whispered intimate delivery to maximum orchestral climax. Dramatic dynamic range exploited fully. Theatrical phrasing with marching drum emphasis. Choral moments adding communal epic feeling.",
-    productionFingerprint: "Massive marching drum patterns creating epic rhythm, bold brass fanfares, lush string sections, choral vocal harmonies, cathedral reverb creating monumental space, thunderous percussion, overall cinematic epic grandeur",
-    culturalAnchors: "Lyon cinematic art-pop visionary, music video director dual career, Iron iconic epic anthem, The Golden Age theatrical vision, epic as artistic philosophy, visual-musical integration mastery",
-    antiPatterns: "Never lo-fi chill, never country folk, never reggaeton, never generic trap, never soft acoustic folk, never minimal sparse, never cheerful pop",
-    sunoMetatags: { vocalStyle: "Power", vocalEffect: "Reverb, Delay", mood: "Triumphant", energy: "High", texture: "Studio polished", instrument: "Marching Drums, Brass, Strings, Choir" }
   },
   TIF: {
     sunoStyleTemplate: "Algerian Nostalgic Melodic Rap, Raï-Chaâbi-Gnaoua Fusion, Joyful Melancholic Diaspora, 95-112 BPM, Key: Bb Minor, Analog warmth, Open air, Traditional Algerian Percussion, Oud and Mandole Melodic, Modern Trap Bass, Chaâbi String Textures, Warm Emotional Tenor Arabic-French Bilingual Delivery, Nostalgic Build to Joyful Celebratory Chorus, Warm Organic Mix Blending Traditional and Modern, Algiers-Paris Exile Nostalgic Pride, 2020s",
