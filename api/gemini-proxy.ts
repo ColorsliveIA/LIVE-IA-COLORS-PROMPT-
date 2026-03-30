@@ -43,16 +43,19 @@ function isRateLimited(ip: string): { limited: boolean; retryAfter?: number } {
 
 // ── Allowed models whitelist ──────────────────────────────────────────
 const ALLOWED_MODELS = new Set([
-  "gemini-3-flash-preview",
-  "gemini-2.5-flash-preview-05-20",
+  "gemini-2.5-flash",
   "gemini-2.0-flash",
   "gemini-2.0-flash-lite",
+  // Legacy names kept for backward compatibility with client code
+  "gemini-3-flash-preview",
+  "gemini-2.5-flash-preview-05-20",
 ]);
 
-// ── Model fallback chain (if primary model hits 429, try next) ───────
+// ── Model fallback chain (if primary model hits 429/503/404, try next)
 const MODEL_FALLBACKS: Record<string, string[]> = {
-  "gemini-3-flash-preview": ["gemini-2.5-flash-preview-05-20", "gemini-2.0-flash"],
-  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash"],
+  "gemini-3-flash-preview": ["gemini-2.5-flash", "gemini-2.0-flash"],
+  "gemini-2.5-flash-preview-05-20": ["gemini-2.5-flash", "gemini-2.0-flash"],
+  "gemini-2.5-flash": ["gemini-2.0-flash"],
 };
 
 // ── CORS ─────────────────────────────────────────────────────────────
@@ -156,8 +159,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         lastError = e;
         const is429 = e?.status === 429 || e?.error?.code === 429;
         const is503 = e?.status === 503 || e?.error?.code === 503;
-        if ((is429 || is503) && currentModel !== modelsToTry[modelsToTry.length - 1]) {
-          console.warn(`Model ${currentModel} returned ${is429 ? 429 : 503}, falling back...`);
+        const is404 = e?.status === 404 || e?.error?.code === 404;
+        const shouldFallback = is429 || is503 || is404;
+        if (shouldFallback && currentModel !== modelsToTry[modelsToTry.length - 1]) {
+          console.warn(`Model ${currentModel} returned ${e?.status || e?.error?.code}, falling back...`);
           continue;
         }
         break;
