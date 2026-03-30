@@ -248,7 +248,7 @@ ${artistIdentitySummary}
   - ANTI-GÃNÃRIQUE & TEXTURES : BANNI les tags comme "Trap" ou "Pop". Utilise des textures sonores et vocales prÃ©cises (ex: [Industrial Dark Techno], [Ethereal Cloud Rap], [Crisp high-end], [Warm analog saturation], [Lo-fi grit], [Sidechained compression], [Stereo widening], [Punchy transients]).
   - ÃVITE LE "DARK ORCHESTRAL" SYSTÃMATIQUE : Pour le rap, n'utilise des Ã©lÃ©ments orchestraux (violons, choeurs) QUE si le profil artiste chargÃ© le demande expressÃ©ment. Sinon, privilÃ©gie des textures plus sÃ¨ches, jazzy, industrielles ou minimalistes.
   ${vocoderRule}
-  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques, de labels ou de slogans/ad-libs iconiques trop identifiables. Aucun surnom, aucune catchphrase, aucun tag vocal reconnaissable.
+  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes rÃ©els, de marques, de labels, de titres d'albums/morceaux, de noms de villes associÃ©es Ã  un artiste, ou de slogans/ad-libs iconiques trop identifiables. Aucun surnom, aucune catchphrase, aucun tag vocal reconnaissable, aucune rÃ©fÃ©rence gÃ©ographique identifiable (pas de noms de quartiers/villes associÃ©s Ã  un artiste spÃ©cifique). Les paroles doivent Ãªtre ORIGINALES et impossibles Ã  attribuer Ã  un artiste existant.
   - AD-LIBS : Utilise des ad-libs gÃ©nÃ©riques mais stylÃ©s (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'Ã©nergie sans copier l'identitÃ©.
   - JSON : RÃ©ponds uniquement en JSON valide.
 
@@ -421,7 +421,7 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
      - Utilise ( ) UNIQUEMENT pour les voix de fond, les ad-libs et les Ã©chos (ex: (Yeah, yeah)).
      - Utilise "..." pour les notes tenues (ex: "Always...").
      - Utilise des MAJUSCULES pour l'emphase.
-  10. ZERO TOLERANCE : Interdiction absolue d'utiliser des noms propres d'artistes, des surnoms, des titres d'albums rÃ©els ou des marques de labels.
+  10. ZERO TOLERANCE COMMERCIAL : Interdiction absolue d'utiliser des noms propres d'artistes, des surnoms, des titres d'albums/morceaux rÃ©els, des marques de labels, des noms de quartiers/villes identifiables, ou des gimmicks/ad-libs signature (ex: IZI, Ratpi, QLF, 92i, Bando, etc.). Les paroles doivent pouvoir Ãªtre publiÃ©es sur Spotify sans aucun risque de claim.
 
   RÃ©ponds UNIQUEMENT en JSON sans backticks :
   {

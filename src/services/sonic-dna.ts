@@ -119,7 +119,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   "FREEZE CORLEONE": {
-    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, Occult Esoteric Atmosphere, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Dark Vinyl Sample Loops, Chopped Orchestral Loops Pitched Down, Dense Triplet Hi-Hat Rolls, Deep Sub-808 Rumble, Monotone Compressed Nasal Mechanical Precision Vocals, Relentless Metronomic Density No Breathing Room, Dark Compressed Mix Heavy Mid-Range, 667 Occultism Pan-African Esoteric Codes, 2020s",
+    sunoStyleTemplate: "Cold Clinical Monotone Rap, Mathematical Syllable Density, Dark Drill Boom-Bap Hybrid, Occult Esoteric Atmosphere, 125-140 BPM, Key: C Minor, Raw unprocessed, Underground bunker, Dark Vinyl Sample Loops, Chopped Orchestral Loops Pitched Down, Dense Triplet Hi-Hat Rolls, Deep Sub-808 Rumble, Monotone Compressed Nasal Mechanical Precision Vocals, Relentless Metronomic Density No Breathing Room, Dark Compressed Mix Heavy Mid-Range, Occult Pan-African Esoteric Coded Underground, 2020s",
     sunoExcludeStyles: "singing autotune, emotional delivery, bright production, major keys, humor, simple rhyme schemes, acoustic instruments, soulful warmth",
     sunoVocalTags: ["[monotone compressed midrange]", "[mechanical precision delivery]", "[zero melodic inflection]", "[clinical detachment]"],
     sunoWeirdness: 35,
@@ -129,7 +129,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Monotone cold clinical delivery with slightly nasal compressed midrange register. Zero melodic inflection maintaining constant pitch level regardless of lyrical content. Mechanical precision with metronomic syllable placement. Voice used purely as percussion instrument.",
     flowPattern: "Strictly metronomic on-beat syllable placement with mathematical density of multi-syllabic internal rhymes creating rhythmic complexity. Voice becomes percussion within the beat grid. No syncopation or behind-the-beat phrasing, purely mathematical alignment.",
     productionFingerprint: "Dark vinyl sample loops creating ominous atmosphere, chopped orchestral loops pitched down for menace, boom-bap drum patterns with hard-hitting snares, deep sub-808 bass rumble, dense triplet hi-hat rolls, dark drill energy with boom-bap structure",
-    culturalAnchors: "Occultism and Raëlism references, 667 collective mythology, conspiracy theory language, coded esoteric communication, manga/anime references, Pan-Africanism, sports metaphors as life narrative",
+    culturalAnchors: "Occultism and esoteric references, underground collective mythology, conspiracy theory language, coded esoteric communication, manga/anime references, Pan-Africanism, sports metaphors as life narrative",
     antiPatterns: "NEVER sings or uses melodic inflection, NEVER uses autotune, NEVER emotional vulnerable delivery, NEVER humor or lightness, NEVER bright uplifting production, NEVER simple rhyme schemes",
     sunoMetatags: {
       vocalStyle: "Monotone Rap",
@@ -801,7 +801,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   SOOLKING: {
-    sunoStyleTemplate: "Modern Raï-Pop Algerian, Melodic French-Arabic Rap-Singing, Warm Mediterranean Groove, 95-112 BPM, Key: C Minor, Studio polished, Wide reverb, Warm 808 Bass, Oriental Piano Melodies, Modern Accordion Layers, Darbuka-Trap Hybrid Drums, Mandole Accents, Smooth Raï Tenor French-Arabic Melodic Delivery, Emotional Build Intimate Verse to Catchy Pop-Raï Chorus, Warm Polished Mix Oriental-Pop Balance, Algiers-Paris Raï-Pop Modern Pioneer Liberté, 2020s",
+    sunoStyleTemplate: "Modern Raï-Pop Algerian, Melodic French-Arabic Rap-Singing, Warm Mediterranean Groove, 95-112 BPM, Key: C Minor, Studio polished, Wide reverb, Warm 808 Bass, Oriental Piano Melodies, Modern Accordion Layers, Darbuka-Trap Hybrid Drums, Mandole Accents, Smooth Raï Tenor French-Arabic Melodic Delivery, Emotional Build Intimate Verse to Catchy Pop-Raï Chorus, Warm Polished Mix Oriental-Pop Balance, Algiers-Paris Raï-Pop Modern Pioneer, 2020s",
     sunoExcludeStyles: "dark depressing atmosphere, metal aggressive, classical opera, industrial noise, hard drill, country folk, boom-bap traditional",
     sunoVocalTags: ["[smooth raï tenor]", "[French-Arabic bilingual flow]", "[melodic pop-raï delivery]", "[warm emotional singing]"],
     sunoWeirdness: 14,
@@ -811,7 +811,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Smooth raï tenor with French-Arabic bilingual melodic flow. Warm emotional singing blending modern pop accessibility with raï ornamentation. Voice carries both street credibility and pop polish. Algerian accent natural and authentic, switching fluidly between darija and French.",
     flowPattern: "Melodic rap-singing alternating French verses with Arabic melodic hooks. Raï ornamentation on chorus sustained notes. Pop-friendly verse structure with catchy refrains. Smooth rhythmic pocket blending trap timing with raï groove.",
     productionFingerprint: "Warm 808 bass providing modern groove, oriental piano melodies as harmonic foundation, modern accordion layers adding raï authenticity, darbuka-trap hybrid drum patterns, mandole accents on melodic passages, polished studio clarity with warm Mediterranean feel",
-    culturalAnchors: "Liberté iconic anthem, Algiers-Paris cultural bridge, modern raï-pop pioneer, Guerilla artistic depth, Dalida emotional maturity, Algerian diaspora voice, raï modernization without losing roots",
+    culturalAnchors: "Algerian diaspora anthem legacy, Algiers-Paris cultural bridge, modern raï-pop pioneer, artistic depth and emotional maturity, Algerian diaspora voice, raï modernization without losing roots",
     antiPatterns: "Never afro-dancehall, never Caribbean riddim, never dark orchestral, never industrial, never hard drill, never boom-bap, never pure anglophone style",
     sunoMetatags: {
       vocalStyle: "Melodic Rap",
@@ -845,7 +845,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   SCH: {
-    sunoStyleTemplate: "Cinematic Mafieux Rap, Dark Orchestral Strings, Italian Noir Atmosphere, Storytelling Narratif, 125-140 BPM, Key: C# Minor, Studio polished, Cathedral reverb, Dark Orchestral String Sweeps, Deep Cinematic 808 Bass, Dramatic Piano Movements, Choir Pads Ominous, Tense Percussion Build-Ups, Deep Grave Baritone Commanding Theatrical Delivery, Slow Cinematic Build Tension to Explosive Climax, Polished Cinematic Mix Wide Stereo Depth, Marseille Mafia Saga JVLIVS Universe, 2020s",
+    sunoStyleTemplate: "Cinematic Mafieux Rap, Dark Orchestral Strings, Italian Noir Atmosphere, Storytelling Narratif, 125-140 BPM, Key: C# Minor, Studio polished, Cathedral reverb, Dark Orchestral String Sweeps, Deep Cinematic 808 Bass, Dramatic Piano Movements, Choir Pads Ominous, Tense Percussion Build-Ups, Deep Grave Baritone Commanding Theatrical Delivery, Slow Cinematic Build Tension to Explosive Climax, Polished Cinematic Mix Wide Stereo Depth, Mediterranean Mafia Saga Cinematic Universe, 2020s",
     sunoExcludeStyles: "bright happy pop, festive energy, country folk, acoustic soft, lo-fi chill, generic trap, boom-bap traditional, dancehall reggaeton",
     sunoVocalTags: ["[deep grave theatrical baritone]", "[cinematic narrative delivery]", "[commanding authoritative tone]", "[dramatic pause mastery]"],
     sunoWeirdness: 32,
@@ -855,7 +855,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Deep grave baritone with theatrical commanding presence. Cinematic narrative delivery treating each track as a film scene. Authoritative tone conveying power and menace. Dramatic pause mastery creating tension. Voice used as storytelling instrument within orchestral arrangements.",
     flowPattern: "Cinematic phrasing with dramatic tension-release cycles. Slow deliberate verse delivery building to explosive chorus moments. Narrative focus with clear word articulation for story comprehension. Rhythmic control emphasizing dramatic effect over technical speed.",
     productionFingerprint: "Dark orchestral string sweeps creating cinematic atmosphere, deep cinematic 808 bass rumbling beneath, dramatic piano movements supporting emotional peaks, ominous choir pads adding menace, tense percussion build-ups, Italian mafia film atmosphere, polished mix with cathedral reverb creating massive space",
-    culturalAnchors: "JVLIVS mafia saga universe, Marseille street mythology meets Italian cinema, Mediterranean gangster narrative, Aubagne identity, cinematic storytelling ambition, artistic evolution through alter ego",
+    culturalAnchors: "Mafia saga cinematic universe, southern France street mythology meets Italian cinema, Mediterranean gangster narrative, cinematic storytelling ambition, artistic evolution through dark alter ego, orchestral rap visionary",
     antiPatterns: "Never bright happy pop, never festive celebratory, never lo-fi chill, never generic trap patterns, never acoustic soft warmth, never boom-bap traditional",
     sunoMetatags: {
       vocalStyle: "Power Rap",
@@ -889,7 +889,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   MAES: {
-    sunoStyleTemplate: "Melodic Street Anthem Rap, Raw-to-Catchy Hybrid, Hard Melody Street Pop, 128-142 BPM, Key: G Minor, Studio polished, Underground bunker, Heavy Punchy 808 Bass, Dark Piano Melody Hooks, Aggressive Hi-Hat Rolls, Dramatic Synth Stabs, Deep Versatile Voice Alternating Raw and Melodic, Dynamic Build Hard Verse to Catchy Pop Hook, Polished Mix Hard Low-End Clean Top, Sevran Street Reality Pop Crossover, 2020s",
+    sunoStyleTemplate: "Melodic Street Anthem Rap, Raw-to-Catchy Hybrid, Hard Melody Street Pop, 128-142 BPM, Key: G Minor, Studio polished, Underground bunker, Heavy Punchy 808 Bass, Dark Piano Melody Hooks, Aggressive Hi-Hat Rolls, Dramatic Synth Stabs, Deep Versatile Voice Alternating Raw and Melodic, Dynamic Build Hard Verse to Catchy Pop Hook, Polished Mix Hard Low-End Clean Top, Banlieue Street Reality Pop Crossover, 2020s",
     sunoExcludeStyles: "soft acoustic, country folk, opera classical, lo-fi chill, slow ballad, experimental avant-garde, boom-bap traditional",
     sunoVocalTags: ["[deep versatile delivery]", "[raw-to-melodic shifting]", "[street authority tone]", "[catchy hook instinct]"],
     sunoWeirdness: 15,
@@ -899,7 +899,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Deep versatile male voice alternating between raw aggressive delivery and catchy melodic hooks. Street authority tone with pop crossover instinct. Capable of hard rap verses transitioning to radio-friendly chorus. Natural hook-writing ability.",
     flowPattern: "Hard aggressive verses with rapid syllable delivery shifting to melodic catchy hooks. Rhythmic versatility between street rap and pop accessibility. On-beat aggressive attacks in verses, behind-the-beat melodic pocket in choruses. Dynamic flow matching production energy.",
     productionFingerprint: "Heavy punchy 808 bass as foundation, dark piano melody hooks creating memorable moments, aggressive hi-hat rolls, dramatic synth stabs punctuating, polished studio clarity, hard low-end combined with clean top-end for street-pop crossover sound",
-    culturalAnchors: "Sevran street reality narratives, raw-to-mainstream crossover success, melodic street rap evolution, collaboration culture (Booba connection), Moroccan-French identity, street credibility maintained through pop success",
+    culturalAnchors: "Banlieue street reality narratives, raw-to-mainstream crossover success, melodic street rap evolution, Franco-Moroccan identity, street credibility maintained through pop success, hard-melodic duality pioneer",
     antiPatterns: "Never soft acoustic, never country folk, never lo-fi chill, never slow ballad, never experimental avant-garde, never boom-bap traditional",
     sunoMetatags: {
       vocalStyle: "Melodic Rap",
@@ -1054,7 +1054,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Clear articulate baritone with storytelling authority and poetic narrative delivery. Queensbridge inflection adding authenticity. Intellectual yet street-accessible vocal tone. Voice conveys both wisdom and street reality.",
     flowPattern: "Behind-the-beat storytelling flow with clear word articulation. Narrative arc within verse structure. Internal rhyme density balanced with conversational accessibility. Rhythmic pocket locked to boom-bap drum patterns.",
     productionFingerprint: "Chopped jazz piano samples providing melodic sophistication, boom-bap drum breaks with punchy kick and snapping snare, warm vinyl bass foundation, saxophone loops adding jazz flavor, dusty vinyl texture creating nostalgic warmth",
-    culturalAnchors: "Queensbridge East Coast mythology, hip-hop poet laureate, Illmatic legacy, street storytelling mastery, lyrical excellence standard, golden era hip-hop heritage",
+    culturalAnchors: "East Coast mythology, hip-hop poet laureate, legendary debut album legacy, street storytelling mastery, lyrical excellence standard, golden era hip-hop heritage",
     antiPatterns: "Never heavy autotune, never generic trap, never bright pop, never cloud rap, never festive party, never cold mechanical delivery",
     sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Subtle Reverb", mood: "Melancholic", energy: "Medium", texture: "Dusty sample", instrument: "Jazz Piano Samples, Boom-Bap Drums, Saxophone, Vinyl Bass" }
   },
@@ -1063,10 +1063,10 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoExcludeStyles: "bright happy pop, melodic singing, autotune, festive energy, country folk, soft acoustic, smooth R&B, lo-fi chill",
     sunoVocalTags: ["[cold menacing delivery]", "[raw grimy tone]", "[dual voice interplay]", "[Queensbridge street authority]"],
     sunoWeirdness: 12, sunoStyleInfluence: 85, sunoBpmRange: "85-95", sunoKey: "D Minor",
-    vocalDNA: "Cold menacing dual delivery between Prodigy's gravelly mid-range and Havoc's rawer tone. Queensbridge street authority conveyed through relentless dark energy. Zero melodic inflection, pure raw street rap. Voice as weapon of cold menace.",
+    vocalDNA: "Cold menacing dual delivery between gravelly mid-range and rawer aggressive tone. East Coast street authority conveyed through relentless dark energy. Zero melodic inflection, pure raw street rap. Voice as weapon of cold menace.",
     flowPattern: "Locked to boom-bap grid with aggressive on-beat delivery. Dual voice interplay creating call-and-response menace. Medium syllable density with sharp consonant strikes. Relentless dark energy with no relief or lightness.",
     productionFingerprint: "Dark minor key piano loops creating ominous atmosphere, hard boom-bap kick and snare patterns, eerie string samples adding tension, sparse minimalist percussion, raw compressed mix emphasizing dark low-end, cold Queensbridge production aesthetic",
-    culturalAnchors: "Queensbridge Infamous mythology, 90s East Coast dark reality, street survival narratives, cold menacing atmosphere, Havoc production mastery, golden era dark hip-hop",
+    culturalAnchors: "East Coast dark mythology, 90s grimy street reality, street survival narratives, cold menacing atmosphere, self-produced dark beats mastery, golden era dark hip-hop",
     antiPatterns: "Never bright happy pop, never melodic singing, never autotune, never festive energy, never soft acoustic, never smooth R&B",
     sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Compressed", mood: "Dark", energy: "High", texture: "Raw unprocessed", instrument: "Dark Piano Loops, Boom-Bap Drums, Eerie Strings" }
   },
@@ -1138,19 +1138,19 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Powerful grand raï baritone-tenor with anthemic emotional delivery and Mediterranean warmth. Voice designed to fill stadiums and festivals. Grand emotional presence commanding attention. King of Raï vocal authority.",
     flowPattern: "Grand melodic phrasing building to anthemic chorus moments. Festival-commanding delivery with audience participation design. Emotional crescendo architecture. Mediterranean groove pocket with Arabic ornamentation.",
     productionFingerprint: "Grand orchestral arrangements, darbuka festival percussion driving rhythm, oud and mandole melodic lines, synth brass section adding anthemic power, polished studio clarity, stadium-ready production",
-    culturalAnchors: "King of Raï global mythology, Aïcha international success, Mediterranean celebration culture, Algerian cultural ambassador, festival anthem tradition, global world music bridge",
+    culturalAnchors: "King of Raï global mythology, international anthem success, Mediterranean celebration culture, Algerian cultural ambassador, festival anthem tradition, global world music bridge",
     antiPatterns: "Never metal screaming, never industrial, never lo-fi chill, never dark depressing, never hard drill, never cold detached delivery",
     sunoMetatags: { vocalStyle: "Power", vocalEffect: "Reverb, Delay", mood: "Uplifting", energy: "High", texture: "Studio polished", instrument: "Orchestra, Darbuka, Oud, Synth Brass" }
   },
   "HIROYUKI SAWANO": {
-    sunoStyleTemplate: "Epic Anime Orchestral, Cinematic Dramatic Score, Powerful Choir and Electronic Hybrid, 130-160 BPM, Key: D Minor, Studio polished, Cathedral reverb, Massive Orchestral Strings, Epic Choir Layers, Electronic Drum Patterns, Distorted Guitar Power, Grand Piano Dramatic, Operatic Female Vocal Soaring Over Electronic Base, Epic Cinematic Build to Maximum Intensity Climax, Polished Maximum Dynamic Range, Attack on Titan Epic Anime Score Energy, 2010s",
+    sunoStyleTemplate: "Epic Anime Orchestral, Cinematic Dramatic Score, Powerful Choir and Electronic Hybrid, 130-160 BPM, Key: D Minor, Studio polished, Cathedral reverb, Massive Orchestral Strings, Epic Choir Layers, Electronic Drum Patterns, Distorted Guitar Power, Grand Piano Dramatic, Operatic Female Vocal Soaring Over Electronic Base, Epic Cinematic Build to Maximum Intensity Climax, Polished Maximum Dynamic Range, Epic Anime Score Maximum Intensity Energy, 2010s",
     sunoExcludeStyles: "lo-fi chill, country folk, soft acoustic, slow ballad, minimal sparse, reggaeton dembow, boom-bap hip-hop",
     sunoVocalTags: ["[operatic female soprano]", "[epic choir harmonies]", "[dramatic German-inspired phrasing]", "[soaring power delivery]"],
     sunoWeirdness: 25, sunoStyleInfluence: 82, sunoBpmRange: "130-160", sunoKey: "D Minor",
-    vocalDNA: "Operatic female soprano soaring over electronic-orchestral base. Epic choir harmonies creating massive wall of sound. Dramatic delivery with German-inspired phrasing (nZk vocal style). Voice as instrument of maximum dramatic intensity.",
+    vocalDNA: "Operatic female soprano soaring over electronic-orchestral base. Epic choir harmonies creating massive wall of sound. Dramatic delivery with German-inspired phrasing and operatic vocal layering. Voice as instrument of maximum dramatic intensity.",
     flowPattern: "Dramatic build from quiet orchestral intro to maximum intensity climax. Epic phrasing with long sustained powerful notes. Choir layers building pressure. Electronic and orchestral elements interweaving with increasing intensity.",
     productionFingerprint: "Massive orchestral string sections, epic choir layers creating wall of sound, electronic drum patterns adding modern energy, distorted guitar power sections, grand piano dramatic moments, cathedral reverb creating massive space",
-    culturalAnchors: "Attack on Titan iconic scores, anime soundtrack mastery, epic cinematic composition, Japanese orchestral-electronic fusion, dramatic narrative scoring, nZk vocal collaboration trademark",
+    culturalAnchors: "Iconic anime battle scores, anime soundtrack mastery, epic cinematic composition, Japanese orchestral-electronic fusion, dramatic narrative scoring, operatic vocal collaboration trademark",
     antiPatterns: "Never lo-fi chill, never country folk, never soft acoustic, never slow ballad, never minimal sparse, never reggaeton",
     sunoMetatags: { vocalStyle: "Operatic", vocalEffect: "Reverb, Delay", mood: "Triumphant", energy: "Maximum", texture: "Studio polished", instrument: "Orchestra, Choir, Electronic Drums, Distorted Guitar, Piano" }
   },
@@ -1162,7 +1162,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Warm sampled vocal chops floating over beat creating meditative atmosphere. When rap features present, smooth laid-back delivery. Jazz-influenced phrasing with spiritual quality. Vocal elements serve groove rather than dominate.",
     flowPattern: "Meditative groove maintaining steady flow without dramatic builds. Behind-the-beat pocket creating zen-like relaxation. Smooth continuous rhythm without interruption. Beat as meditation rather than energy vehicle.",
     productionFingerprint: "Chopped jazz piano samples creating melodic warmth, warm vinyl boom-bap drums with organic swing, upright bass samples providing groove, jazz flute melodic passages, vinyl crackle texture adding nostalgic warmth, overall meditative warm atmosphere",
-    culturalAnchors: "Tokyo jazz hop pioneer, Samurai Champloo soundtrack legacy, spiritual hip-hop meditation, Japanese-American cultural bridge, vinyl culture celebration, lo-fi hip-hop ancestor",
+    culturalAnchors: "Tokyo jazz hop pioneer, iconic anime soundtrack legacy, spiritual hip-hop meditation, Japanese-American cultural bridge, vinyl culture celebration, lo-fi hip-hop ancestor",
     antiPatterns: "Never aggressive trap, never metal screaming, never bright pop, never hard drill, never fast party, never autotune heavy",
     sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb", mood: "Peaceful", energy: "Low", texture: "Dusty sample", instrument: "Jazz Piano Samples, Boom-Bap Drums, Upright Bass, Flute" }
   },
@@ -1174,7 +1174,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Sweet clean female vocal harmonies with Y2K nostalgic quality. Bright airy tone with catchy hook precision. Multiple voice layering creating texture. K-pop vocal training meets 2000s pop accessibility.",
     flowPattern: "Catchy hook-focused design with memorable melodic phrases. Minimal verse-to-chorus build maximizing hook impact. Clean rhythmic pocket with pop precision. Y2K R&B-influenced phrasing with modern K-pop execution.",
     productionFingerprint: "Warm retro synth bass creating nostalgic groove, clean drum machine patterns, bright melodic synths adding sparkle, soft pad layers, digital crisp clarity throughout, Y2K-inspired minimalist production aesthetic",
-    culturalAnchors: "Y2K nostalgia movement, K-pop minimalist innovation, ADOR/HYBE artistic vision, 2000s pop revival, Gen Z cultural impact, global K-pop bridge",
+    culturalAnchors: "Y2K nostalgia movement, K-pop minimalist innovation, visionary label artistic direction, 2000s pop revival, Gen Z cultural impact, global K-pop bridge",
     antiPatterns: "Never aggressive rap, never metal screaming, never dark orchestral, never industrial, never heavy bass trap, never lo-fi gritty",
     sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Reverb", mood: "Uplifting", energy: "Medium", texture: "Crisp Digital", instrument: "Retro Synth Bass, Drum Machine, Bright Synths, Soft Pads" }
   },
@@ -1246,31 +1246,31 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Raspy deep baritone with raw aggressive delivery and choppy staccato flow. Mafia menace tone conveying street authority. Voice carries rough texture and prison-hardened authenticity. Capable of vocoder moments in recent evolution.",
     flowPattern: "Choppy staccato aggressive delivery with sharp consonant strikes. Rapid-fire bursts followed by dramatic pauses. Punchline-focused structure. Raw energy maintained without melodic softness.",
     productionFingerprint: "Heavy 808 bass creating menacing low-end, dark piano stabs, aggressive hi-hat roll patterns, orchestral tension strings adding cinematic menace, raw compressed mix, underground bunker echo, overall dark mafia-trap aesthetic",
-    culturalAnchors: "Algerian-French street legend, Corleone mafia mythology, prison narrative authenticity, raw street credibility, Hauts-de-Seine street culture, vocoder evolution in recent work",
+    culturalAnchors: "Algerian-French street legend, Italian mafia cinema mythology, prison narrative authenticity, raw street credibility, Hauts-de-Seine street culture, vocoder evolution in recent work",
     antiPatterns: "Never bright happy pop, never soft acoustic, never smooth R&B, never lo-fi chill, never melodic singing focus, never country folk",
     sunoMetatags: { vocalStyle: "Raspy Rap", vocalEffect: "Dry, Compressed", mood: "Dark", energy: "High", texture: "Raw unprocessed", instrument: "808 Bass, Dark Piano, Hi-Hats, Orchestral Strings" }
   },
   SALIF: {
-    sunoStyleTemplate: "Boom-Bap Street Rap, Lyrical Technique Mastery, Dark Introspective Underground, 85-100 BPM, Key: D Minor, Dusty sample, Intimate dry booth, Boom-Bap Drum Breaks, Dark Piano Sample Loops, Warm Vinyl Bass, String Sample Tension, Deep Baritone Introspective Lyrical Authority, Technical Flow Building to Emotional Climax, Dusty Warm Mix Boom-Bap Foundation, Boulogne Underground Street Poetry, 2000s",
+    sunoStyleTemplate: "Boom-Bap Street Rap, Lyrical Technique Mastery, Dark Introspective Underground, 85-100 BPM, Key: D Minor, Dusty sample, Intimate dry booth, Boom-Bap Drum Breaks, Dark Piano Sample Loops, Warm Vinyl Bass, String Sample Tension, Deep Baritone Introspective Lyrical Authority, Technical Flow Building to Emotional Climax, Dusty Warm Mix Boom-Bap Foundation, Hauts-de-Seine Underground Street Poetry, 2000s",
     sunoExcludeStyles: "autotune heavy, generic trap, bright pop, festive party, country folk, reggaeton, smooth R&B, industrial noise",
     sunoVocalTags: ["[deep introspective baritone]", "[lyrical technique mastery]", "[street poetry delivery]", "[emotional raw authority]"],
     sunoWeirdness: 8, sunoStyleInfluence: 85, sunoBpmRange: "85-100", sunoKey: "D Minor",
-    vocalDNA: "Deep introspective baritone with lyrical technique mastery. Street poetry delivery conveying both intelligence and street reality. Emotional raw authority without melodrama. Boulogne accent flavoring authentic delivery.",
+    vocalDNA: "Deep introspective baritone with lyrical technique mastery. Street poetry delivery conveying both intelligence and street reality. Emotional raw authority without melodrama. Banlieue parisienne accent flavoring authentic delivery.",
     flowPattern: "Technical boom-bap flow with high internal rhyme density. Behind-the-beat pocket emphasizing lyrical content. Storytelling verse structure building to emotional climax. Introspective phrasing balanced with aggressive moments.",
     productionFingerprint: "Boom-bap drum breaks with hard kick and snapping snare, dark piano sample loops, warm vinyl bass foundation, string sample tension building, dusty production aesthetic, overall dark introspective boom-bap atmosphere",
-    culturalAnchors: "Boulogne-Billancourt underground legend, Nysay collective heritage, Beat de Boul movement, lyrical technique excellence, street poetry tradition, French boom-bap golden era",
+    culturalAnchors: "Banlieue underground legend, 2000s collective heritage, street movement founder, lyrical technique excellence, street poetry tradition, French boom-bap golden era",
     antiPatterns: "Never autotune heavy, never generic trap, never bright pop, never festive party, never reggaeton, never smooth R&B",
     sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Subtle Reverb", mood: "Dark", energy: "Medium", texture: "Dusty sample", instrument: "Boom-Bap Drums, Piano Samples, Vinyl Bass, String Samples" }
   },
   DICIDENS: {
-    sunoStyleTemplate: "Raw Grimy Boom-Bap, East Coast French Underground, Mobb Deep Influenced Darkness, 85-98 BPM, Key: C# Minor, Raw unprocessed, Underground bunker, Hard Boom-Bap Drums, Dark Minor Piano Loops, Deep Vinyl Bass, Eerie Sample Chops, Dual Raw Aggressive Delivery Grimy Intensity, Relentless Dark Energy Uncompromising, Raw Compressed Mix Maximum Grit, Val-de-Marne Underground Raw Legend, 2000s",
+    sunoStyleTemplate: "Raw Grimy Boom-Bap, East Coast French Underground, 90s New York Influenced Darkness, 85-98 BPM, Key: C# Minor, Raw unprocessed, Underground bunker, Hard Boom-Bap Drums, Dark Minor Piano Loops, Deep Vinyl Bass, Eerie Sample Chops, Dual Raw Aggressive Delivery Grimy Intensity, Relentless Dark Energy Uncompromising, Raw Compressed Mix Maximum Grit, Banlieue Underground Raw Legend, 2000s",
     sunoExcludeStyles: "melodic singing, autotune, bright pop, festive energy, smooth R&B, country folk, lo-fi chill, soft acoustic",
-    sunoVocalTags: ["[raw grimy dual delivery]", "[aggressive intensity]", "[underground street authority]", "[Mobb Deep-influenced menace]"],
+    sunoVocalTags: ["[raw grimy dual delivery]", "[aggressive intensity]", "[underground street authority]", "[90s East Coast influenced menace]"],
     sunoWeirdness: 8, sunoStyleInfluence: 88, sunoBpmRange: "85-98", sunoKey: "C# Minor",
-    vocalDNA: "Raw grimy dual delivery with Nessbeal and Zesau trading aggressive verses. Underground street authority conveyed through uncompromising intensity. Mobb Deep-influenced menace in vocal tone. Zero melodic compromise, pure raw street rap.",
+    vocalDNA: "Raw grimy dual delivery with two MCs trading aggressive verses. Underground street authority conveyed through uncompromising intensity. 90s East Coast-influenced menace in vocal tone. Zero melodic compromise, pure raw street rap.",
     flowPattern: "Locked to boom-bap grid with aggressive on-beat delivery. Dual MC interplay creating relentless energy. High syllable density within dark production. Uncompromising intensity without commercial concession.",
-    productionFingerprint: "Hard boom-bap drums with maximum impact, dark minor piano loops, deep vinyl bass rumbling, eerie sample chops adding menace, raw compressed mix maximizing grit, Queensbridge-influenced dark production",
-    culturalAnchors: "Val-de-Marne underground legend, Mobb Deep French equivalent, HLM Rezidants classic, raw uncompromising street rap, 92-94 department identity, French underground golden era",
+    productionFingerprint: "Hard boom-bap drums with maximum impact, dark minor piano loops, deep vinyl bass rumbling, eerie sample chops adding menace, raw compressed mix maximizing grit, 90s East Coast-influenced dark production",
+    culturalAnchors: "Banlieue underground legend, French equivalent of 90s East Coast grimy duo, classic street rap album legacy, raw uncompromising street rap, Île-de-France department identity, French underground golden era",
     antiPatterns: "Never melodic singing, never autotune, never bright pop, never festive, never smooth R&B, never lo-fi chill, never soft acoustic",
     sunoMetatags: { vocalStyle: "Rap", vocalEffect: "Dry, Compressed", mood: "Dark", energy: "High", texture: "Raw unprocessed", instrument: "Boom-Bap Drums, Dark Piano, Vinyl Bass, Eerie Samples" }
   },
@@ -1366,7 +1366,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Warm emotional tenor with Arabic-French bilingual delivery. Nostalgic joyful phrasing combining melancholy with celebration. Raï-influenced vocal ornamentation adding Algerian authenticity. Voice carries exile longing and pride simultaneously.",
     flowPattern: "Melodic rap-singing blending French verses with Arabic melodic hooks. Nostalgic phrasing with chaâbi and raï rhythmic influences. Verse intimacy building to joyful celebratory chorus moments. Bilingual switching creating unique rhythmic texture.",
     productionFingerprint: "Traditional Algerian percussion (darbuka, bendir) blending with modern trap bass, oud and mandole melodic lines, chaâbi string textures, modern electronic elements layered with traditional, warm organic production bridging old and new",
-    culturalAnchors: "Algerian diaspora identity, exile nostalgia and longing, Algiers-Paris cultural bridge, chaâbi-raï-gnaoua fusion, Colors Studio recognition, 3iniya breakthrough, joyful nostalgia as artistic identity",
+    culturalAnchors: "Algerian diaspora identity, exile nostalgia and longing, Algiers-Paris cultural bridge, chaâbi-raï-gnaoua fusion, international live session recognition, breakthrough viral hit, joyful nostalgia as artistic identity",
     antiPatterns: "Never metal screaming, never industrial, never dark orchestral, never aggressive drill, never hard trap raw, never opera classical",
     sunoMetatags: { vocalStyle: "Melodic Rap", vocalEffect: "Reverb", mood: "Melancholic", energy: "Medium", texture: "Analog warmth", instrument: "Algerian Percussion, Oud, Trap Bass, Chaâbi Strings" }
   },
@@ -1378,7 +1378,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Powerful female voice with Latin melodic delivery and reggaeton phrasing. Confident uplifting tone commanding dancefloor. Natural vibrato adding warmth. Colombian accent authentic and flavorful.",
     flowPattern: "Reggaeton dembow-locked placement with Latin syncopation. Catchy hook-focused design. Verse-to-chorus build maximizing dance impact. Infectious groove emphasis throughout.",
     productionFingerprint: "Bouncy reggaeton bass with dembow rhythm pattern, Latin percussion layers, bright synth stabs, polished digital clarity, overall bright Latin dance-pop energy",
-    culturalAnchors: "Medellín reggaeton queen, Bichota empowerment, Latin female artist global dominance, Colombian cultural pride, Mañana Será Bonito massive success, Latin pop crossover mastery",
+    culturalAnchors: "Colombian reggaeton queen, female empowerment anthems, Latin female artist global dominance, Colombian cultural pride, massive album success, Latin pop crossover mastery",
     antiPatterns: "Never metal screaming, never industrial, never dark orchestral, never lo-fi chill, never boom-bap, never country folk",
     sunoMetatags: { vocalStyle: "Power", vocalEffect: "Auto-tune, Reverb", mood: "Uplifting", energy: "High", texture: "Crisp Digital", instrument: "Reggaeton Bass, Dembow Drums, Latin Percussion, Synths" }
   },
@@ -1390,7 +1390,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Smooth versatile tenor-falsetto with pop vocal precision. Emotional accessibility without melodrama. Radio-friendly delivery balancing R&B soul with pop catchiness. Capable of both vulnerable ballad and uptempo pop energy.",
     flowPattern: "Pop verse-chorus structure with maximum hook impact. Smooth melodic phrasing with R&B influence. Falsetto moments at emotional peaks. Behind-the-beat pocket creating laid-back pop feel.",
     productionFingerprint: "Warm pop bass, clean electronic drum patterns, bright synth layers, acoustic guitar accents, polished maximum pop clarity, wide stereo mix, overall modern pop-R&B crossover production",
-    culturalAnchors: "Global pop superstar, Canadian-American pop mythology, Peaches acoustic evolution, pop-R&B crossover mastery, generational pop influence, electronic pop innovation",
+    culturalAnchors: "Global pop superstar, Canadian-American pop mythology, acoustic intimate evolution, pop-R&B crossover mastery, generational pop influence, electronic pop innovation",
     antiPatterns: "Never aggressive rap, never metal screaming, never dark orchestral, never industrial, never hard drill, never country folk extreme",
     sunoMetatags: { vocalStyle: "Falsetto", vocalEffect: "Reverb", mood: "Uplifting", energy: "Medium", texture: "Studio polished", instrument: "Pop Bass, Electronic Drums, Bright Synths, Acoustic Guitar" }
   },
@@ -1402,7 +1402,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Raspy warm tenor with melodic crooning delivery and genre-bending versatility. Emotional vulnerability conveyed through vocal texture. Capable of singing across rap, rock, pop, and country contexts. Distinctive raspy quality as trademark.",
     flowPattern: "Melodic crooning over trap beats with acoustic guitar foundation. Emotional verse intimacy building to anthemic chorus moments. Behind-the-beat relaxed delivery. Genre-switching within single tracks.",
     productionFingerprint: "Heavy 808 bass combined with acoustic guitar melodies, trap hi-hat rolls, rock guitar layers adding depth, tape saturation warmth, overall genre-bending hybrid production",
-    culturalAnchors: "Genre-bending pioneer, Dallas Texas identity, Circles emotional evolution, rap-rock-country fluid identity, Austin album country exploration, Twelve Carat Toothache artistic depth",
+    culturalAnchors: "Genre-bending pioneer, Southern American identity, emotional evolution across albums, rap-rock-country fluid identity, country genre exploration, artistic depth and vulnerability",
     antiPatterns: "Never opera classical, never industrial, never lo-fi minimal, never dark orchestral, never boom-bap traditional",
     sunoMetatags: { vocalStyle: "Melodic Rap", vocalEffect: "Auto-tune, Reverb", mood: "Melancholic", energy: "Medium", texture: "Tape-Saturated", instrument: "808 Bass, Acoustic Guitar, Trap Hi-Hats, Rock Guitar" }
   },
@@ -1414,7 +1414,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Smooth confident tenor with Latin melodic flow and reggaeton phrasing. Colorful pop energy conveying celebration. Colombian accent authentic. Minimalist vocal approach letting production shine.",
     flowPattern: "Reggaeton dembow-locked delivery with Latin groove. Catchy minimal hooks designed for maximum pop appeal. Verse-to-chorus pop structure. Infectious groove maintained throughout.",
     productionFingerprint: "Bouncy reggaeton bass, clean dembow rhythm pattern, minimal synth hooks, bright pop polish, digital crisp clarity, overall colorful minimalist Latin urban aesthetic",
-    culturalAnchors: "Medellín reggaeton global ambassador, Colores artistic concept, Latin urban pop pioneer, global reggaeton mainstream bridge, Mi Gente massive success, minimalist Latin aesthetic",
+    culturalAnchors: "Colombian reggaeton global ambassador, colorful artistic concept albums, Latin urban pop pioneer, global reggaeton mainstream bridge, massive crossover success, minimalist Latin aesthetic",
     antiPatterns: "Never metal screaming, never industrial, never dark orchestral, never lo-fi chill, never boom-bap, never country folk",
     sunoMetatags: { vocalStyle: "Melodic Rap", vocalEffect: "Auto-tune, Reverb", mood: "Uplifting", energy: "Medium→High", texture: "Crisp Digital", instrument: "Reggaeton Bass, Dembow Drums, Minimal Synths" }
   },
@@ -1426,7 +1426,7 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: "Energetic melodic tenor with infectious afro delivery and rave energy. Nigerian accent adding authenticity. Danceable groove-locking ability. Voice designed for global dancefloor impact.",
     flowPattern: "Infectious afrobeats groove with rave energy injection. Melodic hooks designed for maximum global appeal. Verse-to-chorus dance build. High energy maintained with groove emphasis.",
     productionFingerprint: "Bouncy afro bass, afrobeats percussion patterns, rave synth stabs adding electronic energy, electronic textures layered, bright polished digital clarity, overall afrobeats-rave fusion production",
-    culturalAnchors: "Benin City afrobeats pioneer, Calm Down global breakthrough, afrobeats-rave genre fusion, Nigerian cultural export, Mavin Records artistic development, global dancefloor domination",
+    culturalAnchors: "Nigerian afrobeats pioneer, global crossover breakthrough, afrobeats-rave genre fusion, Nigerian cultural export, major label artistic development, global dancefloor domination",
     antiPatterns: "Never metal screaming, never industrial, never dark orchestral, never lo-fi chill, never boom-bap, never slow ballad",
     sunoMetatags: { vocalStyle: "Melodic", vocalEffect: "Reverb, Auto-tune", mood: "Uplifting", energy: "High", texture: "Crisp Digital", instrument: "Afro Bass, Afrobeats Percussion, Rave Synths, Electronic Textures" }
   },
