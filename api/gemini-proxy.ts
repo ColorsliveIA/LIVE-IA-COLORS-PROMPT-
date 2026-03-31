@@ -93,7 +93,6 @@ function isRateLimited(ip: string): { limited: boolean; retryAfter?: number } {
 const ALLOWED_MODELS = new Set([
   "gemini-2.5-flash",
   "gemini-2.0-flash",
-  "gemini-2.5-flash-lite",
   // Legacy names kept for backward compatibility with client code
   "gemini-3-flash-preview",
   "gemini-2.5-flash-preview-05-20",
@@ -102,11 +101,11 @@ const ALLOWED_MODELS = new Set([
 
 // ── Model fallback chain (if primary model hits 429/503/404, try next)
 const MODEL_FALLBACKS: Record<string, string[]> = {
-  "gemini-3-flash-preview": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
-  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
-  "gemini-2.5-flash": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
-  "gemini-2.0-flash": ["gemini-2.5-flash-lite"],
-  "gemini-2.0-flash-lite": ["gemini-2.5-flash-lite"], // redirect deprecated model
+  "gemini-3-flash-preview": ["gemini-2.0-flash", "gemini-2.5-flash"],
+  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash", "gemini-2.5-flash"],
+  "gemini-2.5-flash": ["gemini-2.0-flash"],
+  "gemini-2.0-flash": ["gemini-2.5-flash"],
+  "gemini-2.0-flash-lite": ["gemini-2.0-flash", "gemini-2.5-flash"], // redirect deprecated model
 };
 
 // ── CORS ─────────────────────────────────────────────────────────────

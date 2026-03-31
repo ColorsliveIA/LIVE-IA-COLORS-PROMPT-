@@ -59,15 +59,25 @@ async function callGemini(payload: {
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    const err: any = new Error(error.error || "Gemini API request failed");
+  // Safely parse response - handle non-JSON error pages (e.g. Vercel 500 HTML)
+  const rawText = await response.text();
+  let parsed: any;
+  try {
+    parsed = JSON.parse(rawText);
+  } catch {
+    const err: any = new Error(`Gemini proxy returned non-JSON (HTTP ${response.status}): ${rawText.slice(0, 120)}`);
     err.status = response.status;
-    err.message = error.error || `HTTP ${response.status}`;
     throw err;
   }
 
-  return await response.json();
+  if (!response.ok) {
+    const err: any = new Error(parsed.error || "Gemini API request failed");
+    err.status = response.status;
+    err.message = parsed.error || `HTTP ${response.status}`;
+    throw err;
+  }
+
+  return parsed;
 }
 
 export async function analyzeAudio(base64Data: string, mimeType: string) {
