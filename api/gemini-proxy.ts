@@ -1,6 +1,54 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { GoogleGenAI } from "@google/genai";
 
+// ── Multi-key rotation ──────────────────────────────────────────────
+// Reads GEMINI_API_KEY (single key) and GEMINI_API_KEYS (comma-separated)
+// Rotates through keys when one hits 429 rate limit
+function getApiKeys(): string[] {
+  const keys: string[] = [];
+  // Support comma-separated keys in GEMINI_API_KEYS
+  const multiKeys = process.env.GEMINI_API_KEYS;
+  if (multiKeys) {
+    keys.push(...multiKeys.split(",").map(k => k.trim()).filter(Boolean));
+  }
+  // Also include single GEMINI_API_KEY if not already present
+  const singleKey = process.env.GEMINI_API_KEY;
+  if (singleKey && !keys.includes(singleKey)) {
+    keys.push(singleKey);
+  }
+  return keys;
+}
+
+// Track which keys are rate-limited (cooldown period)
+const keysCooldown = new Map<string, number>(); // key hash → cooldown until timestamp
+const KEY_COOLDOWN_MS = 60_000; // 1 minute cooldown after 429
+
+function getAvailableKeyIndex(keys: string[]): number {
+  const now = Date.now();
+  // First pass: find a key that is NOT in cooldown
+  for (let i = 0; i < keys.length; i++) {
+    const cooldownUntil = keysCooldown.get(keys[i]) || 0;
+    if (now >= cooldownUntil) {
+      return i;
+    }
+  }
+  // All keys in cooldown: return the one whose cooldown expires soonest
+  let bestIndex = 0;
+  let soonest = Infinity;
+  for (let i = 0; i < keys.length; i++) {
+    const cooldownUntil = keysCooldown.get(keys[i]) || 0;
+    if (cooldownUntil < soonest) {
+      soonest = cooldownUntil;
+      bestIndex = i;
+    }
+  }
+  return bestIndex;
+}
+
+function markKeyRateLimited(key: string): void {
+  keysCooldown.set(key, Date.now() + KEY_COOLDOWN_MS);
+}
+
 // ── Rate Limiting (in-memory, per Vercel instance) ──────────────────────
 interface RateBucket {
   count: number;
@@ -113,9 +161,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(413).json({ error: "Request payload too large" });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    console.error("GEMINI_API_KEY is missing on server");
+  const apiKeys = getApiKeys();
+  if (apiKeys.length === 0) {
+    console.error("No GEMINI_API_KEY or GEMINI_API_KEYS configured on server");
     return res.status(500).json({ error: "GEMINI_API_KEY is not configured on server" });
   }
 
@@ -136,47 +184,69 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    const ai = new GoogleGenAI({ apiKey });
     const modelsToTry = [model, ...(MODEL_FALLBACKS[model] || [])];
     let lastError: any = null;
 
-    for (const currentModel of modelsToTry) {
-      try {
-        const response = await ai.models.generateContent({ model: currentModel, contents, config });
-        const text = response.text || "";
+    // Try each API key when one is rate-limited
+    for (let keyAttempt = 0; keyAttempt < apiKeys.length; keyAttempt++) {
+      const keyIndex = getAvailableKeyIndex(apiKeys);
+      const currentKey = apiKeys[keyIndex];
+      const ai = new GoogleGenAI({ apiKey: currentKey });
 
-        if (cacheKey && text.length < 10_000) {
-          responseCache.set(cacheKey, { text, cachedAt: Date.now() });
-          if (responseCache.size > 200) {
-            const now = Date.now();
-            for (const [k, v] of responseCache) {
-              if (now - v.cachedAt > CACHE_TTL_MS) responseCache.delete(k);
+      let keyHit429 = false;
+
+      for (const currentModel of modelsToTry) {
+        try {
+          const response = await ai.models.generateContent({ model: currentModel, contents, config });
+          const text = response.text || "";
+
+          if (cacheKey && text.length < 10_000) {
+            responseCache.set(cacheKey, { text, cachedAt: Date.now() });
+            if (responseCache.size > 200) {
+              const now = Date.now();
+              for (const [k, v] of responseCache) {
+                if (now - v.cachedAt > CACHE_TTL_MS) responseCache.delete(k);
+              }
             }
           }
-        }
 
-        return res.status(200).json({ text, model: currentModel });
-      } catch (e: any) {
-        lastError = e;
-        const is429 = e?.status === 429 || e?.error?.code === 429;
-        const is503 = e?.status === 503 || e?.error?.code === 503;
-        const is404 = e?.status === 404 || e?.error?.code === 404;
-        const shouldFallback = is429 || is503 || is404;
-        if (shouldFallback && currentModel !== modelsToTry[modelsToTry.length - 1]) {
-          console.warn(`Model ${currentModel} returned ${e?.status || e?.error?.code}, falling back...`);
-          continue;
+          return res.status(200).json({ text, model: currentModel, keyUsed: keyIndex + 1 });
+        } catch (e: any) {
+          lastError = e;
+          const is429 = e?.status === 429 || e?.error?.code === 429;
+          const is503 = e?.status === 503 || e?.error?.code === 503;
+          const is404 = e?.status === 404 || e?.error?.code === 404;
+
+          if (is429) {
+            keyHit429 = true;
+            // Mark this key as rate-limited and break to try next key
+            markKeyRateLimited(currentKey);
+            console.warn(`Key #${keyIndex + 1} hit 429 on model ${currentModel}, rotating to next key...`);
+            break;
+          }
+
+          const shouldFallback = is503 || is404;
+          if (shouldFallback && currentModel !== modelsToTry[modelsToTry.length - 1]) {
+            console.warn(`Model ${currentModel} returned ${e?.status || e?.error?.code}, falling back...`);
+            continue;
+          }
+          break;
         }
-        break;
       }
+
+      // If this key hit 429, continue to next key
+      if (keyHit429) continue;
+      // If not 429 (some other error), don't try more keys
+      break;
     }
 
     const error = lastError;
-    console.error("Gemini API error:", error?.message || error);
+    console.error("Gemini API error (all keys exhausted):", error?.message || error);
     let statusCode = 500;
     let message = error?.message || "Gemini API request failed";
     if (error?.status === 429 || error?.error?.code === 429) {
       statusCode = 429;
-      message = "Gemini API rate limit reached. Please wait and try again.";
+      message = `Gemini API rate limit reached on all ${apiKeys.length} key(s). Please wait and try again.`;
     } else if (error?.status === 503 || error?.error?.code === 503) {
       statusCode = 503;
       message = "Gemini API temporarily unavailable. Please retry.";
