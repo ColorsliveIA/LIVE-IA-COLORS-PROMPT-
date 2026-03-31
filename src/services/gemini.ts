@@ -557,8 +557,8 @@ export async function suggestArtistAndTitle(theme: string, genre: string, mood: 
 
   return withRetry(async () => {
     const response = await callGemini({
-      // COST OPT: gemini-2.0-flash-lite for simple 2-field JSON tasks
-      model: "gemini-2.0-flash-lite",
+      // COST OPT: gemini-2.5-flash-lite for simple 2-field JSON tasks
+      model: "gemini-2.5-flash-lite",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

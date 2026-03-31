@@ -93,18 +93,20 @@ function isRateLimited(ip: string): { limited: boolean; retryAfter?: number } {
 const ALLOWED_MODELS = new Set([
   "gemini-2.5-flash",
   "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
+  "gemini-2.5-flash-lite",
   // Legacy names kept for backward compatibility with client code
   "gemini-3-flash-preview",
   "gemini-2.5-flash-preview-05-20",
+  "gemini-2.0-flash-lite", // deprecated but allow for fallback mapping
 ]);
 
 // ── Model fallback chain (if primary model hits 429/503/404, try next)
 const MODEL_FALLBACKS: Record<string, string[]> = {
-  "gemini-3-flash-preview": ["gemini-2.0-flash", "gemini-2.0-flash-lite"],
-  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash", "gemini-2.0-flash-lite"],
-  "gemini-2.5-flash": ["gemini-2.0-flash", "gemini-2.0-flash-lite"],
-  "gemini-2.0-flash": ["gemini-2.0-flash-lite"],
+  "gemini-3-flash-preview": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.5-flash-preview-05-20": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.5-flash": ["gemini-2.0-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.0-flash": ["gemini-2.5-flash-lite"],
+  "gemini-2.0-flash-lite": ["gemini-2.5-flash-lite"], // redirect deprecated model
 };
 
 // ── CORS ─────────────────────────────────────────────────────────────
@@ -213,30 +215,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json({ text, model: currentModel, keyUsed: keyIndex + 1 });
         } catch (e: any) {
           lastError = e;
-          const is429 = e?.status === 429 || e?.error?.code === 429;
-          const is503 = e?.status === 503 || e?.error?.code === 503;
-          const is404 = e?.status === 404 || e?.error?.code === 404;
+          const status = e?.status || e?.error?.code;
+          const is429 = status === 429;
+          const is503 = status === 503;
+          const is404 = status === 404;
+          const isKeyInvalid = status === 400 && (
+            e?.message?.includes("API_KEY") || e?.message?.includes("API key") ||
+            e?.error?.details?.some?.((d: any) => d?.reason === "API_KEY_INVALID")
+          );
 
-          if (is429) {
+          if (is429 || isKeyInvalid) {
             keyHit429 = true;
-            // Mark this key as rate-limited and break to try next key
             markKeyRateLimited(currentKey);
-            console.warn(`Key #${keyIndex + 1} hit 429 on model ${currentModel}, rotating to next key...`);
+            console.warn(`Key #${keyIndex + 1} hit ${status} on model ${currentModel}, rotating to next key...`);
             break;
           }
 
           const shouldFallback = is503 || is404;
           if (shouldFallback && currentModel !== modelsToTry[modelsToTry.length - 1]) {
-            console.warn(`Model ${currentModel} returned ${e?.status || e?.error?.code}, falling back...`);
+            console.warn(`Model ${currentModel} returned ${status}, falling back...`);
             continue;
           }
           break;
         }
       }
 
-      // If this key hit 429, continue to next key
+      // If this key hit 429 or was invalid, continue to next key
       if (keyHit429) continue;
-      // If not 429 (some other error), don't try more keys
+      // If not a key issue (some other error), don't try more keys
       break;
     }
 
