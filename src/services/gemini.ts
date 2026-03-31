@@ -97,7 +97,7 @@ export async function analyzeAudio(base64Data: string, mimeType: string) {
 
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: [
         {
           parts: [
@@ -460,7 +460,7 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
   return withRetry(async () => {
     // STEP 1: Main call — generates full response (lyrics + style + 3 variants)
     const response = await callGemini({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: prompt,
       config: {
         temperature: 0.7,
