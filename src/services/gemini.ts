@@ -97,7 +97,7 @@ export async function analyzeAudio(base64Data: string, mimeType: string) {
 
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: [
         {
           parts: [
@@ -528,7 +528,7 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 500-600 ca
     try {
       const response = await withRetry(async () => {
         return await callGemini({
-          model: "gemini-3-flash-preview",
+          model: "gemini-2.5-flash",
           contents: variantPrompt,
           config: {
             temperature: temperature,
@@ -546,7 +546,7 @@ RÃ©ponds UNIQUEMENT avec le prompt de style (une seule chaÃ®ne de 500-600 ca
   return withRetry(async () => {
     // STEP 1: Main call with conservative temperature (0.7) â generates full response
     const response = await callGemini({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         temperature: 0.7,
@@ -672,7 +672,7 @@ export async function suggestArtistAndTitle(theme: string, genre: string, mood: 
 
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -722,7 +722,7 @@ export async function getArtistVocalIdentity(artistName: string) {
 
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -763,7 +763,7 @@ export async function rerollVerse(
 
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         systemInstruction: "Tu es un expert en Ã©criture de paroles musicales. Tu rÃ©ponds uniquement avec les paroles rÃ©gÃ©nÃ©rÃ©es avec les metatags V5.5."
