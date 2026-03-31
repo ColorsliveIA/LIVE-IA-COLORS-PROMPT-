@@ -125,13 +125,14 @@ export async function analyzeAudio(base64Data: string, mimeType: string) {
       ],
       config: {
         systemInstruction: systemInstruction,
-        responseMimeType: "application/json",
         tools: [{ googleSearch: {} }]
       }
     });
 
     try {
-      return JSON.parse(response.text || "{}");
+      // Strip markdown JSON fences if present (tools mode can't force JSON output)
+      const raw = (response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+      return JSON.parse(raw);
     } catch (e) {
       console.error("Error parsing audio analysis:", e);
       return null;
@@ -628,13 +629,14 @@ export async function getArtistVocalIdentity(artistName: string) {
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
-        responseMimeType: "application/json",
         tools: [{ googleSearch: {} }],
-        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques précises des voix d'artistes célèbres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mélodique, etc.), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel."
+        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques précises des voix d'artistes célèbres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mélodique, etc.), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel. IMPORTANT: Réponds UNIQUEMENT en JSON valide, sans markdown ni texte avant/après."
       }
     });
 
-    const _result = JSON.parse(response.text || "{}");
+    // Strip markdown JSON fences if present (tools mode can't force JSON output)
+    const _rawText = (response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const _result = JSON.parse(_rawText);
     try { sessionStorage.setItem(_cacheKey, JSON.stringify(_result)); } catch (_) { /* ignore */ }
     return _result;
   });
