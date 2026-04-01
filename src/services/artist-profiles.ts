@@ -352,6 +352,55 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - PRODUCTION : Synthés G-Funk (Moog/Minimoog), basses funk profondes, talk box, claps, drums groovy et lents. BPM typique 90-100.`
   },
   {
+    keywords: ["WIZKID", "WIZ KID", "STARBOY"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFROBEATS SMOOTH :
+- STYLE : Afrobeats, Afro-Pop, Smooth Dancehall, Lagos Sound.
+- VOCAL : Voix MASCULINE ténor soyeuse, delivery nonchalante et effortless. Chant mélodique fluide avec inflexion Yoruba. JAMAIS agressif — tout est cool et laid-back. La voix GLISSE sur le beat.
+- AD-LIBS : Doux et mélodiques (Aye, Oh, Yeah), ad-libs qui accompagnent le groove sans le casser.
+- THÈMES : Amour, danse, Lagos nightlife, fierté africaine, beauté féminine, vibes positives, succès.
+- PRODUCTION : Log drums afrobeats, shekere percussion, basse sub chaude, pads synthé doux, licks guitare afro clean, production analogique chaude et spacieuse. BPM typique 100-112.
+- LANGUE : ANGLAIS et YORUBA/PIDGIN mélangés. Alterner naturellement entre anglais et pidgin nigérian.
+- NOTE : L'EFFORTLESS COOL est non-négociable. Wizkid ne force jamais — tout semble naturel et fluide.`
+  },
+  {
+    keywords: ["TEMS"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE ALT-AFRO SOUL :
+- STYLE : Alt-Afro Soul, Ethereal R&B, African Soul Moderne.
+- VOCAL : Voix FÉMININE alto-soprano éthérée et envoûtante. Capable de passer du murmure intime au pic émotionnel puissant. Delivery breathy et haunting. Vibrato naturel. JAMAIS de rap — tout est chanté avec profondeur soul.
+- AD-LIBS : Harmonies vocales empilées, vocalises éthérées, hums doux.
+- THÈMES : Amour complexe, indépendance féminine, spiritualité, introspection, force tranquille, connexion à la terre.
+- PRODUCTION : Percussions afro douces, basse chaude, pads synthé éthérés, guitare acoustique fingerpicked, harmonies vocales layered comme élément de production. Atmosphère dreamy et warm. BPM typique 95-110.
+- LANGUE : ANGLAIS avec inflexion nigériane. Peut inclure des mots en Yoruba.
+- NOTE : La qualité ÉTHÉRÉE et HAUNTING est la signature. La voix doit sembler venir d'un autre monde — fragile mais puissante.`
+  },
+  {
+    keywords: ["ASAKE"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AMAPIANO-FUJI :
+- STYLE : Amapiano-Fuji Fusion, Street Lagos, Afrobeats Percussif.
+- VOCAL : Voix MASCULINE ténor énergique, delivery de type chant de rue/chant communautaire. Attaques vocales percussives. Ornementations vocales Fuji traditionnelles. Énergie massive de foule — designed pour les stades.
+- AD-LIBS : Chants de foule, appels-réponses (Olololo, Eyyy), exclamations Yoruba énergiques.
+- THÈMES : Fête de rue, fierté Yoruba, Lagos nightlife, réussite, énergie communautaire, street life, foi.
+- PRODUCTION : Basse amapiano profonde, log drums lourds, talking drum Yoruba, couches de percussions fuji polyrhythmiques, stabs synthé minimaux et punchy. Production digitale crisp. BPM typique 108-118.
+- LANGUE : ANGLAIS et YORUBA mélangés. Forte présence de Yoruba et pidgin nigérian dans les hooks et chants.
+- NOTE : L'ÉNERGIE DE FOULE est non-négociable. Chaque hook doit donner envie de chanter en groupe. Le côté PERCUSSIF et COMMUNAUTAIRE est la signature.`
+  },
+  {
+    keywords: ["JOÉ DWÈT FILÉ", "JOE DWET FILE", "DWET FILE", "DWÈT FILÉ"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE ZOUK MODERNE :
+- STYLE : Zouk Moderne, R&B Caribéen, Romantic Island Pop.
+- VOCAL : Voix MASCULINE ténor douce et chaleureuse, delivery romantique et intime. Chant mélodique fluide avec accent créole. Vibrato naturel. Jamais agressif — tout est doux, sensuel et enveloppant.
+- AD-LIBS : Doux et romantiques (Ooh, Baby, Doudou), harmonies vocales.
+- THÈMES : Amour romantique, nostalgie antillaise, beauté féminine, douceur de vivre, nuits caribéennes, séduction douce.
+- PRODUCTION : Basse zouk chaude, boîte à rythme avec groove zouk, textures de steel pan, guitare acoustique island, pads synthé lush, production analogique chaude avec ambiance tropicale. BPM typique 90-105.
+- LANGUE : FRANÇAIS et CRÉOLE antillais mélangés. Les paroles alternent naturellement entre français et expressions créoles (doudou, ti moun, an mwen). Taguer [in french] et [in créole].
+- PHONÉTIQUE : Accent antillais doux, voyelles chantantes, r roulés légers.
+- NOTE : La DOUCEUR CARIBÉENNE est non-négociable. Le zouk groove doit être omniprésent. INTERDICTION de sonner comme du rap ou de la trap.`
+  },
+  {
     keywords: ["VALD"],
     instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE EXPÉRIMENTAL :
 - STYLE : Rap expérimental, Ironique, Absurdiste.
@@ -578,8 +627,8 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('DRAKE') || upper.includes('TRAVIS') || upper.includes('CENTRAL CEE') || upper.includes('KENDRICK') || upper.includes('CARTI') || upper.includes('KANYE') || upper.includes('DRILL') || upper.includes('UK')) matchKeys.push('US_UK_RAP');
 
   if (upper.includes('REGGAETON') || upper.includes('LATIN') || upper.includes('BAD BUNNY') || upper.includes('BALVIN')) matchKeys.push('REGGAETON');
-  if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('REMA') || upper.includes('WIZKID')) matchKeys.push('AFROBEATS');
-  if (upper.includes('CARIBBEAN') || upper.includes('DANCEHALL') || upper.includes('KALASH')) matchKeys.push('CARIBBEAN');
+  if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('REMA') || upper.includes('WIZKID') || upper.includes('TEMS') || upper.includes('ASAKE')) matchKeys.push('AFROBEATS');
+  if (upper.includes('CARIBBEAN') || upper.includes('DANCEHALL') || upper.includes('KALASH') || upper.includes('ZOUK') || upper.includes('DWET') || upper.includes('DWÈT')) matchKeys.push('CARIBBEAN');
   if (upper.includes('MAGHREB') || upper.includes('RAÏ') || upper.includes('TIF') || upper.includes('SOOLKING') || upper.includes('ALGÉRI')) matchKeys.push('MAGHREB');
   if (upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA') || upper.includes('TAYC') || upper.includes('DADJU')) || upper.includes('NISKA') || upper.includes('SDM')) matchKeys.push('AFRO_MELO');
   if (upper.includes('ORELSAN') || upper.includes('LOMEPAL') || upper.includes('NEKFEU') || upper.includes('STORYTELL')) matchKeys.push('STORYTELLING');

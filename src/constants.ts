@@ -171,6 +171,9 @@ export const RAPPER_STYLES: ArtistStyle[] = [
   { name: "Burna Boy", gender: "male", prompt: "vibrant silk print shirt, layered gold chains, African superstar energy" },
   { name: "Wizkid", gender: "male", prompt: "luxury silk patterned shirt, tailored trousers, diamond watch, polished Starboy style" },
   { name: "Rema", gender: "male", prompt: "oversized technical jacket, baggy denim, futuristic sunglasses, Afro-rave aesthetic" },
+  { name: "Tems", gender: "female", prompt: "flowing earth-tone dress, natural hair styled up, gold cuffs, ethereal African goddess energy" },
+  { name: "Asake", gender: "male", prompt: "oversized white agbada modernized, face markings, heavy gold chains, Lagos street royalty aesthetic" },
+  { name: "Joé Dwèt Filé", gender: "male", prompt: "relaxed linen shirt, gold chain subtle, warm Caribbean island aesthetic, romantic zouk energy" },
   { name: "GloRilla", gender: "female", prompt: "baggy denim, oversized graphic tee, heavy gold chains, raw Memphis rap energy" },
   { name: "Latto", gender: "female", prompt: "fitted designer bodysuit, dramatic jewelry, confident Southern rap glamour" },
   { name: "Coi Leray", gender: "female", prompt: "skinny technical outfit, oversized puffer coat, playful modern rap aesthetic" },
@@ -594,6 +597,10 @@ export const MUSIC_ARTISTS = [
   { id: 'freeze-corleone', name: 'FREEZE CORLEONE', sub: 'Dark Drill / Occult / 667', weirdness: 35, styleInfluence: 85 },
   { id: 'niro', name: 'NIRO', sub: 'Rap Brut / Street / Nord', weirdness: 18, styleInfluence: 80 },
   { id: 'zaho', name: 'ZAHO', sub: 'R&B Algérien-Français / Pop', weirdness: 15, styleInfluence: 82 },
+  { id: 'wizkid', name: 'WIZKID', sub: 'Afrobeats OG / Star Boy', weirdness: 15, styleInfluence: 85 },
+  { id: 'tems', name: 'TEMS', sub: 'Alt-Afro Soul / Ethereal', weirdness: 22, styleInfluence: 82 },
+  { id: 'asake', name: 'ASAKE', sub: 'Amapiano-Fuji / Street Lagos', weirdness: 25, styleInfluence: 80 },
+  { id: 'joe-dwet-file', name: 'JOÉ DWÈT FILÉ', sub: 'Zouk Moderne / R&B Créole', weirdness: 12, styleInfluence: 82 },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 

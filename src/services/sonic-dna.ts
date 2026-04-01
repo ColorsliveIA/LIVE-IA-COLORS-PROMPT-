@@ -1468,6 +1468,54 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     antiPatterns: "Never aggressive rap, never metal screaming, never fast party energy, never heavy bass trap, never hard drill, never bright pop, never autotune",
     sunoMetatags: { vocalStyle: "Soft", vocalEffect: "Subtle Reverb", mood: "Peaceful", energy: "Low→Medium", texture: "Analog warmth", instrument: "Fretless Bass, Jazz Guitar, Saxophone, Brush Drums" }
   },
+  WIZKID: {
+    sunoStyleTemplate: "Smooth Afrobeats, Silky Dancehall Groove, Effortless Starboy Melodic Flow, 100-112 BPM, Key: Eb Minor, Warm analog, Open air space, Afrobeats Log Drums, Shekere Percussion, Warm Sub Bass, Soft Synth Pads, Guitar Afro Licks, Silky Smooth Tenor Effortless Afro Groove Delivery, Laid-back Verse to Infectious Melodic Hook, Warm Polished Mix Afrobeats Excellence, Lagos Starboy Global Afrobeats Pioneer, 2020s",
+    sunoExcludeStyles: "metal screaming, industrial noise, dark orchestral, aggressive rap, hard drill, country folk, opera classical, heavy distortion",
+    sunoVocalTags: ["[silky smooth tenor]", "[effortless afro melodic flow]", "[laid-back groove delivery]", "[infectious hook instinct]"],
+    sunoWeirdness: 15, sunoStyleInfluence: 85, sunoBpmRange: "100-112", sunoKey: "Eb Minor",
+    vocalDNA: "Silky smooth tenor with effortless melodic delivery and hypnotic groove-locking ability. Laid-back confident energy that never tries too hard. Nigerian Yoruba inflection adding authentic warmth. Voice glides over beats with fluid ease. Master of the infectious melodic hook.",
+    flowPattern: "Effortless laid-back delivery locked to afrobeats groove pocket. Melodic hooks designed for instant recall. Verse-to-chorus smooth transitions. Hypnotic repetition building infectious energy. Behind-the-beat coolness as signature.",
+    productionFingerprint: "Afrobeats log drums providing authentic groove, shekere and talking drum percussion, warm sub bass pocket, soft synth pads adding harmonic bed, clean afro guitar licks, warm analog production with open air spaciousness",
+    culturalAnchors: "Starboy global mythology, Lagos afrobeats royalty, smooth operator positioning, global crossover pioneer with Drake collab legacy, Nigerian cultural pride, effortless cool as brand identity",
+    antiPatterns: "Never aggressive rap, never metal screaming, never dark orchestral, never hard drill, never heavy distortion, never cold electronic delivery",
+    sunoMetatags: { vocalStyle: "Melodic", vocalEffect: "Reverb, Light Delay", mood: "Smooth", energy: "Medium", texture: "Analog warmth", instrument: "Log Drums, Shekere, Sub Bass, Synth Pads, Afro Guitar" }
+  },
+  TEMS: {
+    sunoStyleTemplate: "Alt-Afro Soul, Ethereal African Vocal, Haunting Melodic Groove, 95-110 BPM, Key: D Minor, Warm analog haze, Wide stereo, Soft Afro Percussion, Warm Bass, Ethereal Synth Pads, Acoustic Guitar Fingerpicked, Vocal Harmonies Layered, Haunting Alto-Soprano Ethereal African Soul Delivery, Intimate Build to Soaring Emotional Vocal Peak, Warm Hazy Mix Dreamy Atmosphere, Lagos Alt-Soul Ethereal Pioneer, 2020s",
+    sunoExcludeStyles: "aggressive trap, metal screaming, industrial noise, hard drill, fast party energy, heavy bass drop, country folk, cold electronic",
+    sunoVocalTags: ["[haunting ethereal alto-soprano]", "[African soul delivery]", "[breathy intimate phrasing]", "[soaring emotional peaks]"],
+    sunoWeirdness: 22, sunoStyleInfluence: 82, sunoBpmRange: "95-110", sunoKey: "D Minor",
+    vocalDNA: "Haunting ethereal alto-soprano with African soul delivery and breathy intimate phrasing. Voice carries otherworldly quality — both fragile and powerful. Nigerian accent adding authentic warmth to ethereal texture. Capable of soaring emotional peaks from whispered intimacy. Natural vibrato adding organic beauty.",
+    flowPattern: "Intimate breathy verses building to soaring emotional vocal peaks. Behind-the-beat languid phrasing creating dreamy atmosphere. Melodic runs with African melodic sensibility. Layered vocal harmonies adding depth and richness.",
+    productionFingerprint: "Soft afro percussion providing gentle groove, warm bass pocket, ethereal synth pads creating dreamy atmosphere, fingerpicked acoustic guitar intimacy, layered vocal harmonies as production element, warm analog haze with wide stereo imaging",
+    culturalAnchors: "Nigerian alt-soul movement pioneer, ethereal African feminine voice, global crossover with Essence anthem, artistic independence and creative control, Grammy-winning alt-afro sound, bridge between African tradition and global soul",
+    antiPatterns: "Never aggressive trap, never metal screaming, never hard drill, never fast party energy, never heavy bass drop, never cold electronic delivery",
+    sunoMetatags: { vocalStyle: "Belt", vocalEffect: "Wide Reverb, Delay", mood: "Dreamy", energy: "Low→High", texture: "Warm haze", instrument: "Afro Percussion, Bass, Synth Pads, Acoustic Guitar, Vocal Harmonies" }
+  },
+  ASAKE: {
+    sunoStyleTemplate: "Amapiano-Fuji Fusion, Street Lagos Energy, Infectious Percussive Groove, 108-118 BPM, Key: G Minor, Digital crisp, Open air, Deep Amapiano Bass, Log Drums Heavy, Talking Drum Yoruba, Fuji Percussion Layers, Minimal Synth Stabs, Energetic Tenor Yoruba Street Chant Delivery, Percussive Build to Massive Crowd Chant Hook, Bright Punchy Mix Street Energy, Yoruba Amapiano-Fuji Street Pioneer, 2020s",
+    sunoExcludeStyles: "metal screaming, industrial noise, dark orchestral, country folk, opera classical, slow ballad, lo-fi chill, boom-bap traditional",
+    sunoVocalTags: ["[energetic Yoruba tenor]", "[street chant delivery]", "[percussive vocal attack]", "[crowd anthem energy]"],
+    sunoWeirdness: 25, sunoStyleInfluence: 80, sunoBpmRange: "108-118", sunoKey: "G Minor",
+    vocalDNA: "Energetic tenor with Yoruba street chant delivery and percussive vocal attacks. Voice carries massive crowd energy — designed for stadiums and street parties. Traditional Fuji vocal ornamentation meets modern amapiano groove. Raw authentic Lagos energy in every syllable.",
+    flowPattern: "Percussive chant-like delivery locked to amapiano-fuji groove. Call-and-response crowd anthem hooks. Yoruba traditional vocal patterns modernized. High energy verses building to massive communal chorus moments.",
+    productionFingerprint: "Deep amapiano bass providing low-end groove, heavy log drums driving rhythm, talking drum adding Yoruba authentic texture, fuji percussion layers creating polyrhythmic richness, minimal synth stabs for modern punch, bright crisp digital production",
+    culturalAnchors: "Lagos street culture energy, Yoruba musical tradition modernized, amapiano-fuji genre fusion pioneer, OLAMIDE mentorship legacy, massive live performance energy, Nigerian youth culture anthem maker",
+    antiPatterns: "Never metal screaming, never industrial, never dark orchestral, never slow ballad, never lo-fi chill, never boom-bap traditional, never quiet intimate delivery",
+    sunoMetatags: { vocalStyle: "Chant", vocalEffect: "Reverb, Delay", mood: "Energetic", energy: "High", texture: "Crisp Digital", instrument: "Amapiano Bass, Log Drums, Talking Drum, Fuji Percussion, Synth Stabs" }
+  },
+  "JOÉ DWÈT FILÉ": {
+    sunoStyleTemplate: "Modern Zouk R&B, Caribbean Romantic Groove, Smooth Créole Melodic Flow, 90-105 BPM, Key: Ab Major, Warm analog, Tropical air, Warm Zouk Bass, Soft Drum Machine, Steel Pan Textures, Acoustic Guitar Island, Lush Synth Pads, Smooth Warm Tenor Créole-French Romantic Delivery, Gentle Build Intimate Verse to Warm Melodic Hook, Warm Polished Mix Caribbean Romance, Martinique Modern Zouk R&B Pioneer, 2020s",
+    sunoExcludeStyles: "aggressive rap, metal screaming, industrial noise, hard drill, dark orchestral, country folk, cold electronic, fast trap",
+    sunoVocalTags: ["[smooth warm tenor]", "[créole-french romantic delivery]", "[gentle zouk phrasing]", "[intimate island warmth]"],
+    sunoWeirdness: 12, sunoStyleInfluence: 82, sunoBpmRange: "90-105", sunoKey: "Ab Major",
+    vocalDNA: "Smooth warm tenor with créole-french romantic delivery and gentle zouk phrasing. Voice carries intimate island warmth — like a Caribbean sunset in vocal form. Natural vibrato adding authentic soul. Soft confident delivery without ever pushing. Créole accent coloring French lyrics with tropical warmth.",
+    flowPattern: "Gentle zouk groove-locked delivery with romantic phrasing. Intimate verse building to warm melodic hooks. Smooth legato between phrases. Caribbean syncopation in vocal placement. R&B runs with zouk sensibility.",
+    productionFingerprint: "Warm zouk bass providing Caribbean groove, soft drum machine patterns with zouk rhythm, steel pan textures adding island color, acoustic guitar providing organic warmth, lush synth pads for harmonic richness, warm analog production with tropical open air feel",
+    culturalAnchors: "Martinique modern zouk revival, créole-french bilingual artistry, Caribbean romantic tradition modernized, French Antilles cultural pride, zouk-R&B genre bridge, island intimacy and warmth",
+    antiPatterns: "Never aggressive rap, never metal screaming, never hard drill, never dark orchestral, never cold electronic, never fast trap, never industrial",
+    sunoMetatags: { vocalStyle: "Soft Melodic", vocalEffect: "Reverb, Chorus", mood: "Romantic", energy: "Low→Medium", texture: "Warm Tropical", instrument: "Zouk Bass, Drum Machine, Steel Pan, Acoustic Guitar, Synth Pads" }
+  },
 };
 
 /**
