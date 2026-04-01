@@ -234,7 +234,7 @@ ${artistIdentitySummary}
     : "CRITIQUE : Génération complète. Crée une synergie parfaite entre le style musical et les paroles.";
 
   const languageInfo = language === 'AUCUNE'
-    ? "Langue : Déduis la langue la plus appropriée selon le style de l'artiste inspiré."
+    ? "Langue : Déduis la langue la plus appropriée selon le style de l'artiste inspiré. IMPORTANT : Pour les artistes raï/algériens (Cheb Mami, Soolking, Babylone, Djalil Palermo, Rimk, L'Algérino, etc.), la langue est TOUJOURS un MIX français-arabe (darija). JAMAIS 100% arabe. Alterne les couplets/phrases entre français et darija avec des tags [in french] et [in arabic]."
     : `Langue : ${language}`;
 
   // ADAPTIVE: Vocal delivery rules change based on artist type (melodic vs lyricist)
@@ -604,7 +604,8 @@ export async function getArtistVocalIdentity(artistName: string) {
   - Ses caractéristiques d'accent ou de couleur linguistique.
   - L'utilisation de l'autotune et des effets (ex: Heavy autotune, subtle pitch correction, vocoder).
   - Des références d'interprétation spécifiques (ex: "chante comme s'il murmurait à l'oreille", "puissance gospel").
-  - Sa langue principale de chant (ex: "FRANÇAIS", "ANGLAIS", "ARABE", "ESPAGNOL", etc.). Utilise exactement un de ces termes en majuscules si possible.
+  - Sa langue principale de chant. Si l'artiste chante en PLUSIEURS langues (ex: français ET arabe), indique le MIX exact (ex: "FRANÇAIS-ARABE", "FRANÇAIS-ANGLAIS", "ESPAGNOL-ANGLAIS"). Pour les artistes raï algériens, la plupart chantent en FRANÇAIS-ARABE (darija). Ne mets PAS juste "ARABE" si l'artiste chante aussi en français.
+  - Le GENRE de l'artiste : indique clairement si c'est un homme ou une femme. Ne te trompe pas sur le sexe de l'artiste.
   - WEIRDNESS (0-100) : à quel point son style est expérimental, non conventionnel ou "bizarre" (ex: artiste avant-garde = 90, artiste mainstream = 10).
   - STYLE INFLUENCE (0-100) : à quel point son identité stylistique est forte et doit dominer la production (ex: artiste à signature forte = 100, artiste pop générique = 50).
 

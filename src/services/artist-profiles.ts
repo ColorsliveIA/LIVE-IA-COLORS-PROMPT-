@@ -291,6 +291,34 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - REGISTRE : Français et Darija, langage festif et émotionnel.`
   },
   {
+    keywords: ["CHEB MAMI", "MAMI"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAÏ ORCHESTRAL CROSSOVER :
+- STYLE : Raï Orchestral, Mediterranean Crossover, World Fusion Raï.
+- VOCAL : Haute voix ténor avec mélismes arabes, portée de trois octaves, pureté vocale sans autotune. Voix MASCULINE puissante et émotionnelle. Chant raï traditionnel avec virtuosité vocale.
+- AD-LIBS : Ornementations maqam, vocalisations raï traditionnelles (ya, habibi), mélismes étirés.
+- THÈMES : Amour romantique, nostalgie de l'Algérie, exil et retour, passion méditerranéenne, poésie sentimentale.
+- PRODUCTION : Darbuka percussion raï, violons orientaux, accordéon mélodique, guitare électrique wah, nappes de synthé orchestrales, production analogique chaleureuse. BPM typique 90-115.
+- LANGUE : FRANÇAIS et ARABE (darija) MÉLANGÉS — c'est NON-NÉGOCIABLE. Les paroles DOIVENT alterner entre français et darija algérien dans chaque couplet. Taguer les switches avec [in french] et [in arabic]. Ratio approximatif : 50% français / 50% darija.
+- PHONÉTIQUE : Accent nord-africain sur le français, mélismes arabes sur les voyelles longues, transitions naturelles entre les deux langues.
+- REGISTRE : Poétique et romantique, vocabulaire accessible, expressions sentimentales en darija (ya galbi, habibi, wahdi).
+- NOTE : Le MÉLANGE FRANÇAIS-ARABE est la SIGNATURE de Cheb Mami. INTERDICTION de paroles 100% arabe ou 100% français.`
+  },
+  {
+    keywords: ["DJALIL PALERMO", "PALERMO", "DJ PALERMO"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE RAÏ URBAIN / TRAP-RAÏ :
+- STYLE : Raï Urbain Moderne, Trap-Raï Hybrid, Street Raï Youth.
+- VOCAL : Voix MASCULINE jeune, ténor confiant, delivery rap-chanté hybride. JAMAIS de voix féminine. Énergie urbaine avec instinct mélodique sur les hooks. Vibrato minimal, ton conversationnel et street.
+- AD-LIBS : Urbains et modernes (Ey, Oh, Hah), ad-libs trap légers, exclamations de rue.
+- THÈMES : Rue, confiance, fierté algérienne, amour urbain, réussite, jeunesse, quartier, nuits de ville.
+- PRODUCTION : 808 bass lourde, hi-hats trap rapides, guitare trap rythmique, synthé strings minimal, pads atmosphériques, production digitale crisp moderne. BPM typique 90-110.
+- LANGUE : FRANÇAIS et ARABE (darija) MÉLANGÉS. Les paroles alternent entre français urbain et darija algérien moderne. Slang de rue algérien. Taguer les switches avec [in french] et [in arabic]. Ratio approximatif : 40% français / 60% darija.
+- PHONÉTIQUE : Accent algérien urbain, prononciation darija moderne, slang de la jeunesse algéroise.
+- REGISTRE : Langage de rue, direct, confiant, vocabulaire jeune et urbain, expressions darija modernes.
+- NOTE : C'est un artiste MASCULIN avec une voix de jeune homme. Le mélange français-darija est essentiel à son style.`
+  },
+  {
     keywords: ["STROMAE"],
     isMelodic: true,
     instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE ART-POP :
