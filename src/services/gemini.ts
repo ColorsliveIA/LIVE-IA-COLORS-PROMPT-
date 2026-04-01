@@ -162,6 +162,30 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
   return "";
 }
 
+// Helper: Generate grain/texture tokens based on production texture
+function getGrainTokens(texture: string): string {
+  const t = texture.toLowerCase();
+  if (t.includes('analog') || t.includes('warm')) return "warm analog saturation, tape hiss subtle, vintage compression, tube warmth, vinyl texture";
+  if (t.includes('lo-fi') || t.includes('lofi')) return "lo-fi grit, bitcrushed texture, dusty sample warmth, tape wobble, degraded fidelity";
+  if (t.includes('raw') || t.includes('dark')) return "raw unprocessed grain, gritty distortion hint, cold digital edge, industrial texture, bass rumble";
+  if (t.includes('crisp') || t.includes('digital')) return "crisp digital clarity, pristine high-end, punchy transients, clean headroom, surgical precision";
+  if (t.includes('tape') || t.includes('saturated')) return "tape saturation heavy, reel-to-reel warmth, analog compression, harmonic distortion, magnetic texture";
+  if (t.includes('tropical') || t.includes('warm')) return "warm tropical air, sun-drenched reverb, organic warmth, golden hour texture, open air clarity";
+  return "studio polished, balanced grain, controlled saturation, clean dynamics, professional clarity";
+}
+
+// Helper: Generate space/reverb tokens based on mood
+function getSpaceTokens(mood: string): string {
+  const m = mood.toLowerCase();
+  if (m.includes('dark') || m.includes('aggressive')) return "underground bunker echo, close walls, claustrophobic intimacy, dark room ambience";
+  if (m.includes('dreamy') || m.includes('ethereal')) return "vast cathedral reverb, floating space, cloud echo, infinite hall, shimmer trails";
+  if (m.includes('romantic') || m.includes('peaceful')) return "intimate room ambience, soft reverb tail, warm close space, bedroom acoustics";
+  if (m.includes('uplifting') || m.includes('energetic')) return "open air festival, stadium reverb, wide stereo field, bright room reflection";
+  if (m.includes('melancholic') || m.includes('sad')) return "empty room echo, distant reverb, cold hallway, lonely space, fading trails";
+  if (m.includes('smooth')) return "warm studio room, soft plate reverb, intimate close-mic, velvet space";
+  return "studio ambience, controlled reverb, balanced depth, natural room";
+}
+
 export async function generateMusicContext(
   genre: string,
   mood: string,
@@ -310,12 +334,19 @@ ${artistIdentitySummary}
 
   // SONIC DNA BLOCK: Inject pre-tested Suno template as foundation for style generation
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – USE AS ABSOLUTE FOUNDATION):
-CRITICAL: Ce template est le prompt Suno FINAL pré-validé. NE PAS le modifier, le reformuler ou le résumer.
-Le champ sunoPrompt de ta réponse JSON DOIT être EXACTEMENT: "${sonicDNA.sunoStyleTemplate}"
-Les lyrics doivent intégrer les METATAGS V5.5 pré-calibrés ci-dessous dans CHAQUE section.
+# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – USE AS FOUNDATION TO ENRICH):
+Ce template est la BASE validée. Tu DOIS l'ENRICHIR en 500-600 caractères en ajoutant des textures précises.
+Le champ sunoPrompt DOIT COMMENCER par les éléments du template, puis ENRICHIR avec les 10 dimensions manquantes.
+NE PAS copier tel quel — DÉVELOPPER avec des adjectifs de texture, de grain, d'espace et de mix.
 
-STYLE TEMPLATE VALIDÉ: ${sonicDNA.sunoStyleTemplate}
+TEMPLATE DE BASE (à enrichir): ${sonicDNA.sunoStyleTemplate}
+
+ENRICHISSEMENT OBLIGATOIRE — Ajoute ces dimensions si absentes du template:
+- GRAIN: ${getGrainTokens(sonicDNA.sunoMetatags?.texture || 'Crisp Digital')}
+- ESPACE: ${getSpaceTokens(sonicDNA.sunoMetatags?.mood || 'Dark')}
+- MIX: wide stereo image, ${sonicDNA.sunoMetatags?.texture?.includes('Analog') ? 'warm analog saturation, tape compression' : 'pristine clarity, punchy transients, sidechain compression'}
+- DYNAMIC: ${sonicDNA.sunoMetatags?.energy?.includes('→') ? `progressive build ${sonicDNA.sunoMetatags.energy}` : `sustained ${sonicDNA.sunoMetatags?.energy || 'Medium'} energy`}
+- CULTURAL FLAVOR: ${sonicDNA.culturalAnchors?.split(',').slice(0, 2).join(', ') || 'genre-authentic'}
 BPM RANGE: ${sonicDNA.sunoBpmRange}
 KEY: ${sonicDNA.sunoKey}
 VOCAL TAGS À INTÉGRER: ${sonicDNA.sunoVocalTags.join(' ')}
@@ -523,9 +554,14 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
     if (!response.text) throw new Error("Empty response from Gemini");
     const parsed = JSON.parse(response.text);
 
-    // BYPASS: Force Sonic DNA template as direct Suno prompt
+    // ENRICH: Use Gemini's enriched version if it's longer than the base template,
+    // otherwise fall back to Sonic DNA template as minimum quality floor
     if (sonicDNA?.sunoStyleTemplate) {
-      parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+      const enrichedPrompt = parsed.sunoPrompt || "";
+      if (enrichedPrompt.length < sonicDNA.sunoStyleTemplate.length) {
+        parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+      }
+      // Gemini generated a richer version — keep it
     }
 
     // STEP 2: Extract CORE DNA variant (V1) from main call
