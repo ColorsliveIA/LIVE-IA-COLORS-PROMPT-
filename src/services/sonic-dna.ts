@@ -493,25 +493,25 @@ export const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
   KAARIS: {
-    sunoStyleTemplate: "Dark Aggressive French Trap, Commanding Baritone Force, Cold Menacing Atmosphere, 135-145 BPM, Key: B Minor, Raw unprocessed, Underground bunker, Heavy Distorted 808, Frantic Triplet Hi-Hats, Dark Synth Stabs, Metallic Percs, 2010s",
-    sunoExcludeStyles: "singing pop, soft acoustic, country folk, bright happy, classical opera, lo-fi chill, reggaeton dembow",
-    sunoVocalTags: ["[deep commanding baritone]", "[aggressive forceful delivery]", "[menacing vocal presence]", "[dark intense phrasing]"],
-    sunoWeirdness: 25,
-    sunoStyleInfluence: 78,
+    sunoStyleTemplate: "Dark Aggressive French Trap, Hardcore Rap, Deep Baritone Rap Voice, Sevran Street Energy, 135-145 BPM, Key: B Minor, Heavy 808 Sub Bass, Trap Snare Rolls, Triplet Hi-Hats, Dark Piano Keys, Minimalist Dark Synth Pads, Aggressive French Rap Delivery, 2010s",
+    sunoExcludeStyles: "metal, rock, guitar riffs, singing pop, soft acoustic, country folk, bright happy, classical opera, lo-fi chill, reggaeton dembow, screaming, metal guitar, electric guitar distortion",
+    sunoVocalTags: ["[deep commanding baritone rap]", "[aggressive street delivery]", "[menacing French rap presence]", "[hard trap vocal]"],
+    sunoWeirdness: 20,
+    sunoStyleInfluence: 80,
     sunoBpmRange: "135-145",
     sunoKey: "B Minor",
-    vocalDNA: "Deep commanding baritone with aggressive forceful delivery emphasizing menace and dominance. Guttural vocal quality suggesting danger and intensity. Zero melodic inflection, pure aggressive force. Voice used as weapon.",
-    flowPattern: "Rapid syllable delivery with percussive consonant strikes, aggressive vocal attacks, minimal behind-the-beat phrasing, maximum intensity throughout. Occasional pause breaks for dramatic effect. Aggressive energy unwavering.",
-    productionFingerprint: "Dark aggressive trap base, raw unprocessed sound emphasizing brutality, underground bunker echo creating heaviness, heavy distorted 808 bass, frantic triplet hi-hat rolls, dark synth stabs creating menace, metallic percussion strikes",
-    culturalAnchors: "Dark French trap dominance, street aggression narratives, criminal mythology positioning, parisian grime influence, raw street reality, uncompromising artistic positioning",
-    antiPatterns: "Never singing or pop vocals, never soft acoustic, never bright happy, never country folk, never lo-fi chill, never reggaeton dembow",
+    vocalDNA: "Deep commanding baritone rapper with aggressive street delivery. Menacing rap presence with hard consonant attacks. Zero melodic singing — pure aggressive rap flow. Voice projects raw street dominance like French hardcore trap.",
+    flowPattern: "Rapid percussive rap delivery with hard consonant strikes, aggressive on-beat attacks, saccadé phrasing with punch-in intensity. Occasional dramatic pauses. Maximum aggression without ever crossing into singing or melodic territory.",
+    productionFingerprint: "Heavy 808 sub bass foundation, hard-hitting trap snares and claps, frantic triplet hi-hat rolls, dark minor piano keys, minimalist dark synth pads, sparse atmospheric textures, punchy kick drums, overall dark trap aesthetic — NO guitars, NO rock elements",
+    culturalAnchors: "Sevran hardcore French trap, street aggression narratives, 93 banlieue energy, French trap dominance era, raw street reality, uncompromising aggressive rap positioning",
+    antiPatterns: "NEVER metal, NEVER rock guitar, NEVER electric guitar, NEVER singing or pop vocals, NEVER soft acoustic, NEVER bright happy, NEVER country folk, NEVER lo-fi chill, NEVER reggaeton dembow, NEVER screaming metal vocals",
     sunoMetatags: {
-      vocalStyle: "Power Rap",
-      vocalEffect: "Distortion",
+      vocalStyle: "Aggressive Rap",
+      vocalEffect: "Dry, Light Reverb",
       mood: "Aggressive",
       energy: "Maximum",
-      texture: "Raw unprocessed",
-      instrument: "808 Bass, Triplet Hi-Hats, Dark Synths"
+      texture: "Dark Trap",
+      instrument: "808 Sub Bass, Trap Drums, Dark Piano, Synth Pads"
     }
   },
   "NATE DOGG": {

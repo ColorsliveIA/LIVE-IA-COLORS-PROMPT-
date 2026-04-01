@@ -332,14 +332,15 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   },
   {
     keywords: ["KAARIS"],
-    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE TRAP :
-- STYLE : Hardcore Trap, Aggressive Street Rap, Sevran.
-- VOCAL : Voix très grave et imposante, flow agressif et saccadé, AUCUN autotune mélodique, débit percutant. Ad-libs gutturaux.
-- AD-LIBS : Gutturaux et agressifs (Grrr, Ugh, Hey).
-- THÈMES : Violence, intimidation, rue, argent, compétition physique, survie.
-- PRODUCTION : 808 lourdes et saturées, drums percutants et agressifs, mélodies sombres minimalistes. BPM typique 130-145.
-- REGISTRE : Argot de rue hardcore, vocabulaire violent et direct, vulgarité comme ponctuation.
-- NOTE : L'AGRESSIVITÉ brute est non-négociable. Pas de mélodie, pas de douceur.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE HARDCORE TRAP FR :
+- STYLE : Hardcore Trap Français, Aggressive Street Rap, Sevran 93. PAS du métal, PAS du rock — c'est du RAP TRAP pur.
+- VOCAL : Voix très grave baryton imposante, flow agressif et saccadé, AUCUN autotune mélodique, débit percutant et haché. Ad-libs gutturaux de rappeur.
+- AD-LIBS : Courts et percutants (Grrr, Ugh, Hey, Ouais). Style rap, JAMAIS de cris métal.
+- THÈMES : Violence de rue, intimidation, argent sale, compétition physique, survie en banlieue, domination.
+- PRODUCTION : 808 sub bass lourdes, trap snares claquantes, hi-hats triplets rapides, piano sombre mineur, pads synthé dark minimaux. PAS DE GUITARE ÉLECTRIQUE. PAS DE RIFFS ROCK. PAS D'INSTRUMENTS MÉTAL. BPM typique 135-145.
+- INSTRUMENTS INTERDITS : guitare électrique, guitare distorsion, riffs rock, double pédale, blast beats, power chords — TOUT ce qui sonne rock/métal est INTERDIT.
+- REGISTRE : Argot de rue hardcore Sevran, vocabulaire violent et direct, vulgarité comme ponctuation.
+- NOTE : C'est du RAP TRAP AGRESSIF, pas du métal. La production doit être 100% trap (808, hi-hats, snares, piano dark). L'agressivité vient de la VOIX et du FLOW, pas des instruments.`
   },
   {
     keywords: ["NATE DOGG"],
