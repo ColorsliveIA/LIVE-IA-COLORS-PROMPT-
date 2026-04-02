@@ -404,8 +404,11 @@ ${artistIdentitySummary}
   - AD-LIBS : Utilise des ad-libs génériques mais stylés (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'énergie sans copier l'identité.
   - JSON : Réponds uniquement en JSON valide.
 
-  WRITING SKILLS DNA (chargé dynamiquement — pour V2/V3 comme inspiration SECONDAIRE, V1 utilise UNIQUEMENT le Sonic DNA + Artist Profile) :
-  ${sonicDNA ? `[V1: IGNORER cette section — utiliser exclusivement le Sonic DNA ci-dessus]\n[V2/V3: Utiliser comme inspiration complémentaire]\n` : ''}${getRelevantWritingDNA(inspiredBy, genre)}
+  ${sonicDNA ? `WRITING SKILLS DNA (RÉSERVÉ À V2 ET V3 UNIQUEMENT — V1 INTERDIT D'UTILISER CETTE SECTION):
+  RÈGLE ABSOLUE: Pour V1, cette section N'EXISTE PAS. V1 utilise EXCLUSIVEMENT le Sonic DNA + Artist Profile.
+  Pour V2/V3 seulement:
+  ${getRelevantWritingDNA(inspiredBy, genre)}` : `WRITING SKILLS DNA (pas de Sonic DNA disponible — utiliser pour toutes les variantes):
+  ${getRelevantWritingDNA(inspiredBy, genre)}`}
 
   RÈGLE D'OR : La langue des paroles DOIT correspondre à la culture du genre demandé. Déduis la langue, le slang et le flow appropriés à partir du profil de l'artiste.
 
@@ -656,9 +659,10 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
         if (missingTokens.length > 0) {
           parsed.sunoPrompt = enrichedV1 + ', ' + missingTokens.join(', ');
         }
-        // Trim to 600 chars max
+        // FIX 2.1: Smart truncation at comma boundary (never cut mid-word)
         if (parsed.sunoPrompt && parsed.sunoPrompt.length > 600) {
-          parsed.sunoPrompt = parsed.sunoPrompt.slice(0, 600);
+          const lastComma = parsed.sunoPrompt.lastIndexOf(',', 600);
+          parsed.sunoPrompt = lastComma > 400 ? parsed.sunoPrompt.slice(0, lastComma) : parsed.sunoPrompt.slice(0, 600);
         }
       }
     }

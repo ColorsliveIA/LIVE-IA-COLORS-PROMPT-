@@ -525,12 +525,19 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
  */
 export function getArtistSpecificInstructions(inspiredBy: string): string {
   if (!inspiredBy || inspiredBy === 'none') return '';
-  const upper = inspiredBy.toUpperCase();
-  const matches = ARTIST_PROFILES.filter(p =>
-    p.keywords.some(k => upper.includes(k))
+  const upper = inspiredBy.toUpperCase().trim();
+  // FIX 1.2: Return ONLY the first (most specific) matching profile.
+  // Multiple matches dilute V1 purity with conflicting instructions.
+  // Priority: exact keyword match > partial keyword match
+  const exactMatch = ARTIST_PROFILES.find(p =>
+    p.keywords.some(k => k.toUpperCase() === upper)
   );
-  if (matches.length === 0) return '';
-  return matches.map(m => m.instructions).join('\n\n');
+  if (exactMatch) return exactMatch.instructions;
+  // Fallback: first profile whose keyword is contained in the artist name
+  const partialMatch = ARTIST_PROFILES.find(p =>
+    p.keywords.some(k => upper.includes(k.toUpperCase()))
+  );
+  return partialMatch ? partialMatch.instructions : '';
 }
 
 /**
@@ -688,7 +695,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('JUL') || upper.includes('GAZO') || upper.includes('ALPHA') || upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('VALD') || upper.includes('NINHO') || upper.includes('DAMSO') || upper.includes('FREEZE')) matchKeys.push('RAP_FR');
 
   // Drill FR
-  if (upper.includes('DRILL') && upper.includes('FR') || upper.includes('GAZO')) matchKeys.push('DRILL_FR');
+  if ((upper.includes('DRILL') && upper.includes('FR')) || upper.includes('GAZO')) matchKeys.push('DRILL_FR');
 
   // Dark Lyrical
   if (upper.includes('FREEZE') || upper.includes('ALPHA WANN')) matchKeys.push('DARK_LYRICAL');
@@ -700,7 +707,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('REMA') || upper.includes('WIZKID') || upper.includes('TEMS') || upper.includes('ASAKE')) matchKeys.push('AFROBEATS');
   if (upper.includes('CARIBBEAN') || upper.includes('DANCEHALL') || upper.includes('KALASH') || upper.includes('ZOUK') || upper.includes('DWET') || upper.includes('DWÈT')) matchKeys.push('CARIBBEAN');
   if (upper.includes('MAGHREB') || upper.includes('RAÏ') || upper.includes('TIF') || upper.includes('SOOLKING') || upper.includes('ALGÉRI')) matchKeys.push('MAGHREB');
-  if (upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA') || upper.includes('TAYC') || upper.includes('DADJU')) || upper.includes('NISKA') || upper.includes('SDM')) matchKeys.push('AFRO_MELO');
+  if ((upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA') || upper.includes('TAYC') || upper.includes('DADJU'))) || upper.includes('NISKA') || upper.includes('SDM')) matchKeys.push('AFRO_MELO');
   if (upper.includes('ORELSAN') || upper.includes('LOMEPAL') || upper.includes('NEKFEU') || upper.includes('STORYTELL')) matchKeys.push('STORYTELLING');
   if (upper.includes('ELECTRO') || upper.includes('HOUSE') || upper.includes('DAFT') || upper.includes('JUSTICE') || upper.includes('STROMAE')) matchKeys.push('ELECTRO');
   if (upper.includes('HAMZA') || upper.includes('MELODIC TRAP') || upper.includes('SAUCE') || upper.includes('LAYLOW') || upper.includes('NINHO') || upper.includes('DAMSO')) matchKeys.push('MELODIC_TRAP');
@@ -711,9 +718,9 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('R&B') || upper.includes('R AND B') || upper.includes('USHER') || upper.includes('BRYSON') || upper.includes('TYLA')) matchKeys.push('R_AND_B');
   if (upper.includes('JAZZ RAP') || upper.includes('MADVILLAINY') || upper.includes('FLYING LOTUS')) matchKeys.push('JAZZ_RAP');
   if (upper.includes('PSYCHEDELIC') || upper.includes('PSYCHO') || upper.includes('TAME IMPALA')) matchKeys.push('PSYCHEDELIC');
-  if (upper.includes('ROCK') && upper.includes('ALT') || upper.includes('ALTERNATIVE ROCK')) matchKeys.push('ROCK_ALT');
+  if ((upper.includes('ROCK') && upper.includes('ALT')) || upper.includes('ALTERNATIVE ROCK')) matchKeys.push('ROCK_ALT');
   if (upper.includes('AMAPIANO') || upper.includes('CPUYA') || upper.includes('LAUNCHPAD')) matchKeys.push('AMAPIANO');
-  if (upper.includes('CLOUD') && upper.includes('RAP') || upper.includes('YUNG LEAN') || upper.includes('AUGXST')) matchKeys.push('CLOUD_RAP');
+  if ((upper.includes('CLOUD') && upper.includes('RAP')) || upper.includes('YUNG LEAN') || upper.includes('AUGXST')) matchKeys.push('CLOUD_RAP');
   if (upper.includes('VAMP') || upper.includes('RAGE') || upper.includes('PLAYBOI CARTI')) matchKeys.push('VAMP_RAGE');
   if (upper.includes('FLAMENCO')) matchKeys.push('FLAMENCO');
   if (upper.includes('G-FUNK') || upper.includes('G FUNK') || upper.includes('SNOOP')) matchKeys.push('G_FUNK');

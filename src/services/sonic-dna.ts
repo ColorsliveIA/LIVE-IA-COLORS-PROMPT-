@@ -812,21 +812,37 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
   }
 };
 
-// FIX #1: Artist matching with exact then substring fallback
+// FIX #1 + FIX 1.1: Artist matching — exact first, then SAFE substring (min 4 chars to avoid false positives)
 export function getArtistSonicDNA(inspiredBy: string): SonicDNA | null {
   if (!inspiredBy || inspiredBy === 'none') return null;
 
-  const upper = inspiredBy.toUpperCase();
+  const upper = inspiredBy.toUpperCase().trim();
 
-  // Exact match first
+  // 1) Exact match (case-insensitive) — highest priority
   const exactKey = Object.keys(SONIC_DNA_MAP).find(k => k.toUpperCase() === upper);
   if (exactKey) return SONIC_DNA_MAP[exactKey];
 
-  // Substring match fallback (FIX #1)
+  // 2) Substring match with safety: only match if BOTH strings are >= 4 chars
+  //    AND the match is a significant portion (>= 60% of the shorter string)
+  //    This prevents "NI" matching "NINHO", or "JUL" matching "JULEP"
+  const candidates: { key: string; score: number }[] = [];
   for (const key of Object.keys(SONIC_DNA_MAP)) {
-    if (upper.includes(key.toUpperCase()) || key.toUpperCase().includes(upper)) {
-      return SONIC_DNA_MAP[key];
+    if (key === 'DEFAULT') continue;
+    const keyUpper = key.toUpperCase();
+    if (upper.length < 4 && keyUpper.length < 4) continue; // Skip very short strings
+    if (upper.includes(keyUpper) || keyUpper.includes(upper)) {
+      const shorter = Math.min(upper.length, keyUpper.length);
+      const longer = Math.max(upper.length, keyUpper.length);
+      const ratio = shorter / longer;
+      if (ratio >= 0.5) { // At least 50% length overlap
+        candidates.push({ key, score: ratio });
+      }
     }
+  }
+  // Return best match (highest ratio = closest match)
+  if (candidates.length > 0) {
+    candidates.sort((a, b) => b.score - a.score);
+    return SONIC_DNA_MAP[candidates[0].key];
   }
 
   return SONIC_DNA_MAP['DEFAULT'] || null;
