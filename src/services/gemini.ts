@@ -404,8 +404,8 @@ ${artistIdentitySummary}
   - AD-LIBS : Utilise des ad-libs génériques mais stylés (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'énergie sans copier l'identité.
   - JSON : Réponds uniquement en JSON valide.
 
-  WRITING SKILLS DNA (chargé dynamiquement) :
-  ${getRelevantWritingDNA(inspiredBy, genre)}
+  WRITING SKILLS DNA (chargé dynamiquement — pour V2/V3 comme inspiration SECONDAIRE, V1 utilise UNIQUEMENT le Sonic DNA + Artist Profile) :
+  ${sonicDNA ? `[V1: IGNORER cette section — utiliser exclusivement le Sonic DNA ci-dessus]\n[V2/V3: Utiliser comme inspiration complémentaire]\n` : ''}${getRelevantWritingDNA(inspiredBy, genre)}
 
   RÈGLE D'OR : La langue des paroles DOIT correspondre à la culture du genre demandé. Déduis la langue, le slang et le flow appropriés à partir du profil de l'artiste.
 
@@ -530,7 +530,8 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
 
   Détails de la session :
   - Genre : ${genre || 'NON SPÉCIFIÉ (À DÉDUIRE DE L\'INSPIRATION)'}
-  - Ambiance : ${mood || 'NON SPÉCIFIÉ (À DÉDUIRE DE L\'INSPIRATION)'}
+  - Ambiance (pour V2/V3 uniquement — V1 déduit du Sonic DNA) : ${mood || 'NON SPÉCIFIÉ (À DÉDUIRE DE L\'INSPIRATION)'}
+  - RÈGLE AMBIANCE V1 : Pour V1, ignore le paramètre "Ambiance" ci-dessus. Déduis l'ambiance UNIQUEMENT du Sonic DNA et du profil artiste. L'ambiance utilisateur ne s'applique qu'à V2 et V3.
   - Thème : ${theme || 'NON SPÉCIFIÉ (IMPROVISE UNE THÉMATIQUE "VÉCUE" BASÉE SUR L\'ARTISTE)'}
   - ${languageInfo}
   - Inspiré par : ${inspiredBy}
@@ -643,19 +644,34 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
       const sonisTemplateDims = countDimensions(sonicDNA.sunoStyleTemplate);
       const v1Dims = countDimensions(parsed.sunoPrompt || '');
 
-      // If V1 has fewer than half the sonic DNA dimensions, use the template
+      // FIX A+G: NEVER silently revert V1 to raw template — V1 is Gemini's enriched version.
+      // If V1 is weak, APPEND missing dimensions from template instead of replacing.
       if (v1Dims < sonisTemplateDims / 2) {
-        parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+        // Merge: keep Gemini's enriched V1 but append the DNA template signature tokens
+        const enrichedV1 = parsed.sunoPrompt || '';
+        const templateTokens = sonicDNA.sunoStyleTemplate.split(',').map(t => t.trim()).filter(t => t.length > 2);
+        const v1Lower = enrichedV1.toLowerCase();
+        // Only add tokens from template that are NOT already in V1
+        const missingTokens = templateTokens.filter(t => !v1Lower.includes(t.toLowerCase().slice(0, 8)));
+        if (missingTokens.length > 0) {
+          parsed.sunoPrompt = enrichedV1 + ', ' + missingTokens.join(', ');
+        }
+        // Trim to 600 chars max
+        if (parsed.sunoPrompt && parsed.sunoPrompt.length > 600) {
+          parsed.sunoPrompt = parsed.sunoPrompt.slice(0, 600);
+        }
       }
     }
 
     const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
 
-    // FIX #5: Enhanced variant deduplication with forced divergence
-    const deduplicated = [coreVariant];
+    // FIX #5 + FIX E: Enhanced variant deduplication — V1 (coreVariant) is IMMUTABLE, never modified.
+    // Only V2 (i=1) and V3 (i=2) are checked for similarity and diverged if needed.
+    const deduplicated = [coreVariant]; // V1 = PURE, pushed as-is
     for (let i = 1; i < 3; i++) {
-      let v = variants[i] || coreVariant;
+      // If Gemini didn't return a V2/V3, DON'T clone V1 — create a divergent version instead
+      let v = variants[i] && variants[i] !== coreVariant ? variants[i] : '';
 
       // Token-based similarity check: if >80% tokens shared, force divergence
       const vTokens = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter(t => t.length > 3));
@@ -663,32 +679,35 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
       const shared = [...vTokens].filter(t => coreTokens.has(t)).length;
       const similarity = vTokens.size > 0 ? shared / vTokens.size : 1;
 
-      // If >80% similar, force divergence via BPM/key/style modifications
-      if (similarity > 0.80) {
-        // Extract BPM from core variant and modify
+      // If empty (Gemini didn't return this variant) or >80% similar to V1, force divergence
+      if (!v || similarity > 0.80) {
+        // Start from coreVariant and MODIFY it — never use V1 as-is for V2/V3
+        let modifiedV = v || coreVariant;
         const bpmMatch = coreVariant.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
-        let modifiedV = v;
 
         if (bpmMatch) {
           const bpmMin = parseInt(bpmMatch[1]);
           const bpmMax = parseInt(bpmMatch[2]);
           const coreMid = (bpmMin + bpmMax) / 2;
-          // Force ±10-20 BPM deviation for divergence
-          const newBpmMin = Math.max(60, coreMid - 15);
-          const newBpmMax = Math.min(200, coreMid + 15);
+          // V2: shift down, V3: shift up — ensures V2 ≠ V3
+          const shift = i === 1 ? -15 : 15;
+          const newBpmMin = Math.max(60, coreMid + shift - 10);
+          const newBpmMax = Math.min(200, coreMid + shift + 10);
           modifiedV = modifiedV.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(newBpmMin)}-${Math.round(newBpmMax)} BPM`);
         }
 
-        // Modify key if present
-        if (modifiedV.includes('Major')) {
+        // V2: toggle key, V3: toggle key opposite direction
+        if (i === 1 && modifiedV.includes('Minor')) {
+          modifiedV = modifiedV.replace(/Minor/g, 'Major');
+        } else if (i === 2 && modifiedV.includes('Major')) {
           modifiedV = modifiedV.replace(/Major/g, 'Minor');
         } else if (modifiedV.includes('Minor')) {
           modifiedV = modifiedV.replace(/Minor/g, 'Major');
         }
 
-        // Add divergence marker for style keywords
+        // Add divergence marker
         if (!modifiedV.includes('[DIVERGENCE]')) {
-          modifiedV = '[DIVERGENCE V' + (i + 1) + '] ' + modifiedV;
+          modifiedV = `[DIVERGENCE V${i + 1}] ` + modifiedV;
         }
 
         v = modifiedV;
@@ -703,13 +722,21 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
       structuredLyrics: parsed.structuredLyrics || []
     };
   }, maxRetries).catch((lastError) => {
-    // FIX #10: Error fallback uses sonicDNA template or genre fallback
+    // FIX #10 + FIX D: Error fallback — V1 uses pure DNA template, V2/V3 get divergent versions
     const fallbackTemplate = sonicDNA?.sunoStyleTemplate || getGenreFallbackStyle(genre);
+    const v1Fallback = fallbackTemplate || "Error generating prompt. Please try again.";
+    // V2/V3: crude divergence from V1 fallback
+    const v2Fallback = v1Fallback.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, (_, min, max) => {
+      const shift = 15;
+      return `${Math.max(60, parseInt(min) - shift)}-${Math.min(200, parseInt(max) + shift)} BPM`;
+    });
+    const v3Fallback = v1Fallback.replace(/Minor/g, 'Major').replace(/minor/g, 'major');
     return {
-      sunoPrompt: fallbackTemplate || "Error generating prompt. Please try again.",
+      sunoPrompt: v1Fallback,
+      sunoPrompts: [v1Fallback, v2Fallback, v3Fallback],
       lyrics: `Error generating lyrics: ${lastError?.message || "Unknown error"}`,
       structuredLyrics: [],
-      quality: { score: 0, message: `Generation failed after retries. Last error: ${lastError?.message || "Unknown error"}` }
+      quality: { score: 0, message: `[FALLBACK] Generation failed. V1 = raw DNA template (not enriched). Retry recommended. Error: ${lastError?.message || "Unknown error"}` }
     };
   });
 }
