@@ -232,13 +232,21 @@ function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, er
   const g = genre.toUpperCase();
 
   // Determine a secondary "adjacent genre" for V3 FUSION based on primary genre
-  let fusionGenre = "Afro-urban";
-  if (g.includes('RAP') || g.includes('TRAP')) fusionGenre = "Afrobeat-infused rap";
+  // FIX: DIVERSE fusion genres — NEVER default to Afro for everything
+  let fusionGenre = "Electronic ambient textures";
+  if (g.includes('DRILL')) fusionGenre = "Dark cinematic orchestral";
+  else if (g.includes('TRAP') && g.includes('FR')) fusionGenre = "Boom bap jazz samples";
+  else if (g.includes('TRAP')) fusionGenre = "Lo-fi indie guitar textures";
+  else if (g.includes('RAP') && g.includes('FR')) fusionGenre = "Jazz-funk live instruments";
+  else if (g.includes('RAP')) fusionGenre = "Soul-funk vintage production";
   else if (g.includes('R&B') || g.includes('SOUL')) fusionGenre = "Neo-soul electronic";
-  else if (g.includes('POP')) fusionGenre = "Synth-pop minimal";
+  else if (g.includes('POP')) fusionGenre = "Synth-wave retro textures";
   else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = "Deep house melodic";
   else if (g.includes('ROCK')) fusionGenre = "Indie electronic";
   else if (g.includes('REGGAE') || g.includes('DANCEHALL')) fusionGenre = "Tropical bass";
+  else if (g.includes('AFRO')) fusionGenre = "Caribbean dancehall bounce";
+  else if (g.includes('CLOUD')) fusionGenre = "Shoegaze ambient textures";
+  else if (g.includes('BOOM') || g.includes('BAP')) fusionGenre = "Jazz live instrumentation";
 
   // Era shift for V2 EVOLUTION
   const eraShifts: Record<string, string> = {
@@ -560,12 +568,25 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
   9. LYRICS : Structure complète, balises [ ], METATAGS V5.5 avant chaque section.
   10. ZERO TOLERANCE COMMERCIAL : Pas de noms réels, surnoms, titres, quartiers identifiables.
 
+  ████████████████████████████████████████████████████████████████████
+  ██ DERNIÈRE INSTRUCTION — LA PLUS IMPORTANTE DE TOUT CE PROMPT : ██
+  ██                                                                ██
+  ██ V1 (sunoPrompt) = SON PUR DE "${inspiredBy}" — 0% BLEND.     ██
+  ██ V1 ne contient AUCUN genre externe, AUCUNE fusion, AUCUN      ██
+  ██ "Afro", "Jazz", "Soul", "Electronic" etc. SAUF si c'est       ██
+  ██ DÉJÀ PRÉSENT dans le Sonic DNA template de base ci-dessus.     ██
+  ██ V1 = enrichissement du TEMPLATE DE BASE uniquement.            ██
+  ██ Si tu ajoutes un genre absent du template → tu as ÉCHOUÉ.     ██
+  ██                                                                ██
+  ██ V2 et V3 PEUVENT blender. V1 JAMAIS.                          ██
+  ████████████████████████████████████████████████████████████████████
+
   Réponds UNIQUEMENT en JSON sans backticks :
   {
     "artistName": "string",
     "songTitle": "string",
-    "sunoPrompt": "string (V1 - 500-600 chars - 10 DIMENSIONS - SON PUR DE L'ARTISTE, 0% BLEND)",
-    "sunoPrompts": ["V1 identique à sunoPrompt (PUR, 0% blend)", "V2 EVOLUTION (blend léger autorisé)", "V3 FUSION (blend créatif autorisé)"],
+    "sunoPrompt": "string (V1 - 500-600 chars - ENRICHIR LE SONIC DNA TEMPLATE UNIQUEMENT - 0% GENRE EXTERNE)",
+    "sunoPrompts": ["V1 identique à sunoPrompt (PUR, 0% blend, PAS de genre externe)", "V2 EVOLUTION (blend léger autorisé)", "V3 FUSION (blend créatif autorisé)"],
     "negativePrompt": "string (max 200 chars)",
     "weirdnessGuidance": "string",
     "lyrics": "string",
