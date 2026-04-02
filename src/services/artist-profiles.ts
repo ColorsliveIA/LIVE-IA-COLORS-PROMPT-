@@ -401,6 +401,19 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - NOTE : La DOUCEUR CARIBÉENNE est non-négociable. Le zouk groove doit être omniprésent. INTERDICTION de sonner comme du rap ou de la trap.`
   },
   {
+    keywords: ["AUGXST"],
+    isMelodic: true,
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK CLOUD RAP / AMBIENT TRAP :
+- STYLE : Dark Emotional Cloud Rap, Ambient Trap, Nocturnal Bass Music. CE N'EST PAS DU R&B. C'est du rap atmosphérique sombre avec une voix qui frôle le chant sans jamais y basculer.
+- VOCAL : Voix MASCULINE douce, autotune subtil, delivery "whisper-croon" — entre le murmure rappé et le chantonnement. La voix FLOTTE dans la production, ne la domine pas. JAMAIS de chant R&B complet (pas de runs, pas de belting, pas de power vocals). Breathy, close-mic, intime. Le mot-clé est "almost sung" — presque chanté mais jamais tout à fait.
+- AD-LIBS : Quasi inexistants. Murmures réverbérés, soupirs, fins de phrases qui s'évanouissent dans la reverb.
+- THÈMES : Romance toxique, conduites nocturnes à 3h du matin, tristesse luxueuse, isolation émotionnelle, confessions intimes, solitude urbaine, pluie sur la ville, vulnérabilité masculine.
+- PRODUCTION : Sub bass omineux et profond, 808 dark mélodiques en half-time, pads rêveurs atmosphériques, synthés washed-out et désaccordés, plucks de cloches distantes et éparses, percussion minimale. TOUT est noyé dans la reverb. Tempo ULTRA LENT (60-80 BPM). Ambiance de brouillard nocturne.
+- INSTRUMENTS INTERDITS : Guitare acoustique, cuivres (brass), drums agressifs, hi-hats rapides, piano brillant — tout ce qui casse l'atmosphère de brume.
+- REGISTRE : Anglais ou français intime, peu de mots, phrases courtes qui traînent, silences comme ponctuation.
+- NOTE CRITIQUE : La DISTINCTION avec le R&B est NON-NÉGOCIABLE. AUGXST n'est PAS un chanteur R&B. C'est un rappeur atmosphérique dont la voix FRÔLE le chant. La production doit être ambient/trap, PAS soul/R&B. Pas de grooves R&B, pas de drums funk, pas de progressions d'accords soul.`
+  },
+  {
     keywords: ["VALD"],
     instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE EXPÉRIMENTAL :
 - STYLE : Rap expérimental, Ironique, Absurdiste.
@@ -699,7 +712,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('PSYCHEDELIC') || upper.includes('PSYCHO') || upper.includes('TAME IMPALA')) matchKeys.push('PSYCHEDELIC');
   if (upper.includes('ROCK') && upper.includes('ALT') || upper.includes('ALTERNATIVE ROCK')) matchKeys.push('ROCK_ALT');
   if (upper.includes('AMAPIANO') || upper.includes('CPUYA') || upper.includes('LAUNCHPAD')) matchKeys.push('AMAPIANO');
-  if (upper.includes('CLOUD') && upper.includes('RAP') || upper.includes('YUNG LEAN')) matchKeys.push('CLOUD_RAP');
+  if (upper.includes('CLOUD') && upper.includes('RAP') || upper.includes('YUNG LEAN') || upper.includes('AUGXST')) matchKeys.push('CLOUD_RAP');
   if (upper.includes('VAMP') || upper.includes('RAGE') || upper.includes('PLAYBOI CARTI')) matchKeys.push('VAMP_RAGE');
   if (upper.includes('FLAMENCO')) matchKeys.push('FLAMENCO');
   if (upper.includes('G-FUNK') || upper.includes('G FUNK') || upper.includes('SNOOP')) matchKeys.push('G_FUNK');

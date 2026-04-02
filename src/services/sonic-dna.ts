@@ -763,6 +763,30 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoMetatags: { vocalStyle: 'Smooth Singing', vocalEffect: 'Reverb, Harmonies', mood: 'Chill, Smooth', energy: 'Medium', texture: 'G-Funk Vintage', instrument: 'Moog Synths, Funk Bass, Talk Box, Claps' }
   },
 
+  'AUGXST': {
+    artist: 'AUGXST',
+    sunoStyleTemplate: 'Dark Emotional Cloud Rap, Ambient Trap, Melancholic Nocturnal Bass-Driven, Deep Ominous Sub Bass, Dark Melodic 808s, Ultra Slow Half-Time, Hazy Atmospheric Lonely Introspective, Dreamy Pads, Washed Synths, Distant Bell Plucks, Soft Autotuned Male Vocals Almost Sung Not Quite Singing, Toxic Romance Night Drive Luxury Sadness, Cinematic Fog, 2020s',
+    sunoBpmRange: '60-80',
+    sunoKey: 'Eb Minor',
+    sunoVocalTags: ['Soft Autotune', 'Almost Sung Rap', 'Whisper-Croon', 'Breathy Close-Mic', 'Hazy Delivery'],
+    sunoWeirdness: 45,
+    sunoStyleInfluence: 82,
+    sunoExcludeStyles: 'drill, rage, hyperpop, edm, bright pop, techno, rock, cinematic rock, upbeat, happy, acoustic, aggressive trap, R&B belting, full singing, soul runs, gospel, power vocals',
+    vocalDNA: 'Soft autotuned MALE voice that ALMOST sings but never fully commits to singing. Breathy close-mic whisper-croon delivery — sits in the liminal space between rapping and singing. Voice drips with melancholy. NOT R&B singing — this is rap that gently floats over beats. No belting, no runs, no power. Everything is understated, hazy, barely there.',
+    flowPattern: 'Ultra-slow half-time delivery. Words drip out slowly like condensation. Minimal syllable density — space and silence between phrases. The voice floats IN the production, not above it. Phrases trail off into reverb.',
+    productionFingerprint: 'Signature: deep ominous sub bass, dark melodic 808s in half-time, dreamy atmospheric pads, washed-out detuned synths, distant bell plucks, sparse percussion, heavy reverb on everything, nocturnal fog, cinematic but intimate not epic',
+    culturalAnchors: 'Toxic romance, night drives at 3am, luxury sadness, emotional isolation, intimate vulnerability, bedroom confessionals, nocturnal loneliness, rainy city aesthetics',
+    antiPatterns: 'NEVER full R&B singing — the voice ALMOST sings but stays in whisper-croon rap. NEVER bright or uplifting. NEVER aggressive or loud. NEVER uptempo. NEVER acoustic or organic. NEVER drill or rage energy. NEVER power ballad. The whole point is understated darkness.',
+    sunoMetatags: {
+      vocalStyle: 'Whisper-Croon Rap',
+      vocalEffect: 'Soft Autotune, Heavy Reverb, Close-Mic Breath',
+      mood: 'Melancholic, Nocturnal, Lonely',
+      energy: 'Low',
+      texture: 'Hazy Atmospheric',
+      instrument: 'Sub Bass, Dark 808, Dreamy Pads, Washed Synths, Distant Bells'
+    }
+  },
+
   'DEFAULT': {
     artist: 'DEFAULT',
     sunoStyleTemplate: 'Urban contemporary trap, dynamic 808 bass, hi-hat complexity, atmospheric production, street credibility, genre-adaptive',
