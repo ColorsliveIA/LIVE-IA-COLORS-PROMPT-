@@ -253,22 +253,30 @@ function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, er
   return `
   CONTRAINTES DE DIVERGENCE — RÈGLE ABSOLUE: Les 3 variantes DOIVENT être différentes.
 
-  V1 (CORE DNA) — Signature pure de l'artiste, son le plus reconnaissable, BPM central du genre ${genre}.
-  Ancrage: fidélité maximale à l'artiste "${inspiredBy}", ère ${era}, production signature.
+  V1 (CORE DNA — FIDÉLITÉ MAXIMALE) — Le son le plus FIDÈLE et RECONNAISSABLE de l'artiste "${inspiredBy}".
+  - AUCUN style blend, AUCUNE fusion, AUCUN mélange de genre.
+  - Utilise UNIQUEMENT le Sonic DNA, le template de base, et la signature pure de l'artiste.
+  - BPM central du genre ${genre}, ère ${era}, production signature exacte.
+  - Si un Sonic DNA existe, V1 DOIT être une version enrichie de ce template — PAS une réinterprétation.
+  - INTERDIT dans V1: tout genre externe, toute influence secondaire, tout style blend, toute fusion.
+  - V1 = Si quelqu'un écoute ce prompt, il DOIT reconnaître immédiatement "${inspiredBy}".
 
   V2 (EVOLUTION) — OBLIGATOIREMENT différente de V1 sur 2 dimensions:
   - BPM: ±10-20 BPM par rapport à V1
   - GRAIN: texture plus claire OU plus sombre que V1 (choisir l'opposé)
   - ÈRE: ${adjacentEra} au lieu de ${era} (sonorité un peu plus vintage)
+  - STYLE BLEND LÉGER AUTORISÉ: Peut intégrer des touches subtiles d'un genre adjacent, mais l'identité de "${inspiredBy}" reste dominante (80%+).
   - Conserver: même signature vocale, même genre-racine ${genre}
   INTERDIT: copier-coller ou paraphraser V1.
 
   V3 (FUSION) — OBLIGATOIREMENT différente de V1 ET V2 sur 3 dimensions:
-  - STYLE BLEND: intégrer des éléments de "${fusionGenre}" dans le mix
+  - STYLE BLEND FORT: intégrer des éléments de "${fusionGenre}" dans le mix (jusqu'à 40% d'influence externe)
   - INSTRUMENTS: au moins 2 instruments différents de V1 (ex: percussion organique, basse live, synthé vintage)
   - ESPACE: réverb et profondeur opposées à V1 (si V1 est proche/intime → V3 est large/ample, et vice-versa)
   - Conserver: signature vocale artiste, GRAIN caractéristique, BPM adjacent (±15)
   INTERDIT: copier-coller ou paraphraser V1 ou V2.
+
+  RAPPEL CRITIQUE: V1 = SON PUR DE L'ARTISTE (0% blend). V2 = Évolution légère. V3 = Fusion créative.
 
   VALIDATION FINALE: Lis tes 3 variantes. Si 2 d'entre elles partagent plus de 50% des mêmes tokens → régénère.
   `;
@@ -309,7 +317,7 @@ export async function generateMusicContext(
 ) {
   const bpmInfo = manualBpm ? `- BPM imposé : ${manualBpm} BPM` : (performanceActive ? `- BPM : Automatique (adapté à l'énergie ${energy})` : `- BPM : Automatique`);
   const structureInfo = structure ? `- Structure souhaitée : ${structure}` : "";
-  const styleBlendInfo = styleBlend ? `- Style Blending (Influences) : ${styleBlend}` : "";
+  const styleBlendInfo = styleBlend ? `- Style Blending (Influences — UNIQUEMENT POUR V2 et V3, JAMAIS V1) : ${styleBlend}` : "";
   const secondaryArtistInfo = secondaryInspiredBy !== 'none' ? `- Artiste Secondaire (Style Blending) : ${secondaryInspiredBy}` : "";
   const advancedTagsInfo = advancedTags.length > 0 ? `- Tags ADN Avancés : ${advancedTags.join(', ')}` : "";
   const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
@@ -322,14 +330,16 @@ export async function generateMusicContext(
     const secondaryInstructions = getArtistSpecificInstructions(secondaryInspiredBy);
     if (secondarySonicDNA || secondaryInstructions) {
       secondaryBlendingBlock = `
-# SECONDARY ARTIST BLENDING (70% PRIMARY / 30% SECONDARY FUSION):
+# SECONDARY ARTIST BLENDING (UNIQUEMENT POUR V2 ET V3 — JAMAIS V1):
 Artiste Secondaire : ${secondaryInspiredBy}
 ${secondarySonicDNA ? `Secondary Sonic DNA: ${secondarySonicDNA.sunoStyleTemplate}` : ''}
 ${secondaryInstructions ? `Secondary Instructions:\n${secondaryInstructions}` : ''}
 
-RÈGLE DE FUSION: 70% de la signature de "${inspiredBy}" + 30% d'influence de "${secondaryInspiredBy}".
-La PRIMARY ARTIST doit rester DOMINANTE. La secondary artist inspire seulement sur les éléments stylistes (textures, production touches, flows secondaires).
-INTERDIT: Perdre l'identité principale "${inspiredBy}" au profit de la secondary influence.
+RÈGLE CRITIQUE:
+- V1 = 100% "${inspiredBy}" UNIQUEMENT. AUCUNE influence de "${secondaryInspiredBy}" dans V1.
+- V2 = 80% "${inspiredBy}" + 20% "${secondaryInspiredBy}" (touches subtiles seulement).
+- V3 = 70% "${inspiredBy}" + 30% "${secondaryInspiredBy}" (fusion créative).
+INTERDIT: Appliquer le blending à V1. V1 doit rester le son PUR de "${inspiredBy}".
 `;
     }
   }
@@ -437,11 +447,12 @@ ${artistIdentitySummary}
     : "";
 
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – FOUNDATION FOR V1 CORE DNA):
-Ce template est la BASE validée pour V1. ENRICHIS-LE en 500-600 caractères en ajoutant GRAIN, ESPACE, MIX, DYNAMIC.
+# SONIC DNA (PRE-TESTED SUNO V5.5 TEMPLATE – FONDATION EXCLUSIVE DE V1):
+Ce template est la BASE VALIDÉE pour V1 UNIQUEMENT. ENRICHIS-LE en 500-600 caractères en ajoutant GRAIN, ESPACE, MIX, DYNAMIC.
 NE PAS copier tel quel — DÉVELOPPER avec des adjectifs de texture précis.
+INTERDIT: Ajouter des genres externes ou des blends dans V1. V1 = CE TEMPLATE enrichi, rien d'autre.
 
-TEMPLATE DE BASE (V1 uniquement): ${sonicDNA.sunoStyleTemplate}
+TEMPLATE DE BASE (V1 EXCLUSIVEMENT — 0% blend): ${sonicDNA.sunoStyleTemplate}
 BPM RANGE: ${sonicDNA.sunoBpmRange}
 KEY: ${sonicDNA.sunoKey}
 VOCAL TAGS À INTÉGRER dans V1: ${sonicDNA.sunoVocalTags.join(' ')}
@@ -541,7 +552,7 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
   5. RICHESSE LYRIQUE : Rimes multisyllabiques, internes, vocabulaire imagé. Zéro clichés.
   6. ESSENCE ARTISTIQUE : Au plus proche de "${inspiredBy}" sans copier ses textes.
   7. STYLE PROMPT BOX : 500-600 caractères, 10 DIMENSIONS, front-load les textures.
-  8. VARIANTS : Voir les contraintes de divergence ci-dessus. V1 ≠ V2 ≠ V3, obligatoirement.
+  8. VARIANTS : V1 = SON PUR de l'artiste (0% blend, fidélité maximale). V2 = Évolution (blend léger OK). V3 = Fusion créative (blend fort OK). V1 ≠ V2 ≠ V3.
   9. LYRICS : Structure complète, balises [ ], METATAGS V5.5 avant chaque section.
   10. ZERO TOLERANCE COMMERCIAL : Pas de noms réels, surnoms, titres, quartiers identifiables.
 
@@ -549,8 +560,8 @@ STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO m
   {
     "artistName": "string",
     "songTitle": "string",
-    "sunoPrompt": "string (V1 - 500-600 chars - 10 DIMENSIONS enrichies)",
-    "sunoPrompts": ["V1 identique à sunoPrompt", "V2 EVOLUTION - différente", "V3 FUSION - différente de V1 et V2"],
+    "sunoPrompt": "string (V1 - 500-600 chars - 10 DIMENSIONS - SON PUR DE L'ARTISTE, 0% BLEND)",
+    "sunoPrompts": ["V1 identique à sunoPrompt (PUR, 0% blend)", "V2 EVOLUTION (blend léger autorisé)", "V3 FUSION (blend créatif autorisé)"],
     "negativePrompt": "string (max 200 chars)",
     "weirdnessGuidance": "string",
     "lyrics": "string",
