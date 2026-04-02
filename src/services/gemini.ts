@@ -1,6 +1,6 @@
 import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
-import { getArtistSonicDNA } from './sonic-dna';
+import { getArtistSonicDNA, SonicDNA } from './sonic-dna';
 
 // Type enum replacement - these are used only in responseSchema
 const Type = {
@@ -159,6 +159,72 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
   return "";
 }
 
+// FIX #8: Artist-aware grain and space token functions
+function getGrainTokens(mood: string, texture: string, sonicDNA?: SonicDNA | null): string {
+  // Check sonicDNA productionFingerprint first (artist-specific)
+  if (sonicDNA?.productionFingerprint) {
+    const fp = sonicDNA.productionFingerprint.toLowerCase();
+    if (fp.includes('crisp') || fp.includes('digital') || fp.includes('clean')) return 'Crisp Digital, Punchy Transients';
+    if (fp.includes('warm') || fp.includes('analog') || fp.includes('tape')) return 'Warm Analog Saturation, Vintage Compression';
+    if (fp.includes('lo-fi') || fp.includes('grit') || fp.includes('vinyl')) return 'Lo-fi Grit, Vinyl Hiss';
+    if (fp.includes('industrial') || fp.includes('dark')) return 'Industrial Dark, Metallic Edge';
+  }
+
+  // Fallback to texture/mood matching
+  const lowerTexture = texture.toLowerCase();
+  const lowerMood = mood.toLowerCase();
+
+  if (lowerTexture.includes('bright') || lowerMood.includes('uplifting')) return 'Bright Digital, High-End Clarity';
+  if (lowerTexture.includes('dark') || lowerMood.includes('dark')) return 'Dark Grunge, Lo-fi Dirt';
+  if (lowerTexture.includes('warm') || lowerMood.includes('warm')) return 'Warm Analog, Tape Saturation';
+  if (lowerTexture.includes('clean') || lowerMood.includes('pristine')) return 'Pristine Clarity, Surgical Precision';
+
+  return 'Balanced Texture, Contemporary Grain';
+}
+
+function getSpaceTokens(mood: string, production: string, sonicDNA?: SonicDNA | null): string {
+  // Check sonicDNA culturalAnchors for artist-specific space preferences
+  if (sonicDNA?.culturalAnchors) {
+    const ca = sonicDNA.culturalAnchors.toLowerCase();
+    if (ca.includes('intimate') || ca.includes('close') || ca.includes('bedroom')) return 'Intimate Close-Mic, Minimal Reverb, In-Your-Face';
+    if (ca.includes('cinematic') || ca.includes('ample') || ca.includes('wide')) return 'Cinematic Ample Space, Wide Stereo Image, Cathedral Reverb';
+    if (ca.includes('industrial') || ca.includes('sterile')) return 'Industrial Sterile Space, Hard-Wall Reflection';
+  }
+
+  // Fallback to production style matching
+  const lowerProd = production.toLowerCase();
+  const lowerMood = mood.toLowerCase();
+
+  if (lowerProd.includes('minimal') || lowerProd.includes('intimate')) return 'Intimate Close-Mic Space, Dry Delivery';
+  if (lowerProd.includes('cinematic') || lowerMood.includes('cinematic')) return 'Cinematic Wide Space, Lush Reverb';
+  if (lowerProd.includes('raw') || lowerProd.includes('harsh')) return 'Raw Tight Space, Minimal Processing';
+  if (lowerProd.includes('ethereal') || lowerMood.includes('dreamy')) return 'Ethereal Spacious Reverb, Floating Feel';
+
+  return 'Balanced Space, Professional Depth';
+}
+
+// FIX #2: Genre-based fallback when sonicDNA is null
+function getGenreFallbackStyle(genre: string): string {
+  const g = genre.toUpperCase();
+
+  // 13 genre templates as per spec
+  if (g.includes('TRAP')) return 'Dark trap, 808 bass depth, hi-hat frenzied, synth darkness, atmospheric pads, street energy, 130-140 BPM';
+  if (g.includes('DRILL')) return 'Drill aggression, sliding 808s, rapid hi-hats triplets, menacing piano, metallic percussion, 140-145 BPM';
+  if (g.includes('R&B') || g.includes('SOUL')) return 'Contemporary R&B, smooth 808s, vocal layering, soulful synths, warm analog, 85-105 BPM';
+  if (g.includes('AFRO')) return 'Afrobeat percussion, infectious grooves, joyful mélodies, celebratory energy, African drums, 110-130 BPM';
+  if (g.includes('POP')) return 'Contemporary pop, catchy hooks, bright synths, punchy drums, emotional delivery, accessible production, 95-120 BPM';
+  if (g.includes('REGGAETON')) return 'Reggaeton dembow, bouncy bass, rhythmic flow, dancefloor energy, Latin percussion, 90-110 BPM';
+  if (g.includes('HOUSE')) return 'House groove, 4-on-the-floor drums, hypnotic synths, dancefloor build, electronic textures, 120-130 BPM';
+  if (g.includes('RAÏ')) return 'Raï fusion, oriental instruments, emotional vocals, cultural anchors, Arabic scales, mixed French-Arabic, 100-120 BPM';
+  if (g.includes('ZOUK')) return 'Zouk rhythm, tropical percussion, romantic vocals, Caribbean warmth, infectious groove, 120-130 BPM';
+  if (g.includes('JAZZ')) return 'Jazz fusion, complex chords, improvisation elements, warm brass, sophisticated drums, intellectual vibe, 80-110 BPM';
+  if (g.includes('ROCK')) return 'Rock energy, guitar drive, organic drums, powerful vocals, emotional intensity, alternative textures, 100-130 BPM';
+  if (g.includes('CLOUD')) return 'Cloud rap, ethereal synths, spacious reverb, dreamy vibes, lo-fi textures, introspective delivery, 80-100 BPM';
+
+  // Default fallback
+  return 'Contemporary urban production, dynamic 808s, atmospheric layers, street credibility, modern textures, 100-120 BPM';
+}
+
 // ── VARIANT DIVERGENCE ENGINE ──────────────────────────────────────────────
 // Forces V2 and V3 to diverge from V1 along specific dimensions
 // so they are never identical, even from a single API call.
@@ -248,6 +314,26 @@ export async function generateMusicContext(
   const advancedTagsInfo = advancedTags.length > 0 ? `- Tags ADN Avancés : ${advancedTags.join(', ')}` : "";
   const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
   const sonicDNA = getArtistSonicDNA(inspiredBy);
+
+  // FIX #9: Secondary artist blending
+  let secondaryBlendingBlock = '';
+  if (secondaryInspiredBy && secondaryInspiredBy !== 'none') {
+    const secondarySonicDNA = getArtistSonicDNA(secondaryInspiredBy);
+    const secondaryInstructions = getArtistSpecificInstructions(secondaryInspiredBy);
+    if (secondarySonicDNA || secondaryInstructions) {
+      secondaryBlendingBlock = `
+# SECONDARY ARTIST BLENDING (70% PRIMARY / 30% SECONDARY FUSION):
+Artiste Secondaire : ${secondaryInspiredBy}
+${secondarySonicDNA ? `Secondary Sonic DNA: ${secondarySonicDNA.sunoStyleTemplate}` : ''}
+${secondaryInstructions ? `Secondary Instructions:\n${secondaryInstructions}` : ''}
+
+RÈGLE DE FUSION: 70% de la signature de "${inspiredBy}" + 30% d'influence de "${secondaryInspiredBy}".
+La PRIMARY ARTIST doit rester DOMINANTE. La secondary artist inspire seulement sur les éléments stylistes (textures, production touches, flows secondaires).
+INTERDIT: Perdre l'identité principale "${inspiredBy}" au profit de la secondary influence.
+`;
+    }
+  }
+
   const artistExcludeStyles = sonicDNA?.sunoExcludeStyles || '';
   const combinedNegativePrompt = [artistExcludeStyles || genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
   const negativePromptInfo = combinedNegativePrompt ? `- ÉLÉMENTS À EXCLURE ABSOLUMENT (NEGATIVE PROMPT) : ${combinedNegativePrompt}` : "";
@@ -389,9 +475,29 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
 
   const artistSpecifics = getArtistSpecificInstructions(inspiredBy);
 
+  // FIX #2: Genre fallback when sonicDNA is null
+  const genreFallbackBlock = !sonicDNA ? `
+# GENRE FALLBACK STYLE TEMPLATE (SONIC DNA NOT AVAILABLE):
+${getGenreFallbackStyle(genre)}
+
+UTILISE CE TEMPLATE COMME BASE POUR V1 et dérive V2/V3 de cette fondation.
+` : '';
+
+  // FIX #4: Instruction priority hierarchy
+  const priorityBlock = `
+# INSTRUCTION PRIORITY HIERARCHY (CRITICAL):
+Priority 1 = Artist Profile (inspiredBy specific instructions)
+Priority 2 = Sonic DNA (if available; validated templates)
+Priority 3 = Genre defaults (fallback only)
+
+STRICT RULE: Higher priority ALWAYS overrides lower. If Artist Profile says NO melodic singing, ignore genre defaults that suggest singing.
+`;
+
   const prompt = `Génère une direction musicale ultra-précise pour l'artiste "${artist}".
 
   ${modeInfo}
+
+  ${priorityBlock}
 
   ${productionInfo}
   ${vocalTechniqueSpecifics}
@@ -402,6 +508,10 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
   ${artistSpecifics}
 
   ${sonicDNABlock}
+
+  ${genreFallbackBlock}
+
+  ${secondaryBlendingBlock}
 
   ${variantDivergenceBlock}
 
@@ -510,24 +620,69 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
     if (!response.text) throw new Error("Empty response from Gemini");
     const parsed = JSON.parse(response.text);
 
-    // Quality floor: if Gemini's V1 is shorter than Sonic DNA template, use template
-    if (sonicDNA?.sunoStyleTemplate && (parsed.sunoPrompt?.length ?? 0) < sonicDNA.sunoStyleTemplate.length) {
-      parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+    // FIX #6: Structural validation using dimension-count check (10 dimension markers)
+    const DIMENSION_MARKERS = ['bpm', 'key', 'vocal', 'bass', 'drum', 'hi-hat', 'synth', 'piano', 'reverb', 'stereo'];
+
+    function countDimensions(text: string): number {
+      const lower = text.toLowerCase();
+      return DIMENSION_MARKERS.filter(marker => lower.includes(marker)).length;
+    }
+
+    if (sonicDNA?.sunoStyleTemplate) {
+      const sonisTemplateDims = countDimensions(sonicDNA.sunoStyleTemplate);
+      const v1Dims = countDimensions(parsed.sunoPrompt || '');
+
+      // If V1 has fewer than half the sonic DNA dimensions, use the template
+      if (v1Dims < sonisTemplateDims / 2) {
+        parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
+      }
     }
 
     const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
 
-    // Deduplication: if V2 or V3 are too similar to V1, mark them as needing divergence
+    // FIX #5: Enhanced variant deduplication with forced divergence
     const deduplicated = [coreVariant];
     for (let i = 1; i < 3; i++) {
-      const v = variants[i] || coreVariant;
-      // Simple similarity check: if >70% tokens shared with coreVariant, flag
+      let v = variants[i] || coreVariant;
+
+      // Token-based similarity check: if >80% tokens shared, force divergence
       const vTokens = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter(t => t.length > 3));
       const coreTokens = new Set(coreVariant.toLowerCase().split(/[\[\],\s]+/).filter(t => t.length > 3));
       const shared = [...vTokens].filter(t => coreTokens.has(t)).length;
       const similarity = vTokens.size > 0 ? shared / vTokens.size : 1;
-      // If too similar to V1, use it anyway but it will improve with prompt constraints
+
+      // If >80% similar, force divergence via BPM/key/style modifications
+      if (similarity > 0.80) {
+        // Extract BPM from core variant and modify
+        const bpmMatch = coreVariant.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
+        let modifiedV = v;
+
+        if (bpmMatch) {
+          const bpmMin = parseInt(bpmMatch[1]);
+          const bpmMax = parseInt(bpmMatch[2]);
+          const coreMid = (bpmMin + bpmMax) / 2;
+          // Force ±10-20 BPM deviation for divergence
+          const newBpmMin = Math.max(60, coreMid - 15);
+          const newBpmMax = Math.min(200, coreMid + 15);
+          modifiedV = modifiedV.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(newBpmMin)}-${Math.round(newBpmMax)} BPM`);
+        }
+
+        // Modify key if present
+        if (modifiedV.includes('Major')) {
+          modifiedV = modifiedV.replace(/Major/g, 'Minor');
+        } else if (modifiedV.includes('Minor')) {
+          modifiedV = modifiedV.replace(/Minor/g, 'Major');
+        }
+
+        // Add divergence marker for style keywords
+        if (!modifiedV.includes('[DIVERGENCE]')) {
+          modifiedV = '[DIVERGENCE V' + (i + 1) + '] ' + modifiedV;
+        }
+
+        v = modifiedV;
+      }
+
       deduplicated.push(v);
     }
 
@@ -537,8 +692,10 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
       structuredLyrics: parsed.structuredLyrics || []
     };
   }, maxRetries).catch((lastError) => {
+    // FIX #10: Error fallback uses sonicDNA template or genre fallback
+    const fallbackTemplate = sonicDNA?.sunoStyleTemplate || getGenreFallbackStyle(genre);
     return {
-      sunoPrompt: "Error generating prompt. Please try again.",
+      sunoPrompt: fallbackTemplate || "Error generating prompt. Please try again.",
       lyrics: `Error generating lyrics: ${lastError?.message || "Unknown error"}`,
       structuredLyrics: [],
       quality: { score: 0, message: `Generation failed after retries. Last error: ${lastError?.message || "Unknown error"}` }

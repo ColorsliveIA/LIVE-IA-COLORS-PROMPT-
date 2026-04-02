@@ -609,7 +609,63 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     'HARDCORE': `HARDCORE RAP :
 - Voix grave, agressive, zéro mélodie.
 - Production massive : orchestrale sombre ou trap lourde.
-- Langage cru, dominance, confrontation.`
+- Langage cru, dominance, confrontation.`,
+
+    // FIX #7: 12 new genre entries
+    'DARK_POP': `DARK POP :
+- Production sombre avec mélodies pop accessibles.
+- Autotune subtil, voix mélancolique, synthés atmosphériques.
+- Thèmes : obscurité, introspection, beauté sombre.`,
+
+    'R_AND_B': `R&B CONTEMPORAIN :
+- Smooth vocals, production riche, harmonie complexe.
+- 808 profondes, synthés warm, grooves sensuels.
+- Thèmes : amour, sensualité, relations.`,
+
+    'JAZZ_RAP': `JAZZ RAP :
+- Samples de jazz, mélodies complexes, flow technique.
+- Drums swing, basses jazz, sophistication.
+- Thèmes : introspection, intellectualisme, poésie.`,
+
+    'PSYCHEDELIC': `PSYCHEDELIC / TRIPENDELIC :
+- Production expérimentale, textures étranges, modulation vocale.
+- Synthés psychédéliques, drums complexes, atmosphère immersive.
+- Thèmes : exploration, altérité, expérience sensorielle.`,
+
+    'ROCK_ALT': `ROCK ALTERNATIF :
+- Production rock moderne, guitares lead, drums organiques.
+- Voix puissante, structures dynamiques, énergie alternative.
+- Thèmes : rébellion, authenticité, passion.`,
+
+    'AMAPIANO': `AMAPIANO :
+- Piano signature, hi-hat rolling, 808 chaudes, groove dancefloor.
+- Production sud-africaine authentique, énergie festive.
+- Thèmes : célébration, danse, fierté culturelle.`,
+
+    'CLOUD_RAP': `CLOUD RAP :
+- Production ethereal, synthés rêveurs, reverb massive, lo-fi textures.
+- Voix murmurée, flow introspectif, atmosphère spacieuse.
+- Thèmes : introspection, solitude, rêverie.`,
+
+    'VAMP_RAGE': `VAMP & RAGE :
+- Production aggressive, énergie extrême, vocaux puissants.
+- Synthés sombres, drums percutants, attitude confrontationnelle.
+- Thèmes : rage, domination, confrontation urbaine.`,
+
+    'FLAMENCO': `FLAMENCO / FLAMENCO FUSION :
+- Guitare flamenco caractéristique, palmas rythmiques, émotion brute.
+- Voix avec vibrato, mélodies en gammes flamenco, passion authentique.
+- Thèmes : amour tragique, fierté, souffrance.`,
+
+    'G_FUNK': `G-FUNK :
+- Synthés funk années 90, basses rondes et rebondissantes, hi-hats complexes.
+- Voix smooth avec autotune vintage, grooves funk-trap fusion.
+- Thèmes : dancefloor, plaisir, style G-funk West Coast.`,
+
+    'FUJI': `FUJI / FUJI FUSION :
+- Percussions Fuji traditionnelles, arrangements complexes, voix lead mélodique.
+- Fusion moderne avec production contemporaine, énergie festive.
+- Thèmes : célébration culturelle, fierté nigériane, fête.`
   };
 
   const matchKeys: string[] = [];
@@ -635,6 +691,19 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('ELECTRO') || upper.includes('HOUSE') || upper.includes('DAFT') || upper.includes('JUSTICE') || upper.includes('STROMAE')) matchKeys.push('ELECTRO');
   if (upper.includes('HAMZA') || upper.includes('MELODIC TRAP') || upper.includes('SAUCE') || upper.includes('LAYLOW') || upper.includes('NINHO') || upper.includes('DAMSO')) matchKeys.push('MELODIC_TRAP');
   if (upper.includes('HARDCORE') || upper.includes('BOOBA') || upper.includes('KAARIS') || upper.includes('KALASH CRIM')) matchKeys.push('HARDCORE');
+
+  // FIX #7: Matching rules for 12 new genres
+  if (upper.includes('DARK POP') || upper.includes('BILLIE') || upper.includes('CLAIRO')) matchKeys.push('DARK_POP');
+  if (upper.includes('R&B') || upper.includes('R AND B') || upper.includes('USHER') || upper.includes('BRYSON') || upper.includes('TYLA')) matchKeys.push('R_AND_B');
+  if (upper.includes('JAZZ RAP') || upper.includes('MADVILLAINY') || upper.includes('FLYING LOTUS')) matchKeys.push('JAZZ_RAP');
+  if (upper.includes('PSYCHEDELIC') || upper.includes('PSYCHO') || upper.includes('TAME IMPALA')) matchKeys.push('PSYCHEDELIC');
+  if (upper.includes('ROCK') && upper.includes('ALT') || upper.includes('ALTERNATIVE ROCK')) matchKeys.push('ROCK_ALT');
+  if (upper.includes('AMAPIANO') || upper.includes('CPUYA') || upper.includes('LAUNCHPAD')) matchKeys.push('AMAPIANO');
+  if (upper.includes('CLOUD') && upper.includes('RAP') || upper.includes('YUNG LEAN')) matchKeys.push('CLOUD_RAP');
+  if (upper.includes('VAMP') || upper.includes('RAGE') || upper.includes('PLAYBOI CARTI')) matchKeys.push('VAMP_RAGE');
+  if (upper.includes('FLAMENCO')) matchKeys.push('FLAMENCO');
+  if (upper.includes('G-FUNK') || upper.includes('G FUNK') || upper.includes('SNOOP')) matchKeys.push('G_FUNK');
+  if (upper.includes('FUJI') || upper.includes('NIGERIAN')) matchKeys.push('FUJI');
 
   if (matchKeys.length === 0) {
     // Fallback: return first 2 most common

@@ -257,5 +257,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message = "Gemini API temporarily unavailable. Please retry.";
     }
     return res.status(statusCode).json({ error: message });
+  } catch (unexpectedError: any) {
+    // Fix proxy: Catch unexpected errors in outer try block
+    console.error("Unexpected error in Gemini proxy:", unexpectedError?.message || unexpectedError);
+    return res.status(500).json({
+      error: `Unexpected error: ${unexpectedError?.message || "Unknown error"}`
+    });
   }
 }
