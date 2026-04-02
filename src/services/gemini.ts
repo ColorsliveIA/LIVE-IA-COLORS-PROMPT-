@@ -232,21 +232,130 @@ function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, er
   const g = genre.toUpperCase();
 
   // Determine a secondary "adjacent genre" for V3 FUSION based on primary genre
-  // FIX: DIVERSE fusion genres — NEVER default to Afro for everything
-  let fusionGenre = "Electronic ambient textures";
-  if (g.includes('DRILL')) fusionGenre = "Dark cinematic orchestral";
-  else if (g.includes('TRAP') && g.includes('FR')) fusionGenre = "Boom bap jazz samples";
-  else if (g.includes('TRAP')) fusionGenre = "Lo-fi indie guitar textures";
-  else if (g.includes('RAP') && g.includes('FR')) fusionGenre = "Jazz-funk live instruments";
-  else if (g.includes('RAP')) fusionGenre = "Soul-funk vintage production";
-  else if (g.includes('R&B') || g.includes('SOUL')) fusionGenre = "Neo-soul electronic";
-  else if (g.includes('POP')) fusionGenre = "Synth-wave retro textures";
-  else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = "Deep house melodic";
-  else if (g.includes('ROCK')) fusionGenre = "Indie electronic";
-  else if (g.includes('REGGAE') || g.includes('DANCEHALL')) fusionGenre = "Tropical bass";
-  else if (g.includes('AFRO')) fusionGenre = "Caribbean dancehall bounce";
-  else if (g.includes('CLOUD')) fusionGenre = "Shoegaze ambient textures";
-  else if (g.includes('BOOM') || g.includes('BAP')) fusionGenre = "Jazz live instrumentation";
+  // Each genre has a POOL of possible fusions — one is picked randomly per generation
+  // This prevents V3 from always sounding the same for a given genre
+  const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+  const fusionPools: Record<string, string[]> = {
+    DRILL: [
+      "Dark cinematic orchestral strings and brass",
+      "Industrial electronic textures and distortion",
+      "Cloud rap ambient pads and reverb wash",
+      "Grime UK bassline and garage rhythms",
+      "Latin percussion and reggaeton dembow undertones"
+    ],
+    TRAP_FR: [
+      "Boom bap jazz samples and vinyl crackle",
+      "Afrobeats percussion and dancehall bounce",
+      "Cloud rap ambient synths and slow reverb",
+      "Raï oriental melodies and darbuka percussion",
+      "Electro-funk synthesizers and vocoder touches"
+    ],
+    TRAP: [
+      "Lo-fi indie guitar textures and warm analog",
+      "Synthwave retro 80s pads and arpeggios",
+      "R&B soul chords and smooth vocal harmonies",
+      "Ambient electronic drones and granular textures",
+      "Latin trap reggaeton bounce and Caribbean bass"
+    ],
+    RAP_FR: [
+      "Jazz-funk live instruments and brass section",
+      "Chanson française piano and orchestral strings",
+      "Electronic minimal techno pulses and sidechains",
+      "Afro-Caribbean percussion and tropical melodies",
+      "Rock alternatif guitars and indie drum patterns"
+    ],
+    RAP: [
+      "Soul-funk vintage production and live bass",
+      "Jazz samples and saxophone improvisation",
+      "Psychedelic rock guitars and wah effects",
+      "Electronic glitch and IDM textures",
+      "Gospel choir harmonies and organ chords"
+    ],
+    RNB: [
+      "Neo-soul electronic textures and warm synths",
+      "Bossa nova acoustic guitar and soft percussion",
+      "Future bass synth drops and crystal arpeggios",
+      "Jazz piano trio and upright bass",
+      "Afrobeats danceable percussion and log drums"
+    ],
+    POP: [
+      "Synth-wave retro 80s textures and gated reverb",
+      "Tropical house percussion and steel drums",
+      "Indie folk acoustic layers and fingerpicking",
+      "K-pop maximalist production and layered synths",
+      "Electro-pop minimal beats and vocoders"
+    ],
+    HOUSE: [
+      "Deep house melodic pianos and warm pads",
+      "Afro house organic percussion and vocal chants",
+      "Tech house minimal grooves and acid bassline",
+      "Disco strings and funk guitar",
+      "Ambient chill downtempo and ethereal vocals"
+    ],
+    ROCK: [
+      "Indie electronic synths and drum machines",
+      "Hip-hop boom bap drums and sampling",
+      "Post-punk cold wave and analog synths",
+      "Folk acoustic and string arrangements",
+      "Shoegaze reverb walls and dream textures"
+    ],
+    DANCEHALL: [
+      "Tropical bass and future dancehall synths",
+      "Afrobeats fusion percussion and melodies",
+      "UK garage rhythmic patterns and 2-step",
+      "Latin reggaeton dembow and Caribbean bass",
+      "Amapiano log drums and deep bass"
+    ],
+    AFRO: [
+      "Caribbean dancehall bounce and riddim",
+      "Amapiano deep bass and log drums",
+      "R&B smooth production and vocal runs",
+      "Electronic house four-on-the-floor groove",
+      "Highlife guitar patterns and brass section"
+    ],
+    CLOUD: [
+      "Shoegaze ambient reverb walls and noise textures",
+      "Lo-fi jazz samples and vinyl warmth",
+      "Post-rock crescendos and tremolo guitars",
+      "Witch house dark electronic and slowed textures",
+      "Dream pop shimmering synths and ethereal vocals"
+    ],
+    BOOMBAP: [
+      "Jazz live instrumentation and improvisation",
+      "Soul vocal chops and warm vinyl texture",
+      "Funk breakbeats and live bass grooves",
+      "Classical piano and orchestral samples",
+      "Psychedelic samples and analog processing"
+    ]
+  };
+
+  // Match genre to the right pool
+  let fusionGenre: string;
+  if (g.includes('DRILL')) fusionGenre = pick(fusionPools.DRILL);
+  else if (g.includes('TRAP') && g.includes('FR')) fusionGenre = pick(fusionPools.TRAP_FR);
+  else if (g.includes('TRAP')) fusionGenre = pick(fusionPools.TRAP);
+  else if (g.includes('RAP') && g.includes('FR')) fusionGenre = pick(fusionPools.RAP_FR);
+  else if (g.includes('RAP')) fusionGenre = pick(fusionPools.RAP);
+  else if (g.includes('R&B') || g.includes('SOUL')) fusionGenre = pick(fusionPools.RNB);
+  else if (g.includes('POP')) fusionGenre = pick(fusionPools.POP);
+  else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = pick(fusionPools.HOUSE);
+  else if (g.includes('ROCK')) fusionGenre = pick(fusionPools.ROCK);
+  else if (g.includes('REGGAE') || g.includes('DANCEHALL')) fusionGenre = pick(fusionPools.DANCEHALL);
+  else if (g.includes('AFRO')) fusionGenre = pick(fusionPools.AFRO);
+  else if (g.includes('CLOUD')) fusionGenre = pick(fusionPools.CLOUD);
+  else if (g.includes('BOOM') || g.includes('BAP')) fusionGenre = pick(fusionPools.BOOMBAP);
+  else {
+    // Default pool for unmatched genres
+    const defaultPool = [
+      "Electronic ambient textures and atmospheric pads",
+      "Jazz-influenced chord progressions and live instruments",
+      "Afrobeats rhythmic percussion and melodic hooks",
+      "Synthwave retro production and analog warmth",
+      "Latin rhythmic patterns and Caribbean bass"
+    ];
+    fusionGenre = pick(defaultPool);
+  }
 
   // Era shift for V2 EVOLUTION
   const eraShifts: Record<string, string> = {
