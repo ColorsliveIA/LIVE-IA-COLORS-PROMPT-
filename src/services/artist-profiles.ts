@@ -55,14 +55,14 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   },
   {
     keywords: ["GAZO"],
-    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DRILL FR :
-- STYLE : French Drill, Dark Trap, Aggressive Street Rap.
-- VOCAL : Voix grave et agressive, flow drill caractéristique (sliding, syncopé), léger autotune sombre sur certains passages. Débit rapide et percutant.
-- AD-LIBS : Agressifs et rythmés (Grrr, Bah, Hey, Ouh). Gutturaux.
-- THÈMES : Rue, violence, compétition, argent sale, survie, intimidation. Langage TRÈS CRU.
-- PRODUCTION : 808 slides caractéristiques de la drill, hi-hats frénétiques (triolets rapides), mélodies sombres et menaçantes (piano/synthé), percs métalliques. BPM typique 140-145.
-- REGISTRE : Argot de rue hardcore, verlan, vocabulaire de la street. Vulgarité assumée.
-- NOTE : Le son DOIT être menaçant et sombre. Pas de mélodie joyeuse, pas de pop.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE DARK FRENCH DRILL :
+- STYLE : Dark French Drill, French Rap Trap, Sombre et Menaçant.
+- VOCAL : Voix masculine RAUQUE avec grain (grainy timber). Delivery autoritaire mais NONCHALANTE. Accent Seine-Saint-Denis 93. Flow STACCATO mélodique avec DOUBLAGE EN FIN DE PHRASE lourd et short echo delays. Close-mic intimité. PAS de chant autotune — rap pur avec inflexions mélodiques.
+- AD-LIBS : Agressifs et gutturaux (Grrr, Bah, Hey, Ouh). Doublés avec echo court.
+- THÈMES : Rue, violence, compétition, argent sale, survie, intimidation, territoire 93. Langage TRÈS CRU.
+- PRODUCTION : Boucles piano MINEUR-KEY moody, textures atmosphériques hantées, 808 sub-bass SLIDING et distordues, hi-hats TRIOLETS crisp métalliques, snare hard-hitting, short echo delays, soundstage large, saturation analogique, mix studio hi-end, close-mic intimité. BPM typique 140-145.
+- REGISTRE : Argot de rue hardcore, verlan, vocabulaire de la street 93. Vulgarité assumée.
+- NOTE : Le son DOIT être menaçant, nocturne, et URBAIN. Ambiance street nocturne du 93. Pas de mélodie joyeuse, pas de pop, pas de chill/lo-fi.`
   },
   {
     keywords: ["FREEZE CORLEONE", "FREEZE"],
@@ -101,13 +101,14 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   {
     keywords: ["SDM"],
     isMelodic: true,
-    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE AFRO-STREET MELODIC :
-- STYLE : Afro-Trap Mélodique, Street Melodic, Dark Afro.
-- VOCAL : Autotune mélodique, voix grave et posée, flow mélodique avec des accélérations rap. Alternance chant sombre / rap technique.
-- AD-LIBS : Mélodiques et graves (Ouh, Yeah).
-- THÈMES : Rue sombre, mélancolie nocturne, réussite amère, quartier, loyauté, trahison.
-- PRODUCTION : 808 profondes, mélodies sombres (piano, guitare), influences afro subtiles dans les percs, hi-hats complexes. Ambiance nocturne.
-- REGISTRE : Argot urbain, verlan, langage direct et émotionnel.`
+    instructions: `# INSTRUCTIONS SPÉCIFIQUES — STYLE BRUSSELS TRAP-R&B :
+- STYLE : Modern French Trap-R&B, Brussels Vibe, Nocturne Atmosphérique Sophistiqué.
+- VOCAL : Autotune MÉTALLIQUE lourd, voix masculine grave avec qualité de CROONER nasal mielleux. Flow nonchalant et posé — JAMAIS agressif, JAMAIS pressé. Alternance chant mélodique / accélérations rap. Close-mic intimité. Le chant passe par un autotune épais et brillant.
+- AD-LIBS : Mélodiques et graves (Ouh, Yeah), traités avec reverb et delay.
+- THÈMES : Mélancolie nocturne, luxe amer, réussite sombre, trahison, loyauté, night-drive, atmosphère sophistiquée et coûteuse.
+- PRODUCTION : Pads atmosphériques nocturnes, RHODES FILTRÉS (signature), 808 sub-bass glissantes lourdes, drums trap digitaux crisp, hi-hats crisp, reverb luxuriante et delay, soundstage large, production hi-end polie. BPM typique 125-135.
+- REGISTRE : Argot urbain bruxellois, verlan, langage direct et émotionnel, influences belges.
+- NOTE : Le son doit être NOCTURNE, SOPHISTIQUÉ et CHER. Pas de son lo-fi, pas de drill, pas de son agressif. L'identité est Brussels Trap-R&B, PAS Afro-Trap.`
   },
   {
     keywords: ["NISKA"],

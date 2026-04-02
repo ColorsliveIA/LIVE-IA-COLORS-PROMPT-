@@ -104,25 +104,25 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
 
   'GAZO': {
     artist: 'GAZO',
-    sunoStyleTemplate: 'French drill, dark aggressive trap, sliding 808s, frenzied hi-hats, menacing synth piano, metallic percussion, intense energy',
+    sunoStyleTemplate: 'Dark French Drill, French Rap Trap Style, Moody Minor-Key Piano Loops, Haunting Atmospheric Textures, Sliding Distorted Sub-Bass 808, Crisp Metallic Triplet Hi-Hats, Hard-Hitting Snare, 142 BPM, Key: D Minor, Masculine Raspy Vocals, Grainy Timber, Authoritative Nonchalant Delivery, Seine-Saint-Denis 93 Accent, Staccato Melodic Flow, Heavy Phrase-End Doubling, Short Echo Delays, Wide Soundstage, Nocturnal Urban Street Vibe, Hi-End Studio Mix, Analog Saturation, Close-Mic Intimacy, 2020s',
     sunoBpmRange: '140-145',
-    sunoKey: 'Minor',
-    sunoVocalTags: ['Aggressive Rap', 'Drill Flow', 'Dark Delivery', 'Percussive'],
+    sunoKey: 'D Minor',
+    sunoVocalTags: ['Masculine Raspy Vocals', 'Grainy Timber', 'Authoritative Nonchalant Delivery', 'Staccato Melodic Flow'],
     sunoWeirdness: 50,
-    sunoStyleInfluence: 80,
-    sunoExcludeStyles: 'melodic singing, pop, happy, uplifting, acoustic',
-    vocalDNA: 'Deep grave voice, aggressive percussive rap, characteristic drill sliding delivery. No autotune singing — pure aggressive rap.',
-    flowPattern: 'Syncopated drill flow with dramatic pauses. Fast and percussive delivery. Territorial, aggressive phrasing.',
-    productionFingerprint: 'Signature: sliding 808s (drill core), rapid triplet hi-hats, dark threatening synth piano, metallic percussion, threatening ambiance',
-    culturalAnchors: 'Street territory, violence, competition, dirty money, survival, intimidation, street credibility',
-    antiPatterns: 'No melodic singing, no pop hooks, no uplifting messages, no acoustic instruments, no bright moments',
+    sunoStyleInfluence: 85,
+    sunoExcludeStyles: 'melodic singing, pop, happy, uplifting, acoustic, R&B, soft, chill, lo-fi, jazz, folk',
+    vocalDNA: 'Masculine raspy vocals with grainy timber. Authoritative yet nonchalant delivery. Seine-Saint-Denis 93 accent. Staccato melodic flow with heavy phrase-end doubling and short echo delays. Close-mic intimacy. No autotune singing — pure aggressive rap with melodic inflections.',
+    flowPattern: 'Staccato melodic drill flow with heavy phrase-end doubling. Syncopated delivery with dramatic pauses. Authoritative nonchalant phrasing. Fast percussive bursts alternating with spaced menacing bars.',
+    productionFingerprint: 'Signature: moody minor-key piano loops, haunting atmospheric textures, sliding distorted sub-bass 808, crisp metallic triplet hi-hats, hard-hitting snare, short echo delays, wide soundstage, analog saturation, hi-end studio mix, close-mic intimacy, nocturnal urban street vibe',
+    culturalAnchors: 'Seine-Saint-Denis 93 street territory, nocturnal urban vibe, violence, competition, dirty money, survival, intimidation, street credibility',
+    antiPatterns: 'NEVER melodic singing, NEVER pop hooks, NEVER uplifting messages, NEVER acoustic instruments, NEVER bright moments, NEVER lo-fi or chill',
     sunoMetatags: {
-      vocalStyle: 'Aggressive Rap',
-      vocalEffect: 'Reverb',
-      mood: 'Dark, Aggressive',
+      vocalStyle: 'Aggressive Drill Rap',
+      vocalEffect: 'Short Echo Delays, Phrase-End Doubling, Analog Saturation',
+      mood: 'Dark, Menacing, Nocturnal',
       energy: 'Maximum',
-      texture: 'Crisp Metallic',
-      instrument: '808 Bass, Hi-Hats'
+      texture: 'Crisp Metallic, Haunting Atmospheric',
+      instrument: 'Sliding 808 Sub-Bass, Minor-Key Piano, Triplet Hi-Hats, Hard Snare'
     }
   },
 
@@ -340,19 +340,19 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
 
   'SDM': {
     artist: 'SDM',
-    sunoStyleTemplate: 'Afro-Street Melodic, Dark Afro-Trap, Nocturnal Melodic Rap, 100-120 BPM, Key: A Minor, Deep 808, Afro Percussion Subtle, Dark Piano, Somber Guitar, Melodic Autotune, Nocturnal Atmosphere, 2020s',
-    sunoBpmRange: '100-120',
-    sunoKey: 'A Minor',
-    sunoVocalTags: ['Melodic Autotune', 'Deep Voice', 'Dark Melodic Delivery'],
+    sunoStyleTemplate: 'Modern French Trap-R&B, Brussels Vibe, Nocturnal Atmospheric Pads, Filtered Rhodes, Heavy Sliding 808 Sub-Bass, Crisp Digital Trap Drums, Hi-End Production, Crisp Hi-Hats, Melodic Masculine Vocals, Heavy Metallic Autotune, Honeyed Nasal Crooner, Laid-Back Nonchalant Flow, Lush Reverb and Delay, 130 BPM, Key: G Minor, Nocturnal Sophisticated Expensive Soundscape, Wide Soundstage, Intimate Close-Mic, 2020s',
+    sunoBpmRange: '125-135',
+    sunoKey: 'G Minor',
+    sunoVocalTags: ['Heavy Metallic Autotune', 'Honeyed Nasal Crooner', 'Laid-Back Nonchalant Flow', 'Melodic Masculine Vocals'],
     sunoWeirdness: 40,
-    sunoStyleInfluence: 80,
-    sunoExcludeStyles: 'bright pop, cheerful, minimal, acoustic folk',
-    vocalDNA: 'Deep calm melodic autotune, alternating dark singing and rap acceleration. Nocturnal emotional tone.',
-    flowPattern: 'Melodic flow with rap accelerations. Dark sung passages interspersed with technical rap moments.',
-    productionFingerprint: 'Signature: deep 808s, dark piano/guitar, subtle afro percussion, nocturnal atmosphere, complex hi-hats',
-    culturalAnchors: 'Dark street melancholy, nocturnal life, bitter success, loyalty, betrayal',
-    antiPatterns: 'No bright themes, no cheerful production, no minimal beats',
-    sunoMetatags: { vocalStyle: 'Melodic Rap', vocalEffect: 'Autotune', mood: 'Dark, Melancholic', energy: 'Medium', texture: 'Dark Warm', instrument: '808 Bass, Piano, Guitar' }
+    sunoStyleInfluence: 85,
+    sunoExcludeStyles: 'bright pop, cheerful, minimal, acoustic folk, aggressive drill, rock, punk, edm, country',
+    vocalDNA: 'Heavy metallic autotune with honeyed nasal crooner quality. Laid-back nonchalant delivery, never rushed. Deep masculine voice that sings melodically through thick autotune — signature Brussels Trap-R&B vocal texture. Close-mic intimacy.',
+    flowPattern: 'Laid-back nonchalant melodic flow with rap accelerations. Dark sung passages over atmospheric pads. Never aggressive — always smooth, sophisticated, nocturnal.',
+    productionFingerprint: 'Signature: filtered Rhodes chords, nocturnal atmospheric pads, heavy sliding 808 sub-bass, crisp digital trap drums, crisp hi-hats, lush reverb and delay, wide soundstage, expensive hi-end production, intimate close-mic mixing',
+    culturalAnchors: 'Brussels street melancholy, nocturnal life, expensive sophisticated atmosphere, bitter success, loyalty, betrayal, night-drive luxury sadness',
+    antiPatterns: 'NEVER bright or cheerful, NEVER aggressive or drill-like, NEVER acoustic or minimal, NEVER lo-fi — always hi-end polished production',
+    sunoMetatags: { vocalStyle: 'Melodic Trap-R&B Crooner', vocalEffect: 'Heavy Metallic Autotune, Lush Reverb, Delay', mood: 'Nocturnal, Sophisticated, Melancholic', energy: 'Medium-Low', texture: 'Warm Atmospheric Hi-End', instrument: 'Filtered Rhodes, Atmospheric Pads, Sliding 808 Sub-Bass, Crisp Trap Drums' }
   },
 
   'NISKA': {
