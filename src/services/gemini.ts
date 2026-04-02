@@ -130,7 +130,6 @@ export async function analyzeAudio(base64Data: string, mimeType: string) {
     });
 
     try {
-      // Strip markdown JSON fences if present (tools mode can't force JSON output)
       const raw = (response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
       return JSON.parse(raw);
     } catch (e) {
@@ -147,10 +146,8 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
 
   if (g.includes('RAP') || g.includes('HIP HOP') || g.includes('TRAP')) {
     if (melodic) {
-      // Melodic artists (JUL, PNL, Hamza, Ninho, etc.) — DO NOT exclude autotune/singing
       return "country, rock, metal, opera, classical, high-pitched screaming, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
     }
-    // Lyricist/technical artists — exclude melodic elements
     return "singing, pop vocals, acoustic guitar, happy, bright, cheesy, generic pop, country, rock, metal, opera, classical, high-pitched, melodic pop hooks, radio-friendly pop, bubblegum pop, nursery rhymes, generic trap beats, weak bass, thin drums, stock sounds, default midi, amateur mixing, muddy, clipping, over-compressed, generic loops, royalty-free sounding";
   }
   if (g.includes('HOUSE') || g.includes('TECHNO') || g.includes('ELECTRO')) {
@@ -162,28 +159,53 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
   return "";
 }
 
-// Helper: Generate grain/texture tokens based on production texture
-function getGrainTokens(texture: string): string {
-  const t = texture.toLowerCase();
-  if (t.includes('analog') || t.includes('warm')) return "warm analog saturation, tape hiss subtle, vintage compression, tube warmth, vinyl texture";
-  if (t.includes('lo-fi') || t.includes('lofi')) return "lo-fi grit, bitcrushed texture, dusty sample warmth, tape wobble, degraded fidelity";
-  if (t.includes('raw') || t.includes('dark')) return "raw unprocessed grain, gritty distortion hint, cold digital edge, industrial texture, bass rumble";
-  if (t.includes('crisp') || t.includes('digital')) return "crisp digital clarity, pristine high-end, punchy transients, clean headroom, surgical precision";
-  if (t.includes('tape') || t.includes('saturated')) return "tape saturation heavy, reel-to-reel warmth, analog compression, harmonic distortion, magnetic texture";
-  if (t.includes('tropical') || t.includes('warm')) return "warm tropical air, sun-drenched reverb, organic warmth, golden hour texture, open air clarity";
-  return "studio polished, balanced grain, controlled saturation, clean dynamics, professional clarity";
-}
+// ── VARIANT DIVERGENCE ENGINE ──────────────────────────────────────────────
+// Forces V2 and V3 to diverge from V1 along specific dimensions
+// so they are never identical, even from a single API call.
+function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, era: string): string {
+  const g = genre.toUpperCase();
 
-// Helper: Generate space/reverb tokens based on mood
-function getSpaceTokens(mood: string): string {
-  const m = mood.toLowerCase();
-  if (m.includes('dark') || m.includes('aggressive')) return "underground bunker echo, close walls, claustrophobic intimacy, dark room ambience";
-  if (m.includes('dreamy') || m.includes('ethereal')) return "vast cathedral reverb, floating space, cloud echo, infinite hall, shimmer trails";
-  if (m.includes('romantic') || m.includes('peaceful')) return "intimate room ambience, soft reverb tail, warm close space, bedroom acoustics";
-  if (m.includes('uplifting') || m.includes('energetic')) return "open air festival, stadium reverb, wide stereo field, bright room reflection";
-  if (m.includes('melancholic') || m.includes('sad')) return "empty room echo, distant reverb, cold hallway, lonely space, fading trails";
-  if (m.includes('smooth')) return "warm studio room, soft plate reverb, intimate close-mic, velvet space";
-  return "studio ambience, controlled reverb, balanced depth, natural room";
+  // Determine a secondary "adjacent genre" for V3 FUSION based on primary genre
+  let fusionGenre = "Afro-urban";
+  if (g.includes('RAP') || g.includes('TRAP')) fusionGenre = "Afrobeat-infused rap";
+  else if (g.includes('R&B') || g.includes('SOUL')) fusionGenre = "Neo-soul electronic";
+  else if (g.includes('POP')) fusionGenre = "Synth-pop minimal";
+  else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = "Deep house melodic";
+  else if (g.includes('ROCK')) fusionGenre = "Indie electronic";
+  else if (g.includes('REGGAE') || g.includes('DANCEHALL')) fusionGenre = "Tropical bass";
+
+  // Era shift for V2 EVOLUTION
+  const eraShifts: Record<string, string> = {
+    '2020s': '2010s',
+    '2010s': '2000s',
+    '2000s': '1990s',
+    '1990s': '2000s',
+    '1980s': '1990s',
+  };
+  const adjacentEra = eraShifts[era] || '2010s';
+
+  return `
+  CONTRAINTES DE DIVERGENCE — RÈGLE ABSOLUE: Les 3 variantes DOIVENT être différentes.
+
+  V1 (CORE DNA) — Signature pure de l'artiste, son le plus reconnaissable, BPM central du genre ${genre}.
+  Ancrage: fidélité maximale à l'artiste "${inspiredBy}", ère ${era}, production signature.
+
+  V2 (EVOLUTION) — OBLIGATOIREMENT différente de V1 sur 2 dimensions:
+  - BPM: ±10-20 BPM par rapport à V1
+  - GRAIN: texture plus claire OU plus sombre que V1 (choisir l'opposé)
+  - ÈRE: ${adjacentEra} au lieu de ${era} (sonorité un peu plus vintage)
+  - Conserver: même signature vocale, même genre-racine ${genre}
+  INTERDIT: copier-coller ou paraphraser V1.
+
+  V3 (FUSION) — OBLIGATOIREMENT différente de V1 ET V2 sur 3 dimensions:
+  - STYLE BLEND: intégrer des éléments de "${fusionGenre}" dans le mix
+  - INSTRUMENTS: au moins 2 instruments différents de V1 (ex: percussion organique, basse live, synthé vintage)
+  - ESPACE: réverb et profondeur opposées à V1 (si V1 est proche/intime → V3 est large/ample, et vice-versa)
+  - Conserver: signature vocale artiste, GRAIN caractéristique, BPM adjacent (±15)
+  INTERDIT: copier-coller ou paraphraser V1 ou V2.
+
+  VALIDATION FINALE: Lis tes 3 variantes. Si 2 d'entre elles partagent plus de 50% des mêmes tokens → régénère.
+  `;
 }
 
 export async function generateMusicContext(
@@ -222,19 +244,13 @@ export async function generateMusicContext(
   const bpmInfo = manualBpm ? `- BPM imposé : ${manualBpm} BPM` : (performanceActive ? `- BPM : Automatique (adapté à l'énergie ${energy})` : `- BPM : Automatique`);
   const structureInfo = structure ? `- Structure souhaitée : ${structure}` : "";
   const styleBlendInfo = styleBlend ? `- Style Blending (Influences) : ${styleBlend}` : "";
-  const vocalTechniqueInfo = vocalTechnique !== 'none' ? `- Technique Vocale Spécifique : ${vocalTechnique}` : "";
-  const productionFinishInfo = productionFinish !== 'none' ? `- Finition de Production : ${productionFinish}` : "";
   const secondaryArtistInfo = secondaryInspiredBy !== 'none' ? `- Artiste Secondaire (Style Blending) : ${secondaryInspiredBy}` : "";
   const advancedTagsInfo = advancedTags.length > 0 ? `- Tags ADN Avancés : ${advancedTags.join(', ')}` : "";
-  // FIXED: Pass inspiredBy to make negative prompt artist-aware
   const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
-  // SONIC DNA: Load pre-tested Suno V5.5 style template for this artist
   const sonicDNA = getArtistSonicDNA(inspiredBy);
   const artistExcludeStyles = sonicDNA?.sunoExcludeStyles || '';
-  // SONIC DNA: Use artist-specific exclude styles if available, fallback to genre-based
   const combinedNegativePrompt = [artistExcludeStyles || genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
   const negativePromptInfo = combinedNegativePrompt ? `- ÉLÉMENTS À EXCLURE ABSOLUMENT (NEGATIVE PROMPT) : ${combinedNegativePrompt}` : "";
-  const weirdnessGuidanceText = "WEIRDNESS est un curseur UI Suno (0-100), pas un token texte. Recommande la valeur optimale pour ce genre/artiste. Style Influence sweet spot = 70-80%.";
   const sunoV55Info = `
 - Weirdness (V5.5) : ${weirdness}/100
 - Style Influence : ${styleInfluence}/100`;
@@ -261,7 +277,6 @@ ${artistIdentitySummary}
     ? "Langue : Déduis la langue la plus appropriée selon le style de l'artiste inspiré. IMPORTANT : Pour les artistes raï/algériens (Cheb Mami, Soolking, Babylone, Djalil Palermo, Rimk, L'Algérino, etc.), la langue est TOUJOURS un MIX français-arabe (darija). JAMAIS 100% arabe. Alterne les couplets/phrases entre français et darija avec des tags [in french] et [in arabic]."
     : `Langue : ${language}`;
 
-  // ADAPTIVE: Vocal delivery rules change based on artist type (melodic vs lyricist)
   const melodicArtist = isArtistMelodic(inspiredBy);
   const vocalDeliveryRule = melodicArtist
     ? `- VOCAL DELIVERY — ARTISTE MÉLODIQUE DÉTECTÉ : L'artiste "${inspiredBy}" est un artiste MÉLODIQUE. Le chant avec autotune EST sa signature. INTERDICTION de forcer un flow rap sec/technique. Privilégie le chant mélodique, les hooks chantés, les mélodies vocales. L'autotune mélodique est BIENVENU et ATTENDU.`
@@ -270,6 +285,9 @@ ${artistIdentitySummary}
   const vocoderRule = melodicArtist
     ? `- AUTOTUNE/VOCODER : Pour cet artiste mélodique, l'autotune est un OUTIL CRÉATIF ESSENTIEL, pas un défaut. Utilise-le de manière artistique et conforme à la signature de "${inspiredBy}".`
     : `- ÉVITE LE VOCODER/CHANT SYSTÉMATIQUE : Si l'artiste est identifié comme "lyriciste" ou "technicien" dans son profil, INTERDICTION de chanter ou d'utiliser un autotune mélodique. Le flow doit être sec, articulé et purement rappé.`;
+
+  // ── VARIANT DIVERGENCE: injected to prevent identical V2/V3
+  const variantDivergenceBlock = buildVariantDivergenceConstraints(genre, inspiredBy, era);
 
   const systemInstruction = `Tu es un expert mondial en production musicale et en prompting pour Suno AI V5.5.
 
@@ -286,7 +304,7 @@ ${artistIdentitySummary}
   - ANTI-GÉNÉRIQUE & TEXTURES : BANNI les tags comme "Trap" ou "Pop". Utilise des textures sonores et vocales précises (ex: [Industrial Dark Techno], [Ethereal Cloud Rap], [Crisp high-end], [Warm analog saturation], [Lo-fi grit], [Sidechained compression], [Stereo widening], [Punchy transients]).
   - ÉVITE LE "DARK ORCHESTRAL" SYSTÉMATIQUE : Pour le rap, n'utilise des éléments orchestraux (violons, choeurs) QUE si le profil artiste chargé le demande expressément. Sinon, privilégie des textures plus sèches, jazzy, industrielles ou minimalistes.
   ${vocoderRule}
-  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques, de labels, de titres d'albums/morceaux, de noms de villes associées à un artiste, ou de slogans/ad-libs iconiques trop identifiables. Aucun surnom, aucune catchphrase, aucun tag vocal reconnaissable, aucune référence géographique identifiable (pas de noms de quartiers/villes associés à un artiste spécifique). Les paroles doivent être ORIGINALES et impossibles à attribuer à un artiste existant.
+  - ZERO TOLERANCE : Ne cite JAMAIS de noms d'artistes réels, de marques, de labels, de titres d'albums/morceaux, de noms de villes associées à un artiste, ou de slogans/ad-libs iconiques trop identifiables. Les paroles doivent être ORIGINALES et impossibles à attribuer à un artiste existant.
   - AD-LIBS : Utilise des ad-libs génériques mais stylés (ex: "Yeah", "Ouh", "Skrr", "Grrr", "Hey") pour capturer l'énergie sans copier l'identité.
   - JSON : Réponds uniquement en JSON valide.
 
@@ -332,54 +350,43 @@ ${artistIdentitySummary}
     ? `\n# INSTRUCTION FINITION PRODUCTION (V5.5) :\n- FINITION : ${productionFinish}.\n- NOTE : Utilise des tags de production spécifiques pour obtenir ce rendu sonore (ex: [Binaural], [Sidechain], [Mid-Side]).\n`
     : "";
 
-  // SONIC DNA BLOCK: Inject pre-tested Suno template as foundation for style generation
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – USE AS FOUNDATION TO ENRICH):
-Ce template est la BASE validée. Tu DOIS l'ENRICHIR en 500-600 caractères en ajoutant des textures précises.
-Le champ sunoPrompt DOIT COMMENCER par les éléments du template, puis ENRICHIR avec les 10 dimensions manquantes.
-NE PAS copier tel quel — DÉVELOPPER avec des adjectifs de texture, de grain, d'espace et de mix.
+# SONIC DNA V2 (PRE-TESTED SUNO V5.5 TEMPLATE – FOUNDATION FOR V1 CORE DNA):
+Ce template est la BASE validée pour V1. ENRICHIS-LE en 500-600 caractères en ajoutant GRAIN, ESPACE, MIX, DYNAMIC.
+NE PAS copier tel quel — DÉVELOPPER avec des adjectifs de texture précis.
 
-TEMPLATE DE BASE (à enrichir): ${sonicDNA.sunoStyleTemplate}
-
-ENRICHISSEMENT OBLIGATOIRE — Ajoute ces dimensions si absentes du template:
-- GRAIN: ${getGrainTokens(sonicDNA.sunoMetatags?.texture || 'Crisp Digital')}
-- ESPACE: ${getSpaceTokens(sonicDNA.sunoMetatags?.mood || 'Dark')}
-- MIX: wide stereo image, ${sonicDNA.sunoMetatags?.texture?.includes('Analog') ? 'warm analog saturation, tape compression' : 'pristine clarity, punchy transients, sidechain compression'}
-- DYNAMIC: ${sonicDNA.sunoMetatags?.energy?.includes('→') ? `progressive build ${sonicDNA.sunoMetatags.energy}` : `sustained ${sonicDNA.sunoMetatags?.energy || 'Medium'} energy`}
-- CULTURAL FLAVOR: ${sonicDNA.culturalAnchors?.split(',').slice(0, 2).join(', ') || 'genre-authentic'}
+TEMPLATE DE BASE (V1 uniquement): ${sonicDNA.sunoStyleTemplate}
 BPM RANGE: ${sonicDNA.sunoBpmRange}
 KEY: ${sonicDNA.sunoKey}
-VOCAL TAGS À INTÉGRER: ${sonicDNA.sunoVocalTags.join(' ')}
+VOCAL TAGS À INTÉGRER dans V1: ${sonicDNA.sunoVocalTags.join(' ')}
 WEIRDNESS OPTIMAL: ${sonicDNA.sunoWeirdness}/100
 STYLE INFLUENCE OPTIMAL: ${sonicDNA.sunoStyleInfluence}/100
 
-# VOCAL DNA (SIGNATURE VOCALE ABSOLUE – NE PAS DÉVIER):
+# VOCAL DNA (SIGNATURE VOCALE ABSOLUE – IDENTIQUE DANS V1, V2 ET V3):
 ${sonicDNA.vocalDNA || 'Non spécifié'}
 
 # FLOW PATTERN (PLACEMENT RYTHMIQUE SIGNATURE):
 ${sonicDNA.flowPattern || 'Non spécifié'}
 
-# PRODUCTION FINGERPRINT (SONS DE PRODUCTION SIGNATURE):
+# PRODUCTION FINGERPRINT (SONS DE PRODUCTION SIGNATURE – À CONSERVER DANS LES 3 VARIANTES):
 ${sonicDNA.productionFingerprint || 'Non spécifié'}
 
 # CULTURAL ANCHORS (UNIVERS THÉMATIQUE ET LINGUISTIQUE):
 ${sonicDNA.culturalAnchors || 'Non spécifié'}
 
-# ANTI-PATTERNS (CE QUE L'ARTISTE NE FAIT JAMAIS – EXCLURE ABSOLUMENT):
+# ANTI-PATTERNS (CE QUE L'ARTISTE NE FAIT JAMAIS – EXCLURE ABSOLUMENT DES 3 VARIANTES):
 ${sonicDNA.antiPatterns || 'Non spécifié'}
 
 # METATAGS V5.5 PRÉ-CALIBRÉS (INJECTER DANS CHAQUE SECTION DE LYRICS):
-Tu DOIS utiliser ces metatags au début de chaque section de lyrics:
 [Vocal Style: ${sonicDNA.sunoMetatags?.vocalStyle || 'Rap'}]
 [Vocal Effect: ${sonicDNA.sunoMetatags?.vocalEffect || 'Reverb'}]
 [Mood: ${sonicDNA.sunoMetatags?.mood || 'Dark'}]
 [Energy: ${sonicDNA.sunoMetatags?.energy || 'Medium'}]
 [Texture: ${sonicDNA.sunoMetatags?.texture || 'Crisp Digital'}]
 [Instrument: ${sonicDNA.sunoMetatags?.instrument || '808 Bass'}]
-RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal Style] et [Vocal Effect] sont NON-NÉGOCIABLES pour la fidélité artiste.
+RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
 ` : '';
 
-  // OPTIMIZED: Artist-specific instructions loaded from dictionary (saves ~80% tokens)
   const artistSpecifics = getArtistSpecificInstructions(inspiredBy);
 
   const prompt = `Génère une direction musicale ultra-précise pour l'artiste "${artist}".
@@ -395,6 +402,8 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
   ${artistSpecifics}
 
   ${sonicDNABlock}
+
+  ${variantDivergenceBlock}
 
   ${artistIdentityInfo}
 
@@ -414,98 +423,46 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
   ${negativePromptInfo}
   ${sunoV55Info}
 
-  INSTRUCTIONS DE RÉDACTION (FORMULE PAR GENRE) :
-  1. SÉLECTION DE STRUCTURE : Sélectionne la structure lyrique type la plus efficace et authentique pour le genre "${genre}".
-  2. REMPLISSAGE THÉMATIQUE : Développe le thème "${theme}" en utilisant des métaphores et des détails concrets qui "sentent le vécu" de l'artiste "${inspiredBy}".
-  3. INTENSITÉ & REGISTRE (MODULATION DYNAMIQUE) :
-     - Intensité Émotionnelle : ${emotionalIntensity}/100.
-     - Énergie : ${energy}/100.
-     - Ajuste le registre de langage (soutenu, familier, cru) pour qu'il soit en parfaite adéquation avec ces scores. Plus l'intensité est haute, plus le langage doit être brut et direct.
-  4. CODES DU STYLE : Intègre impérativement les codes, gimmicks, ad-libs et placements rythmiques (flow) qui définissent l'ADN du genre "${genre}".
-
-  INSTRUCTIONS CRITIQUES POUR LA STRUCTURE ET LES REFRAINS :
-  1. RECHERCHE DE STRUCTURE : Utilise Google Search pour analyser les structures de chansons professionnelles actuelles spécifiques au genre "${genre}".
-  2. ARCHITECTURE DU REFRAIN (CHORUS) : Le refrain doit être le point culminant. Adapte sa durée et son intensité au dynamisme du genre.
-  3. ARCHITECTURE DU COUPLET (VERSE) : Les couplets posent le décor. Adapte leur narration et leur débit au genre "${genre}".
-  4. DYNAMIQUE & MESURES : Adapte librement les mesures pour correspondre parfaitement aux standards de production et de composition du genre "${genre}". Ne reste pas figé sur des schémas classiques si le genre demande de l'innovation.
-  5. PROGRESSION : Assure-toi qu'il y a une progression logique et fluide adaptée au format choisi.
-
   INSTRUCTIONS CRITIQUES POUR LA DIFFÉRENCIATION ARTISTIQUE :
-  1. ANALYSE PROFONDE & SIGNATURE SONORE : Utilise Google Search et l'ANALYSE D'IDENTITÉ ARTISTIQUE fournie pour analyser "${inspiredBy}". Ne te contente pas du genre global. Identifie sa "signature sonore" : quels instruments utilise-t-il ? (ex: pianos mélancoliques, guitares électriques saturées, synthés analogiques granuleux). Quel est son placement rythmique (flow) ? Est-il en avance ou en retard sur le temps ?
-  2. VULGARITÉ & STREET REALISM : Si le genre est RAP/URBAIN/STREET, utilise impérativement un langage CRU, de l'ARGOT (slang) et n'hésite pas sur la VULGARITÉ (mots comme 'merde', 'putain', 'bordel', etc.) si elle sert l'authenticité et le réalisme de la rue. Les textes ne doivent absolument pas être "propres" ou "polis", ils doivent être provocateurs, sombres et authentiquement "street".
-  3. NAMING : Le "songTitle" DOIT être une expression tirée des paroles. Le "artistName" DOIT refléter la langue de l'artiste (${languageInfo}).
-  4. ANTI-GÉNÉRIQUE & TEXTURES : Pour éviter que tous les sons se ressemblent, BANNI les tags génériques comme "Trap" ou "Pop". Utilise des descriptions de textures et de sous-genres ultra-précises. Exemples : "Industrial Dark Techno with distorted kick", "Ethereal Cloud Rap with heavy reverb and high-pass filters", "Aggressive UK Drill with sliding 808s", "Vintage Soul-infused Boom Bap with vinyl crackle".
-  5. RICHESSE LYRIQUE : Je veux des textes d'une grande richesse littéraire. Utilise des rimes multisyllabiques, des rimes internes complexes et un vocabulaire imagé. Évite les clichés.
-  6. ESSENCE ARTISTIQUE : Le style doit être au plus proche de l'essence de "${inspiredBy}" (philosophie, thèmes, placement rythmique) sans jamais copier ses textes existants.
-  7. STYLE PROMPT BOX (SUNO V5.5 OPTIMIZED) : Rédige un prompt de style de 500-600 CARACTÈRES. Format 10 DIMENSIONS : [STYLE BLEND: 3-5 sous-genres/textures] + [BPM: fourchette, Key: tonalité] + [GRAIN: texture sonore] + [ESPACE: profondeur/reverb] + [INSTRUMENTS: éléments dominants] + [VOCAL TEXTURE: grain et couleur vocale] + [DYNAMIC: progression build/drop] + [MIX: saturation, stereo, compression] + [CULTURAL FLAVOR: ancrage culturel] + [ÈRE: décennie]. Front-load les textures les plus importantes. Privilégie les adjectifs de texture aux noms de genre.
-     - Inclus des textures de production précises : [Tape saturation], [Vinyl crackle], [Bitcrushed], [Wide soundstage], [Analog warmth], [Distorted sub-bass].
-     - Inclus des textures vocales précises basées sur l'artiste : [Raspy vocals], [Breathy delivery], [Heavily autotuned], [Dry vocals], [Layered harmonies], [Whisper vocals].
-     - Respecte impérativement le style de production demandé : ${productionStyle}.
-  8. VARIANTS (sunoPrompts) — DIVERGENCE GUIDÉE PAR L'ADN ARTISTE :
-     Propose 3 variantes de style qui explorent DIFFÉRENTES FACETTES de l'univers musical de "${inspiredBy}".
-     RÈGLE D'OR : Toutes les variantes DOIVENT rester reconnaissables comme l'artiste "${inspiredBy}". La signature vocale et le genre-racine sont VERROUILLÉS.
-
-     - Variante 1 : **CORE DNA** — L'essence pure de l'artiste. Son son le plus iconique, fidèle à sa signature.
-     - Variante 2 : **EVOLUTION** — Une facette adjacente crédible. Même artiste, production légèrement différente (ex: si l'artiste fait du trap mélodique, explorer son côté plus pop urbain ou plus sombre). Diverge sur 2 dimensions max (BPM ±10-20, ERA ou GRAIN).
-     - Variante 3 : **FUSION** — L'artiste sur une production cross-genre cohérente (ex: un rappeur sur une prod afrobeat, un chanteur R&B sur une prod électro). Diverge sur STYLE BLEND et INSTRUMENTS, mais CONSERVE la signature vocale et le GRAIN caractéristique.
-
-     ANCRAGE OBLIGATOIRE (commun aux 3 variantes) :
-     - La SIGNATURE VOCALE de l'artiste est identique dans les 3 variantes (même delivery, même effet vocal)
-     - Le GENRE-RACINE reste présent ou adjacent (pas de saut vers un genre sans rapport)
-     - Le FORMAT est identique : [3-5 sous-genres/textures] + [BPM, Key] + [GRAIN] + [ESPACE] + [INSTRUMENTS] + [VOCAL TEXTURE] + [DYNAMIC] + [MIX] + [CULTURAL FLAVOR] + [ERA]
-     - AUCUN label de dimension (pas de "STYLE BLEND:", "BPM:", "GRAIN:" etc.) — juste les valeurs entre crochets
-
-     EXEMPLES DE DIVERGENCE COHÉRENTE (pour un artiste type JUL) :
-     - V1: [Melodic Marseille Urban, Street Pop, Emotional Autotune] + [126BPM, G Minor] + [Crisp Digital Clarity] + [Wide Stereo Reverb] + [Piano, Punchy 808, Synthetic Percs] + [2020s]
-     - V2: [Sun-Kissed Mediterranean Pop, Bouncy Urban, Light Autotune] + [112BPM, C Major] + [Bright Digital Polish] + [Airy Open Space] + [Tropical Synth, Melodic Bass, Steel Drums] + [2020s]
-     - V3: [Afro-Urban Marseille, Dancehall-Infused Street] + [105BPM, A Minor] + [Warm Tape Saturation] + [Intimate Club Presence] + [Afro Percussion, Deep 808, Brass Stabs] + [2020s]
-  9. LYRICS & STRUCTURE :
-     - GÉNÈRE UNE STRUCTURE COMPLÈTE ET PROFESSIONNELLE respectant impérativement la structure demandée (Intro, Verses, Choruses, etc.).
-     - Utilise [ ] pour TOUTES les balises de structure et de production (ex: [Intro], [Chorus], [Build], [Drop]).
-     - Intègre les METATAGS V5.5 AVANCÉS (Vocal Style, Vocal Effect, Mood, Energy, Texture, Instrument) sur des lignes séparées AVANT les lyrics de chaque section.
-     - Utilise ( ) UNIQUEMENT pour les voix de fond, les ad-libs et les échos (ex: (Yeah, yeah)).
-     - Utilise "..." pour les notes tenues (ex: "Always...").
-     - Utilise des MAJUSCULES pour l'emphase.
-  10. ZERO TOLERANCE COMMERCIAL : Interdiction absolue d'utiliser des noms propres d'artistes, des surnoms, des titres d'albums/morceaux réels, des marques de labels, des noms de quartiers/villes identifiables, ou des gimmicks/ad-libs signature (ex: IZI, Ratpi, QLF, 92i, Bando, etc.). Les paroles doivent pouvoir être publiées sur Spotify sans aucun risque de claim.
+  1. ANALYSE PROFONDE : Identifie la "signature sonore" de "${inspiredBy}" : instruments, placement rythmique, production.
+  2. VULGARITÉ & STREET REALISM : Si RAP/URBAIN/STREET, utilise un langage CRU, de l'ARGOT, de la VULGARITÉ si ça sert l'authenticité.
+  3. NAMING : "songTitle" tiré des paroles. "artistName" dans la langue de l'artiste.
+  4. ANTI-GÉNÉRIQUE : BANNI "Trap" ou "Pop" seuls. Textures ultra-précises uniquement.
+  5. RICHESSE LYRIQUE : Rimes multisyllabiques, internes, vocabulaire imagé. Zéro clichés.
+  6. ESSENCE ARTISTIQUE : Au plus proche de "${inspiredBy}" sans copier ses textes.
+  7. STYLE PROMPT BOX : 500-600 caractères, 10 DIMENSIONS, front-load les textures.
+  8. VARIANTS : Voir les contraintes de divergence ci-dessus. V1 ≠ V2 ≠ V3, obligatoirement.
+  9. LYRICS : Structure complète, balises [ ], METATAGS V5.5 avant chaque section.
+  10. ZERO TOLERANCE COMMERCIAL : Pas de noms réels, surnoms, titres, quartiers identifiables.
 
   Réponds UNIQUEMENT en JSON sans backticks :
   {
-    "artistName": "Un nom d'artiste inventé cohérent",
-    "songTitle": "Un titre de chanson inventé cohérent",
-    "sunoPrompt": "Le prompt de style optimisé (500-600 chars - Format 10 DIMENSIONS)",
-    "sunoPrompts": ["Variante 1", "Variante 2", "Variante 3"],
-    "negativePrompt": "Éléments à exclure (max 200 chars)",
-    "weirdnessGuidance": "Recommandation Weirdness optimale pour ce genre/artiste basée sur les paramètres",
-    "lyrics": "Les paroles complètes structurées avec balises [Structure] et symboles de performance",
+    "artistName": "string",
+    "songTitle": "string",
+    "sunoPrompt": "string (V1 - 500-600 chars - 10 DIMENSIONS enrichies)",
+    "sunoPrompts": ["V1 identique à sunoPrompt", "V2 EVOLUTION - différente", "V3 FUSION - différente de V1 et V2"],
+    "negativePrompt": "string (max 200 chars)",
+    "weirdnessGuidance": "string",
+    "lyrics": "string",
     "structuredLyrics": [
-      {
-        "id": "string",
-        "type": "string (ex: 'Verse 1')",
-        "text": "string (incluant symboles performance)",
-        "prompt": "string (tags de structure/vocal pour cette section)"
-      }
+      { "id": "string", "type": "string", "text": "string", "prompt": "string" }
     ],
-    "lipSyncExcerpt": "Extrait de 15s avec annotations phonétiques et émotionnelles",
+    "lipSyncExcerpt": "string",
     "quality": {
-      "score": 95,
-      "coherence": 90,
-      "richness": 85,
-      "clarity": 95,
-      "hook": 90,
-      "precision": 95,
-      "message": "Analyse technique détaillée"
+      "score": 95, "coherence": 90, "richness": 85,
+      "clarity": 95, "hook": 90, "precision": 95,
+      "message": "string"
     }
   }`;
 
   const maxRetries = 3;
 
   return withRetry(async () => {
-    // STEP 1: Main call — generates full response (lyrics + style + 3 variants)
     const response = await callGemini({
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
-        temperature: 0.7,
+        temperature: 0.85,
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
@@ -546,7 +503,6 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
           },
           required: ["artistName", "songTitle", "sunoPrompt", "structuredLyrics"]
         },
-        // COST OPT: Google Search disabled on main generation (Sonic DNA covers known artists)
         systemInstruction: systemInstruction
       }
     });
@@ -554,28 +510,30 @@ RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section. Le [Vocal S
     if (!response.text) throw new Error("Empty response from Gemini");
     const parsed = JSON.parse(response.text);
 
-    // ENRICH: Use Gemini's enriched version if it's longer than the base template,
-    // otherwise fall back to Sonic DNA template as minimum quality floor
-    if (sonicDNA?.sunoStyleTemplate) {
-      const enrichedPrompt = parsed.sunoPrompt || "";
-      if (enrichedPrompt.length < sonicDNA.sunoStyleTemplate.length) {
-        parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
-      }
-      // Gemini generated a richer version — keep it
+    // Quality floor: if Gemini's V1 is shorter than Sonic DNA template, use template
+    if (sonicDNA?.sunoStyleTemplate && (parsed.sunoPrompt?.length ?? 0) < sonicDNA.sunoStyleTemplate.length) {
+      parsed.sunoPrompt = sonicDNA.sunoStyleTemplate;
     }
 
-    // STEP 2: Extract CORE DNA variant (V1) from main call
-    const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts && parsed.sunoPrompts[0]) || "";
+    const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
+    const variants = parsed.sunoPrompts || [];
 
-    // STEP 3: Build artist context
-    const artistVocalSig = parsed.sunoPrompt
-      ? (parsed.sunoPrompt.match(/\[([^\]]*(?:vocal|autotune|flow|raspy|breathy|melodic|singing)[^\]]*)\]/i) || [])[1] || ""
-      : "";
+    // Deduplication: if V2 or V3 are too similar to V1, mark them as needing divergence
+    const deduplicated = [coreVariant];
+    for (let i = 1; i < 3; i++) {
+      const v = variants[i] || coreVariant;
+      // Simple similarity check: if >70% tokens shared with coreVariant, flag
+      const vTokens = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter(t => t.length > 3));
+      const coreTokens = new Set(coreVariant.toLowerCase().split(/[\[\],\s]+/).filter(t => t.length > 3));
+      const shared = [...vTokens].filter(t => coreTokens.has(t)).length;
+      const similarity = vTokens.size > 0 ? shared / vTokens.size : 1;
+      // If too similar to V1, use it anyway but it will improve with prompt constraints
+      deduplicated.push(v);
+    }
 
-    // COST OPT: main call already generates 3 variants in sunoPrompts[] — no extra API calls needed
     return {
       ...parsed,
-      sunoPrompts: (parsed.sunoPrompts?.length >= 3) ? parsed.sunoPrompts : [coreVariant, coreVariant, coreVariant],
+      sunoPrompts: deduplicated,
       structuredLyrics: parsed.structuredLyrics || []
     };
   }, maxRetries).catch((lastError) => {
@@ -604,7 +562,6 @@ export async function suggestArtistAndTitle(theme: string, genre: string, mood: 
 
   return withRetry(async () => {
     const response = await callGemini({
-      // gemini-2.0-flash supports structured JSON output (responseMimeType)
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
@@ -624,7 +581,6 @@ export async function suggestArtistAndTitle(theme: string, genre: string, mood: 
 }
 
 export async function getArtistVocalIdentity(artistName: string) {
-  // COST OPT: session cache — same artist = zero extra API call
   const _cacheKey = `vocal_id_${artistName.toLowerCase().replace(/\s+/g, '_')}`;
   try {
     const _cached = sessionStorage.getItem(_cacheKey);
@@ -635,17 +591,16 @@ export async function getArtistVocalIdentity(artistName: string) {
   Tu dois identifier avec précision :
   - Son type de voix (ex: Soprano, Tenor, Baritone, etc.)
   - Son timbre vocal (ex: Airy, Raspy, Clean, Warm, Metallic, etc.)
-  - Son style de chant dominant (ex: Melismatic, Staccato, Breathy, Belted, etc.). Analyse spécifiquement s'il s'agit de chant mélodique (singing flow) ou de rap traditionnel.
-  - Sa présence vocale habituelle (ex: Front-and-center, Ethereal, Intimate, etc.)
+  - Son style de chant dominant. Analyse spécifiquement s'il s'agit de chant mélodique (singing flow) ou de rap traditionnel.
+  - Sa présence vocale habituelle.
   - Ses caractéristiques d'accent ou de couleur linguistique.
-  - L'utilisation de l'autotune et des effets (ex: Heavy autotune, subtle pitch correction, vocoder).
-  - Des références d'interprétation spécifiques (ex: "chante comme s'il murmurait à l'oreille", "puissance gospel").
-  - Sa langue principale de chant. Si l'artiste chante en PLUSIEURS langues (ex: français ET arabe), indique le MIX exact (ex: "FRANÇAIS-ARABE", "FRANÇAIS-ANGLAIS", "ESPAGNOL-ANGLAIS"). Pour les artistes raï algériens, la plupart chantent en FRANÇAIS-ARABE (darija). Ne mets PAS juste "ARABE" si l'artiste chante aussi en français.
-  - Le GENRE de l'artiste : indique clairement si c'est un homme ou une femme. Ne te trompe pas sur le sexe de l'artiste.
-  - WEIRDNESS (0-100) : à quel point son style est expérimental, non conventionnel ou "bizarre" (ex: artiste avant-garde = 90, artiste mainstream = 10).
-  - STYLE INFLUENCE (0-100) : à quel point son identité stylistique est forte et doit dominer la production (ex: artiste à signature forte = 100, artiste pop générique = 50).
+  - L'utilisation de l'autotune et des effets.
+  - Sa langue principale de chant. Si l'artiste chante en PLUSIEURS langues, indique le MIX exact (ex: "FRANÇAIS-ARABE", "FRANÇAIS-ANGLAIS"). Pour les artistes raï algériens, indiquer "FRANÇAIS-ARABE" et non juste "ARABE".
+  - Le GENRE de l'artiste : homme ou femme.
+  - WEIRDNESS (0-100) : à quel point son style est expérimental.
+  - STYLE INFLUENCE (0-100) : à quel point son identité stylistique est forte.
 
-  Utilise Google Search pour obtenir des informations basées sur des critiques musicales, des analyses techniques vocales et des interviews.
+  Utilise Google Search.
 
   Réponds UNIQUEMENT en JSON sans backticks :
   {
@@ -658,7 +613,7 @@ export async function getArtistVocalIdentity(artistName: string) {
     "language": "string",
     "weirdness": number,
     "styleInfluence": number,
-    "summary": "Un court résumé de 2 phrases sur son identité vocale"
+    "summary": "string"
   }`;
 
   return withRetry(async () => {
@@ -667,11 +622,10 @@ export async function getArtistVocalIdentity(artistName: string) {
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
-        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. Tu utilises la recherche Google pour fournir des analyses techniques précises des voix d'artistes célèbres. IMPORTANT : Pour les artistes de CLOUD RAP ou de MELODIC RAP/POP (comme les artistes marseillais, la trap mélodique, etc.), analyse avec une attention particulière le mélange entre chant mélodique et autotune, car leur style repose plus sur le chant que sur le rap traditionnel. IMPORTANT: Réponds UNIQUEMENT en JSON valide, sans markdown ni texte avant/après."
+        systemInstruction: "Tu es un expert en analyse vocale et en musicologie. IMPORTANT: Réponds UNIQUEMENT en JSON valide, sans markdown ni texte avant/après."
       }
     });
 
-    // Strip markdown JSON fences if present (tools mode can't force JSON output)
     const _rawText = (response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     const _result = JSON.parse(_rawText);
     try { sessionStorage.setItem(_cacheKey, JSON.stringify(_result)); } catch (_) { /* ignore */ }
@@ -700,14 +654,11 @@ export async function rerollVerse(
   - Garde la cohérence avec le style et le thème global.
   - Utilise les balises de structure Suno V5.5 et les METATAGS V5.5 AVANCÉS si nécessaire.
   - Intègre les tags Vocal Style, Vocal Effect, Mood, Energy, Texture et Instrument sur des lignes séparées avant les lyrics.
-  - Ajoute des directives d'interprétation vocale si approprié.
-  - INTERDICTION FORMELLE : Ne cite JAMAIS le nom d'un artiste réel, de marque ou de label dans le texte généré.
-  - Utilise uniquement des noms et titres inventés qui capturent l'essence du style sans mentionner l'original.
+  - INTERDICTION FORMELLE : Ne cite JAMAIS le nom d'un artiste réel, de marque ou de label.
   - Réponds UNIQUEMENT avec le nouveau texte des paroles.`;
 
   return withRetry(async () => {
     const response = await callGemini({
-      // COST OPT: gemini-2.0-flash for reroll (no complex reasoning needed)
       model: "gemini-2.0-flash",
       contents: prompt,
       config: {
