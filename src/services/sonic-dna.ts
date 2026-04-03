@@ -1,21 +1,35 @@
 /**
- * Sonic DNA Map v2 - Enhanced artist sound profiles for Suno AI music generation
- * Features ultra-specific textures, vocal characteristics, flow patterns, production fingerprints, and cultural anchors
- * 38 international artists with detailed sonic DNA mapping
+ * Sonic DNA Map v3 - Music Generation Control Engine for Suno AI
+ * Shifted from artistic description → behavioral generation control.
+ * Each profile answers: "Does this help Suno generate BEHAVIOR, not just aesthetics?"
+ * 60+ international artists with full engine mapping.
  */
 
 export interface SonicDNA {
   artist: string;
-  sunoStyleTemplate: string;
+  // ── STYLE CORE ──
+  sunoStyleTemplate: string;       // One clear sentence defining the sonic identity + Suno tags
   sunoBpmRange: string;
   sunoKey: string;
   sunoVocalTags: string[];
   sunoWeirdness: number;
   sunoStyleInfluence: number;
   sunoExcludeStyles: string;
-  vocalDNA: string;
-  flowPattern: string;
-  productionFingerprint: string;
+  // ── VOCAL ENGINE ──
+  vocalDNA: string;                // Voice type, tone, processing, articulation, autotune, intensity, mix position
+  // ── FLOW ENGINE ──
+  flowPattern: string;             // Rhythm, pacing, density, pauses, repetition, delivery style
+  // ── PRODUCTION ENGINE ──
+  productionFingerprint: string;   // Core instrumentation, textures, drum patterns, density, sonic space
+  // ── STRUCTURE DNA (CRITICAL) ──
+  structureDNA?: string;           // Verse length, hook presence, repetition logic, beat switch, arrangement style
+  // ── HOOK TYPE (CRITICAL) ──
+  hookType?: string;               // no hook | chant hook | melodic autotune hook | hypnotic loop | anthem chorus
+  // ── VOCAL PLACEMENT (CRITICAL) ──
+  vocalPlacement?: string;         // ahead of beat | laid-back | floating in mix | percussive attack | close-mic intimate
+  // ── ENERGY CURVE (CRITICAL) ──
+  energyCurve?: string;            // flat hypnotic | slow burn | wave dynamics | constant aggression | explosive peaks
+  // ── CONTEXT ──
   culturalAnchors: string;
   antiPatterns: string;
   sunoMetatags?: {
@@ -30,6 +44,7 @@ export interface SonicDNA {
 
 const SONIC_DNA_MAP: Record<string, SonicDNA> = {
   // French Artists
+
   'JUL': {
     artist: 'JUL',
     sunoStyleTemplate: 'Melodic Marseille street pop, emotional autotune, sun-kissed Mediterranean vibes, uplifting piano hooks, bouncy 808s, bright synths',
@@ -43,6 +58,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Ultra-melodic, rapid syllabic flow with constant rising inflections. Bouncy, optimistic phrasing.',
     productionFingerprint: 'Signature: bright piano lines (major key bursts), punchy rebound 808s, fast hi-hats, digital synths, Mediterranean warmth',
     culturalAnchors: 'Marseille street culture, quartier loyalty, sun and sea, uplifting street love, popular victory',
+    structureDNA: 'Standard verse-hook-verse. Short verses (8-12 bars). Strong melodic hook. Bright bouncy arrangement.',
+    hookType: 'Melodic sung hook with uplifting inflection',
+    vocalPlacement: 'Floating in mix, laid-back with bright presence',
+    energyCurve: 'Constant high energy — maintains bright optimism throughout',
     antiPatterns: 'No dark orchestral, no aggression, no slow introspection, no minimal beats, no serious low-energy',
     sunoMetatags: {
       vocalStyle: 'Melodic Singing',
@@ -66,8 +85,12 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: 'Medium voice, slightly raspy, masterful autotune on choruses, technical rap verses. Duality of rap speed + melodic singing.',
     flowPattern: 'Technical rap passages alternate with melodic singing sections. Capable of both fast-paced delivery and emotional holds.',
     productionFingerprint: 'Signature: deep 808s, dark moody piano, acoustic melancholy guitar, complex hi-hat patterns (rolls, triplets), atmospheric pads',
+    structureDNA: 'Standard verse-hook-verse. Dense verses (16+ bars). Strong melodic hook sections. Clear contrast between rap verses and sung choruses.',
+    hookType: 'Melodic autotune hook with emotional resonance',
+    vocalPlacement: 'Floating in mix, laid-back delivery with emotional presence',
+    energyCurve: 'Wave dynamics — builds from verse into powerful melodic hooks, peaks on chorus',
     culturalAnchors: 'Street ascension narrative, 91 district, melancholy at the top, solitude, family bonds, monetary escape',
-    antiPatterns: 'No cheerful themes, no minimal beats, no bright synths, no spoken word, no jazz chords',
+    antiPatterns: 'Avoid cheerful themes, minimal beats, bright synths, spoken word, jazz chords',
     sunoMetatags: {
       vocalStyle: 'Melodic Rap',
       vocalEffect: 'Autotune',
@@ -91,6 +114,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Precise articulation with rhythmic pauses. Dark, slow-burn pacing. Capable of whispered delivery to intense rap.',
     productionFingerprint: 'Signature: saturated deep 808s, dark atmospheric synths, industrial subtle textures, minimal but percussive drums, cinematic space',
     culturalAnchors: 'Sexual rawness, dark introspection, toxicity and duality, intellectual provocation, nocturnal atmosphere, Belgian-Congolese fusion',
+    structureDNA: 'Verse-hook-verse with atmospheric spacing. Medium verses (12-14 bars). Minimalist hook sections.',
+    hookType: 'Sensual sung hook or minimal chant',
+    vocalPlacement: 'Floating in reverb, laid-back intimate',
+    energyCurve: 'Flat hypnotic — constant nocturnal mood',
     antiPatterns: 'No happy themes, no simple radio pop, no bright major key, no standard trap sounds',
     sunoMetatags: {
       vocalStyle: 'Dark Singing',
@@ -115,7 +142,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Staccato melodic drill flow with heavy phrase-end doubling. Syncopated delivery with dramatic pauses. Authoritative nonchalant phrasing. Fast percussive bursts alternating with spaced menacing bars.',
     productionFingerprint: 'Signature: moody minor-key piano loops, haunting atmospheric textures, sliding distorted sub-bass 808, crisp metallic triplet hi-hats, hard-hitting snare, short echo delays, wide soundstage, analog saturation, hi-end studio mix, close-mic intimacy, nocturnal urban street vibe',
     culturalAnchors: 'Seine-Saint-Denis 93 street territory, nocturnal urban vibe, violence, competition, dirty money, survival, intimidation, street credibility',
-    antiPatterns: 'NEVER melodic singing, NEVER pop hooks, NEVER uplifting messages, NEVER acoustic instruments, NEVER bright moments, NEVER lo-fi or chill',
+    structureDNA: 'Standard verse-hook-verse. Dense verses (16+ bars). Short melodic hook sections.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix, laid-back delivery',
+    energyCurve: 'Wave dynamics — builds from verse to hook',
+    antiPatterns: 'Avoid melodic singing, pop hooks, uplifting messages, acoustic instruments, bright moments, lo-fi or chill',
     sunoMetatags: {
       vocalStyle: 'Aggressive Drill Rap',
       vocalEffect: 'Short Echo Delays, Phrase-End Doubling, Analog Saturation',
@@ -128,49 +159,57 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
 
   'FREEZE CORLEONE': {
     artist: 'FREEZE CORLEONE',
-    sunoStyleTemplate: 'Dark boom bap, horrorcore FR, lyrical trap, obscure samples, heavy drums, deep bass, cinematic gloom, occult atmosphere',
-    sunoBpmRange: '85-100',
-    sunoKey: 'Minor',
-    sunoVocalTags: ['Technical Rap', 'Dark Delivery', 'Dense Flow', 'Cold Tone'],
-    sunoWeirdness: 75,
+    sunoStyleTemplate: 'Dark French Drill-Trap, Cold Monotone Rap, Repetitive Dark Loop Production, Minimalist Menacing Atmosphere, 130-145 BPM, Key: D Minor, Sliding 808 Sub Bass, Dark Repetitive Piano Loop, Crisp Drill Hi-Hats, Cold Reverb Space, Monotone Male Voice No Autotune, Occult Dark Aura, 2020s',
+    sunoBpmRange: '130-145',
+    sunoKey: 'D Minor',
+    sunoVocalTags: ['Monotone Cold Delivery', 'Dense Technical Flow', 'No Autotune', 'Detached Menacing'],
+    sunoWeirdness: 70,
     sunoStyleInfluence: 90,
-    sunoExcludeStyles: 'melodic, singing, bright, pop, uplifting, emotional',
-    vocalDNA: 'Deep grave monotone voice, technical rapid flow, zero autotune, cold detached delivery. Surgical precision, no emotion display.',
-    flowPattern: 'Chirurgical dense technical flow, complex syllable placements, rapid articulation without melodic inflection. Martial verbal precision.',
-    productionFingerprint: 'Signature: dark obscure samples (jazz, soul, classical corrupted), heavy boom bap drums, deep bass, cinematic lugubre ambiance',
-    culturalAnchors: 'Conspiracy theories, occult references, lyrical supremacy, intellectual provocation, samples from unusual sources, verbal combat',
-    antiPatterns: 'No emotion, no singing hooks, no uplifting moments, no minimal beats, no bright keys',
+    sunoExcludeStyles: 'melodic singing, bright pop, uplifting, R&B, acoustic, folk',
+    vocalDNA: 'Monotone cold grave voice. Zero autotune. Flat detached delivery — emotion is suppressed, not absent. Dense rapid articulation with surgical precision. Voice sits dry in the mix, close-mic.',
+    flowPattern: 'Dense technical flow with rapid syllable stacking. Constant tempo — rarely slows down. Short percussive phrases chained together. No pauses for hooks.',
+    productionFingerprint: 'Signature: dark repetitive loops (piano/synth), sliding 808 sub bass, drill hi-hats, cold reverb space, minimalist menacing atmosphere, occasional dark sample drops',
+    structureDNA: 'Long verses with minimal breaks. Hooks are short chanted phrases or absent entirely. No conventional chorus — repetitive loop carries the track. Static arrangement with subtle textural shifts.',
+    hookType: 'Chant hook or no hook — short repeated phrase, never melodic. Hypnotic loop repetition.',
+    vocalPlacement: 'Dry close-mic, ahead of beat, percussive attack delivery',
+    energyCurve: 'Flat hypnotic — constant cold intensity from start to finish',
+    culturalAnchors: 'Occult references, conspiracy theories, lyrical supremacy, dark coded language, intellectual provocation',
+    antiPatterns: 'No melodic singing, no emotional display, no bright or uplifting production, no conventional pop chorus',
     sunoMetatags: {
-      vocalStyle: 'Rap',
-      vocalEffect: 'Reverb',
-      mood: 'Dark, Cold',
-      energy: 'Medium',
-      texture: 'Vintage Samples',
-      instrument: 'Boom Bap Drums, Bass'
+      vocalStyle: 'Cold Monotone Rap',
+      vocalEffect: 'Dry, Minimal Reverb',
+      mood: 'Dark, Cold, Menacing',
+      energy: 'Medium-High',
+      texture: 'Dark Minimalist Loop',
+      instrument: 'Sliding 808, Dark Piano Loop, Drill Hi-Hats'
     }
   },
 
   'NEKFEU': {
     artist: 'NEKFEU',
-    sunoStyleTemplate: 'Lyrical pop-rap, poetic boom bap, storytelling flow, warm jazz samples, organic drums, acoustic guitar, introspective vibes',
-    sunoBpmRange: '90-105',
-    sunoKey: 'Major',
-    sunoVocalTags: ['Clear Articulation', 'Technical Rap', 'Poetic Delivery', 'Capable of Singing'],
+    sunoStyleTemplate: 'Versatile French Lyrical Rap, Mixed Production Palette, Clear Articulate Male Voice, Poetic Introspective Atmosphere, 85-115 BPM, Key: D Minor, Diverse Beats (Trap Drums to Boom Bap to Pop-Rap), Piano Melodies, Warm Bass, Subtle Synth Textures, Organic and Electronic Blended, Natural Voice No Heavy Autotune, 2020s',
+    sunoBpmRange: '85-115',
+    sunoKey: 'D Minor',
+    sunoVocalTags: ['Clear Articulate Voice', 'Technical Lyrical Rap', 'Warm Singing on Hooks', 'No Heavy Autotune'],
     sunoWeirdness: 40,
     sunoStyleInfluence: 75,
-    sunoExcludeStyles: 'aggressive, dark, minimal, harsh, high-energy trap',
-    vocalDNA: 'Clear articulate voice, zero autotune, technical flow with accelerations. Capable of singing on choruses with warm tone.',
-    flowPattern: 'Technical rap with poetic phrasing. Conversational storytelling flow. Capable of slowing for emotional moments.',
-    productionFingerprint: 'Signature: warm jazz samples (soul, bossa), organic drums, warm rounded bass, acoustic guitar melodies, intimate production',
-    culturalAnchors: 'Travel, love, introspection, literature, gentle melancholy, Parisian beauty, creativity, poetic imagery',
-    antiPatterns: 'No aggressive shouting, no dark themes, no minimal beats, no street clichés, no commercial pop',
+    sunoExcludeStyles: 'aggressive drill, hardcore, metal, EDM, pure R&B singing',
+    vocalDNA: 'Clear articulate male voice with natural warmth. Zero heavy autotune — natural voice. Technical rapid flow on verses. Can sing warmly on hooks with real melodic ability. Voice sits clean in the mix.',
+    flowPattern: 'Technical lyrical rap with dense internal rhymes. Conversational storytelling cadence. Accelerations on verse peaks. Slows for emotional moments. Versatile — adapts to beat.',
+    productionFingerprint: 'Signature: mixed palette — can be boom bap samples, trap drums, pop-rap piano, or electronic textures. Piano melodies, warm bass, subtle synths. Production varies by track but always polished.',
+    structureDNA: 'Classic verse-hook-verse. Clear contrast between dense lyrical verses and more open melodic hooks. Bridges and outros common. Evolving arrangement — each section adds texture.',
+    hookType: 'Melodic sung hook (natural voice, not autotune) or catchy rap hook with rhythmic repetition',
+    vocalPlacement: 'Clean in mix, slightly ahead of beat, clear articulation priority',
+    energyCurve: 'Slow burn — starts calm, builds through verses, peaks on final verse or bridge',
+    culturalAnchors: 'Travel, love, introspection, literature, gentle melancholy, Parisian beauty, creative exploration',
+    antiPatterns: 'No aggressive shouting throughout, no street clichés, no heavy autotune',
     sunoMetatags: {
-      vocalStyle: 'Rap',
-      vocalEffect: 'Minimal',
-      mood: 'Introspective, Poetic',
+      vocalStyle: 'Lyrical Rap with Sung Hooks',
+      vocalEffect: 'Natural, Minimal Processing',
+      mood: 'Introspective, Poetic, Warm',
       energy: 'Medium',
-      texture: 'Warm Analog',
-      instrument: 'Guitar, Jazz Drums'
+      texture: 'Polished Mixed',
+      instrument: 'Piano, Diverse Drums, Bass, Synth Textures'
     }
   },
 
@@ -187,6 +226,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Elastic unpredictable phrasing, glitch-like rhythmic breaks, melodic bursts treated with effects, cinematic build-ups.',
     productionFingerprint: 'Signature: futuristic synths, deep 808s, electronic atmospheric textures, manipulated samples, subtle glitches, immersive space',
     culturalAnchors: 'Technology and emotion duality, digital solitude, dystopian love, futurism, modern anxiety, digital aesthetics',
+    structureDNA: 'Unconventional structure with beat switches. Long atmospheric sections. Experimental arrangement.',
+    hookType: 'Hypnotic loop hook or minimal repetitive phrase',
+    vocalPlacement: 'Floating in effects and reverb, experimental placement',
+    energyCurve: 'Flat hypnotic with textural shifts',
     antiPatterns: 'No acoustic instruments, no traditional rap, no minimal beats, no conventional verse structure',
     sunoMetatags: {
       vocalStyle: 'Melodic Rap',
@@ -208,10 +251,14 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoStyleInfluence: 80,
     sunoExcludeStyles: 'aggressive trap, dark themes, minimal beats',
     vocalDNA: 'Clear unfiltered voice, excellent articulation, conversational rhythm, capable of humor and pathos. Zero autotune, natural delivery.',
-    flowPattern: 'Conversational storytelling with poetic acceleration. Capable of rapid technical passages and slow introspective moments.',
+    flowPattern: 'Conversational storytelling with ironic wit and narrative clarity. Capable of rapid technical passages and slow introspective moments. Emphasis on narrative structure and lyrical precision.',
     productionFingerprint: 'Signature: warm live samples, organic instrumentation, acoustic guitars, live drums, literary atmosphere, accessibility',
+    structureDNA: 'Verse-hook-verse with emphasis on storytelling clarity. Verses build narrative (12-16 bars). Hooks provide reprieve with melodic or rhythmic simplicity. Strong structural narrative arc.',
+    hookType: 'Melodic sung hook or rhythmic rap hook emphasizing clarity over complexity',
+    vocalPlacement: 'Clean forward in mix, ahead of beat, natural intimate articulation',
+    energyCurve: 'Slow burn — starts conversational, builds through narrative development, peaks on final verse or bridge',
     culturalAnchors: 'Social observation, introspection, love, melancholy humor, Parisian life, literary references, human vulnerability',
-    antiPatterns: 'No autotune, no minimal trap, no aggressive shouting, no dark sinister themes',
+    antiPatterns: 'Avoid autotune, minimal trap, aggressive shouting, dark sinister themes',
     sunoMetatags: {
       vocalStyle: 'Rap',
       vocalEffect: 'Minimal',
@@ -235,6 +282,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Choppy precise punchline delivery. Short impactful phrases. Dark melodic hooks on choruses with somber autotune. Verses are pure rap technique.',
     productionFingerprint: 'Signature: dark cinematic orchestrations (dramatic violins, somber choirs), distorted heavy 808s, industrial synth textures, massive production with cinematic scope, punchy trap drums',
     culturalAnchors: 'Solitary dominance, fierce competition, cold luxury, betrayal, heritage, street credibility elevated to cinematic art',
+    structureDNA: 'Long dense verses (18+ bars). Short or minimal hooks. Repetitive production carries track.',
+    hookType: 'Chant hook or no hook — short phrase repetition',
+    vocalPlacement: 'Dry ahead of beat, percussive attack',
+    energyCurve: 'Constant aggression — high intensity throughout',
     antiPatterns: 'No bright pop, no acoustic softness, no happy themes, no lo-fi, never fully melodic — dark hooks only',
     sunoMetatags: {
       vocalStyle: 'Aggressive Rap',
@@ -259,7 +310,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Aggressive choppy flow with percussive impact. Short punchy phrases. Territorial dominance. Dramatic pauses between brutal bars.',
     productionFingerprint: 'Signature: heavy 808 sub bass, trap snare rolls, fast triplet hi-hats, dark minor piano chords, minimal dark synth pads. NO guitar, NO rock, NO metal — pure trap production.',
     culturalAnchors: 'Sevran street warfare, 93 banlieue, physical domination, intimidation, dirty money, survival, territorial aggression',
-    antiPatterns: 'NEVER metal, NEVER rock guitar, NEVER electric guitar, NEVER singing or pop vocals, NEVER bright or happy, NEVER acoustic instruments',
+    structureDNA: 'Dense verse-hook-verse. Long technical verses (18+ bars). Hard hitting hook.',
+    hookType: 'Aggressive chant hook or rhythmic rap hook',
+    vocalPlacement: 'Ahead of beat, percussive aggressive attack',
+    energyCurve: 'Constant aggression — high tension throughout',
+    antiPatterns: 'Avoid metal, rock guitar, electric guitar, singing or pop vocals, bright or happy, acoustic instruments',
     sunoMetatags: {
       vocalStyle: 'Aggressive Rap',
       vocalEffect: 'Dry, Light Reverb',
@@ -270,31 +325,37 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     }
   },
 
+  // Additional International Artists
   'VALD': {
     artist: 'VALD',
-    sunoStyleTemplate: 'Experimental French Rap, Absurdist Dark Humor, Unpredictable Beat Switches, Genre-Fluid Production, 90-140 BPM, Key: Variable, Complex Drums, Dark Synths, Unexpected Samples, Ironic Vocal Delivery, Rapid Technical Flow, Schizophrenic Energy, 2020s',
-    sunoBpmRange: '90-140',
-    sunoKey: 'Minor',
-    sunoVocalTags: ['Technical Rap', 'Ironic Delivery', 'Rapid Flow', 'Unpredictable Tone Changes'],
-    sunoWeirdness: 75,
+    sunoStyleTemplate: 'Technical French Rap, Dark Ironic Trap, Controlled Unpredictability, 100-135 BPM, Key: C Minor, Hard Trap Drums, Dark Synth Textures, Punchy 808, Occasional Beat Switch, Clear Dry Male Voice No Autotune, Fast Technical Delivery, Ironic Dark Energy, 2020s',
+    sunoBpmRange: '100-135',
+    sunoKey: 'C Minor',
+    sunoVocalTags: ['Technical Rap', 'Clear Dry Voice', 'Fast Delivery', 'Ironic Tone Shifts'],
+    sunoWeirdness: 60,
     sunoStyleInfluence: 80,
-    sunoExcludeStyles: 'melodic singing, standard pop, conventional trap, serious conscious rap',
-    vocalDNA: 'Clear articulate voice, zero autotune, extremely fast flow capability. Constant tone shifts: grave/aigu, serious/comedic, whisper/scream. The voice itself is unpredictable.',
-    flowPattern: 'Unpredictable rapid flow that changes rhythm and tone mid-verse. Capable of extreme speed. Comedic timing mixed with technical precision. Each section can shift style radically.',
-    productionFingerprint: 'Signature: genre-fluid beats (trap, boom bap, electro, rock in same song), beat switches, unexpected samples, tempo changes, production that mirrors lyrical absurdity',
-    culturalAnchors: 'Dark absurd humor, ironic social satire, trash provocation, sci-fi references, geek culture, unpredictability as identity, wordplay density',
-    antiPatterns: 'No serious introspective tone throughout, no standard melodic hooks, no conventional single-genre production, no straightforward narratives',
+    sunoExcludeStyles: 'melodic R&B singing, standard pop, acoustic folk, serious conscious rap',
+    vocalDNA: 'Clear articulate male voice, no autotune. Fast technical delivery as default. Tone shifts between dead serious and ironic — but controlled, not chaotic. Can whisper then accelerate. Voice sits dry and forward in mix.',
+    flowPattern: 'Fast technical flow as baseline. Dense multisyllabic rhymes. Occasional mid-verse tempo shifts (not every bar). Ironic comedic timing — pauses for effect before punchlines. Technical precision over chaos.',
+    productionFingerprint: 'Signature: hard trap drums as main axis, dark synth textures, punchy 808 bass, occasional beat switch (not constant), unexpected sample drops, production that supports rather than dominates',
+    structureDNA: 'Standard verse-hook structure but hooks can be ironic spoken phrases or rapid-fire bars instead of melodic. Occasional beat switch between sections. Verses are dense and long.',
+    hookType: 'Ironic chant hook or rapid-fire punchline hook — never melodic autotune. Catchy through repetition and rhythm, not melody.',
+    vocalPlacement: 'Dry forward in mix, percussive attack, ahead of beat on fast sections',
+    energyCurve: 'Wave dynamics — builds through verse, drops for ironic aside, re-accelerates for climax',
+    culturalAnchors: 'Dark ironic humor, social satire, absurdist wordplay, geek culture references, provocation with intelligence',
+    antiPatterns: 'No melodic singing hooks, no standard commercial format, no purely serious tone throughout',
     sunoMetatags: {
-      vocalStyle: 'Rap',
-      vocalEffect: 'Minimal, Occasional Distortion',
-      mood: 'Absurd, Ironic, Dark Humor',
-      energy: 'Variable (Low to Maximum)',
-      texture: 'Genre-Fluid',
-      instrument: 'Variable: Trap Drums, Rock Samples, Electro Synths, Boom Bap'
+      vocalStyle: 'Technical Ironic Rap',
+      vocalEffect: 'Dry, Minimal Processing',
+      mood: 'Ironic, Dark Humor, Unpredictable',
+      energy: 'Medium-High Variable',
+      texture: 'Hard Trap Dark',
+      instrument: 'Trap Drums, 808, Dark Synths, Occasional Samples'
     }
   },
 
-  // Additional International Artists
+  // ====== NEWLY ADDED DNA — Previously profiled but missing Sonic DNA ======
+
   'DRAKE': {
     artist: 'DRAKE',
     sunoStyleTemplate: 'Melodic R&B-Trap, Emotional Pop-Rap, Smooth Singing-Rap Hybrid, Nocturnal Intimate Vibes, 85-145 BPM, Key: D Minor, Warm Deep 808, R&B Piano Chords, Atmospheric Pads, Clean Trap Drums, Smooth Vocal Autotune, Iconic Hook Craft, Contemporary Urban Polish, 2020s',
@@ -307,8 +368,12 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     vocalDNA: 'Smooth voice transitioning fluidly between rap and singing with zero rupture. Subtle controlled autotune. Hooks are ultra-memorable, designed for mass singalong. Emotional vulnerability in tone.',
     flowPattern: 'Conversational rap verses transitioning seamlessly to sung choruses. Can shift from slow R&B (85 BPM) to uptempo trap (140+ BPM). Hook-first songwriting.',
     productionFingerprint: 'Signature: warm deep 808s, R&B piano/guitar, atmospheric pads, clean trap drums, nocturnal intimate production, soulful samples, wide stereo polish',
+    structureDNA: 'Highly adaptable structure. MULTIPLE MODES: introspective rap verses with minimal hooks, melodic R&B verses with strong sung choruses, or global crossover with pop-friendly structures. Can range from verse-heavy (16+ bars) to hook-dominant, short verse sections.',
+    hookType: 'Ultra-memorable sung hook (mass singalong potential) or conversational rap-sung hybrid hook',
+    vocalPlacement: 'Floating in mix, laid-back vocal delivery with intimate close-mic warmth',
+    energyCurve: 'Variable — adapts to mode. Can be slow burn for introspective tracks, wave dynamics for melodic R&B, constant high energy for club records.',
     culturalAnchors: 'Complex relationships, masculine vulnerability, success and loneliness, nostalgia, nocturnal Toronto vibes, contemporary urban luxury',
-    antiPatterns: 'No harsh aggressive-only delivery, never without a melodic hook, never raw unpolished production',
+    antiPatterns: 'Avoid harsh aggressive-only delivery, minimize tracks without melodic hook, avoid raw unpolished production',
     sunoMetatags: {
       vocalStyle: 'Melodic Rap',
       vocalEffect: 'Subtle Autotune, Reverb',
@@ -318,8 +383,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       instrument: '808 Bass, Piano, Pads, Guitar'
     }
   },
-
-  // ====== NEWLY ADDED DNA — Previously profiled but missing Sonic DNA ======
 
   'PNL': {
     artist: 'PNL',
@@ -334,7 +397,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Slow spatial phrasing, words floating in massive reverb. Melodic contours over minimal beats. No rushing — everything floats.',
     productionFingerprint: 'Signature: atmospheric synth pads, deep slow 808, ethereal piano, massive reverb, minimalist but immersive production, spatial width',
     culturalAnchors: 'Solitude, family bonds, bitter success, urban contemplation, cité as universe, deep melancholy, nostalgia',
-    antiPatterns: 'NEVER fast or aggressive, NEVER pure rap/technical flow, NEVER bright or cheerful, NEVER dense production',
+    structureDNA: 'Verse-hook-verse with hypnotic repetition. Medium verses (14-16 bars). Repeated hook loops.',
+    hookType: 'Hypnotic melodic loop hook',
+    vocalPlacement: 'Floating in mix, laid-back in atmospheric reverb',
+    energyCurve: 'Flat hypnotic — consistent dreamy intensity',
+    antiPatterns: 'Avoid fast or aggressive, pure rap/technical flow, bright or cheerful, dense production',
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Heavy Autotune, Massive Reverb', mood: 'Melancholic, Ethereal', energy: 'Low', texture: 'Atmospheric Cloud', instrument: 'Synth Pads, Slow 808, Piano' }
   },
 
@@ -347,11 +414,15 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoWeirdness: 40,
     sunoStyleInfluence: 85,
     sunoExcludeStyles: 'bright pop, cheerful, minimal, acoustic folk, aggressive drill, rock, punk, edm, country',
-    vocalDNA: 'Heavy metallic autotune with honeyed nasal crooner quality. Laid-back nonchalant delivery, never rushed. Deep masculine voice that sings melodically through thick autotune — signature Brussels Trap-R&B vocal texture. Close-mic intimacy.',
-    flowPattern: 'Laid-back nonchalant melodic flow with rap accelerations. Dark sung passages over atmospheric pads. Never aggressive — always smooth, sophisticated, nocturnal.',
+    vocalDNA: 'Heavy metallic autotune with honeyed nasal crooner quality. Laid-back nonchalant delivery, never rushed. Deep masculine voice with rap dominance that shifts to sung passages — signature Brussels Trap-R&B vocal texture. Close-mic intimacy.',
+    flowPattern: 'Laid-back nonchalant rap-dominant flow with melodic hook sections. Dark sung passages over atmospheric pads. Never aggressive — always smooth, sophisticated, nocturnal.',
     productionFingerprint: 'Signature: filtered Rhodes chords, nocturnal atmospheric pads, heavy sliding 808 sub-bass, crisp digital trap drums, crisp hi-hats, lush reverb and delay, wide soundstage, expensive hi-end production, intimate close-mic mixing',
+    structureDNA: 'Standard verse-hook-verse with rap-dominant structure. Verses (14-16 bars) showcase rap delivery. Hooks provide melodic relief but brief. Dark atmospheric arrangement throughout.',
+    hookType: 'Short melodic autotune hook or sung phrase hook',
+    vocalPlacement: 'Floating in reverb, laid-back delivery, intimate close-mic',
+    energyCurve: 'Flat hypnotic — constant sophisticated coolness from start to finish',
     culturalAnchors: 'Brussels street melancholy, nocturnal life, expensive sophisticated atmosphere, bitter success, loyalty, betrayal, night-drive luxury sadness',
-    antiPatterns: 'NEVER bright or cheerful, NEVER aggressive or drill-like, NEVER acoustic or minimal, NEVER lo-fi — always hi-end polished production',
+    antiPatterns: 'Avoid bright or cheerful, aggressive or drill-like, acoustic or minimal, lo-fi production',
     sunoMetatags: { vocalStyle: 'Melodic Trap-R&B Crooner', vocalEffect: 'Heavy Metallic Autotune, Lush Reverb, Delay', mood: 'Nocturnal, Sophisticated, Melancholic', energy: 'Medium-Low', texture: 'Warm Atmospheric Hi-End', instrument: 'Filtered Rhodes, Atmospheric Pads, Sliding 808 Sub-Bass, Crisp Trap Drums' }
   },
 
@@ -368,6 +439,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Bouncy rebounding flow, danceable phrasing, festive energy with rap technique moments.',
     productionFingerprint: 'Signature: afro percussion (congas, djembe synth), bouncy 808s, festive melodies, dancehall influences',
     culturalAnchors: 'Party culture, dance, quartier pride, positive street energy, Congolese influences',
+    structureDNA: 'Verse-hook-verse with festive structure. Short verses (12-14 bars). Strong catchy hook.',
+    hookType: 'Chant hook with danceable rhythm',
+    vocalPlacement: 'Floating in mix with party presence',
+    energyCurve: 'Constant high energy — festive throughout',
     antiPatterns: 'No dark aggressive themes, no slow introspection, no minimal beats',
     sunoMetatags: { vocalStyle: 'Melodic Rap', vocalEffect: 'Light Autotune', mood: 'Festive, Uplifting', energy: 'High', texture: 'Bright Warm', instrument: 'Afro Percussion, 808 Bass, Synths' }
   },
@@ -385,6 +460,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Sliding syncopated drill flow, catchy melodic hooks, alternation between technical rap and earworm melodies.',
     productionFingerprint: 'Signature: sliding 808s, triplet hi-hats, melancholic piano/guitar, UK drill ambiance but melodic touch',
     culturalAnchors: 'London street life, hustling, flexing, relationships, UK cool attitude',
+    structureDNA: 'Long drill verses (18+ bars). Minimal hook structure. Static production arrangement.',
+    hookType: 'Short rhythmic chant or no traditional hook',
+    vocalPlacement: 'Ahead of beat, aggressive sharp attack',
+    energyCurve: 'Constant aggression — tension from start to finish',
     antiPatterns: 'No overly aggressive FR drill, no pop crossover, not minimal',
     sunoMetatags: { vocalStyle: 'Melodic Rap', vocalEffect: 'Light Autotune', mood: 'Cool, Melancholic', energy: 'Medium-High', texture: 'Crisp UK', instrument: '808 Bass, Piano, Guitar' }
   },
@@ -397,12 +476,16 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoVocalTags: ['Technical Rap', 'Dry Baritone', 'Precise Articulation', 'Cold Delivery'],
     sunoWeirdness: 45,
     sunoStyleInfluence: 88,
-    sunoExcludeStyles: 'autotune, melodic singing, jazz samples, soulful warmth, pop, bright',
-    vocalDNA: 'Dry baritone voice, ZERO autotune, hyper-precise articulation, rapid technical delivery, cold controlled aggression. No singing ever.',
+    sunoExcludeStyles: 'autotune, melodic singing, pop, bright',
+    vocalDNA: 'Dry baritone voice, ZERO autotune, hyper-precise articulation, rapid technical delivery, cold controlled precision. No singing ever.',
     flowPattern: 'Surgical technical flow, dense multisyllabic rhymes, rapid articulation without melodic inflection. Pure rap technique demonstration.',
-    productionFingerprint: 'Signature: sparse dark piano (minor keys), subtle bell textures, heavy punchy drums, tight snare crack, minimal bass. NO jazz, NO soul warmth.',
-    culturalAnchors: 'Technical excellence, dense internal rhymes, Parisian independence, dark luxury, cold precision',
-    antiPatterns: 'No autotune ever, no melodic hooks, no jazzy warmth, no soulful samples, no singing',
+    productionFingerprint: 'Signature: sparse dark piano (minor keys), subtle bell textures, heavy punchy drums, tight snare crack, minimal bass. Refined boom bap with sample-based production or minimal instrumentation.',
+    structureDNA: 'Dense verse-dominant structure. Long technical verses (18+ bars) with minimal hooks or short chant hooks. Static arrangement emphasizing lyrical delivery.',
+    hookType: 'Chant hook or rhythmic rap hook, brief and technical',
+    vocalPlacement: 'Clean forward in mix, ahead of beat, percussive technical attack',
+    energyCurve: 'Constant technical density — high rhythmic intensity from start to finish',
+    culturalAnchors: 'Technical excellence, dense internal rhymes, Parisian independence, dark luxury, precision craftsmanship',
+    antiPatterns: 'Avoid autotune, melodic hooks, pop elements, bright production',
     sunoMetatags: { vocalStyle: 'Rap', vocalEffect: 'Dry, Minimal', mood: 'Cold, Dark', energy: 'Medium', texture: 'Sparse Minimal', instrument: 'Dark Piano, Punchy Drums, Bass' }
   },
 
@@ -419,6 +502,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Bouncy dancehall flow with Caribbean inflection, alternation between floating melodic passages and percussive rap.',
     productionFingerprint: 'Signature: dancehall riddims, tropical percussion, bouncy 808s, atmospheric synths, steel drum/flute tropical melodies',
     culturalAnchors: 'Caribbean identity, island pride, tropical melancholy, party, exile, Creole-French blend',
+    structureDNA: 'Verse-hook-verse with dancehall bounce. Medium verses (12-14 bars). Strong melodic hook.',
+    hookType: 'Melodic dancehall hook or chant',
+    vocalPlacement: 'Floating in mix with percussive energy',
+    energyCurve: 'Constant high energy — festive throughout',
     antiPatterns: 'No dark aggressive themes, no cold industrial, no boom bap traditional',
     sunoMetatags: { vocalStyle: 'Melodic Rap', vocalEffect: 'Light Autotune', mood: 'Tropical, Bouncy', energy: 'Medium-High', texture: 'Warm Tropical', instrument: 'Dancehall Riddim, 808, Steel Drums' }
   },
@@ -432,11 +519,15 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoWeirdness: 35,
     sunoStyleInfluence: 85,
     sunoExcludeStyles: 'aggressive rap, dark minimal, boom bap, industrial, slow ballad',
-    vocalDNA: 'Ultra-melodic, permanent autotune, bright high voice, constant tonal variations and harmonies. Every syllable is SUNG with melodic variation. Never stops singing.',
-    flowPattern: 'Rapid melodic flow with constant pitch variations. Singing and rapping simultaneously. Melody IS the flow.',
+    vocalDNA: 'Ultra-melodic, permanent autotune, bright high voice, constant tonal variations and harmonies. High melodic density throughout, grounded in rap structure with melodic sensibility.',
+    flowPattern: 'Rapid melodic flow with constant pitch variations. Singing dominant with rap-based rhythmic structure. Melody-first but retains hip-hop foundation.',
     productionFingerprint: 'Signature: afro percussion (congas, shakers, synth djembe), melodic guitars, warm bouncy 808s, bright synths, atmospheric pads',
+    structureDNA: 'Verse-hook-verse with melodic density throughout. Verses (12-14 bars) showcase constant tonal variation within rap structure. Strong sung melodic hook.',
+    hookType: 'Melodic sung hook with constant autotune variation',
+    vocalPlacement: 'Floating in mix, laid-back melodic delivery, atmospheric reverb',
+    energyCurve: 'Constant high energy — maintains bright joyful intensity throughout',
     culturalAnchors: 'Joyful celebration, love, loyalty, dance, quartier pride, subtle Lingala influence, positive energy',
-    antiPatterns: 'No aggressive rap, no dark production, no spoken word, melody NEVER stops',
+    antiPatterns: 'Avoid aggressive rap, dark production, spoken word sections',
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Heavy Autotune', mood: 'Joyful, Luminous', energy: 'High', texture: 'Bright Warm', instrument: 'Afro Percussion, Guitar, 808, Synths' }
   },
 
@@ -453,6 +544,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Elastic fluid phrasing, nonchalant delivery, smooth melodic contours. Everything sounds effortless.',
     productionFingerprint: 'Signature: smooth luxury synths, deep round 808s, airy clean hi-hats, nocturnal intense atmosphere',
     culturalAnchors: 'Luxury, sensuality, nightlife, US aesthetic, women, sauce, Belgian cool',
+    structureDNA: 'Standard verse-hook-verse. Medium verses (12-14 bars). Strong melodic hook.',
+    hookType: 'Melodic autotune hook with sensual inflection',
+    vocalPlacement: 'Floating in mix, laid-back intimate',
+    energyCurve: 'Flat hypnotic — consistent cool sophistication',
     antiPatterns: 'No dry technical flow, no aggressive delivery, no bright happy pop',
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Autotune', mood: 'Smooth, Nocturnal', energy: 'Medium', texture: 'Smooth Luxury', instrument: '808 Bass, Luxury Synths, Hi-Hats' }
   },
@@ -470,6 +565,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Theatrical phrasing, conversational to dramatic shifts. Melody-driven but with narrative precision.',
     productionFingerprint: 'Signature: modern electronic synths, subtle Congolese rumba influences, dancefloor beats, occasional orchestral accents, emotional electronic production',
     culturalAnchors: 'Danceable melancholy, social critique, fatherhood, modern society, solitude, Belgian-Congolese identity, dark humor',
+    structureDNA: 'Verse-chorus-verse with electronic structure. Short verses (10-12 bars). Strong memorable chorus.',
+    hookType: 'Melodic sung hook, catchy and singalong',
+    vocalPlacement: 'Clean in mix, ahead of beat slightly',
+    energyCurve: 'Wave dynamics — builds to powerful chorus',
     antiPatterns: 'No trap/drill, no aggressive rap, no minimal production, no lo-fi',
     sunoMetatags: { vocalStyle: 'Theatrical Singing', vocalEffect: 'Minimal', mood: 'Melancholic, Danceable', energy: 'Medium-High', texture: 'Electronic Polish', instrument: 'Synths, Electronic Drums, Strings' }
   },
@@ -487,6 +586,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Spatial floating delivery, melodic ad-lib heavy, beat switch adaptation. Production-embedded vocal approach.',
     productionFingerprint: 'Signature: saturated deep bass, atmospheric floating synths, phaser/flanger effects, beat switches, massive reverb, cosmic chaotic production',
     culturalAnchors: 'Cosmic nightlife, chaotic festival energy, space themes, controlled chaos, psychedelic aesthetics',
+    structureDNA: 'Long verses (16+ bars) with beat switches possible. Dynamic arrangement. Chorus emphasis.',
+    hookType: 'Melodic sung hook or ad-lib hook loops',
+    vocalPlacement: 'Floating in effects, layered delivery',
+    energyCurve: 'Explosive peaks — builds to dramatic moments',
     antiPatterns: 'No acoustic simplicity, no minimal beats, no clean production, never static — production must evolve',
     sunoMetatags: { vocalStyle: 'Melodic Rap', vocalEffect: 'Heavy Autotune, Reverb, Phaser', mood: 'Dark, Cosmic', energy: 'High', texture: 'Psychedelic Saturated', instrument: '808 Bass, Atmospheric Synths, Effects' }
   },
@@ -504,42 +607,56 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Multi-layered storytelling, character voice shifts, tempo-adaptive delivery. Capable of boom bap, jazz, and trap rhythmic patterns.',
     productionFingerprint: 'Signature: jazz samples (contrabass, saxo, piano jazz), varied drums (boom bap, trap, live), orchestral arrangements, tempo changes, live elements',
     culturalAnchors: 'Social justice, racial politics, African-American heritage, religion, redemption, Compton identity, multi-layered narratives',
+    structureDNA: 'Dense verse-hook-verse with narrative structure. Long technical verses (18+ bars). Minimal hooks.',
+    hookType: 'Chant hook or spoken hook phrase',
+    vocalPlacement: 'Clean ahead of beat, clear articulation',
+    energyCurve: 'Slow burn — builds through verses to peak',
     antiPatterns: 'No autotune, no simple radio hooks, no conventional single-genre production',
     sunoMetatags: { vocalStyle: 'Rap', vocalEffect: 'Minimal', mood: 'Conscious, Intense', energy: 'Variable', texture: 'Jazz Organic', instrument: 'Jazz Ensemble, Live Drums, Orchestral' }
   },
 
   'PLAYBOI CARTI': {
     artist: 'PLAYBOI CARTI',
-    sunoStyleTemplate: 'Rage Vamp Minimalist Trap, Punk Rap, Baby Voice Autotune, Distorted Aggressive Energy, 150-175 BPM, Key: E Minor, Extremely Saturated Bass, 8-bit Distorted Synths, Aggressive Minimal Drums, Dark Repetitive Melodies, Baby Voice Texture Vocals, Pure Sonic Energy Over Lyrics, 2020s',
-    sunoBpmRange: '150-175',
+    // Multi-phase artist: baby voice + minimalist + rage. Default to rage/WLR era as most recognizable.
+    sunoStyleTemplate: 'Rage Trap, Dark Minimalist Punk Rap, Distorted Heavy Bass, Aggressive High-Energy, 150-170 BPM, Key: E Minor, Extremely Saturated 808, Distorted Synth Stabs, Aggressive Minimal Drums, Dark Repetitive Melodies, High-Pitched Autotune Ad-Lib Vocals, Textural Voice Over Lyrics, Mosh Pit Energy, 2020s',
+    sunoBpmRange: '150-170',
     sunoKey: 'E Minor',
-    sunoVocalTags: ['Baby Voice', 'Extreme Autotune', 'Textural Vocals', 'Minimalist Delivery'],
+    sunoVocalTags: ['High-Pitched Autotune', 'Ad-Lib Dominant', 'Textural Vocals', 'Punk Energy'],
     sunoWeirdness: 85,
     sunoStyleInfluence: 88,
-    sunoExcludeStyles: 'lyrical rap, conscious, storytelling, acoustic, jazz, R&B, slow ballad',
-    vocalDNA: 'Baby voice, extreme autotune, high-pitched repetitive delivery. Words are TEXTURES not content — sound over meaning. Voice as rhythmic percussion instrument.',
-    flowPattern: 'Minimalist repetitive phrasing, short punchy phrases, ad-lib dominant. Voice rhythm > lyrical content.',
-    productionFingerprint: 'Signature: 8-bit distorted synths, extremely saturated bass, aggressive minimal drums, dark repetitive melodies, high BPM rage energy',
-    culturalAnchors: 'Vamp aesthetic, pure energy over content, dark vibes, minimalist style, punk attitude',
-    antiPatterns: 'No lyrical depth, no complex storytelling, no acoustic instruments, no slow tempos',
-    sunoMetatags: { vocalStyle: 'Baby Voice Rap', vocalEffect: 'Extreme Autotune, Distortion', mood: 'Dark, Rage', energy: 'Maximum', texture: 'Distorted 8-bit', instrument: 'Saturated Bass, Distorted Synths, Minimal Drums' }
+    sunoExcludeStyles: 'lyrical conscious rap, storytelling, acoustic, jazz, R&B ballad, boom bap',
+    vocalDNA: 'High-pitched autotune voice used as texture/instrument — words are secondary to sound. Short punchy ad-libs dominate. Can shift between baby voice whisper and aggressive rage yelling. Voice is a rhythmic percussion tool.',
+    flowPattern: 'Short repetitive phrases (2-4 words max per bar). Ad-lib chains. Minimal actual verses — space and repetition over density. Rhythmic stabs rather than flowing bars.',
+    productionFingerprint: 'Signature: extremely saturated 808, distorted synth stabs, aggressive minimal drums, dark repetitive melodies, high BPM rage energy, heavy sidechain compression',
+    structureDNA: 'Minimal traditional structure. Short verses (8-12 bars max). Hooks are repeated ad-libs or chants. Long instrumental breaks with vocal ad-libs floating. No bridges, no complex arrangement.',
+    hookType: 'Hypnotic loop hook — short repeated chant or ad-lib phrase, not melodic. Repetition creates the hook.',
+    vocalPlacement: 'Floating in mix, swimming in reverb and delay, surrounded by distortion. Not front-and-center — part of the sonic texture.',
+    energyCurve: 'Constant aggression with explosive peaks on ad-lib chains',
+    culturalAnchors: 'Vamp aesthetic, punk attitude, mosh pit energy, dark fashion, minimalist-as-maximalist philosophy',
+    antiPatterns: 'No long lyrical verses, no complex storytelling, no acoustic instruments, no slow tempos, no clean polished vocals',
+    sunoMetatags: { vocalStyle: 'Rage Ad-Lib Rap', vocalEffect: 'Extreme Autotune, Heavy Reverb, Distortion', mood: 'Dark, Rage, Aggressive', energy: 'Maximum', texture: 'Distorted Saturated', instrument: 'Saturated 808, Distorted Synths, Minimal Aggressive Drums' }
   },
 
   'KANYE WEST': {
     artist: 'KANYE WEST',
-    sunoStyleTemplate: 'Avant-Garde Maximalist Hip-Hop, Gospel-Rap, Soul-Chopped Production, Grandiose Orchestration, 80-140 BPM, Key: Variable, Chopped Soul Samples, Massive Gospel Choirs, Grand Orchestration, Percussive Drums, Expressive Variable Vocals, Artistic Event Production, 2020s',
-    sunoBpmRange: '80-140',
-    sunoKey: 'Variable',
-    sunoVocalTags: ['Expressive Variable', 'Rap-Singing Hybrid', 'Artistic Autotune', 'Dramatic Range'],
-    sunoWeirdness: 80,
+    // Default to modern era (Donda/gospel-industrial) as most generatable by Suno. Covers soul-chop + maximalist + industrial.
+    sunoStyleTemplate: 'Maximalist Gospel-Industrial Hip-Hop, Chopped Soul Samples, Grand Orchestration, 90-130 BPM, Key: Ab Minor, Chopped Soul Vocal Samples, Massive Gospel Choir, Heavy Industrial Drums, Grand Piano Chords, Orchestral Strings, Distorted Bass, Expressive Male Rap-Singing, Artistic Autotune Moments, Cinematic Grandiose Scale, 2020s',
+    sunoBpmRange: '90-130',
+    sunoKey: 'Ab Minor',
+    sunoVocalTags: ['Expressive Rap-Singing', 'Artistic Autotune', 'Gospel Chanting', 'Dramatic Delivery'],
+    sunoWeirdness: 75,
     sunoStyleInfluence: 90,
-    sunoExcludeStyles: 'minimal lo-fi, conventional trap, standard pop, acoustic folk',
-    vocalDNA: 'Expressive and varied voice, alternation rap/singing, unpredictable flow, artistic autotune moments. Can shift from whisper to scream.',
-    flowPattern: 'Unpredictable expressive phrasing, dramatic shifts, gospel-influenced chanting, rap-to-singing switches.',
-    productionFingerprint: 'Signature: chopped soul samples, massive gospel choirs, grandiose orchestration, percussive drums, radical production shifts, maximalist sonic ambition',
-    culturalAnchors: 'Artistic ego, religion/gospel, fashion, family, grandeur, mental health, art as mission, controversy',
-    antiPatterns: 'No minimal production, no conventional single-genre approach, never subtle or understated',
-    sunoMetatags: { vocalStyle: 'Variable Rap-Singing', vocalEffect: 'Artistic Autotune', mood: 'Grandiose, Variable', energy: 'High', texture: 'Maximalist', instrument: 'Soul Samples, Gospel Choir, Orchestra, Drums' }
+    sunoExcludeStyles: 'conventional trap, standard pop chorus, acoustic folk, minimal lo-fi, drill',
+    vocalDNA: 'Expressive male voice that alternates between rap, singing, and gospel chanting. Artistic autotune on melodic sections. Can shift from confident rap to vulnerable singing to preacher-style delivery. Not technically precise — emotionally charged.',
+    flowPattern: 'Conversational rap with dramatic pauses. Gospel-chant sections. Singing hooks. Flow serves emotion over technique — breaks rules intentionally. Repetitive emphatic phrasing on key lines.',
+    productionFingerprint: 'Signature: chopped soul vocal samples, massive gospel choir, grand piano, orchestral strings, industrial drums, distorted bass, maximalist layered production, cinematic scope',
+    structureDNA: 'Unconventional song structures. Long atmospheric intros. Beat switches between sections. Verses can be short or extended. Gospel breakdown sections. Outro builds to climax. Not verse-chorus-verse — each track has its own architecture.',
+    hookType: 'Anthem chorus (gospel chant style) or hypnotic repeated phrase. Can be sung with autotune or chanted communally.',
+    vocalPlacement: 'Center-forward, dramatic presence, shifts between intimate close-mic and arena-scale projection',
+    energyCurve: 'Explosive peaks — builds from minimal to massive, with dramatic dynamic contrasts',
+    culturalAnchors: 'Artistic grandeur, gospel/faith, fashion, ego and vulnerability, maximalism as philosophy',
+    antiPatterns: 'No conventional single-genre approach, no subtle understated production, no standard trap format',
+    sunoMetatags: { vocalStyle: 'Gospel Rap-Singing', vocalEffect: 'Artistic Autotune, Choir Layers', mood: 'Grandiose, Spiritual, Intense', energy: 'High Variable', texture: 'Maximalist Industrial', instrument: 'Soul Samples, Gospel Choir, Piano, Strings, Industrial Drums' }
   },
 
   'LANA DEL REY': {
@@ -555,6 +672,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Slow languid phrasing, drawn-out syllables, melodic trailing. Time feels suspended.',
     productionFingerprint: 'Signature: massive reverb, surf guitars, cinematic strings, slow heavy drums, 1960s reimagined atmosphere, golden hour nostalgia',
     culturalAnchors: 'Hollywood nostalgia, tragic glamour, Americana, toxic love, eternal summer, faded beauty',
+    structureDNA: 'Verse-chorus-verse with cinematic structure. Short verses (8-12 bars). Strong melodic chorus. Bridge common.',
+    hookType: 'Melodic sung hook with dark melancholy',
+    vocalPlacement: 'Floating in mix, close-mic intimate',
+    energyCurve: 'Slow burn — melancholic throughout',
     antiPatterns: 'No aggressive energy, no fast tempo, no trap beats, no EDM drops',
     sunoMetatags: { vocalStyle: 'Languid Singing', vocalEffect: 'Reverb, Delay', mood: 'Nostalgic, Melancholic', energy: 'Low', texture: 'Cinematic Vintage', instrument: 'Surf Guitar, Strings, Slow Drums' }
   },
@@ -572,6 +693,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Flamenco-influenced phrasing with modern rhythmic breaks. Traditional ornamentation over contemporary beats.',
     productionFingerprint: 'Signature: flamenco guitar, palmas claps, 808 trap bass, modern synths, organic/electronic blend, deconstructed arrangements',
     culturalAnchors: 'Femininity and power, tradition vs modernity, Andalusian roots, passion, visceral emotion',
+    structureDNA: 'Unconventional structure with beat switches. Medium sections. Experimental rhythmic arrangement.',
+    hookType: 'Melodic hook with flamenco/experimental elements',
+    vocalPlacement: 'Floating in effects, experimentally processed',
+    energyCurve: 'Wave dynamics with experimental intensity shifts',
     antiPatterns: 'No conventional pop, no standard genre production, no purely acoustic traditional',
     sunoMetatags: { vocalStyle: 'Flamenco Singing', vocalEffect: 'Minimal, Reverb', mood: 'Passionate, Intense', energy: 'Variable', texture: 'Organic-Electronic', instrument: 'Flamenco Guitar, Palmas, 808 Bass, Synths' }
   },
@@ -589,6 +714,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Whispered intimate delivery building to powerful moments. Silence as structural element. Dynamic contrast is the signature.',
     productionFingerprint: 'Signature: extreme sub-bass, organic ASMR textures, silence as instrument, minimal percussion, massive dynamic range from whisper to power',
     culturalAnchors: 'Anxiety, nightmares, silent power, vulnerability, soft rebellion, youth angst',
+    structureDNA: 'Verse-chorus-verse with minimalist structure. Short verses (8-10 bars). Strong vulnerable chorus.',
+    hookType: 'Melodic sung hook with whispered intimacy',
+    vocalPlacement: 'Close-mic intimate, ahead of beat slightly',
+    energyCurve: 'Slow burn — builds from whisper to intensity',
     antiPatterns: 'No constant loudness, no standard pop structure, no bright cheerful production',
     sunoMetatags: { vocalStyle: 'Whisper', vocalEffect: 'Close-Mic, Dark Harmonies', mood: 'Dark, Intimate', energy: 'Low to Burst', texture: 'ASMR Minimal', instrument: 'Sub-Bass, Organic Textures, Minimal Drums' }
   },
@@ -606,6 +735,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Danceable melodic flow, hook-first approach, rhythmic bouncy phrasing, accessible melodies.',
     productionFingerprint: 'Signature: warm pop 808s, light afro percussion, melodic pop guitar, bright synths, modern luminous production',
     culturalAnchors: 'Feminine independence, love/heartbreak, dance, self-confidence, nightlife, unique urban French slang',
+    structureDNA: 'Verse-hook-verse with danceable structure. Short verses (10-12 bars). Strong melodic hook.',
+    hookType: 'Melodic sung hook with afro-pop bounce',
+    vocalPlacement: 'Floating in mix, rhythmically placed',
+    energyCurve: 'Wave dynamics — builds to hook',
     antiPatterns: 'No dark themes, no aggressive production, no minimal beats',
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Light Autotune', mood: 'Energetic, Danceable', energy: 'High', texture: 'Bright Pop', instrument: 'Pop 808, Afro Percussion, Guitar, Synths' }
   },
@@ -623,25 +756,33 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic raï-influenced phrasing, emotional delivery, festive and nostalgic simultaneously.',
     productionFingerprint: 'Signature: oriental violins, acoustic guitars, darbuka percussion, modern pop melodies, light 808s, Mediterranean warmth',
     culturalAnchors: 'Algeria, nostalgia, love, festive spirit, dual cultural identity, Mediterranean sun',
+    structureDNA: 'Verse-hook-verse with dancehall influence. Medium verses (12-14 bars). Strong melodic hook.',
+    hookType: 'Melodic hook with dancehall/reggae inflection',
+    vocalPlacement: 'Floating in mix with rhythmic presence',
+    energyCurve: 'Constant festive energy',
     antiPatterns: 'No aggressive themes, no dark production, no heavy bass trap',
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Light Autotune', mood: 'Nostalgic, Festive', energy: 'Medium-High', texture: 'Mediterranean Warm', instrument: 'Violins, Guitar, Darbuka, 808' }
   },
 
   'CHEB MAMI': {
     artist: 'CHEB MAMI',
-    sunoStyleTemplate: 'Orchestral Raï Crossover, Mediterranean World Fusion, High Tenor Raï Vocals, 90-115 BPM, Key: Bb Minor, Darbuka Raï Percussion, Oriental Violins, Melodic Accordion, Wah Guitar, Orchestral Synth Pads, Pure Male Tenor No Autotune, French-Arabic Bilingual 50/50, 2020s',
-    sunoBpmRange: '90-115',
+    sunoStyleTemplate: 'Traditional Raï, Organic Mediterranean Sound, High Tenor Male Vocals, Arabic Melisma Ornaments, 95-115 BPM, Key: Bb Minor, Darbuka Hand Drums, Raï Gasba Flute, Oriental Violin Section, Derbouka Rhythm, Warm Analog Production, Pure Male Tenor No Autotune, Emotional Romantic Atmosphere, 1990s-2000s',
+    sunoBpmRange: '95-115',
     sunoKey: 'Bb Minor',
-    sunoVocalTags: ['High Tenor', 'Arabic Melisma', 'Three-Octave Range', 'No Autotune'],
-    sunoWeirdness: 40,
-    sunoStyleInfluence: 88,
-    sunoExcludeStyles: 'trap, drill, aggressive rap, EDM, rock, metal',
-    vocalDNA: 'High tenor with Arabic melisma, three-octave range, pure vocal without autotune. Powerful emotional masculine voice. Raï traditional virtuosity.',
-    flowPattern: 'Raï melodic phrasing with extended melisma on vowels. Emotional crescendos. French and Arabic alternating naturally.',
-    productionFingerprint: 'Signature: darbuka percussion, oriental violins, melodic accordion, wah guitar, orchestral synth pads, warm analog production',
-    culturalAnchors: 'Romantic love, Algerian nostalgia, exile and return, Mediterranean passion, sentimental poetry',
-    antiPatterns: 'No trap beats, no aggressive delivery, no autotune, no 100% Arabic or 100% French — must mix both',
-    sunoMetatags: { vocalStyle: 'Raï Singing', vocalEffect: 'Natural, Reverb', mood: 'Romantic, Nostalgic', energy: 'Medium', texture: 'Warm Analog', instrument: 'Darbuka, Violins, Accordion, Guitar' }
+    sunoVocalTags: ['High Tenor', 'Arabic Melisma Ornaments', 'Wide Range', 'No Autotune Pure Voice'],
+    sunoWeirdness: 35,
+    sunoStyleInfluence: 90,
+    sunoExcludeStyles: 'trap, drill, aggressive rap, EDM, rock, metal, modern electronic',
+    vocalDNA: 'Pure high tenor male voice with no autotune or processing. Traditional raï melisma — extended ornamental vocal runs on vowels. Three-octave range. Powerful emotional projection. Voice is the absolute centerpiece — production serves the voice.',
+    flowPattern: 'Traditional raï melodic phrasing. Long sustained notes with melismatic ornaments. Emotional crescendos building to vocal peaks. Call-and-response with instruments. Language flows naturally — primarily Arabic (darija) with French phrases woven in.',
+    productionFingerprint: 'Signature: darbuka hand drums, gasba flute, oriental violin section, derbouka rhythm, warm analog production. Organic instrumentation priority — synthesizers only as subtle pads, never dominant.',
+    structureDNA: 'Raï traditional structure: long vocal intro (taqsim-style), verse-refrain with instrumental interludes. Instrumental breaks featuring violin or flute solos. Gradual emotional build. Outro often returns to opening vocal theme.',
+    hookType: 'Melodic vocal hook — emotional sung refrain with melisma, not chanted. Memorable through vocal power and melodic beauty.',
+    vocalPlacement: 'Absolute center of mix, close-mic intimate warmth, voice dominates everything',
+    energyCurve: 'Slow burn — intimate opening, gradual emotional crescendo, powerful vocal climax, tender resolution',
+    culturalAnchors: 'Romantic love, Algerian nostalgia, exile and return, Mediterranean passion, traditional raï heritage',
+    antiPatterns: 'No autotune or heavy vocal processing, no trap/drill beats, no aggressive delivery, no over-modernized electronic production',
+    sunoMetatags: { vocalStyle: 'Raï Traditional Singing', vocalEffect: 'Natural Pure Voice, Light Reverb', mood: 'Romantic, Nostalgic, Passionate', energy: 'Medium Building', texture: 'Warm Organic Analog', instrument: 'Darbuka, Gasba Flute, Oriental Violins, Derbouka' }
   },
 
   'DJALIL PALERMO': {
@@ -657,7 +798,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Rap-singing hybrid, street conversational tone with melodic hooks. French urban mixed with darija naturally.',
     productionFingerprint: 'Signature: heavy 808 bass, fast trap hi-hats, rhythmic trap guitar, minimal string synths, atmospheric pads, crisp modern digital production',
     culturalAnchors: 'Street confidence, Algerian pride, urban love, youth energy, nightlife, quartier',
-    antiPatterns: 'NEVER female voice, no pure traditional raï, no acoustic folk',
+    structureDNA: 'Verse-hook-verse. Medium verses (12-14 bars). Melodic hook structure.',
+    hookType: 'Melodic sung or rap hook',
+    vocalPlacement: 'Floating in mix, laid-back',
+    energyCurve: 'Wave dynamics — builds to chorus',
+    antiPatterns: 'Avoid female voice, pure traditional raï, acoustic folk',
     sunoMetatags: { vocalStyle: 'Rap-Singing', vocalEffect: 'Light Autotune', mood: 'Confident, Urban', energy: 'Medium-High', texture: 'Crisp Digital', instrument: '808 Bass, Trap Drums, Guitar, Synths' }
   },
 
@@ -674,6 +819,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic raï phrasing with rap sections. Emotional delivery with Mediterranean warmth.',
     productionFingerprint: 'Signature: oud melodic lines, mandole, darbuka percussion, acoustic guitar, deep 808, oriental melodies, Mediterranean emotional atmosphere',
     culturalAnchors: 'Algerian nostalgia (Houma), exile, solar melancholy, the two shores, sea, destiny (Mektoub), impossible love',
+    structureDNA: 'Standard verse-hook-verse. Dense verses (14-16 bars). Strong hook.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix, melodic presence',
+    energyCurve: 'Wave dynamics — builds from verse to hook',
     antiPatterns: 'No aggressive delivery, no dark minimal, no bright commercial pop',
     sunoMetatags: { vocalStyle: 'Raï Melodic', vocalEffect: 'Autotune, Reverb', mood: 'Nostalgic, Melancholic', energy: 'Medium', texture: 'Mediterranean Warm', instrument: 'Oud, Mandole, Darbuka, Guitar, 808' }
   },
@@ -691,6 +840,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Effortless flowing delivery, voice glides on beat. Nonchalant phrasing that sounds natural.',
     productionFingerprint: 'Signature: log drums, shekere percussion, warm sub bass, soft synth pads, clean afro guitar licks, warm spacious analog production',
     culturalAnchors: 'Love, dance, Lagos nightlife, African pride, feminine beauty, positive vibes, success',
+    structureDNA: 'Verse-chorus-verse with afrobeats structure. Short verses (10-12 bars). Strong melodic chorus.',
+    hookType: 'Melodic sung hook, global appeal',
+    vocalPlacement: 'Floating in mix, laid-back groovy',
+    energyCurve: 'Wave dynamics — builds to infectious chorus',
     antiPatterns: 'No aggression, no dark themes, no heavy trap bass, no forcing — everything must feel natural',
     sunoMetatags: { vocalStyle: 'Smooth Singing', vocalEffect: 'Minimal', mood: 'Cool, Smooth', energy: 'Medium', texture: 'Warm Analog', instrument: 'Log Drums, Shekere, Sub Bass, Guitar' }
   },
@@ -708,6 +861,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Soul-driven melodic phrasing, emotional crescendos, intimate passages building to peaks.',
     productionFingerprint: 'Signature: soft afro percussion, warm bass, ethereal synth pads, fingerpicked acoustic guitar, layered vocal harmonies as production element',
     culturalAnchors: 'Complex love, feminine independence, spirituality, introspection, quiet strength, earth connection',
+    structureDNA: 'Verse-chorus-verse. Short verses (8-12 bars). Strong melodic chorus.',
+    hookType: 'Melodic sung hook with soulful delivery',
+    vocalPlacement: 'Floating in mix, warm intimate',
+    energyCurve: 'Wave dynamics — builds to powerful chorus',
     antiPatterns: 'No rap, no aggressive energy, no trap beats, no commercial pop hooks',
     sunoMetatags: { vocalStyle: 'Ethereal Singing', vocalEffect: 'Reverb, Harmonies', mood: 'Ethereal, Haunting', energy: 'Low-Medium', texture: 'Dreamy Warm', instrument: 'Afro Percussion, Bass, Guitar, Synth Pads' }
   },
@@ -725,6 +882,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Call-and-response communal phrasing, percussive vocal attacks, energetic hooks designed for group chanting.',
     productionFingerprint: 'Signature: deep amapiano bass, heavy log drums, talking drum Yoruba, polyrhythmic fuji layers, punchy minimal synth stabs, crisp digital production',
     culturalAnchors: 'Street party, Yoruba pride, Lagos nightlife, success, communal energy, faith',
+    structureDNA: 'Verse-hook-verse with afrobeats bounce. Medium verses (12-14 bars). Strong hook.',
+    hookType: 'Melodic hook with afrobeats rhythm',
+    vocalPlacement: 'Floating in mix, rhythmic placement',
+    energyCurve: 'Constant high energy — festive',
     antiPatterns: 'No slow ballads, no dark introspective, no minimal quiet production',
     sunoMetatags: { vocalStyle: 'Energetic Chant', vocalEffect: 'Minimal', mood: 'Festive, Energetic', energy: 'Maximum', texture: 'Crisp Percussive', instrument: 'Amapiano Bass, Log Drums, Talking Drum, Synth Stabs' }
   },
@@ -742,7 +903,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Romantic melodic phrasing, gentle flowing delivery. French-Creole blend. Everything is soft, warm, enveloping.',
     productionFingerprint: 'Signature: warm zouk bass, zouk drum machine groove, steel pan textures, island acoustic guitar, lush synth pads, tropical warmth',
     culturalAnchors: 'Romantic love, Caribbean nostalgia, feminine beauty, gentle living, Caribbean nights, soft seduction',
-    antiPatterns: 'No aggression, no trap/drill, no dark themes, NEVER rap — pure zouk/R&B singing',
+    structureDNA: 'Verse-hook-verse with creole structure. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic hook with creole cadence',
+    vocalPlacement: 'Floating in mix, rhythmic presence',
+    energyCurve: 'Constant festive energy',
+    antiPatterns: 'Avoid aggression, trap/drill, dark themes, pure rap — singing focus',
     sunoMetatags: { vocalStyle: 'Romantic Singing', vocalEffect: 'Reverb', mood: 'Romantic, Warm', energy: 'Low-Medium', texture: 'Warm Tropical', instrument: 'Zouk Bass, Steel Pan, Guitar, Synth Pads' }
   },
 
@@ -759,9 +924,15 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Smooth melodic hooks, slow groove delivery, laid-back West Coast phrasing.',
     productionFingerprint: 'Signature: G-Funk synths (Moog/Minimoog), deep funk bass, talk box, groove claps, slow drums',
     culturalAnchors: 'West Coast party, chill cruising, laid-back love, G-Funk lifestyle',
+    structureDNA: 'Verse-chorus-verse with R&B structure. Short verses (8-12 bars). Strong melodic chorus.',
+    hookType: 'Melodic sung hook, iconic and memorable',
+    vocalPlacement: 'Floating in mix, warm laid-back',
+    energyCurve: 'Wave dynamics — builds to strong chorus',
     antiPatterns: 'No aggressive energy, no fast tempo, no dark themes, no minimal production',
     sunoMetatags: { vocalStyle: 'Smooth Singing', vocalEffect: 'Reverb, Harmonies', mood: 'Chill, Smooth', energy: 'Medium', texture: 'G-Funk Vintage', instrument: 'Moog Synths, Funk Bass, Talk Box, Claps' }
   },
+
+  // ═══════════════════════ BATCH 3: MISSING DNA PROFILES ═══════════════════════
 
   'AUGXST': {
     artist: 'AUGXST',
@@ -776,7 +947,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Ultra-slow half-time delivery. Words drip out slowly like condensation. Minimal syllable density — space and silence between phrases. The voice floats IN the production, not above it. Phrases trail off into reverb.',
     productionFingerprint: 'Signature: deep ominous sub bass, dark melodic 808s in half-time, dreamy atmospheric pads, washed-out detuned synths, distant bell plucks, sparse percussion, heavy reverb on everything, nocturnal fog, cinematic but intimate not epic',
     culturalAnchors: 'Toxic romance, night drives at 3am, luxury sadness, emotional isolation, intimate vulnerability, bedroom confessionals, nocturnal loneliness, rainy city aesthetics',
-    antiPatterns: 'NEVER full R&B singing — the voice ALMOST sings but stays in whisper-croon rap. NEVER bright or uplifting. NEVER aggressive or loud. NEVER uptempo. NEVER acoustic or organic. NEVER drill or rage energy. NEVER power ballad. The whole point is understated darkness.',
+    structureDNA: 'Verse-hook-verse. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix, laid-back',
+    energyCurve: 'Wave dynamics — builds to hook',
+    antiPatterns: 'Avoid bright or uplifting. NEVER aggressive or loud. NEVER uptempo. NEVER acoustic or organic. NEVER drill or rage energy. NEVER power ballad. The whole point is understated darkness.',
     sunoMetatags: {
       vocalStyle: 'Whisper-Croon Rap',
       vocalEffect: 'Soft Autotune, Heavy Reverb, Close-Mic Breath',
@@ -786,8 +961,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
       instrument: 'Sub Bass, Dark 808, Dreamy Pads, Washed Synths, Distant Bells'
     }
   },
-
-  // ═══════════════════════ BATCH 3: MISSING DNA PROFILES ═══════════════════════
 
   'SCH': {
     artist: 'SCH',
@@ -802,7 +975,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Deliberate measured flow with dramatic pauses. Dark melodic hooks on refrains. Verses: technical rap with imposing delivery. Never fast or frantic.',
     productionFingerprint: 'Signature: orchestral strings, cinematic brass, heavy distorted 808, dramatic buildups, dark atmospheric pads, hi-end polished mix, wide soundstage',
     culturalAnchors: 'Marseille luxury darkness, cinematic storytelling, power and domination, dark poetry, expensive nihilism',
-    antiPatterns: 'NEVER bright or cheerful, NEVER acoustic or folk, NEVER lo-fi, NEVER fast frantic delivery',
+    structureDNA: 'Dense verse-hook-verse. Long technical verses (16+ bars). Short hook sections.',
+    hookType: 'Short melodic autotune hook or chant',
+    vocalPlacement: 'Dry ahead of beat, technical delivery',
+    energyCurve: 'Slow burn — builds through verses',
+    antiPatterns: 'Avoid bright or cheerful, acoustic or folk, lo-fi, fast frantic delivery',
     sunoMetatags: { vocalStyle: 'Dark Melodic Rap', vocalEffect: 'Light Autotune on Hooks, Reverb', mood: 'Cinematic, Dark, Luxurious', energy: 'Medium-High', texture: 'Orchestral Dark', instrument: 'Distorted 808, Strings, Brass, Trap Drums, Pads' }
   },
 
@@ -819,7 +996,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic singing with R&B runs. Falsetto on hooks. Never raps — always sings. Emotional dynamics from whisper to powerful falsetto.',
     productionFingerprint: 'Signature: 80s analog synths, retro drum machines, lush reverb layers, wide stereo, synthwave textures, cinematic atmosphere, expensive polished mix',
     culturalAnchors: 'Nocturnal hedonism, toxic romance, drugs and excess, lonely luxury, dark city nightlife',
-    antiPatterns: 'NEVER rap delivery, NEVER aggressive, NEVER acoustic or folk, NEVER bright happy pop',
+    structureDNA: 'Verse-chorus-verse with R&B/pop structure. Short verses (8-12 bars). Strong sung chorus.',
+    hookType: 'Melodic sung hook, emotionally powerful',
+    vocalPlacement: 'Floating in mix with intimate close-mic warmth',
+    energyCurve: 'Wave dynamics — builds to powerful chorus',
+    antiPatterns: 'Avoid rap delivery, aggressive, acoustic or folk, bright happy pop',
     sunoMetatags: { vocalStyle: 'R&B Falsetto', vocalEffect: 'Reverb, Delay, Light Autotune', mood: 'Dark, Nocturnal, Sensual', energy: 'Medium', texture: 'Warm Analog Synth', instrument: 'Analog Synth Bass, Retro Drums, Synth Pads, Strings' }
   },
 
@@ -836,7 +1017,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic singing with R&B soul runs. Never raps. Switches between breathy whisper and full emotional belt. Conversational cadence.',
     productionFingerprint: 'Signature: warm organic production, live drums, Rhodes piano, acoustic guitar textures, lush reverb, sub bass, ethereal atmosphere',
     culturalAnchors: 'Emotional vulnerability, relationships, self-doubt, feminine empowerment, confessional storytelling',
-    antiPatterns: 'NEVER aggressive, NEVER hard trap, NEVER EDM, NEVER male vocal energy',
+    structureDNA: 'Verse-chorus-verse with R&B/soul structure. Short verses (8-12 bars). Strong melodic chorus. Bridge common.',
+    hookType: 'Melodic sung hook with vocal runs',
+    vocalPlacement: 'Floating in mix, warm intimate delivery',
+    energyCurve: 'Wave dynamics — builds to emotional chorus',
+    antiPatterns: 'Avoid aggressive, hard trap, EDM, male vocal energy',
     sunoMetatags: { vocalStyle: 'Neo-Soul R&B', vocalEffect: 'Reverb, Vocal Harmonies', mood: 'Emotional, Intimate, Vulnerable', energy: 'Low-Medium', texture: 'Warm Organic', instrument: 'Sub Bass, Rhodes, Acoustic Guitar, Live Drums' }
   },
 
@@ -853,7 +1038,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Direct percussive rap on verses with melodic autotune hooks. Raw authentic delivery, never polished or clean. Street storytelling.',
     productionFingerprint: 'Signature: heavy 808 sub bass, dark piano melodies, crisp trap drums, complex hi-hats, nocturnal atmosphere',
     culturalAnchors: 'Sevran street life, loyalty, money, survival, betrayal, authentic street stories',
-    antiPatterns: 'NEVER bright or cheerful, NEVER acoustic, NEVER overly polished — must sound raw and street',
+    structureDNA: 'Verse-hook-verse with melodic trap. Medium verses (12-14 bars). Strong melodic hook.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix, melodic presence',
+    energyCurve: 'Wave dynamics — builds to hook',
+    antiPatterns: 'Avoid bright or cheerful, acoustic, overly polished — must sound raw and street',
     sunoMetatags: { vocalStyle: 'Street Melodic Rap', vocalEffect: 'Autotune on Hooks, Dry Verses', mood: 'Dark, Street, Nocturnal', energy: 'High', texture: 'Dark Trap', instrument: '808 Sub Bass, Dark Piano, Trap Drums' }
   },
 
@@ -870,7 +1059,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Hard percussive flow with dramatic pauses. Street storytelling. Aggressive and imposing. Never melodic or singing.',
     productionFingerprint: 'Signature: aggressive 808, oriental melodic samples, dark synth stabs, hard snare, nocturnal cinematic atmosphere',
     culturalAnchors: 'Mediterranean gangster culture, street business, loyalty codes, prison life, Maghreb-French identity',
-    antiPatterns: 'NEVER singing or melodic, NEVER soft or chill, NEVER bright pop, NEVER acoustic',
+    structureDNA: 'Verse-hook-verse with emotional structure. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix, emotional delivery',
+    energyCurve: 'Wave dynamics — builds to hook',
+    antiPatterns: 'Avoid singing or melodic, soft or chill, bright pop, acoustic',
     sunoMetatags: { vocalStyle: 'Aggressive Rap', vocalEffect: 'Dry, Light Reverb', mood: 'Dark, Aggressive, Street', energy: 'High', texture: 'Hard Trap', instrument: '808 Bass, Oriental Samples, Synth Stabs, Hard Drums' }
   },
 
@@ -887,7 +1080,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic emotional flow with autotune. Raw rap bursts on verse peaks. Emotional hooks. Street sincerity above technique.',
     productionFingerprint: 'Signature: deep sliding 808, melancholic piano, atmospheric pads, crisp trap drums, emotional nocturnal atmosphere',
     culturalAnchors: 'Street emotions, family loyalty, survival, loss, authentic pain, nocturnal introspection',
-    antiPatterns: 'NEVER cheerful, NEVER bright, NEVER purely technical — always emotional first',
+    structureDNA: 'Verse-hook-verse. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic hook',
+    vocalPlacement: 'Floating in mix',
+    energyCurve: 'Wave dynamics',
+    antiPatterns: 'Avoid cheerful, bright, purely technical — always emotional first',
     sunoMetatags: { vocalStyle: 'Melodic Emotional Rap', vocalEffect: 'Melodic Autotune, Reverb', mood: 'Emotional, Melancholic, Street', energy: 'Medium', texture: 'Dark Warm', instrument: 'Sliding 808, Piano, Atmospheric Pads, Trap Drums' }
   },
 
@@ -904,7 +1101,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Bouncy rhythmic flow synced with African percussion. Festive hooks. Danceable cadence. High energy party delivery.',
     productionFingerprint: 'Signature: bouncy 808, African percussion (djembe, sabar, congas), festive synth melodies, danceable groove, bright production',
     culturalAnchors: 'Afro-Trap originator, African diaspora pride, Paris street party, dance, celebration, community energy',
-    antiPatterns: 'NEVER dark or aggressive, NEVER minimal or lo-fi, NEVER slow or melancholic',
+    structureDNA: 'Verse-hook-verse with afro-trap. Medium verses (12-14 bars). Strong melodic hook.',
+    hookType: 'Melodic autotune hook',
+    vocalPlacement: 'Floating in mix with afro-rhythmic placement',
+    energyCurve: 'Wave dynamics',
+    antiPatterns: 'Avoid dark or aggressive, minimal or lo-fi, slow or melancholic',
     sunoMetatags: { vocalStyle: 'Festive Melodic Rap', vocalEffect: 'Light Autotune', mood: 'Festive, Energetic, Bouncy', energy: 'High', texture: 'Bright Warm', instrument: 'Bouncy 808, Djembe, Congas, Sabar, Festive Synths' }
   },
 
@@ -917,28 +1118,36 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoWeirdness: 20,
     sunoStyleInfluence: 85,
     sunoExcludeStyles: 'aggressive rap, drill, dark trap, metal, rock, punk, harsh',
-    vocalDNA: 'Rich smooth male tenor with melodic autotune. Full R&B singing — never raps. Romantic sensual delivery. Warm and inviting vocal texture.',
-    flowPattern: 'Pure R&B melodic singing. Smooth hooks with vocal runs. Never raps. Romantic ballad phrasing with afro-pop bounce on uptempo tracks.',
+    vocalDNA: 'Rich smooth male tenor with melodic autotune. Singing-dominant delivery. Can incorporate light rap passages for stylistic flexibility. Romantic sensual delivery. Warm and inviting vocal texture.',
+    flowPattern: 'Pure R&B melodic singing dominant. Smooth hooks with vocal runs. Can flex to light rap passages when needed. Romantic ballad phrasing with afro-pop bounce on uptempo tracks.',
     productionFingerprint: 'Signature: lush Rhodes chords, warm sub bass, subtle afro percussion, smooth R&B drums, polished hi-end mix, romantic atmosphere',
+    structureDNA: 'Verse-chorus-verse. Short verses (8-12 bars) with focus on vocal runs and melodic phrasing. Strong sung chorus. Bridge common.',
+    hookType: 'Melodic sung hook with vocal runs and romantic inflection',
+    vocalPlacement: 'Floating in mix, laid-back intimate delivery, warm close-mic',
+    energyCurve: 'Wave dynamics — builds from introspective verses into powerful sung chorus',
     culturalAnchors: 'French Afro-R&B romance, sensuality, love stories, smooth lifestyle, warm energy',
-    antiPatterns: 'NEVER rap delivery, NEVER aggressive, NEVER dark or harsh, NEVER minimal or raw',
+    antiPatterns: 'Avoid aggressive delivery, dark or harsh production, minimal or raw elements',
     sunoMetatags: { vocalStyle: 'R&B Melodic Singing', vocalEffect: 'Smooth Autotune, Reverb', mood: 'Romantic, Warm, Sensual', energy: 'Medium', texture: 'Smooth Warm', instrument: 'Sub Bass, Rhodes, Afro Percussion, R&B Drums' }
   },
 
   'DADJU': {
     artist: 'DADJU',
-    sunoStyleTemplate: 'French Afro-Pop R&B, Romantic Melodic, Congolese-French Fusion, 95-115 BPM, Key: G Minor, Warm 808, Congolese Guitar Riffs, Lush Keyboard Pads, Afro Percussion, Melodic Autotune Male Vocals, Romantic Nocturnal Atmosphere, Polished Production, 2020s',
+    sunoStyleTemplate: 'French Afro-Pop R&B, Romantic Melodic, Congolese-French Fusion, 95-115 BPM, Key: G Minor, Warm 808, Lush Keyboard Pads, Afro Percussion, Melodic Autotune Male Vocals, Romantic Nocturnal Atmosphere, Polished Production, 2020s',
     sunoBpmRange: '95-115',
     sunoKey: 'G Minor',
     sunoVocalTags: ['Melodic Autotune', 'Romantic Male Vocals', 'Congolese-French Cadence', 'Smooth Delivery'],
     sunoWeirdness: 20,
     sunoStyleInfluence: 80,
     sunoExcludeStyles: 'aggressive rap, drill, hard trap, metal, rock, punk',
-    vocalDNA: 'Smooth melodic male vocals with autotune. Congolese-French vocal cadence. Romantic delivery. Full singing on hooks, light rap on verses.',
-    flowPattern: 'Melodic singing-dominant. Romantic hooks. Light rap verses. Congolese rumba influence in vocal melodies.',
-    productionFingerprint: 'Signature: Congolese guitar riffs, warm 808, lush keyboards, afro percussion, polished romantic atmosphere',
+    vocalDNA: 'Smooth melodic male vocals with autotune — TOPLINE DOMINANT. Singing on hooks and substantial verse sections. Light rap presence on select verses. Congolese-French vocal cadence with romantic inflection.',
+    flowPattern: 'Singing-dominant throughout. Strong melodic hooks. Minimal rap content, focused on vocal phrasing and melodic delivery. Congolese rumba influence in vocal melodies.',
+    productionFingerprint: 'Signature: warm 808, lush keyboards, afro percussion, polished romantic atmosphere',
+    structureDNA: 'Verse-chorus-verse with singing dominance. Verses (12-14 bars) showcase smooth vocal delivery with minimal rap. Strong sung melodic chorus.',
+    hookType: 'Melodic sung hook with romantic emphasis',
+    vocalPlacement: 'Floating in mix, laid-back intimate delivery, warm close-mic',
+    energyCurve: 'Wave dynamics — builds from verse into powerful sung chorus',
     culturalAnchors: 'Congolese-French romance, family, love stories, nocturnal tenderness, diaspora identity',
-    antiPatterns: 'NEVER aggressive, NEVER drill, NEVER dark harsh, NEVER purely technical rap',
+    antiPatterns: 'Avoid aggressive delivery, drill/hard trap production, dark harsh aesthetics',
     sunoMetatags: { vocalStyle: 'Melodic R&B', vocalEffect: 'Autotune, Reverb', mood: 'Romantic, Warm, Nocturnal', energy: 'Medium', texture: 'Warm Afro', instrument: '808, Congolese Guitar, Keyboards, Afro Percussion' }
   },
 
@@ -955,25 +1164,33 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Fluid between rap and singing. Emotional storytelling flow. Indie cadence — never aggressive. Conversational phrasing.',
     productionFingerprint: 'Signature: acoustic guitar layers, indie synth textures, live drum feel, warm bass, intimate confessional atmosphere',
     culturalAnchors: 'Skateboard culture, Parisian indie scene, emotional vulnerability, youth angst, relationships, artistic sensitivity',
-    antiPatterns: 'NEVER hard trap, NEVER drill aggressive, NEVER heavy autotune, NEVER commercial or formatted',
+    structureDNA: 'Verse-hook-verse. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic hook',
+    vocalPlacement: 'Clean in mix, articulate',
+    energyCurve: 'Slow burn',
+    antiPatterns: 'Avoid hard trap, drill aggressive, heavy autotune, commercial or formatted',
     sunoMetatags: { vocalStyle: 'Indie Rap-Singing', vocalEffect: 'Minimal Processing, Light Reverb', mood: 'Emotional, Intimate, Melancholic', energy: 'Low-Medium', texture: 'Warm Organic Indie', instrument: 'Acoustic Guitar, Indie Synths, Live Drums, Warm Bass' }
   },
 
   'ANGÈLE': {
     artist: 'ANGÈLE',
-    sunoStyleTemplate: 'Belgian Pop-Electro, Bright Synth Pop, Feminist Pop Anthem Energy, 110-125 BPM, Key: C Major, Punchy Pop Bass, Bright Synth Arps, Electronic Drums, Pop Claps, Crystal Clear Female Vocals, No Autotune, Catchy Hook Craft, Colorful Polished Production, 2020s',
+    sunoStyleTemplate: 'Belgian Pop-Electro, Sophisticated Pop, Elegant Electro-Pop, Subtle Irony, 110-125 BPM, Key: C Major, Punchy Pop Bass, Bright Synth Arps, Electronic Drums, Pop Claps, Crystal Clear Female Vocals, No Autotune, Catchy Hook Craft, Colorful Polished Production, 2020s',
     sunoBpmRange: '110-125',
     sunoKey: 'C Major',
     sunoVocalTags: ['Crystal Clear Female Vocals', 'No Autotune', 'Pop Singing', 'Belgian French Accent'],
     sunoWeirdness: 20,
     sunoStyleInfluence: 85,
     sunoExcludeStyles: 'rap, trap, drill, dark, aggressive, metal, hard, lo-fi',
-    vocalDNA: 'Crystal clear female vocals with no autotune. Belgian French accent. Bright and precise pop singing. Catchy memorable hooks.',
-    flowPattern: 'Pure pop singing. Catchy melodic hooks. Never raps. Bright and energetic delivery. Belgian French diction.',
-    productionFingerprint: 'Signature: bright synth arps, electronic drums, pop claps, punchy pop bass, colorful polished production',
-    culturalAnchors: 'Belgian pop identity, feminism, self-empowerment, youth, bright energy, social commentary with lightness',
-    antiPatterns: 'NEVER rap, NEVER dark or aggressive, NEVER trap or drill, NEVER lo-fi or raw',
-    sunoMetatags: { vocalStyle: 'Pop Singing', vocalEffect: 'Clean, Light Reverb', mood: 'Bright, Energetic, Empowering', energy: 'High', texture: 'Bright Pop Electronic', instrument: 'Synth Arps, Electronic Drums, Pop Bass, Claps' }
+    vocalDNA: 'Crystal clear female vocals with no autotune. Belgian French accent. Sophisticated pop singing with restraint and subtle irony. Emotional detachment in delivery — not always bright and energetic.',
+    flowPattern: 'Pure pop singing with restraint. Catchy melodic hooks but with elegance and subtlety. Never raps. Sophisticated delivery with emotional nuance. Belgian French diction.',
+    productionFingerprint: 'Signature: bright synth arps, electronic drums, pop claps, punchy pop bass, elegant polished production',
+    structureDNA: 'Verse-chorus-verse. Short verses (8-12 bars). Strong melodic chorus. Bridge common. Sophisticated arrangement with textural subtlety.',
+    hookType: 'Melodic sung hook, catchy but with restraint and elegance',
+    vocalPlacement: 'Clean forward in mix, slightly laid-back vocal delivery',
+    energyCurve: 'Wave dynamics — not constant high energy, allows for moments of restraint and subtlety',
+    culturalAnchors: 'Belgian pop identity, feminism, self-empowerment, youth, emotional nuance, social commentary with sophistication',
+    antiPatterns: 'Avoid rap, dark or aggressive production, trap or drill elements, lo-fi or raw aesthetics',
+    sunoMetatags: { vocalStyle: 'Pop Singing', vocalEffect: 'Clean, Light Reverb', mood: 'Sophisticated, Nuanced, Elegant', energy: 'Medium-High', texture: 'Bright Pop Electronic', instrument: 'Synth Arps, Electronic Drums, Pop Bass, Claps' }
   },
 
   'BURNA BOY': {
@@ -989,25 +1206,12 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Afrobeats bounce with melodic hooks. Danceable rhythm. Singing-dominant with rap-chant verses. Global accessible hooks.',
     productionFingerprint: 'Signature: complex African percussion, horns section, guitar riffs, deep afro bass, global festival production',
     culturalAnchors: 'Lagos street energy, African giant pride, global Afrobeats ambassador, freedom, resistance, celebration',
-    antiPatterns: 'NEVER dark aggressive, NEVER drill, NEVER minimal lo-fi, NEVER slow ballad',
+    structureDNA: 'Verse-chorus-verse with afrobeats. Short verses (10-12 bars). Strong melodic chorus.',
+    hookType: 'Melodic sung hook, global appeal',
+    vocalPlacement: 'Floating in mix, energetic presence',
+    energyCurve: 'Wave dynamics — builds to infectious chorus',
+    antiPatterns: 'Avoid dark aggressive, drill, minimal lo-fi, slow ballad',
     sunoMetatags: { vocalStyle: 'Afrobeats Melodic', vocalEffect: 'Light Reverb, Vocal Layers', mood: 'Energetic, Proud, Celebratory', energy: 'High', texture: 'Warm Afro Groove', instrument: 'Afro Bass, Percussion, Horns, Guitar' }
-  },
-
-  'ROSALÍA': {
-    artist: 'ROSALÍA',
-    sunoStyleTemplate: 'Experimental Flamenco Fusion, Art-Pop Deconstructed, Flamenco Melisma over Trap, 90-120 BPM, Key: A Minor, Flamenco Guitar, Palmas Claps, 808 Trap Bass, Modern Synths, Powerful Expressive Female Voice, Organic-Electronic Blend, 2020s',
-    sunoBpmRange: '90-120',
-    sunoKey: 'A Minor',
-    sunoVocalTags: ['Powerful Expressive Female Voice', 'Flamenco Melisma', 'Art-Pop Delivery', 'Spanish Cadence'],
-    sunoWeirdness: 65,
-    sunoStyleInfluence: 85,
-    sunoExcludeStyles: 'standard pop, acoustic folk, country, metal, drill, dark trap',
-    vocalDNA: 'Powerful expressive female voice with flamenco melisma technique. Spanish cadence. Art-pop experimentation. Can whisper and belt in the same phrase.',
-    flowPattern: 'Flamenco vocal runs over trap beats. Experimental structure. Dynamic range from whisper to full power. Spanish-language dominant.',
-    productionFingerprint: 'Signature: flamenco guitar, palmas claps, 808 trap bass, modern synths, organic-electronic blend, experimental deconstruction',
-    culturalAnchors: 'Flamenco tradition meets avant-garde, Catalan identity, feminine power, experimental art, cultural reinvention',
-    antiPatterns: 'NEVER standard pop, NEVER simple or predictable, NEVER folk or country, NEVER without flamenco elements',
-    sunoMetatags: { vocalStyle: 'Flamenco Art-Pop', vocalEffect: 'Reverb, Vocal Processing', mood: 'Experimental, Passionate, Bold', energy: 'Medium-High', texture: 'Organic-Electronic', instrument: 'Flamenco Guitar, Palmas, 808, Synths' }
   },
 
   'DAFT PUNK': {
@@ -1023,7 +1227,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Repetitive hypnotic vocal loops through vocoder. Short catchy phrases repeated. Never rap — pure electronic vocal processing.',
     productionFingerprint: 'Signature: funky bass guitar, analog synthesizers, vocoder robot vocals, disco strings, four-on-the-floor kick, filtered loops, retro-futuristic',
     culturalAnchors: 'French electronic music pioneer, retro-futurism, robot mythology, disco revival, human-machine fusion',
-    antiPatterns: 'NEVER natural vocals, NEVER rap, NEVER trap/drill, NEVER acoustic instruments without electronic processing',
+    structureDNA: 'Unconventional electronic structure. Variable section lengths. Beat switches common.',
+    hookType: 'Hypnotic loop hook or robotic vocal hook',
+    vocalPlacement: 'Floating in effects and vocoder',
+    energyCurve: 'Wave dynamics with electronic peaks',
+    antiPatterns: 'Avoid natural vocals, rap, trap/drill, acoustic instruments without electronic processing',
     sunoMetatags: { vocalStyle: 'Vocoder Robot', vocalEffect: 'Vocoder, Talk Box, Filter', mood: 'Groovy, Futuristic, Hypnotic', energy: 'Medium-High', texture: 'Analog Electronic Funk', instrument: 'Bass Guitar, Analog Synths, Disco Strings, Vocoder' }
   },
 
@@ -1040,7 +1248,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Reggaeton dembow rhythm with melodic hooks. Singing-rap hybrid. Party energy on hooks. Never purely raps — always melodic.',
     productionFingerprint: 'Signature: reggaeton dembow pattern, 808 sub bass, Latin percussion, synth melodies, party atmosphere, experimental production touches',
     culturalAnchors: 'Puerto Rico street culture, Latin trap pioneer, perreo, Caribbean party, experimental boundaries',
-    antiPatterns: 'NEVER rock or metal, NEVER dark minimal, NEVER folk, NEVER without Latin rhythmic elements',
+    structureDNA: 'Verse-chorus-verse with reggaeton/trap. Short verses (10-12 bars). Strong chorus.',
+    hookType: 'Melodic sung hook or rap hook',
+    vocalPlacement: 'Floating in mix, rhythmically placed',
+    energyCurve: 'Wave dynamics — builds to chorus',
+    antiPatterns: 'Avoid rock or metal, dark minimal, folk, without Latin rhythmic elements',
     sunoMetatags: { vocalStyle: 'Latin Trap Singing-Rap', vocalEffect: 'Autotune, Reverb', mood: 'Party, Energetic, Sensual', energy: 'High', texture: 'Latin Bass Heavy', instrument: 'Dembow Drums, 808 Sub, Latin Percussion, Synths' }
   },
 
@@ -1057,24 +1269,32 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic autotune flow that blurs rap and singing. Freestyle energy — continuous fluid delivery. Emotional hooks. Never stops flowing.',
     productionFingerprint: 'Signature: melancholic guitar loops, deep 808, atmospheric pads, trap hi-hats, emotional atmospheric production',
     culturalAnchors: 'Emo rap generation, heartbreak, drug culture, emotional vulnerability, youth anxiety, freestyle as art',
-    antiPatterns: 'NEVER hard aggressive drill, NEVER boom bap, NEVER acoustic or folk, NEVER without emotional autotune',
+    structureDNA: 'Verse-chorus-verse with melodic rap/emo-rap. Medium verses (12-14 bars). Strong sung chorus.',
+    hookType: 'Melodic sung hook with emotional delivery',
+    vocalPlacement: 'Floating in mix, intimate close-mic',
+    energyCurve: 'Wave dynamics — builds to emotional chorus',
+    antiPatterns: 'Avoid hard aggressive drill, boom bap, acoustic or folk, without emotional autotune',
     sunoMetatags: { vocalStyle: 'Emo Melodic Rap', vocalEffect: 'Heavy Autotune, Reverb', mood: 'Emotional, Melancholic, Raw', energy: 'Medium-High', texture: 'Emo Trap', instrument: 'Guitar Loops, Deep 808, Pads, Trap Drums' }
   },
 
   'POST MALONE': {
     artist: 'POST MALONE',
-    sunoStyleTemplate: 'Pop-Rap Melodic, Genre-Fluid Singing-Rap, Warm Acoustic-Trap Hybrid, 80-110 BPM, Key: G Major, Warm Bass, Acoustic Guitar Foundation, Trap Drums, Atmospheric Pads, Warm Male Vocals, Melodic Autotune Singing, Country-Rock Influences, Polished Radio Mix, 2020s',
+    sunoStyleTemplate: 'Pop-Rap Melodic, Genre-Fluid Singing-Rap, Warm Acoustic-Trap Hybrid, 80-110 BPM, Key: G Major, Warm Bass, Acoustic Guitar Foundation, Trap Drums, Atmospheric Pads, Warm Raspy Male Vocals, Melodic Autotune Singing, Strong Melodic Hooks, Polished Radio Mix, 2020s',
     sunoBpmRange: '80-110',
     sunoKey: 'G Major',
-    sunoVocalTags: ['Warm Male Vocals', 'Melodic Autotune Singing', 'Pop-Rap Delivery', 'Country Rock Inflections'],
+    sunoVocalTags: ['Warm Raspy Male Vocals', 'Melodic Autotune Singing', 'Pop-Rap Delivery', 'Melodic Hook Focus'],
     sunoWeirdness: 20,
     sunoStyleInfluence: 80,
     sunoExcludeStyles: 'dark drill, aggressive, minimal, lo-fi, metal, punk, EDM',
-    vocalDNA: 'Warm male vocals with melodic autotune. Genre-fluid — can sound country, pop, or trap. Accessible and radio-friendly delivery. Natural warmth.',
-    flowPattern: 'Melodic singing-dominant. Catchy universal hooks. Light rap on verses. Never aggressive. Warm and accessible.',
+    vocalDNA: 'Warm raspy male vocals with melodic autotune. Genre-fluid but singing-dominant in delivery. More singing than rapping. Accessible and radio-friendly tone with emotional warmth.',
+    flowPattern: 'Singing-dominant with strong melodic hooks. Can flex rap on verses but prioritizes melodic phrasing. Catchy universal hooks. Warm and accessible delivery.',
     productionFingerprint: 'Signature: acoustic guitar foundation, trap drums, warm bass, atmospheric pads, polished radio mix, genre-fluid production',
-    culturalAnchors: 'Genre-fluid pop culture, accessible mainstream, warm vibes, party and heartbreak, universal appeal',
-    antiPatterns: 'NEVER aggressive, NEVER dark drill, NEVER minimal lo-fi, NEVER without melodic hooks',
+    structureDNA: 'Verse-chorus-verse. Short verses (8-12 bars) with singing/light rap. Strong melodic chorus focusing on singalong hooks. Bridge common.',
+    hookType: 'Strong melodic sung hook, designed for mass singalong appeal',
+    vocalPlacement: 'Floating in mix, warm laid-back intimate delivery, close-mic warmth',
+    energyCurve: 'Wave dynamics — builds from verse into powerful melodic hook',
+    culturalAnchors: 'Genre-fluid pop culture, accessible mainstream, warm vibes, emotional storytelling, universal appeal',
+    antiPatterns: 'Avoid aggressive delivery, dark drill production, minimal lo-fi elements',
     sunoMetatags: { vocalStyle: 'Pop-Rap Melodic Singing', vocalEffect: 'Melodic Autotune, Reverb', mood: 'Warm, Accessible, Emotional', energy: 'Medium', texture: 'Warm Acoustic-Trap', instrument: 'Acoustic Guitar, Trap Drums, Bass, Pads' }
   },
 
@@ -1091,7 +1311,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic hooks with afrorave energy. Dancing vocal rhythm. Never dark or slow. Infectious catchy phrasing.',
     productionFingerprint: 'Signature: rave synth stabs, punchy afro bass, African percussion, electronic hi-hats, festival-level energy, afrorave fusion',
     culturalAnchors: 'Nigerian afrorave movement, youth culture, global dance floors, high energy celebration, Benin City pride',
-    antiPatterns: 'NEVER dark or slow, NEVER drill or aggressive, NEVER minimal, NEVER without rave energy element',
+    structureDNA: 'Verse-hook-verse with afrorave. Medium verses (12-14 bars). Strong energetic hook.',
+    hookType: 'Melodic hook with rave energy',
+    vocalPlacement: 'Floating in mix, energetic presence',
+    energyCurve: 'Constant high energy — rave intensity',
+    antiPatterns: 'Avoid dark or slow, drill or aggressive, minimal, without rave energy element',
     sunoMetatags: { vocalStyle: 'Afrorave Melodic', vocalEffect: 'Light Processing, Reverb', mood: 'Energetic, Festive, Infectious', energy: 'Very High', texture: 'Rave-Afro Electronic', instrument: 'Rave Synths, Afro Bass, Percussion, Electronic Drums' }
   },
 
@@ -1108,7 +1332,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Classic boom bap flow. Dense multisyllabic rhymes. Storytelling narrative. Never singing — pure rap. Measured deliberate delivery.',
     productionFingerprint: 'Signature: boom bap drums, jazz samples, soul chops, vinyl crackle, classic golden era production, minimalist but rich',
     culturalAnchors: 'Queens NY street poetry, hip-hop golden era, lyrical supremacy, social commentary, black experience storytelling',
-    antiPatterns: 'NEVER autotune, NEVER singing, NEVER trap production, NEVER EDM or pop, NEVER drill',
+    structureDNA: 'Long lyrical verses (18+ bars). Minimal hooks or hook focus varies. Narrative structure.',
+    hookType: 'Rhythmic rap hook or spoken hook',
+    vocalPlacement: 'Clean ahead of beat, clear articulation',
+    energyCurve: 'Slow burn — builds through narrative',
+    antiPatterns: 'Avoid autotune, singing, trap production, EDM or pop, drill',
     sunoMetatags: { vocalStyle: 'Lyrical Boom Bap Rap', vocalEffect: 'Dry, Minimal Processing', mood: 'Reflective, Street Wise, Poetic', energy: 'Medium', texture: 'Classic Boom Bap', instrument: 'Boom Bap Drums, Jazz Samples, Soul Chops, Vinyl' }
   },
 
@@ -1125,7 +1353,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Melodic emotional flow. Alternates singing hooks and rap verses. Raw street storytelling with emotional depth.',
     productionFingerprint: 'Signature: deep 808, melancholic piano, atmospheric strings, trap drums, emotional nocturnal atmosphere',
     culturalAnchors: 'Blois street life, raw authenticity, emotional vulnerability, survival, loyalty, overlooked city pride',
-    antiPatterns: 'NEVER bright or cheerful, NEVER acoustic or folk, NEVER overly polished',
+    structureDNA: 'Verse-hook-verse. Medium verses (12-14 bars). Melodic hook.',
+    hookType: 'Melodic hook',
+    vocalPlacement: 'Floating in mix',
+    energyCurve: 'Wave dynamics',
+    antiPatterns: 'Avoid bright or cheerful, acoustic or folk, overly polished',
     sunoMetatags: { vocalStyle: 'Emotional Melodic Rap', vocalEffect: 'Melodic Autotune, Reverb', mood: 'Emotional, Melancholic, Authentic', energy: 'Medium', texture: 'Dark Warm', instrument: '808, Piano, Strings, Trap Drums' }
   },
 
@@ -1142,7 +1374,11 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Vocal chops and hooks only. No rap, no singing verses. Production carries the track. Dancefloor-focused.',
     productionFingerprint: 'Signature: four-on-the-floor kick, tropical percussion, house bassline, bright synth melodies, filtered vocal chops, festival energy',
     culturalAnchors: 'French house scene, summer festivals, Ibiza energy, tropical vibes, dancefloor culture',
-    antiPatterns: 'NEVER rap, NEVER dark aggressive, NEVER folk or country, NEVER slow ballad',
+    structureDNA: 'Unconventional electronic structure. Variable sections. Beat drops common.',
+    hookType: 'Hypnotic loop hook or melodic synth hook',
+    vocalPlacement: 'Floating in effects',
+    energyCurve: 'Explosive peaks',
+    antiPatterns: 'Avoid rap, dark aggressive, folk or country, slow ballad',
     sunoMetatags: { vocalStyle: 'Vocal Chops', vocalEffect: 'Filter, Chop, Reverb', mood: 'Festive, Summer, Groovy', energy: 'High', texture: 'Tropical House', instrument: 'House Kick, Tropical Percussion, Synth Melodies, Bassline' }
   },
 
@@ -1159,6 +1395,10 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     flowPattern: 'Contemporary rap flow, genre-adaptive phrasing.',
     productionFingerprint: 'Signature: modern urban production, dynamic drums, contemporary textures',
     culturalAnchors: 'Contemporary urban culture, street themes, modern production aesthetics',
+    structureDNA: 'Standard verse-hook-verse structure',
+    hookType: 'Melodic hook',
+    vocalPlacement: 'Floating in mix',
+    energyCurve: 'Wave dynamics',
     antiPatterns: 'None specific',
     sunoMetatags: {
       vocalStyle: 'Rap',

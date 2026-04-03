@@ -567,41 +567,50 @@ ${artistIdentitySummary}
     : "";
 
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA (PRE-TESTED SUNO V5.5 TEMPLATE – FONDATION EXCLUSIVE DE V1):
-Ce template est la BASE VALIDÉE pour V1 UNIQUEMENT. ENRICHIS-LE en 500-600 caractères en ajoutant GRAIN, ESPACE, MIX, DYNAMIC.
-NE PAS copier tel quel — DÉVELOPPER avec des adjectifs de texture précis.
-INTERDIT: Ajouter des genres externes ou des blends dans V1. V1 = CE TEMPLATE enrichi, rien d'autre.
+# SONIC DNA — MUSIC GENERATION CONTROL ENGINE (FONDATION EXCLUSIVE DE V1):
+Ce template est la BASE VALIDÉE pour V1. ENRICHIS-LE en 500-600 caractères.
+INTERDIT: Ajouter des genres externes. V1 = CE TEMPLATE enrichi, rien d'autre.
 
-TEMPLATE DE BASE (V1 EXCLUSIVEMENT — 0% blend): ${sonicDNA.sunoStyleTemplate}
-BPM RANGE: ${sonicDNA.sunoBpmRange}
-KEY: ${sonicDNA.sunoKey}
-VOCAL TAGS À INTÉGRER dans V1: ${sonicDNA.sunoVocalTags.join(' ')}
-WEIRDNESS OPTIMAL: ${sonicDNA.sunoWeirdness}/100
-STYLE INFLUENCE OPTIMAL: ${sonicDNA.sunoStyleInfluence}/100
+## STYLE CORE (V1 EXCLUSIVEMENT — 0% blend):
+${sonicDNA.sunoStyleTemplate}
+BPM: ${sonicDNA.sunoBpmRange} | KEY: ${sonicDNA.sunoKey}
+VOCAL TAGS: ${sonicDNA.sunoVocalTags.join(', ')}
+WEIRDNESS: ${sonicDNA.sunoWeirdness}/100 | STYLE INFLUENCE: ${sonicDNA.sunoStyleInfluence}/100
 
-# VOCAL DNA (SIGNATURE VOCALE ABSOLUE – IDENTIQUE DANS V1, V2 ET V3):
+## VOCAL ENGINE (comment la voix se comporte — appliquer aux 3 variantes):
 ${sonicDNA.vocalDNA || 'Non spécifié'}
 
-# FLOW PATTERN (PLACEMENT RYTHMIQUE SIGNATURE):
+## FLOW ENGINE (comment le rythme/débit fonctionne):
 ${sonicDNA.flowPattern || 'Non spécifié'}
 
-# PRODUCTION FINGERPRINT (SONS DE PRODUCTION SIGNATURE – À CONSERVER DANS LES 3 VARIANTES):
+## PRODUCTION ENGINE (quels sons dominent):
 ${sonicDNA.productionFingerprint || 'Non spécifié'}
 
-# CULTURAL ANCHORS (UNIVERS THÉMATIQUE ET LINGUISTIQUE):
+${sonicDNA.structureDNA ? `## STRUCTURE DNA (CRITIQUE — comment le morceau est construit):
+${sonicDNA.structureDNA}` : ''}
+
+${sonicDNA.hookType ? `## HOOK TYPE (CRITIQUE — quel type de refrain):
+${sonicDNA.hookType}` : ''}
+
+${sonicDNA.vocalPlacement ? `## VOCAL PLACEMENT (CRITIQUE — position de la voix dans le mix/beat):
+${sonicDNA.vocalPlacement}` : ''}
+
+${sonicDNA.energyCurve ? `## ENERGY CURVE (CRITIQUE — dynamique du morceau):
+${sonicDNA.energyCurve}` : ''}
+
+## CONTEXTE CULTUREL:
 ${sonicDNA.culturalAnchors || 'Non spécifié'}
 
-# ANTI-PATTERNS (CE QUE L'ARTISTE NE FAIT JAMAIS – EXCLURE ABSOLUMENT DES 3 VARIANTES):
+## ANTI-PATTERNS (comportements interdits):
 ${sonicDNA.antiPatterns || 'Non spécifié'}
 
-# METATAGS V5.5 PRÉ-CALIBRÉS (INJECTER DANS CHAQUE SECTION DE LYRICS):
+## METATAGS V5.5 (injecter avant chaque section de lyrics):
 [Vocal Style: ${sonicDNA.sunoMetatags?.vocalStyle || 'Rap'}]
 [Vocal Effect: ${sonicDNA.sunoMetatags?.vocalEffect || 'Reverb'}]
 [Mood: ${sonicDNA.sunoMetatags?.mood || 'Dark'}]
 [Energy: ${sonicDNA.sunoMetatags?.energy || 'Medium'}]
 [Texture: ${sonicDNA.sunoMetatags?.texture || 'Crisp Digital'}]
 [Instrument: ${sonicDNA.sunoMetatags?.instrument || '808 Bass'}]
-RÈGLE: UN tag par ligne. Placer AVANT les lyrics de chaque section.
 ` : '';
 
   const artistSpecifics = getArtistSpecificInstructions(inspiredBy);
