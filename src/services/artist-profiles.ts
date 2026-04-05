@@ -43,14 +43,16 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   },
   {
     keywords: ["DAMSO"],
-    isMelodic: true,
-    instructions: `# ARTIST PROFILE — DARK EXPERIMENTAL BELGIAN RAP:
-- SOUND: Dark Experimental Rap, Belgian Underground Noir, NOT R&B, NOT pop sensuelle. This is sombre avant-garde rap with melodic elements — never mainstream R&B.
-- VOCAL: Deep sensual voice, subtle artistic autotune, alternation between precise articulated rap and dark singing. Very precise diction, unique phrasing with rhythmic breaks.
-- THEMES: Raw sexuality as philosophy, dark introspection, toxic relationships, good/evil duality, intellectual provocation. NOT dancehall, NOT afro-pop, NOT congolese pop.
-- PRODUCTION: Deep saturated 808 bass, dark atmospheric synths, subtle industrial textures, minimalist but percussive drums. Nocturnal cinematic atmosphere. NOT tropical, NOT festive.
+    isMelodic: false,
+    instructions: `# ARTIST PROFILE — DARK FRENCH TRAP / BRUSSELS NOIR (RAPPER — NOT A SINGER):
+- SOUND: Dark French Trap-Drill crossover, Belgian Underground Noir. Two production modes, both built on RAP flow. NEVER R&B, NEVER pop sensuelle, NEVER afro-pop, NEVER congolese pop.
+- VOCAL MODE 1 — DRILL/RAW (142 BPM): Masculine raspy vocals, grainy authoritative timbre, nonchalant delivery. Staccato rap flow with heavy phrase-end doubling and short echo delays. Seine-Saint-Denis 93 accent. Pure rap, NO melodic singing.
+- VOCAL MODE 2 — NOCTURNAL TRAP (130 BPM): Masculine vocals with heavy metallic autotune (NOT romantic R&B autotune — cold metallic Belgian autotune). Honeyed nasal tone, laid-back nonchalant rap-crooner. Still a RAPPER with autotune, not a singer.
+- THEMES: Raw sexuality as dark philosophy, existential introspection, toxic relationships, street duality, intellectual provocation, Belgian noir identity. Rich complex vocabulary, permanent double meaning.
+- PRODUCTION MODE 1 (DRILL): Moody minor key piano loops, haunting atmospheric textures, sliding distorted sub-bass 808, crisp metallic triplet hi-hats, hard-hitting snare. 142 BPM. Analog saturation, wide soundstage, nocturnal urban street vibe, close-mic intimacy.
+- PRODUCTION MODE 2 (NOCTURNAL): Nocturnal atmospheric pads, filtered Rhodes, heavy sliding 808 sub-bass, crisp digital trap drums, lush reverb and delay, wide soundstage. 130 BPM, G minor. Sophisticated expensive soundscape, intimate close-mic.
 - LANGUAGE: Sophisticated French mixed with Belgian slang. Rich vocabulary, complex metaphors, permanent double meaning.
-- RULE: PROVOCATEUR and INTELLECTUAL must coexist. This is DARK EXPERIMENTAL BELGIAN RAP — FORBIDDEN to produce R&B, pop, afro-pop, or congolese pop. The darkness and philosophical edge are NON-NEGOTIABLE.`
+- RULE: DAMSO IS A RAPPER. He raps with autotune — he does NOT sing. The autotune is cold and metallic, NOT warm R&B autotune. FORBIDDEN: R&B, pop, afro-pop, congolese pop, warm melodic singing, bright cheerful production.`
   },
   {
     keywords: ["GAZO"],
@@ -537,6 +539,14 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Syncopated brutal flow, with dramatic pauses.
 - Raw, street, territorial language. Pure aggression.`,
 
+    'DARK_TRAP_MELODIC': `DARK TRAP MELODIC (BELGIAN / DAMSO) DNA:
+- Dark trap production: minor key piano loops, haunting atmospheric pads, sliding distorted 808.
+- Crisp metallic triplet hi-hats, hard snare, 130-142 BPM.
+- Rap-first delivery: staccato flow with phrase-end doubling, short echo delays.
+- Autotune is COLD and METALLIC (never warm/R&B). Nonchalant, authoritative, Belgian noir.
+- Themes: dark philosophy, sexuality as weapon, existential duality, intellectual provocation.
+- Language: rich sophisticated French, Belgian slang, complex metaphors, permanent double meaning.`,
+
     'DARK_LYRICAL': `DARK LYRICAL DNA:
 - Dense technical flow, zero melody, syllable = percussion.
 - Dark production: boom-bap drill hybrid, pitched orchestral samples.
@@ -617,12 +627,17 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // French Rap
   if (upper.includes('JUL') || upper.includes('GAZO') || upper.includes('NINHO') ||
-      upper.includes('DAMSO') || upper.includes('FREEZE') || upper.includes('ALPHA') ||
+      upper.includes('FREEZE') || upper.includes('ALPHA') ||
       upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') ||
       upper.includes('KAARIS') || upper.includes('VALD') || upper.includes('WERENOI') ||
       upper.includes('MAES') || upper.includes('SCH') || upper.includes('LACRIM') ||
       upper.includes('NIRO') || upper.includes('SALIF')) {
     matchKeys.push('RAP_FR');
+  }
+
+  // DAMSO gets its own specialized DNA (dark trap melodic, NOT generic R&B)
+  if (upper.includes('DAMSO')) {
+    matchKeys.push('DARK_TRAP_MELODIC');
   }
 
   // Drill FR
