@@ -444,8 +444,12 @@ Respond ONLY in JSON (no backticks).`;
       deduplicated.push(v);
     }
 
+    // Ensure negativePrompt is always present — fallback to artist excludeStyles or genre negative
+    const finalNegativePrompt = parsed.negativePrompt || combinedNegativePrompt || 'generic, low quality, amateur, distorted, noise';
+
     return {
       ...parsed,
+      negativePrompt: finalNegativePrompt,
       sunoPrompts: deduplicated,
       structuredLyrics: parsed.structuredLyrics || []
     };
@@ -454,6 +458,7 @@ Respond ONLY in JSON (no backticks).`;
     return {
       sunoPrompt: fallback,
       sunoPrompts: [fallback, fallback, fallback],
+      negativePrompt: sonicDNA?.sunoExcludeStyles || 'generic, low quality, amateur, distorted, noise',
       lyrics: `Error: ${lastError?.message || "Unknown error"}`,
       structuredLyrics: [],
       quality: { score: 0, message: `[FALLBACK] ${lastError?.message || "Unknown error"}` }
