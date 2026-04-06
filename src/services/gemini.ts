@@ -260,6 +260,9 @@ ${sonicDNA.productionFingerprint || 'Not specified'}
 ${sonicDNA.structureDNA ? `\n## STRUCTURE: ${sonicDNA.structureDNA}` : ''}
 ${sonicDNA.hookType ? `\n## HOOK: ${sonicDNA.hookType}` : ''}
 ${sonicDNA.energyCurve ? `\n## ENERGY CURVE: ${sonicDNA.energyCurve}` : ''}
+${sonicDNA.productionMarkers ? `\n## PRODUCTION MARKERS (CRITICAL): ${sonicDNA.productionMarkers}` : ''}
+${sonicDNA.hookStrategy ? `\n## HOOK STRATEGY (CRITICAL): ${sonicDNA.hookStrategy}` : ''}
+${sonicDNA.verseBehavior ? `\n## VERSE BEHAVIOR (CRITICAL): ${sonicDNA.verseBehavior}` : ''}
 
 ## CULTURAL ANCHORS: ${sonicDNA.culturalAnchors || 'Not specified'}
 ## ANTI-PATTERNS: ${sonicDNA.antiPatterns || 'Not specified'}
