@@ -521,6 +521,7 @@ export const MUSIC_ARTISTS = [
   { id: 'snoh-aalegra', name: 'SNOH AALEGRA', sub: 'Soulful R&B / Jazz', weirdness: 18, styleInfluence: 82 },
   { id: 'nas', name: 'NAS', sub: '90s East Coast / Boom Bap', weirdness: 12, styleInfluence: 88 },
   { id: 'mobb-deep', name: 'MOBB DEEP', sub: 'Queensbridge Hardcore / Dark Boom Bap', weirdness: 20, styleInfluence: 92 },
+  { id: 'jorja-smith', name: 'JORJA SMITH', sub: 'UK Neo-Soul / British R&B', weirdness: 22, styleInfluence: 85 },
   { id: 'jedi-mind-tricks', name: 'JEDI MIND TRICKS', sub: 'Underground Orchestral / Militant Boom Bap', weirdness: 28, styleInfluence: 90 },
   { id: 'reda-taliani', name: 'REDA TALIANI', sub: 'Raï-Chaâbi Urbain / Street Festif', weirdness: 10, styleInfluence: 85 },
   { id: 'cheb-hasni', name: 'CHEB HASNI', sub: 'Raï Sentimental / Love Ballad', weirdness: 8, styleInfluence: 88 },

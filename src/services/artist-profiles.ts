@@ -302,6 +302,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - RULE: ORCHESTRAL CINEMATIC DARKNESS is the DNA. Stoupe's production = classical music meets street violence. Hook = orchestral break or scratched sample, NEVER pop melody.`
   },
   {
+    keywords: ["JORJA SMITH", "JORJA"],
+    isMelodic: true,
+    instructions: `# ARTIST PROFILE — UK NEO-SOUL R&B:
+- SOUND: UK Neo-Soul R&B, Warm British Soul, Jazzy Vocal R&B. NOT American pop-R&B — this is London soul with jazz-club intimacy.
+- VOCAL: FEMALE warm alto with natural vibrato and British soul inflection. Breathy intimate delivery building to controlled emotional power. Jazz phrasing. NO heavy autotune.
+- THEMES: Emotional honesty, modern love/heartbreak, femininity and strength, London life, vulnerability as power.
+- PRODUCTION: Live bass guitar, warm Rhodes piano, soft jazz drums (brush snare), subtle string pads, fingerpicked acoustic guitar, minimal electronics. UK garage subtle rhythmic influence. BPM 85-105.
+- LANGUAGE: English with British inflection.
+- RULE: ORGANIC WARMTH and VOCAL INTIMACY are non-negotiable. Production serves the voice, never overwhelms it.`
+  },
+  {
     keywords: ["THE WEEKND", "WEEKND"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — DARK SYNTH-POP R&B:
@@ -713,7 +724,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Neo-Soul
   if (upper.includes('SNOH') || upper.includes('SADE') ||
-      upper.includes('MONSIEUR NOV')) {
+      upper.includes('MONSIEUR NOV') || upper.includes('JORJA')) {
     matchKeys.push('NEO_SOUL');
   }
 

@@ -418,26 +418,61 @@ Respond ONLY in JSON (no backticks).`;
       }
     }
 
-    // Deduplicate variants
+    // Deduplicate variants with real production divergence
     const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
     const deduplicated = [coreVariant];
+
+    // V2 texture mutations: opposite grain/reverb/space
+    const v2Textures = [
+      'Tape saturation, warm analog compression, vintage tube warmth',
+      'Crisp digital clarity, stereo widening, airy high-end shimmer',
+      'Lo-fi vinyl crackle, dusty sample texture, warm distortion',
+      'Wet reverb wash, spacious cathedral echo, dreamy delay tails',
+      'Dry close-mic intimacy, tight compression, punchy transients',
+      'Grainy film score texture, subtle chorus modulation, detuned warmth'
+    ];
+    // V3 instrument mutations: swap core instruments
+    const v3Instruments = [
+      'Live strings section, pizzicato accents, orchestral dynamics',
+      'Analog Moog bass, arpeggio synthesizer, vocoder textures',
+      'Acoustic piano, brush drums, upright bass, jazz trio feel',
+      'Distorted 808 glide, industrial percussion, metallic textures',
+      'Marimba, kalimba, organic hand percussion, wooden textures',
+      'Electric guitar clean arpeggios, pedal steel, warm amp tone',
+      'Choir vocal pads, organ Hammond, gospel keys, soulful warmth',
+      'Sitar drone, tabla rhythms, tanpura ambient, Eastern modal'
+    ];
+    const pickRandom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
     for (let i = 1; i < 3; i++) {
       let v = variants[i] && variants[i] !== coreVariant ? variants[i] : '';
       const vTokens = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
       const coreTokens = new Set(coreVariant.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
       const shared = [...vTokens].filter(t => coreTokens.has(t)).length;
       const similarity = vTokens.size > 0 ? shared / vTokens.size : 1;
-      if (!v || similarity > 0.80) {
+      if (!v || similarity > 0.70) {
         let mod = v || coreVariant;
+        // BPM shift
         const bpmMatch = coreVariant.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
         if (bpmMatch) {
           const mid = (parseInt(bpmMatch[1]) + parseInt(bpmMatch[2])) / 2;
-          const shift = i === 1 ? -15 : 15;
+          const shift = i === 1 ? -15 : 20;
           mod = mod.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(Math.max(60, mid + shift - 10))}-${Math.round(Math.min(200, mid + shift + 10))} BPM`);
         }
+        // Key shift
         if (i === 1 && mod.includes('Minor')) mod = mod.replace(/Minor/g, 'Major');
         else if (mod.includes('Major')) mod = mod.replace(/Major/g, 'Minor');
+        // V2: add texture mutation
+        if (i === 1) {
+          mod = mod + ', ' + pickRandom(v2Textures);
+        }
+        // V3: add instrument mutation + fusion texture
+        if (i === 2) {
+          mod = mod + ', ' + pickRandom(v3Instruments) + ', ' + pickRandom(v2Textures);
+        }
+        // Truncate at comma boundary if too long
+        if (mod.length > 650) mod = mod.slice(0, mod.lastIndexOf(',', 650)) || mod.slice(0, 650);
         if (!mod.includes('[DIVERGENCE]')) mod = `[DIVERGENCE V${i + 1}] ` + mod;
         v = mod;
       }
