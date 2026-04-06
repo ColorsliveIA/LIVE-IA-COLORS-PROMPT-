@@ -540,7 +540,7 @@ export const MUSIC_ARTISTS = [
   { id: 'central-cee', name: 'CENTRAL CEE', sub: 'UK Drill', weirdness: 18, styleInfluence: 80 },
   { id: 'gazo', name: 'GAZO', sub: 'French Drill', weirdness: 15, styleInfluence: 82 },
   { id: 'booba', name: 'BOOBA', sub: 'Trap-Orchestral / Légende', weirdness: 18, styleInfluence: 82 },
-  { id: 'sdm', name: 'SDM', sub: 'Afro-Melodic / Dark Street', weirdness: 18, styleInfluence: 78 },
+  { id: 'sdm', name: 'SDM', sub: 'French Trap / Dark Melodic Drill', weirdness: 30, styleInfluence: 85 },
   { id: 'sch', name: 'SCH', sub: 'Rap Cinématique / Mafieux JVLIVS', weirdness: 32, styleInfluence: 82 },
   { id: 'damso', name: 'DAMSO', sub: 'Dark / Intimate / Sensuel', weirdness: 35, styleInfluence: 80 },
   { id: 'jul', name: 'JUL', sub: 'Marseille / Chanté-Rappé', weirdness: 12, styleInfluence: 85 },

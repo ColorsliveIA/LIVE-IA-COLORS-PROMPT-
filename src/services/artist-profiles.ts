@@ -98,11 +98,12 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   {
     keywords: ["SDM"],
     isMelodic: true,
-    instructions: `# ARTIST PROFILE — AFRO-STREET MELODIC:
-- SOUND: Afro-Trap Melodic, Street Melodic, Dark Afro.
-- VOCAL: Melodic autotune, deep poised voice, melodic flow with rap accelerations. Alternation between dark singing and technical rap.
-- THEMES: Dark street, nocturnal melancholy, bitter success, neighborhood, loyalty, betrayal.
-- PRODUCTION: Deep 808s, dark melodies (piano, guitar), subtle afro influences in percussion, complex hi-hats. Nocturnal atmosphere.`
+    instructions: `# ARTIST PROFILE — FRENCH TRAP / DARK MELODIC DRILL:
+- SOUND: French Trap, Dark Melodic Drill, Minimal Street Rap. NOT Afro-Trap — SDM is COLD, GLACIAL, URBAN. Zero afro influence.
+- VOCAL: Deep masculine voice, cold and controlled. Staccato minimal rap on verses. Heavy metallic autotune on hooks — dark and glacial, NOT warm. Arrogant yet introspective.
+- THEMES: Nocturnal urban solitude, cold ambition, arrogant street success, introspective darkness, loyalty codes, Paris banlieue concrete.
+- PRODUCTION: Heavy 808 sub-bass with slides, dark somber piano (sparse minor key), glacial icy synths, airy ethereal textures, crisp drill hi-hats, MINIMAL arrangement — space and silence are the weapons. NO afro percussion, NO warm analog, NO bounce. BPM 130-150.
+- RULE: COLD MINIMAL DARKNESS is non-negotiable. Production is SPARSE and ICY. Never warm, never festive, never afro.`
   },
   {
     keywords: ["NISKA"],
@@ -642,12 +643,12 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   }
 
   // Drill FR
-  if ((upper.includes('DRILL') && upper.includes('FR')) || upper.includes('GAZO')) {
+  if ((upper.includes('DRILL') && upper.includes('FR')) || upper.includes('GAZO') || upper.includes('SDM')) {
     matchKeys.push('DRILL_FR');
   }
 
   // Dark Lyrical
-  if (upper.includes('FREEZE') || upper.includes('ALPHA WANN')) matchKeys.push('DARK_LYRICAL');
+  if (upper.includes('FREEZE') || upper.includes('ALPHA WANN') || upper.includes('SDM')) matchKeys.push('DARK_LYRICAL');
 
   // US/UK Rap
   if (upper.includes('DRAKE') || upper.includes('TRAVIS SCOTT') || upper.includes('CENTRAL CEE') ||
@@ -693,7 +694,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Afro Melodic
   if ((upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA'))) ||
-      upper.includes('NISKA') || upper.includes('SDM') ||
+      upper.includes('NISKA') ||
       upper.includes('DADJU')) {
     matchKeys.push('AFRO_MELO');
   }
