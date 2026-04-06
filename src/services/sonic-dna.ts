@@ -549,27 +549,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoMetatags: { vocalStyle: 'Melodic Singing', vocalEffect: 'Autotune', mood: 'Smooth, Nocturnal', energy: 'Medium', texture: 'Smooth Luxury', instrument: '808 Bass, Luxury Synths, Hi-Hats' }
   },
 
-  'STROMAE': {
-    artist: 'STROMAE',
-    sunoStyleTemplate: 'Belgian Art-Pop, Electro-Chanson Française, Danceable Melancholy, Theatrical Vocal Performance, 110-130 BPM, Key: C Minor, Electronic Synths, Congolese Rumba Influence, Dancefloor Drums, Orchestral Accents, Expressive Theatrical Voice, Contrast Between Sadness and Dance Energy, 2020s',
-    sunoBpmRange: '110-130',
-    sunoKey: 'C Minor',
-    sunoVocalTags: ['Theatrical Singing', 'Expressive Modulation', 'Spoken-Sung', 'Belgian Accent'],
-    sunoWeirdness: 65,
-    sunoStyleInfluence: 88,
-    sunoExcludeStyles: 'trap, drill, aggressive rap, minimal, lo-fi',
-    vocalDNA: 'Articulate theatrical voice, expressive modulation, alternation between powerful singing and spoken-sung delivery.',
-    flowPattern: 'Theatrical phrasing, conversational to dramatic shifts. Melody-driven but with narrative precision.',
-    productionFingerprint: 'Signature: modern electronic synths, subtle Congolese rumba influences, dancefloor beats, occasional orchestral accents',
-    culturalAnchors: 'Danceable melancholy, social critique, fatherhood, modern society, solitude, Belgian-Congolese identity, dark humor',
-    structureDNA: 'Verse-chorus-verse with electronic structure. Short verses (10-12 bars). Strong memorable chorus.',
-    hookType: 'Melodic sung hook, catchy and singalong',
-    vocalPlacement: 'Clean in mix, ahead of beat slightly',
-    energyCurve: 'Wave dynamics — builds to powerful chorus',
-    antiPatterns: 'No trap/drill, no aggressive rap, no minimal production, no lo-fi',
-    sunoMetatags: { vocalStyle: 'Theatrical Singing', vocalEffect: 'Minimal', mood: 'Melancholic, Danceable', energy: 'Medium-High', texture: 'Electronic Polish', instrument: 'Synths, Electronic Drums, Strings' }
-  },
-
   'TRAVIS SCOTT': {
     artist: 'TRAVIS SCOTT',
     sunoStyleTemplate: 'Psychedelic Dark Trap, Ambient Atmospheric Rap, Cosmic Autotune, Beat Switch Artistry, 130-150 BPM, Key: F Minor, Saturated Deep 808, Atmospheric Floating Synths, Phaser-Flanger Effects, Massive Reverb, Thick Artistic Autotune, Cosmic Chaotic Energy, 2020s',
@@ -822,27 +801,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoMetatags: { vocalStyle: 'Raï Melodic', vocalEffect: 'Autotune, Reverb', mood: 'Nostalgic, Melancholic', energy: 'Medium', texture: 'Mediterranean Warm', instrument: 'Oud, Mandole, Darbuka, Guitar, 808' }
   },
 
-  'WIZKID': {
-    artist: 'WIZKID',
-    sunoStyleTemplate: 'Smooth Afrobeats, Effortless Afro-Pop, Lagos Nonchalant Groove, 100-112 BPM, Key: Eb Minor, Log Drums Afrobeats, Shekere Percussion, Warm Sub Bass, Soft Synth Pads, Clean Afro Guitar Licks, Silky Male Tenor Voice, Effortless Cool Vibes, 2020s',
-    sunoBpmRange: '100-112',
-    sunoKey: 'Eb Minor',
-    sunoVocalTags: ['Silky Tenor', 'Effortless Delivery', 'Yoruba Inflection', 'Smooth Melodic'],
-    sunoWeirdness: 35,
-    sunoStyleInfluence: 85,
-    sunoExcludeStyles: 'aggressive, dark, trap heavy, rock, minimal',
-    vocalDNA: 'MALE silky tenor, nonchalant effortless delivery. Melodic fluid singing with Yoruba inflection.',
-    flowPattern: 'Effortless flowing delivery, voice glides on beat.',
-    productionFingerprint: 'Signature: log drums, shekere percussion, warm sub bass, soft synth pads, clean afro guitar licks',
-    culturalAnchors: 'Love, dance, Lagos nightlife, African pride, feminine beauty, positive vibes',
-    structureDNA: 'Verse-chorus-verse with afrobeats structure.',
-    hookType: 'Melodic sung hook, global appeal',
-    vocalPlacement: 'Floating in mix, laid-back groovy',
-    energyCurve: 'Wave dynamics — builds to infectious chorus',
-    antiPatterns: 'No aggression, no dark themes, no heavy trap bass',
-    sunoMetatags: { vocalStyle: 'Smooth Singing', vocalEffect: 'Minimal', mood: 'Cool, Smooth', energy: 'Medium', texture: 'Warm Analog', instrument: 'Log Drums, Shekere, Sub Bass, Guitar' }
-  },
-
   'TEMS': {
     artist: 'TEMS',
     sunoStyleTemplate: 'Alt-Afro Soul, Ethereal R&B, Haunting African Soul, 95-110 BPM, Key: D Minor, Soft Afro Percussion, Warm Bass, Ethereal Synth Pads, Fingerpicked Acoustic Guitar, Layered Vocal Harmonies, Ethereal Female Voice Whisper to Power, Dreamy Warm Atmosphere, 2020s',
@@ -997,27 +955,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     sunoMetatags: { vocalStyle: 'R&B Falsetto', vocalEffect: 'Reverb, Delay, Light Autotune', mood: 'Dark, Nocturnal, Sensual', energy: 'Medium', texture: 'Warm Analog Synth', instrument: 'Analog Synth Bass, Retro Drums, Synth Pads, Strings' }
   },
 
-  'SZA': {
-    artist: 'SZA',
-    sunoStyleTemplate: 'Neo-Soul R&B, Alternative R&B, Warm Organic Production, Emotional Female Vocals, 80-105 BPM, Key: F Minor, Warm Sub Bass, Live Drums, Rhodes Keys, Acoustic Guitar Textures, Lush Vocal Harmonies, Breathy Intimate Delivery, Ethereal Reverb, Confessional Intimate Atmosphere, 2020s',
-    sunoBpmRange: '80-105',
-    sunoKey: 'F Minor',
-    sunoVocalTags: ['Emotional Female Vocals', 'Breathy Intimate', 'Neo-Soul Runs', 'Lush Harmonies'],
-    sunoWeirdness: 30,
-    sunoStyleInfluence: 85,
-    sunoExcludeStyles: 'aggressive rap, drill, metal, EDM, hard trap, bright pop',
-    vocalDNA: 'Emotional breathy female vocals. Neo-soul runs and melisma. Intimate confessional delivery.',
-    flowPattern: 'Melodic singing with R&B soul runs. Switches between breathy whisper and full emotional belt.',
-    productionFingerprint: 'Signature: warm organic production, live drums, Rhodes piano, acoustic guitar textures, lush reverb',
-    culturalAnchors: 'Emotional vulnerability, relationships, feminine empowerment, confessional storytelling',
-    structureDNA: 'Verse-chorus-verse with R&B/soul structure.',
-    hookType: 'Melodic sung hook with vocal runs',
-    vocalPlacement: 'Floating in mix, warm intimate delivery',
-    energyCurve: 'Wave dynamics — builds to emotional chorus',
-    antiPatterns: 'Avoid aggressive, hard trap, EDM, male vocal energy',
-    sunoMetatags: { vocalStyle: 'Neo-Soul R&B', vocalEffect: 'Reverb, Vocal Harmonies', mood: 'Emotional, Intimate, Vulnerable', energy: 'Low-Medium', texture: 'Warm Organic', instrument: 'Sub Bass, Rhodes, Acoustic Guitar, Live Drums' }
-  },
-
   'MAES': {
     artist: 'MAES',
     sunoStyleTemplate: 'Street Melodic Trap, Dark French Rap, Sevran Energy, Deep Grave Voice, Melodic Hooks with Autotune, 125-140 BPM, Key: A Minor, Heavy 808 Sub Bass, Dark Piano Melodies, Crisp Trap Drums, Complex Hi-Hats, Nocturnal Street Atmosphere, Raw Authentic Delivery, 2020s',
@@ -1100,27 +1037,6 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     energyCurve: 'Wave dynamics',
     antiPatterns: 'Avoid dark or aggressive, minimal or lo-fi',
     sunoMetatags: { vocalStyle: 'Festive Melodic Rap', vocalEffect: 'Light Autotune', mood: 'Festive, Energetic, Bouncy', energy: 'High', texture: 'Bright Warm', instrument: 'Bouncy 808, Djembe, Congas, Sabar, Festive Synths' }
-  },
-
-  'TAYC': {
-    artist: 'TAYC',
-    sunoStyleTemplate: 'French Afro-R&B, Smooth Melodic Pop-R&B, Warm Romantic Atmosphere, 90-110 BPM, Key: Ab Major, Warm Sub Bass, Lush Rhodes Chords, Afro Percussion Subtle, Smooth R&B Drums, Rich Autotune Melodic Vocals, Romantic Sensual Vibe, Polished Hi-End Mix, 2020s',
-    sunoBpmRange: '90-110',
-    sunoKey: 'Ab Major',
-    sunoVocalTags: ['Rich Autotune Melodic', 'Smooth R&B Singing', 'Romantic Delivery', 'Warm Male Tenor'],
-    sunoWeirdness: 20,
-    sunoStyleInfluence: 85,
-    sunoExcludeStyles: 'aggressive rap, drill, dark trap, metal, rock, punk, harsh',
-    vocalDNA: 'Rich smooth male tenor with melodic autotune. Singing-dominant delivery. Romantic sensual delivery.',
-    flowPattern: 'Pure R&B melodic singing dominant. Smooth hooks with vocal runs.',
-    productionFingerprint: 'Signature: lush Rhodes chords, warm sub bass, subtle afro percussion, smooth R&B drums',
-    structureDNA: 'Verse-chorus-verse.',
-    hookType: 'Melodic sung hook with vocal runs and romantic inflection',
-    vocalPlacement: 'Floating in mix, laid-back intimate delivery',
-    energyCurve: 'Wave dynamics',
-    culturalAnchors: 'French Afro-R&B romance, sensuality, love stories, smooth lifestyle',
-    antiPatterns: 'Avoid aggressive delivery, dark or harsh production',
-    sunoMetatags: { vocalStyle: 'R&B Melodic Singing', vocalEffect: 'Smooth Autotune, Reverb', mood: 'Romantic, Warm, Sensual', energy: 'Medium', texture: 'Smooth Warm', instrument: 'Sub Bass, Rhodes, Afro Percussion, R&B Drums' }
   },
 
   'DADJU': {
@@ -1331,6 +1247,48 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
     energyCurve: 'Slow burn',
     antiPatterns: 'Avoid autotune, singing, trap production, EDM or pop',
     sunoMetatags: { vocalStyle: 'Lyrical Boom Bap Rap', vocalEffect: 'Dry, Minimal Processing', mood: 'Reflective, Street Wise, Poetic', energy: 'Medium', texture: 'Classic Boom Bap', instrument: 'Boom Bap Drums, Jazz Samples, Soul Chops, Vinyl' }
+  },
+
+  'MOBB DEEP': {
+    artist: 'MOBB DEEP',
+    sunoStyleTemplate: 'Hardcore East Coast Boom Bap, Queensbridge Dark Hip-Hop, Grimy Street Rap, Minimalist Menacing Production, 90-96 BPM, Key: Eb Minor, Hard Boom Bap Drums, Dark Piano Loops, Eerie Minor Key Samples, Gritty Vinyl Texture, Deep Male Dual Voices, No Autotune, Raw Street Delivery, Queensbridge Project Atmosphere, 1990s Golden Era',
+    sunoBpmRange: '90-96',
+    sunoKey: 'Eb Minor',
+    sunoVocalTags: ['Deep Male Dual Voices', 'No Autotune', 'Grimy Street Delivery', 'Monotone Menacing Cadence'],
+    sunoWeirdness: 20,
+    sunoStyleInfluence: 92,
+    sunoExcludeStyles: 'autotune, melodic singing, trap hi-hats, EDM, pop, drill, bright, cheerful, reggaeton',
+    vocalDNA: 'Prodigy: nasal monotone menacing baritone, cold and detached. Havoc: deeper grittier voice, complementary. Dual delivery trades verses. No autotune ever.',
+    flowPattern: 'Tight compact bars, steady relentless flow. No flashy multisyllabic — direct, cold, punchy. Short hard-hitting lines.',
+    productionFingerprint: 'Signature: Havoc minimalist dark piano loops, hard boom bap drums (crisp snare, punchy kick), eerie string samples, minor key melancholy, gritty vinyl dust, sparse arrangement — space in the beat is the weapon',
+    culturalAnchors: 'Queensbridge projects, street survival, paranoia, loyalty and betrayal, NYC hardcore golden era, nihilistic realism',
+    structureDNA: 'Verse-verse-hook structure. Long raw verses (16 bars). Hook is minimal — often just a repeated line or scratched sample. No sung chorus.',
+    hookType: 'Chant hook or scratched DJ hook — never melodic singing',
+    vocalPlacement: 'Dry in mix, close-mic, ahead of beat, punchy attack',
+    energyCurve: 'Constant aggression — flat menacing intensity throughout',
+    antiPatterns: 'Avoid autotune, melodic hooks, trap production, singing, bright chords, upbeat vibes, any modern pop element',
+    sunoMetatags: { vocalStyle: 'Hardcore Boom Bap Rap', vocalEffect: 'Dry, Minimal Processing', mood: 'Dark, Menacing, Paranoid, Cold', energy: 'Medium-High Constant', texture: 'Gritty Raw Analog', instrument: 'Dark Piano Loops, Boom Bap Drums, Eerie Strings, Vinyl Crackle' }
+  },
+
+  'JEDI MIND TRICKS': {
+    artist: 'JEDI MIND TRICKS',
+    sunoStyleTemplate: 'Underground Hardcore Hip-Hop, Dark Orchestral Boom Bap, Militant Street Rap, Cinematic Violent Lyricism, 85-95 BPM, Key: D Minor, Orchestral String Samples, Dark Choir Vocals, Hard Boom Bap Drums, Cellos and Violins, Middle Eastern Samples, Deep Aggressive Male Voice, No Autotune, Vinnie Paz Gravel Delivery, Underground Philadelphia Sound, Late 1990s-2000s',
+    sunoBpmRange: '85-95',
+    sunoKey: 'D Minor',
+    sunoVocalTags: ['Deep Gravel Voice', 'No Autotune', 'Aggressive Militant Delivery', 'Staccato Hard Punchlines'],
+    sunoWeirdness: 28,
+    sunoStyleInfluence: 90,
+    sunoExcludeStyles: 'autotune, melodic singing, trap, EDM, pop, bright, cheerful, dancehall, reggaeton, lo-fi chill',
+    vocalDNA: 'Vinnie Paz: deep gravelly aggressive baritone, Italian-American Philly accent, militant delivery, staccato punches. Raw unpolished power. No singing ever.',
+    flowPattern: 'Dense aggressive bars, staccato punching delivery. Hard consonant emphasis. Multisyllabic internal rhymes. Rapid-fire then pause for impact.',
+    productionFingerprint: 'Signature: Stoupe the Enemy of Mankind production — cinematic orchestral samples (cellos, violins, full orchestra), dark choir vocals, Middle Eastern/Arabic melodic samples, hard boom bap drums (heavy kick, crisp snare), dramatic builds, movie-score darkness',
+    culturalAnchors: 'Philadelphia underground, militant spirituality, conspiracy theories, violent street metaphors, Italian-American identity, anti-establishment, boxing/combat imagery',
+    structureDNA: 'Long dense verses (16-20 bars). Minimal hooks — often just an orchestral break or a scratched vocal sample. Guest verses frequent (Tragedy Khadafi, GZA, Sean Price).',
+    hookType: 'No melodic hook — orchestral break or scratched sample or spoken word',
+    vocalPlacement: 'Dry close-mic, aggressive in-your-face, ahead of beat',
+    energyCurve: 'Constant aggression with orchestral crescendo peaks',
+    antiPatterns: 'Avoid autotune, singing, trap beats, modern drill, pop hooks, bright production, chill vibes',
+    sunoMetatags: { vocalStyle: 'Underground Hardcore Rap', vocalEffect: 'Dry, Raw, Minimal Processing', mood: 'Dark, Militant, Cinematic, Violent', energy: 'High Constant', texture: 'Orchestral Dark Analog', instrument: 'Orchestral Strings, Cellos, Dark Choir, Boom Bap Drums, Middle Eastern Samples' }
   },
 
   'NIRO': {

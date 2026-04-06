@@ -266,16 +266,6 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - RULE: This is a MALE artist with a young man's voice.`
   },
   {
-    keywords: ["STROMAE"],
-    isMelodic: true,
-    instructions: `# ARTIST PROFILE — ART-POP:
-- SOUND: Art-Pop, Electro-Chanson, Belgian New Wave.
-- VOCAL: Articulate, theatrical, expressive modulated voice, alternation between powerful singing and spoken-sung.
-- THEMES: Dancing melancholy, social critique, modern society absurdity.
-- PRODUCTION: Modern electronic synths, subtle African (Congolese rumba) rhythmic influences, danceable but emotional beats.
-- RULE: CONTRAST between text melancholy and dancing production energy is the signature.`
-  },
-  {
     keywords: ["KAARIS"],
     instructions: `# ARTIST PROFILE — HARDCORE TRAP FR:
 - SOUND: Hardcore French Trap, Aggressive Street Rap, Sevran 93. NOT metal, NOT rock — pure TRAP RAP.
@@ -292,6 +282,26 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - PRODUCTION: G-Funk synths (Moog/Minimoog), deep funk bass, talk box, groovy slow drums. BPM 90-100.`
   },
   {
+    keywords: ["MOBB DEEP", "MOBB", "PRODIGY", "HAVOC"],
+    instructions: `# ARTIST PROFILE — QUEENSBRIDGE HARDCORE BOOM BAP:
+- SOUND: Hardcore East Coast Boom Bap, Queensbridge Dark Hip-Hop, Grimy Minimalist Street Rap. NOT melodic, NOT trap.
+- VOCAL: Dual delivery — Prodigy (nasal cold monotone menacing baritone) and Havoc (deeper gritty complement). Tight compact bars, cold detached delivery. NO autotune. NO singing.
+- THEMES: Queensbridge project survival, street paranoia, loyalty/betrayal, nihilistic realism, NYC hardcore.
+- PRODUCTION: Havoc minimalist dark piano loops, hard boom bap drums (crisp snare, punchy kick), eerie string samples, gritty vinyl texture. SPACE in the beat. BPM 90-96.
+- LANGUAGE: English.
+- RULE: MINIMALIST MENACING DARKNESS. The beat breathes through SPACE, not layers. Hook = chant or DJ scratch, NEVER a sung chorus.`
+  },
+  {
+    keywords: ["JEDI MIND TRICKS", "JEDI MIND", "JMT", "VINNIE PAZ"],
+    instructions: `# ARTIST PROFILE — UNDERGROUND ORCHESTRAL HARDCORE:
+- SOUND: Underground Hardcore Hip-Hop, Dark Orchestral Boom Bap, Cinematic Militant Rap. Stoupe the Enemy of Mankind production.
+- VOCAL: Vinnie Paz — deep gravelly aggressive baritone, Italian-American Philly accent, staccato militant delivery. Raw unpolished power. NO autotune. NO singing.
+- THEMES: Militant spirituality, conspiracy, violent street metaphors, Italian-American identity, anti-establishment, boxing/combat imagery.
+- PRODUCTION: Cinematic orchestral samples (cellos, violins, full strings), dark choir vocals, Middle Eastern/Arabic melodic samples, hard boom bap drums. Movie-score darkness. BPM 85-95.
+- LANGUAGE: English.
+- RULE: ORCHESTRAL CINEMATIC DARKNESS is the DNA. Stoupe's production = classical music meets street violence. Hook = orchestral break or scratched sample, NEVER pop melody.`
+  },
+  {
     keywords: ["THE WEEKND", "WEEKND"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — DARK SYNTH-POP R&B:
@@ -303,16 +313,6 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - RULE: 80s RETRO-FUTURISM and NOCTURNAL DARKNESS are non-negotiable.`
   },
   {
-    keywords: ["SZA"],
-    isMelodic: true,
-    instructions: `# ARTIST PROFILE — NEO-SOUL R&B:
-- SOUND: Neo-Soul R&B, Organic Warm Production, Emotional Confessional.
-- VOCAL: Breathy vulnerable alto with emotional confessional delivery. Layered vocal harmonies. Whisper to powerful belt.
-- THEMES: Modern relationships, Black female empowerment, vulnerability as strength, intimate storytelling.
-- PRODUCTION: Warm organic production, bass guitar groove, soft Rhodes piano, organic drum programming. BPM 80-100.
-- LANGUAGE: English.`
-  },
-  {
     keywords: ["JUICE WRLD", "JUICE"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — EMO TRAP:
@@ -320,16 +320,6 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - VOCAL: Emotional autotune tenor with raw freestyle quality, vulnerable crying delivery.
 - PRODUCTION: Electric guitar melodies, deep 808 bass with trap patterns, trap hi-hat rolls, soft piano layers, lo-fi warmth. BPM 140-160.
 - LANGUAGE: English.`
-  },
-  {
-    keywords: ["WIZKID", "WIZ KID", "STARBOY"],
-    isMelodic: true,
-    instructions: `# ARTIST PROFILE — SMOOTH AFROBEATS:
-- SOUND: Afrobeats, Afro-Pop, Smooth Dancehall, Lagos Sound.
-- VOCAL: MALE silky tenor, effortless nonchalant delivery. Melodic fluent phrasing with Yoruba inflection. NEVER aggressive.
-- PRODUCTION: Afrobeats log drums, shekere percussion, warm sub bass, soft synth pads, clean afro guitar licks. BPM 100-112.
-- LANGUAGE: English and Yoruba/Pidgin mixed.
-- RULE: EFFORTLESS COOL is non-negotiable.`
   },
   {
     keywords: ["TEMS"],
@@ -652,7 +642,8 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('DRAKE') || upper.includes('TRAVIS SCOTT') || upper.includes('CENTRAL CEE') ||
       upper.includes('KENDRICK') || upper.includes('CARTI') || upper.includes('KANYE') ||
       upper.includes('JUICE WRLD') || upper.includes('POST MALONE') || upper.includes('NAS') ||
-      upper.includes('DR. DRE') || upper.includes('NATE DOGG') || upper.includes('UK')) {
+      upper.includes('DR. DRE') || upper.includes('NATE DOGG') || upper.includes('MOBB DEEP') ||
+      upper.includes('JEDI MIND') || upper.includes('VINNIE PAZ') || upper.includes('UK')) {
     matchKeys.push('US_UK_RAP');
   }
 
@@ -664,7 +655,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Afrobeats
   if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('REMA') ||
-      upper.includes('WIZKID') || upper.includes('ASAKE') || upper.includes('MHD') ||
+      upper.includes('ASAKE') || upper.includes('MHD') ||
       upper.includes('TIAKOLA')) {
     matchKeys.push('AFROBEATS');
   }
@@ -691,7 +682,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Afro Melodic
   if ((upper.includes('AFRO') && (upper.includes('MELO') || upper.includes('TIAKOLA'))) ||
-      upper.includes('NISKA') || upper.includes('SDM') || upper.includes('TAYC') ||
+      upper.includes('NISKA') || upper.includes('SDM') ||
       upper.includes('DADJU')) {
     matchKeys.push('AFRO_MELO');
   }
@@ -703,7 +694,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Electro / House
   if (upper.includes('ELECTRO') || upper.includes('HOUSE') || upper.includes('DAFT') ||
-      upper.includes('STROMAE') || upper.includes('PEGGY GOU') || upper.includes('HUGEL') ||
+      upper.includes('PEGGY GOU') || upper.includes('HUGEL') ||
       upper.includes('FRED AGAIN')) {
     matchKeys.push('ELECTRO');
   }
@@ -716,12 +707,12 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   // Hardcore
   if (upper.includes('HARDCORE') || upper.includes('BOOBA') || upper.includes('KAARIS') ||
-      upper.includes('LACRIM')) {
+      upper.includes('LACRIM') || upper.includes('MOBB DEEP') || upper.includes('JEDI MIND') || upper.includes('VINNIE PAZ')) {
     matchKeys.push('HARDCORE');
   }
 
   // Neo-Soul
-  if (upper.includes('SZA') || upper.includes('SNOH') || upper.includes('SADE') ||
+  if (upper.includes('SNOH') || upper.includes('SADE') ||
       upper.includes('MONSIEUR NOV')) {
     matchKeys.push('NEO_SOUL');
   }
