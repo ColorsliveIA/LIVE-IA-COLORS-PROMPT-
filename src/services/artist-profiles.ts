@@ -1,8 +1,7 @@
 /**
  * Artist-specific instruction profiles for Gemini prompt generation.
- * v4 — Axe 1 (structure uniform: SOUND/VOCAL/THEMES/PRODUCTION/LANGUAGE/RULE on all profiles)
- *       Axe 2 (contradictions fixed via sonic-dna.ts)
- *       Function audit: RAP_FR dedup, BILLIE EILISH/LANA DEL REY/ALPHA WANN exact match
+ * v4 — Axe 1 (structure uniform) / Axe 2 (contradictions fixed) / Function audit
+ * v4.1 — SDM: deep bass voice enforcement, powerful hooks
  */
 
 export interface ArtistProfile {
@@ -93,11 +92,11 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — DARK AFRO-TRAP PARIS BANLIEUE:
 - SOUND: Dark Afro-Trap, Paris Banlieue Street Rap, Cold Melodic Drill. NOT Brussels-style. ZERO afro festif influence.
-- VOCAL: Deep masculine voice, heavy metallic autotune on hooks (dark and glacial), staccato rap on verses. Street sincerity dominates.
+- VOCAL: DEEP BASS masculine voice — NEVER high-pitched, NEVER falsetto, NEVER tenor. Heavy dark metallic autotune on hooks (low-register, cold, powerful). Staccato rap on verses. STRONG impactful choruses — not restrained.
 - THEMES: Paris banlieue nocturnal life, street ambition, dark melancholy, loyalty, authentic struggle, Ile-de-France urban identity.
 - PRODUCTION: Heavy sliding 808 sub-bass, moody minor piano, dark pads, crisp drill hi-hats, MINIMAL arrangement. BPM 125-140.
 - LANGUAGE: French urban street vocabulary, Paris banlieue references.
-- RULE: COLD DARK MINIMALISM. Never warm, never festive, NEVER Brussels/Belgian references.`
+- RULE: DEEP BASS VOICE is non-negotiable. NEVER high-pitched vocals. Hooks must be POWERFUL and IMPACTFUL. Cold dark minimalism.`
   },
   {
     keywords: ["NISKA"],
@@ -540,7 +539,6 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - LANGUAGE: English and Korean occasional phrases.
 - RULE: GROOVE and DANCEFLOOR are the only criteria. No heavy themes, no dark production. Pure feel-good dance energy.`
   },
-  // New profiles
   {
     keywords: ["STROMAE"],
     isMelodic: true,
@@ -977,8 +975,6 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
   const matchKeys: string[] = [];
 
-  // AUDIT FIX 1: RAP_FR generic — WERENOI/MAES/SCH/LACRIM/NIRO excluded (have specific DNA)
-  // AUDIT FIX 2: 'ALPHA' corrected to 'ALPHA WANN' (too broad)
   if (upper.includes('JUL') || upper.includes('GAZO') || upper.includes('NINHO') ||
       upper.includes('FREEZE') || upper.includes('ALPHA WANN') ||
       upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') ||
@@ -1082,7 +1078,6 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('CLOUD_RAP');
   }
 
-  // AUDIT FIX 3: exact match — no bare 'LANA' (too broad) or bare 'BILLIE' (too broad)
   if (upper.includes('LANA DEL REY')) matchKeys.push('DREAM_POP_SADCORE');
   if (upper.includes('BILLIE EILISH')) matchKeys.push('DARK_POP_ASMR');
 
