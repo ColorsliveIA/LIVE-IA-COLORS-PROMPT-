@@ -297,7 +297,7 @@ Respond ONLY in JSON (no backticks).`;
         }
       }
     },
-    required: ["artistName", "songTitle", "sunoPrompt", "structuredLyrics"]
+    required: ["artistName", "songTitle", "sunoPrompt", "sunoPrompts", "negativePrompt", "structuredLyrics"]
   };
 
   const useFullSchema = mode === 'all' || mode === 'lyrics';
