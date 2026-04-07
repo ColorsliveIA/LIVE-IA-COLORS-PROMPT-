@@ -10,6 +10,10 @@ const Type = {
   BOOLEAN: "BOOLEAN",
 };
 
+// ── Single active model: gemini-2.5-flash (gemini-2.0-flash is dead) ──
+const FAST_MODEL = "gemini-2.5-flash";
+const HEAVY_MODEL = "gemini-2.5-flash";
+
 async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 2): Promise<T> {
   let lastError: any;
   for (let i = 0; i <= maxRetries; i++) {
@@ -20,11 +24,9 @@ async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 2): Promi
       const isRetryable =
         e?.message?.includes('503') || e?.status === 503 || e?.error?.code === 503 ||
         e?.message?.includes('429') || e?.status === 429 || e?.error?.code === 429 ||
-        e?.message?.includes('504') || e?.status === 504 || e?.error?.code === 504 ||
         e?.error?.status === 'RESOURCE_EXHAUSTED' || e?.message?.includes('high demand');
       if (isRetryable && i < maxRetries) {
         const delay = (e?.status === 429 || e?.error?.code === 429) ? 5000 * (i + 1) : 1000 * (i + 1);
-        console.warn(`Gemini retry ${i + 1}/${maxRetries} in ${delay}ms`, e?.message);
         await new Promise(resolve => setTimeout(resolve, delay));
         continue;
       }
@@ -42,37 +44,32 @@ async function callGemini(payload: { model: string; contents: any; config?: any 
   });
   const rawText = await response.text();
   let parsed: any;
-  try {
-    parsed = JSON.parse(rawText);
-  } catch {
+  try { parsed = JSON.parse(rawText); }
+  catch {
     const err: any = new Error(`Gemini proxy non-JSON (HTTP ${response.status}): ${rawText.slice(0, 120)}`);
-    err.status = response.status;
-    throw err;
+    err.status = response.status; throw err;
   }
   if (!response.ok) {
     const err: any = new Error(parsed.error || "Gemini API request failed");
-    err.status = response.status;
-    err.message = parsed.error || `HTTP ${response.status}`;
-    throw err;
+    err.status = response.status; err.message = parsed.error || `HTTP ${response.status}`; throw err;
   }
   return parsed;
 }
 
 export async function analyzeAudio(base64Data: string, mimeType: string) {
-  const systemInstruction = "Tu es un ingénieur du son expert. Analyse audio précise pour Suno AI. Sois extrêmement précis sur le BPM et le genre.";
-  const prompt = `Analyse ce fichier audio (MIME: ${mimeType}) avec la plus grande précision.
-  Identifie: BPM exact, Genre/sous-genres, Mood, Structure, Artiste si reconnu, Energy 0-100, Vocal Style.
-  Réponds UNIQUEMENT en JSON:
-  {"bpm":number,"genre":"string","mood":"string","structure":"string","artistInfo":"string","energy":number,"vocalStyle":"string"}`;
+  const prompt = `Analyse ce fichier audio (MIME: ${mimeType}). Identifie: BPM exact, Genre/sous-genres, Mood, Structure, Artiste si reconnu, Energy 0-100, Vocal Style.
+  Réponds UNIQUEMENT en JSON: {"bpm":number,"genre":"string","mood":"string","structure":"string","artistInfo":"string","energy":number,"vocalStyle":"string"}`;
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-2.0-flash",
+      model: FAST_MODEL,
       contents: [{ parts: [{ inlineData: { data: base64Data, mimeType } }, { text: prompt }] }],
-      config: { systemInstruction, tools: [{ googleSearch: {} }] }
+      config: {
+        systemInstruction: "Expert audio engineer. Precise analysis for Suno AI. Be exact on BPM and genre.",
+        tools: [{ googleSearch: {} }]
+      }
     });
-    try {
-      return JSON.parse((response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim());
-    } catch { return null; }
+    try { return JSON.parse((response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim()); }
+    catch { return null; }
   });
 }
 
@@ -85,34 +82,6 @@ function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): stri
   }
   if (g.includes('POP')) return "heavy metal, screaming, dark, industrial, noise, experimental, complex jazz, classical, opera";
   return "";
-}
-
-function getGrainTokens(mood: string, texture: string, sonicDNA?: SonicDNA | null): string {
-  if (sonicDNA?.productionFingerprint) {
-    const fp = sonicDNA.productionFingerprint.toLowerCase();
-    if (fp.includes('crisp') || fp.includes('digital') || fp.includes('clean')) return 'Crisp Digital, Punchy Transients';
-    if (fp.includes('warm') || fp.includes('analog') || fp.includes('tape')) return 'Warm Analog Saturation, Vintage Compression';
-    if (fp.includes('lo-fi') || fp.includes('vinyl')) return 'Lo-fi Grit, Vinyl Hiss';
-    if (fp.includes('industrial') || fp.includes('dark')) return 'Industrial Dark, Metallic Edge';
-  }
-  const l = (texture + mood).toLowerCase();
-  if (l.includes('bright') || l.includes('uplifting')) return 'Bright Digital, High-End Clarity';
-  if (l.includes('dark')) return 'Dark Grunge, Lo-fi Dirt';
-  if (l.includes('warm')) return 'Warm Analog, Tape Saturation';
-  return 'Balanced Texture, Contemporary Grain';
-}
-
-function getSpaceTokens(mood: string, production: string, sonicDNA?: SonicDNA | null): string {
-  if (sonicDNA?.culturalAnchors) {
-    const ca = sonicDNA.culturalAnchors.toLowerCase();
-    if (ca.includes('intimate') || ca.includes('bedroom')) return 'Intimate Close-Mic, Minimal Reverb';
-    if (ca.includes('cinematic') || ca.includes('wide')) return 'Cinematic Wide Space, Lush Reverb';
-  }
-  const lp = (production + mood).toLowerCase();
-  if (lp.includes('minimal') || lp.includes('intimate')) return 'Intimate Close-Mic, Dry Delivery';
-  if (lp.includes('cinematic')) return 'Cinematic Wide Space, Lush Reverb';
-  if (lp.includes('ethereal') || lp.includes('dreamy')) return 'Ethereal Spacious Reverb, Floating Feel';
-  return 'Balanced Space, Professional Depth';
 }
 
 function getGenreFallbackStyle(genre: string): string {
@@ -132,17 +101,16 @@ function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, er
   const g = genre.toUpperCase();
   const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
   const fusionPools: Record<string, string[]> = {
-    DRILL: ["Dark cinematic orchestral strings","Industrial electronic textures","Cloud rap ambient pads","Grime UK bassline","Latin percussion undertones"],
-    TRAP_FR: ["Boom bap jazz samples","Afrobeats percussion","Cloud rap ambient synths","Raï oriental melodies","Electro-funk synthesizers"],
-    TRAP: ["Lo-fi indie guitar textures","Synthwave retro 80s pads","R&B soul chords","Ambient electronic drones","Latin trap reggaeton bounce"],
-    RAP_FR: ["Jazz-funk live instruments","Chanson française piano","Electronic minimal techno","Afro-Caribbean percussion","Rock alternatif guitars"],
-    RAP: ["Soul-funk vintage production","Jazz samples and saxophone","Psychedelic rock guitars","Electronic glitch IDM","Gospel choir harmonies"],
-    RNB: ["Neo-soul electronic textures","Bossa nova acoustic guitar","Future bass synth drops","Jazz piano trio","Afrobeats danceable percussion"],
-    POP: ["Synth-wave retro 80s","Tropical house percussion","Indie folk acoustic layers","Electro-pop minimal beats"],
-    HOUSE: ["Deep house melodic pianos","Afro house organic percussion","Tech house minimal acid","Disco strings and funk guitar"],
-    AFRO: ["Caribbean dancehall bounce","Amapiano deep bass","R&B smooth production","Electronic house groove"],
-    CLOUD: ["Shoegaze ambient reverb","Lo-fi jazz samples","Post-rock crescendos","Dream pop shimmering synths"],
-    BOOMBAP: ["Jazz live instrumentation","Soul vocal chops","Funk breakbeats","Classical piano samples"]
+    DRILL: ["Dark cinematic orchestral strings","Industrial electronic textures","Cloud rap ambient pads","Grime UK bassline"],
+    TRAP_FR: ["Boom bap jazz samples","Afrobeats percussion","Cloud rap ambient synths","Raï oriental melodies"],
+    TRAP: ["Lo-fi indie guitar textures","Synthwave retro 80s pads","R&B soul chords","Latin trap reggaeton bounce"],
+    RAP_FR: ["Jazz-funk live instruments","Electronic minimal techno","Afro-Caribbean percussion"],
+    RAP: ["Soul-funk vintage production","Jazz samples and saxophone","Gospel choir harmonies"],
+    RNB: ["Neo-soul electronic textures","Jazz piano trio","Afrobeats danceable percussion"],
+    POP: ["Synth-wave retro 80s","Tropical house percussion","Indie folk acoustic layers"],
+    HOUSE: ["Deep house melodic pianos","Afro house organic percussion","Disco strings and funk guitar"],
+    AFRO: ["Caribbean dancehall bounce","Amapiano deep bass","R&B smooth production"],
+    CLOUD: ["Shoegaze ambient reverb","Lo-fi jazz samples","Dream pop shimmering synths"]
   };
   let fusionGenre: string;
   if (g.includes('DRILL')) fusionGenre = pick(fusionPools.DRILL);
@@ -155,15 +123,14 @@ function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, er
   else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = pick(fusionPools.HOUSE);
   else if (g.includes('AFRO')) fusionGenre = pick(fusionPools.AFRO);
   else if (g.includes('CLOUD')) fusionGenre = pick(fusionPools.CLOUD);
-  else if (g.includes('BOOM') || g.includes('BAP')) fusionGenre = pick(fusionPools.BOOMBAP);
-  else fusionGenre = pick(["Electronic ambient textures","Jazz-influenced progressions","Afrobeats rhythmic percussion","Synthwave retro production"]);
-  const eraShifts: Record<string, string> = { '2020s': '2010s', '2010s': '2000s', '2000s': '1990s', '1990s': '2000s', '1980s': '1990s' };
+  else fusionGenre = pick(["Electronic ambient textures","Jazz-influenced progressions","Afrobeats rhythmic percussion"]);
+  const eraShifts: Record<string, string> = { '2020s': '2010s', '2010s': '2000s', '2000s': '1990s', '1990s': '2000s' };
   const adjacentEra = eraShifts[era] || '2010s';
   return `
   VARIANT RULES — ABSOLUTE:
-  V1 = Pure "${inspiredBy}" signature. Use ONLY Sonic DNA template. BPM central, era ${era}. ZERO blend.
-  V2 = Differ from V1: ±10-20 BPM + opposite grain/texture + era ${adjacentEra}. Max 20% blend.
-  V3 = Differ from V1+V2: integrate "${fusionGenre}" (up to 40%) + at least 2 different instruments + opposite reverb. Core vocal preserved.
+  V1 = Pure "${inspiredBy}" signature. Use ONLY Sonic DNA. Era ${era}. ZERO blend.
+  V2 = Differ from V1: ±10-20 BPM + opposite grain + era ${adjacentEra}. Max 20% blend.
+  V3 = Differ from V1+V2: integrate "${fusionGenre}" (up to 40%) + 2 different instruments + opposite reverb.
   VALIDATION: If 2 variants share >50% tokens → regenerate.
   `;
 }
@@ -180,162 +147,115 @@ export async function generateMusicContext(
   secondaryInspiredBy: string = 'none', advancedTags: string[] = [],
   mode: 'all' | 'lyrics' | 'style' = 'all'
 ) {
-  // ─────────────────────────────────────────
-  // MODEL SELECTION: 2.0-flash for style-only (fast), 2.5-flash for full/lyrics
-  // ─────────────────────────────────────────
-  const useHeavyModel = mode === 'all' || mode === 'lyrics';
-  const selectedModel = useHeavyModel ? "gemini-2.5-flash" : "gemini-2.0-flash";
-
-  const bpmInfo = manualBpm ? `- BPM imposé: ${manualBpm}` : `- BPM: Automatique (adapté à l'énergie ${energy})`;
-  const structureInfo = structure ? `- Structure: ${structure}` : "";
-  const styleBlendInfo = styleBlend ? `- Style Blending (V2/V3 only): ${styleBlend}` : "";
-  const secondaryArtistInfo = secondaryInspiredBy !== 'none' ? `- Secondary Artist: ${secondaryInspiredBy}` : "";
-  const advancedTagsInfo = advancedTags.length > 0 ? `- Advanced DNA Tags: ${advancedTags.join(', ')}` : "";
-  const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
+  const bpmInfo = manualBpm ? `- BPM imposé: ${manualBpm}` : `- BPM: Auto (energy ${energy})`;
   const sonicDNA = getArtistSonicDNA(inspiredBy);
   const artistExcludeStyles = sonicDNA?.sunoExcludeStyles || '';
+  const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
   const combinedNegativePrompt = [artistExcludeStyles || genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
-  const negativePromptInfo = combinedNegativePrompt ? `- NEGATIVE PROMPT: ${combinedNegativePrompt}` : "";
-  const artistIdentityInfo = artistIdentitySummary ? `\n# ARTIST IDENTITY:\n${artistIdentitySummary}\n` : "";
-  const performanceInfo = performanceActive ? `\n- Energy: ${energy}/100\n- Emotional Intensity: ${emotionalIntensity}/100` : "";
   const melodicArtist = isArtistMelodic(inspiredBy);
 
   const vocalDeliveryRule = melodicArtist
     ? `★ VOCAL: "${inspiredBy}" is MELODIC. Singing + autotune IS the signature. FORBIDDEN to force dry technical rap.`
-    : `★ VOCAL: For RAP/TRAP, prioritize rhythmic percussive flow over systematic melodic singing. Vary [Rhythmic flow], [Melodic rap], [Aggressive chant], [Spoken word].`;
+    : `★ VOCAL: For RAP/TRAP, prioritize rhythmic percussive flow. Vary [Rhythmic flow], [Melodic rap], [Aggressive chant], [Spoken word].`;
 
   const vocoderRule = melodicArtist
-    ? `★ AUTOTUNE: For this melodic artist, autotune is an ESSENTIAL CREATIVE TOOL per "${inspiredBy}"'s signature.`
-    : `★ NO SYSTEMATIC SINGING: If artist is a "lyricist"/"technician", FORBIDDEN to use melodic autotune. Flow must be dry, articulate, pure rap.`;
+    ? `★ AUTOTUNE: Essential creative tool per "${inspiredBy}"'s signature.`
+    : `★ NO SYSTEMATIC SINGING: If artist is lyricist/technician, FORBIDDEN melodic autotune. Flow = dry, articulate, pure rap.`;
 
-  const variantDivergenceBlock = buildVariantDivergenceConstraints(genre, inspiredBy, era);
-
-  // ─────────────────────────────────────────
-  // COMPRESSED SYSTEM INSTRUCTION (-40% tokens vs previous)
-  // ─────────────────────────────────────────
   const systemInstruction = `You are a world-class Suno AI V5.5 prompt engineer and multilingual lyricist.
 
 ABSOLUTE RULES:
-★ LANGUAGE RULE: sunoPrompt and sunoPrompts[] MUST ALWAYS be in ENGLISH. NEVER French, Arabic, or other. Lyrics use the artist's language.
-★ STYLE PROMPT: 500-600 chars. 10 DIMENSIONS: [STYLE] + [BPM+Key] + [GRAIN] + [SPACE] + [INSTRUMENTS] + [VOCAL TEXTURE] + [DYNAMIC] + [MIX] + [CULTURAL] + [ERA]. Texture > Genre naming. ALWAYS ENGLISH.
-★ LYRICS: Full structure. [ ] for structure tags, ( ) for ad-libs. Suno V5.5: [Pre-Chorus], [Post-Chorus], [Bridge], [Interlude], [Solo:Instrument], [Break], [Build], [Drop].
-★ LANGUAGE REGISTER: Adapt to intensity (${emotionalIntensity}/100) + energy (${energy}/100). Low = poetic. High = raw slang.
+★ sunoPrompt and sunoPrompts[] MUST ALWAYS be in ENGLISH. NEVER French, Arabic, or other.
+★ STYLE PROMPT: 500-600 chars. 10 DIMENSIONS: [STYLE]+[BPM+Key]+[GRAIN]+[SPACE]+[INSTRUMENTS]+[VOCAL TEXTURE]+[DYNAMIC]+[MIX]+[CULTURAL]+[ERA]. Texture > Genre naming.
+★ LYRICS: Full structure. [ ] tags, ( ) ad-libs. V5.5: [Pre-Chorus],[Post-Chorus],[Bridge],[Interlude],[Solo:Instrument],[Break],[Build],[Drop].
+★ REGISTER: Adapt to intensity (${emotionalIntensity}/100) + energy (${energy}/100).
 ${vocalDeliveryRule}
 ${vocoderRule}
-★ ANTI-GENERIC: BANNED: "Trap" or "Pop" alone. Use precise sonic textures.
-★ ZERO COMMERCIAL: NEVER cite real artist names, brands, labels, album/track titles, city names linked to artists.
-★ V5.5 METATAGS: Use [Vocal Style:], [Vocal Effect:], [Mood:], [Energy:], [Texture:], [Instrument:] on SEPARATE lines BEFORE each section. CAPS = shouted, (text) = backing, ~word~ = melisma, *word* = emphasis.
-★ FRENCH PHONETICS: Prefer open vowels endings (-é,-a,-ou,-i,-o). Avoid -ance,-ence,-ment,-tion. Write contractions as heard (j'veux, t'as).
-★ JSON only. No markdown fences.
+★ ANTI-GENERIC: BANNED "Trap" or "Pop" alone. Use precise sonic textures.
+★ ZERO COMMERCIAL: NEVER cite real artist names, brands, labels, album/track titles.
+★ V5.5 METATAGS: [Vocal Style:],[Vocal Effect:],[Mood:],[Energy:],[Texture:],[Instrument:] on SEPARATE lines BEFORE each section. CAPS=shouted, (text)=backing, ~word~=melisma.
+★ FRENCH PHONETICS: Open vowels (-é,-a,-ou,-i,-o). Avoid -ance,-ence,-ment,-tion. Write contractions as heard.
+★ JSON only. No markdown.
 
 WRITING DNA:
 ${getRelevantWritingDNA(inspiredBy, genre)}`;
 
-  const productionInfo = productionStyle.toUpperCase().includes('HARDCORE')
-    ? "\n# PRODUCTION (HARDCORE/RAW): FORBIDDEN to sing or use melodic autotune. Pure RAP, dry, aggressive, minimalist production.\n"
-    : "";
-  const vocalTechniqueSpecifics = vocalTechnique !== 'none'
-    ? `\n# VOCAL TECHNIQUE: ${vocalTechnique}. Apply dominantly throughout.\n` : "";
-  const productionFinishSpecifics = productionFinish !== 'none'
-    ? `\n# PRODUCTION FINISH: ${productionFinish}.\n` : "";
-
   const sonicDNABlock = sonicDNA ? `
-# SONIC DNA — V1 FOUNDATION (EXCLUSIVE):
-V1 MUST enrich this template to 500-600 chars. FORBIDDEN: adding external genres.
-
-## STYLE CORE:
+# SONIC DNA — V1 FOUNDATION:
 ${sonicDNA.sunoStyleTemplate}
-BPM: ${sonicDNA.sunoBpmRange} | KEY: ${sonicDNA.sunoKey}
-VOCAL TAGS: ${sonicDNA.sunoVocalTags.join(', ')}
+BPM: ${sonicDNA.sunoBpmRange} | KEY: ${sonicDNA.sunoKey} | VOCAL TAGS: ${sonicDNA.sunoVocalTags.join(', ')}
 WEIRDNESS: ${sonicDNA.sunoWeirdness}/100 | STYLE INFLUENCE: ${sonicDNA.sunoStyleInfluence}/100
 
-## VOCAL ENGINE:
-${sonicDNA.vocalDNA || 'Not specified'}
+VOCAL ENGINE: ${sonicDNA.vocalDNA || 'Not specified'}
+FLOW ENGINE: ${sonicDNA.flowPattern || 'Not specified'}
+PRODUCTION ENGINE: ${sonicDNA.productionFingerprint || 'Not specified'}
+${sonicDNA.structureDNA ? `STRUCTURE: ${sonicDNA.structureDNA}` : ''}
+${sonicDNA.hookType ? `HOOK: ${sonicDNA.hookType}` : ''}
+${sonicDNA.energyCurve ? `ENERGY CURVE: ${sonicDNA.energyCurve}` : ''}
+CULTURAL ANCHORS: ${sonicDNA.culturalAnchors || 'Not specified'}
+ANTI-PATTERNS: ${sonicDNA.antiPatterns || 'Not specified'}
 
-## FLOW ENGINE:
-${sonicDNA.flowPattern || 'Not specified'}
-
-## PRODUCTION ENGINE:
-${sonicDNA.productionFingerprint || 'Not specified'}
-${sonicDNA.structureDNA ? `\n## STRUCTURE: ${sonicDNA.structureDNA}` : ''}
-${sonicDNA.hookType ? `\n## HOOK: ${sonicDNA.hookType}` : ''}
-${sonicDNA.energyCurve ? `\n## ENERGY CURVE: ${sonicDNA.energyCurve}` : ''}
-${sonicDNA.productionMarkers ? `\n## PRODUCTION MARKERS (CRITICAL): ${sonicDNA.productionMarkers}` : ''}
-${sonicDNA.hookStrategy ? `\n## HOOK STRATEGY (CRITICAL): ${sonicDNA.hookStrategy}` : ''}
-${sonicDNA.verseBehavior ? `\n## VERSE BEHAVIOR (CRITICAL): ${sonicDNA.verseBehavior}` : ''}
-
-## CULTURAL ANCHORS: ${sonicDNA.culturalAnchors || 'Not specified'}
-## ANTI-PATTERNS: ${sonicDNA.antiPatterns || 'Not specified'}
-
-## V5.5 METATAGS:
+V5.5 METATAGS:
 [Vocal Style: ${sonicDNA.sunoMetatags?.vocalStyle || 'Rap'}]
 [Vocal Effect: ${sonicDNA.sunoMetatags?.vocalEffect || 'Reverb'}]
 [Mood: ${sonicDNA.sunoMetatags?.mood || 'Dark'}]
 [Energy: ${sonicDNA.sunoMetatags?.energy || 'Medium'}]
 [Texture: ${sonicDNA.sunoMetatags?.texture || 'Crisp Digital'}]
 [Instrument: ${sonicDNA.sunoMetatags?.instrument || '808 Bass'}]
-` : '';
+` : `# GENRE FALLBACK: ${getGenreFallbackStyle(genre)}`;
 
   const artistSpecifics = getArtistSpecificInstructions(inspiredBy);
-  const genreFallbackBlock = !sonicDNA ? `\n# GENRE FALLBACK:\n${getGenreFallbackStyle(genre)}\n` : '';
 
   let secondaryBlendingBlock = '';
   if (secondaryInspiredBy && secondaryInspiredBy !== 'none') {
-    const secondarySonicDNA = getArtistSonicDNA(secondaryInspiredBy);
-    const secondaryInstructions = getArtistSpecificInstructions(secondaryInspiredBy);
-    if (secondarySonicDNA || secondaryInstructions) {
-      secondaryBlendingBlock = `\n# SECONDARY ARTIST BLENDING (V2/V3 ONLY):\n${secondaryInspiredBy}${secondarySonicDNA ? `\nSecondary DNA: ${secondarySonicDNA.sunoStyleTemplate}` : ''}${secondaryInstructions ? `\n${secondaryInstructions}` : ''}\nRULE: V1=100% "${inspiredBy}". V2=80/20. V3=70/30.\n`;
+    const sec = getArtistSonicDNA(secondaryInspiredBy);
+    const secInstr = getArtistSpecificInstructions(secondaryInspiredBy);
+    if (sec || secInstr) {
+      secondaryBlendingBlock = `\n# SECONDARY BLENDING (V2/V3 ONLY):\n${secondaryInspiredBy}${sec ? `\nDNA: ${sec.sunoStyleTemplate}` : ''}${secInstr ? `\n${secInstr}` : ''}\nV1=100% "${inspiredBy}". V2=80/20. V3=70/30.\n`;
     }
   }
 
   const languageInfo = language === 'AUCUNE'
-    ? "Language: Deduce from artist style. For raï/Algerian artists: ALWAYS French-Arabic (darija) MIX. Tag switches [in french] / [in arabic]."
+    ? "Language: Deduce from artist. For raï/Algerian artists: ALWAYS French-Arabic (darija) MIX. Tag [in french]/[in arabic]."
     : `Language: ${language}`;
 
-  const modeInfo = mode === 'lyrics'
-    ? `FOCUS: LYRICS ONLY. Full structure, deep mimicry of "${inspiredBy}" writing style.`
-    : mode === 'style'
-    ? "FOCUS: STYLE PROMPT ONLY. Optimize sunoPrompt and sunoPrompts[]. Lyrics optional/minimal."
+  const modeInfo = mode === 'lyrics' ? `FOCUS: LYRICS ONLY. Full structure, deep mimicry of "${inspiredBy}".`
+    : mode === 'style' ? "FOCUS: STYLE PROMPT ONLY. Optimize sunoPrompt and sunoPrompts[]."
     : "FULL GENERATION: Perfect synergy style + lyrics.";
 
-  const prompt = `Generate musical direction for artist "${artist}".
-
-${modeInfo}
-${productionInfo}${vocalTechniqueSpecifics}${productionFinishSpecifics}${secondaryArtistInfo}${advancedTagsInfo}
+  const prompt = `${modeInfo}
 
 ${artistSpecifics}
 ${sonicDNABlock}
-${genreFallbackBlock}
 ${secondaryBlendingBlock}
-${variantDivergenceBlock}
-${artistIdentityInfo}
+${buildVariantDivergenceConstraints(genre, inspiredBy, era)}
+${artistIdentitySummary ? `\n# ARTIST IDENTITY:\n${artistIdentitySummary}\n` : ''}
 
 Session:
 - Genre: ${genre || 'DEDUCE FROM INSPIRATION'}
-- Mood (V2/V3 only): ${mood || 'DEDUCE FROM SONIC DNA'}
+- Mood (V2/V3): ${mood || 'DEDUCE FROM SONIC DNA'}
 - Theme: ${theme || 'IMPROVISE BASED ON ARTIST'}
 - ${languageInfo}
-- Inspired by: ${inspiredBy}
-- Era: ${era}
-${performanceInfo}
-- Instrumentation: ${instrumentation}
-- Production: ${productionStyle}
+- Inspired by: ${inspiredBy} | Era: ${era}
+${performanceActive ? `- Energy: ${energy}/100 | Intensity: ${emotionalIntensity}/100` : ''}
+- Instrumentation: ${instrumentation} | Production: ${productionStyle}
 - ${bpmInfo}
-${structureInfo}
-${styleBlendInfo}
-${negativePromptInfo}
+${structure ? `- Structure: ${structure}` : ''}
+${styleBlend ? `- Style Blending (V2/V3 only): ${styleBlend}` : ''}
+${combinedNegativePrompt ? `- NEGATIVE PROMPT: ${combinedNegativePrompt}` : ''}
 - Weirdness: ${weirdness}/100 | Style Influence: ${styleInfluence}/100
+${advancedTags.length > 0 ? `- Advanced Tags: ${advancedTags.join(', ')}` : ''}
+${productionStyle.toUpperCase().includes('HARDCORE') ? '\n★ HARDCORE/RAW: FORBIDDEN singing or melodic autotune. Pure RAP, dry, aggressive.' : ''}
+${vocalTechnique !== 'none' ? `\n★ VOCAL TECHNIQUE: ${vocalTechnique}` : ''}
+${productionFinish !== 'none' ? `\n★ PRODUCTION FINISH: ${productionFinish}` : ''}
 
-██████████████████████████████████████████
-██ sunoPrompt / sunoPrompts[] = ENGLISH ONLY ██
-██ V1 = PURE "${inspiredBy}" DNA — 0% BLEND  ██
-██████████████████████████████████████████
+████████████████████████████████████████
+█ sunoPrompt/sunoPrompts[] = ENGLISH   █
+█ V1 = PURE "${inspiredBy}" — 0% BLEND  █
+████████████████████████████████████████
 
 Respond ONLY in JSON (no backticks).`;
 
-  // ─────────────────────────────────────────
-  // SCHEMA SELECTION: light (6 fields) for style mode, full for all/lyrics
-  // ─────────────────────────────────────────
   const lightSchema = {
     type: Type.OBJECT,
     properties: {
@@ -363,12 +283,7 @@ Respond ONLY in JSON (no backticks).`;
         type: Type.ARRAY,
         items: {
           type: Type.OBJECT,
-          properties: {
-            id: { type: Type.STRING },
-            type: { type: Type.STRING },
-            text: { type: Type.STRING },
-            prompt: { type: Type.STRING }
-          },
+          properties: { id: { type: Type.STRING }, type: { type: Type.STRING }, text: { type: Type.STRING }, prompt: { type: Type.STRING } },
           required: ["id", "type", "text", "prompt"]
         }
       },
@@ -376,12 +291,8 @@ Respond ONLY in JSON (no backticks).`;
       quality: {
         type: Type.OBJECT,
         properties: {
-          score: { type: Type.NUMBER },
-          coherence: { type: Type.NUMBER },
-          richness: { type: Type.NUMBER },
-          clarity: { type: Type.NUMBER },
-          hook: { type: Type.NUMBER },
-          precision: { type: Type.NUMBER },
+          score: { type: Type.NUMBER }, coherence: { type: Type.NUMBER }, richness: { type: Type.NUMBER },
+          clarity: { type: Type.NUMBER }, hook: { type: Type.NUMBER }, precision: { type: Type.NUMBER },
           message: { type: Type.STRING }
         }
       }
@@ -389,27 +300,27 @@ Respond ONLY in JSON (no backticks).`;
     required: ["artistName", "songTitle", "sunoPrompt", "structuredLyrics"]
   };
 
+  const useFullSchema = mode === 'all' || mode === 'lyrics';
+
   return withRetry(async () => {
     const response = await callGemini({
-      model: selectedModel,
+      model: HEAVY_MODEL,
       contents: prompt,
       config: {
         temperature: 0.85,
         responseMimeType: "application/json",
-        responseSchema: useHeavyModel ? fullSchema : lightSchema,
+        responseSchema: useFullSchema ? fullSchema : lightSchema,
         systemInstruction
       }
     });
-
     if (!response.text) throw new Error("Empty response from Gemini");
     const parsed = JSON.parse(response.text);
 
     // Enrich V1 if sonic DNA tokens missing
     if (sonicDNA?.sunoStyleTemplate && parsed.sunoPrompt) {
-      const DIMENSION_MARKERS = ['bpm', 'key', 'vocal', 'bass', 'drum', 'hi-hat', 'synth', 'piano', 'reverb', 'stereo'];
-      const countDims = (t: string) => DIMENSION_MARKERS.filter(m => t.toLowerCase().includes(m)).length;
-      const v1Dims = countDims(parsed.sunoPrompt);
-      if (v1Dims < countDims(sonicDNA.sunoStyleTemplate) / 2) {
+      const DIMS = ['bpm', 'key', 'vocal', 'bass', 'drum', 'hi-hat', 'synth', 'piano', 'reverb', 'stereo'];
+      const count = (t: string) => DIMS.filter(m => t.toLowerCase().includes(m)).length;
+      if (count(parsed.sunoPrompt) < count(sonicDNA.sunoStyleTemplate) / 2) {
         const missing = sonicDNA.sunoStyleTemplate.split(',').map(t => t.trim()).filter(t =>
           t.length > 2 && !parsed.sunoPrompt.toLowerCase().includes(t.toLowerCase().slice(0, 8))
         );
@@ -421,96 +332,45 @@ Respond ONLY in JSON (no backticks).`;
       }
     }
 
-    // Deduplicate variants with real production divergence
-    const coreVariant = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
+    // Deduplicate V1/V2/V3
+    const core = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
-    const deduplicated = [coreVariant];
-
-    // V2 texture mutations: opposite grain/reverb/space
-    const v2Textures = [
-      'Tape saturation, warm analog compression, vintage tube warmth',
-      'Crisp digital clarity, stereo widening, airy high-end shimmer',
-      'Lo-fi vinyl crackle, dusty sample texture, warm distortion',
-      'Wet reverb wash, spacious cathedral echo, dreamy delay tails',
-      'Dry close-mic intimacy, tight compression, punchy transients',
-      'Grainy film score texture, subtle chorus modulation, detuned warmth'
-    ];
-    // V3 instrument mutations: swap core instruments
-    const v3Instruments = [
-      'Live strings section, pizzicato accents, orchestral dynamics',
-      'Analog Moog bass, arpeggio synthesizer, vocoder textures',
-      'Acoustic piano, brush drums, upright bass, jazz trio feel',
-      'Distorted 808 glide, industrial percussion, metallic textures',
-      'Marimba, kalimba, organic hand percussion, wooden textures',
-      'Electric guitar clean arpeggios, pedal steel, warm amp tone',
-      'Choir vocal pads, organ Hammond, gospel keys, soulful warmth',
-      'Sitar drone, tabla rhythms, tanpura ambient, Eastern modal'
-    ];
-    const pickRandom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
-
+    const dedup = [core];
     for (let i = 1; i < 3; i++) {
-      let v = variants[i] && variants[i] !== coreVariant ? variants[i] : '';
-      const vTokens = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
-      const coreTokens = new Set(coreVariant.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
-      const shared = [...vTokens].filter(t => coreTokens.has(t)).length;
-      const similarity = vTokens.size > 0 ? shared / vTokens.size : 1;
-      if (!v || similarity > 0.70) {
-        let mod = v || coreVariant;
-        // BPM shift
-        const bpmMatch = coreVariant.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
-        if (bpmMatch) {
-          const mid = (parseInt(bpmMatch[1]) + parseInt(bpmMatch[2])) / 2;
-          const shift = i === 1 ? -15 : 20;
-          mod = mod.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(Math.max(60, mid + shift - 10))}-${Math.round(Math.min(200, mid + shift + 10))} BPM`);
+      let v = variants[i] && variants[i] !== core ? variants[i] : '';
+      const vT = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
+      const cT = new Set(core.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
+      const sim = vT.size > 0 ? [...vT].filter(t => cT.has(t)).length / vT.size : 1;
+      if (!v || sim > 0.80) {
+        let mod = v || core;
+        const bpmM = core.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
+        if (bpmM) {
+          const mid = (parseInt(bpmM[1]) + parseInt(bpmM[2])) / 2, shift = i === 1 ? -15 : 15;
+          mod = mod.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(Math.max(60, mid+shift-10))}-${Math.round(Math.min(200, mid+shift+10))} BPM`);
         }
-        // Key shift
         if (i === 1 && mod.includes('Minor')) mod = mod.replace(/Minor/g, 'Major');
         else if (mod.includes('Major')) mod = mod.replace(/Major/g, 'Minor');
-        // V2: add texture mutation
-        if (i === 1) {
-          mod = mod + ', ' + pickRandom(v2Textures);
-        }
-        // V3: add instrument mutation + fusion texture
-        if (i === 2) {
-          mod = mod + ', ' + pickRandom(v3Instruments) + ', ' + pickRandom(v2Textures);
-        }
-        // Truncate at comma boundary if too long
-        if (mod.length > 650) mod = mod.slice(0, mod.lastIndexOf(',', 650)) || mod.slice(0, 650);
-        if (!mod.includes('[DIVERGENCE]')) mod = `[DIVERGENCE V${i + 1}] ` + mod;
+        if (!mod.includes('[DIVERGENCE]')) mod = `[DIVERGENCE V${i+1}] ` + mod;
         v = mod;
       }
-      deduplicated.push(v);
+      dedup.push(v);
     }
-
-    // Ensure negativePrompt is always present — fallback to artist excludeStyles or genre negative
-    const finalNegativePrompt = parsed.negativePrompt || combinedNegativePrompt || 'generic, low quality, amateur, distorted, noise';
-
-    return {
-      ...parsed,
-      negativePrompt: finalNegativePrompt,
-      sunoPrompts: deduplicated,
-      structuredLyrics: parsed.structuredLyrics || []
-    };
-  }, 2).catch((lastError) => {
+    return { ...parsed, sunoPrompts: dedup, structuredLyrics: parsed.structuredLyrics || [] };
+  }, 2).catch((err) => {
     const fallback = sonicDNA?.sunoStyleTemplate || getGenreFallbackStyle(genre);
     return {
-      sunoPrompt: fallback,
-      sunoPrompts: [fallback, fallback, fallback],
-      negativePrompt: sonicDNA?.sunoExcludeStyles || 'generic, low quality, amateur, distorted, noise',
-      lyrics: `Error: ${lastError?.message || "Unknown error"}`,
-      structuredLyrics: [],
-      quality: { score: 0, message: `[FALLBACK] ${lastError?.message || "Unknown error"}` }
+      sunoPrompt: fallback, sunoPrompts: [fallback, fallback, fallback],
+      lyrics: `Error: ${err?.message || "Unknown error"}`, structuredLyrics: [],
+      quality: { score: 0, message: `[FALLBACK] ${err?.message || "Unknown error"}` }
     };
   });
 }
 
 export async function suggestArtistAndTitle(theme: string, genre: string, mood: string) {
-  const prompt = `Generate a FICTIONAL artist name and song title based on:
-  Theme: ${theme} | Genre: ${genre} | Mood: ${mood}
-  Rules: NEVER cite a real artist. Name must match genre vibe. Respond ONLY in JSON.`;
+  const prompt = `Generate a FICTIONAL artist name and song title. Theme: ${theme} | Genre: ${genre} | Mood: ${mood}. NEVER cite a real artist. JSON only.`;
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-2.0-flash",
+      model: FAST_MODEL,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -527,21 +387,12 @@ export async function suggestArtistAndTitle(theme: string, genre: string, mood: 
 
 export async function getArtistVocalIdentity(artistName: string) {
   const _cacheKey = `vocal_id_${artistName.toLowerCase().replace(/\s+/g, '_')}`;
-  try {
-    const _cached = sessionStorage.getItem(_cacheKey);
-    if (_cached) return JSON.parse(_cached);
-  } catch (_) { /* SSR */ }
-  const prompt = `Research vocal identity of "${artistName}":
-  - Voice type, timbre, singing style (melodic singing or technical rap?)
-  - Vocal presence, accent, autotune usage
-  - Primary language + mix if multiple (ex: FRENCH-ARABIC for raï artists)
-  - Gender: male or female
-  - WEIRDNESS 0-100, STYLE INFLUENCE 0-100
-  Use Google Search. Respond ONLY in JSON without backticks:
+  try { const c = sessionStorage.getItem(_cacheKey); if (c) return JSON.parse(c); } catch (_) { /* SSR */ }
+  const prompt = `Research vocal identity of "${artistName}": voice type, timbre, singing style (melodic or rap?), presence, accent, autotune, language (ex: FRENCH-ARABIC for raï artists), gender, WEIRDNESS 0-100, STYLE INFLUENCE 0-100. Use Google Search. JSON only:
   {"voiceType":"string","vocalTimbre":"string","singingStyle":"string","vocalPresence":"string","accent":"string","vocalReference":"string","language":"string","weirdness":number,"styleInfluence":number,"summary":"string"}`;
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-2.0-flash",
+      model: FAST_MODEL,
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
@@ -555,16 +406,14 @@ export async function getArtistVocalIdentity(artistName: string) {
 }
 
 export async function rerollVerse(context: any, verse: Verse) {
-  const prompt = `Expert lyrics writer for Suno AI V5.5 / COLORSxSTUDIOS session.
-  Genre: ${context.genre} | Mood: ${context.mood} | Theme: ${context.theme} | Inspired by: ${context.inspiredBy}
-  Regenerate section: Type=${verse.type} | Prompt=${verse.prompt} | Current text: ${verse.text}
-  Instructions: Keep global style coherence. Use V5.5 structure tags + metatags [Vocal Style:],[Mood:],[Energy:] on separate lines.
-  FORBIDDEN: cite real artist names or brands. Respond ONLY with the new lyrics text.`;
+  const prompt = `Expert Suno V5.5 lyrics writer. Genre: ${context.genre} | Mood: ${context.mood} | Inspired by: ${context.inspiredBy}
+  Regenerate section: Type=${verse.type} | Current: ${verse.text}
+  Keep style coherence. Use V5.5 metatags [Vocal Style:],[Mood:],[Energy:] on separate lines. FORBIDDEN: real artist names. Only the new lyrics.`;
   return withRetry(async () => {
     const response = await callGemini({
-      model: "gemini-2.0-flash",
+      model: FAST_MODEL,
       contents: prompt,
-      config: { systemInstruction: "Expert musical lyrics writer. Respond only with regenerated lyrics with V5.5 metatags." }
+      config: { systemInstruction: "Suno V5.5 lyrics writer. New lyrics only, with metatags." }
     });
     return response.text || verse.text;
   });
