@@ -195,6 +195,8 @@ ${sonicDNA.energyCurve ? `ENERGY CURVE: ${sonicDNA.energyCurve}` : ''}
 CULTURAL ANCHORS: ${sonicDNA.culturalAnchors || 'Not specified'}
 ANTI-PATTERNS: ${sonicDNA.antiPatterns || 'Not specified'}
 
+CRITICAL TAG RULE: Never output the generic tag "Melodic French Rap" in sunoPrompt/sunoPrompts. Always use the specific sub-genre from sunoStyleTemplate above (e.g., "Melodic French Trap", "Dark Melodic Drill", "Street Confession Rap", "Pop Urbaine", etc.).
+
 V5.5 METATAGS:
 [Vocal Style: ${sonicDNA.sunoMetatags?.vocalStyle || 'Rap'}]
 [Vocal Effect: ${sonicDNA.sunoMetatags?.vocalEffect || 'Reverb'}]
