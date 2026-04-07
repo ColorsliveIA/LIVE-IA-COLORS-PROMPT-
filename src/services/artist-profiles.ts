@@ -1,6 +1,6 @@
 /**
  * Artist-specific instruction profiles for Gemini prompt generation.
- * v2 — All 54+ artists covered. No generic fallback for known artists.
+ * v3 — 3 fixes: TIF isMelodic, RULE on 12 profiles, 3 new specific DNA keys.
  */
 
 export interface ArtistProfile {
@@ -130,16 +130,19 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - VOCAL: Mix of melodic singing/rap, light autotune, marked Antillean accent. Bouncy dancing flow.
 - THEMES: Caribbean identity, island pride, party, tropical melancholy, exile.
 - PRODUCTION: Dancehall riddims, tropical percussion, bouncy 808s, atmospheric synths, tropical melodies. BPM 90-110.
-- LANGUAGE: Mix of MARTINICAN CREOLE and FRENCH.`
+- LANGUAGE: Mix of MARTINICAN CREOLE and FRENCH.
+- RULE: CARIBBEAN BOUNCE is non-negotiable. Flow must ride the riddim, never a straight 4/4 trap beat.`
   },
   {
     keywords: ["TIF"],
+    isMelodic: true,
     instructions: `# ARTIST PROFILE — MAGHREB MELODIC:
 - SOUND: Raï-Trap, Algerian Urban Melodic, Mediterranean Melancholy.
 - VOCAL: Melodic with raï influences, controlled autotune, emotional voice, singing/rap alternation.
 - THEMES: Algiers nostalgia (Houma), exile, sun-drenched melancholy, destiny (Mektoub).
 - PRODUCTION: Oud, mandole, derbouka. Melancholic acoustic guitars, deep 808s, oriental melodies.
-- LANGUAGE: 50/50 FRENCH and DARIJA (Algerian Arabic). Slang: 'Sahbi', 'Khoya', 'Dz'.`
+- LANGUAGE: 50/50 FRENCH and DARIJA (Algerian Arabic). Slang: 'Sahbi', 'Khoya', 'Dz'.
+- RULE: MELODIC AUTOTUNE over Mediterranean textures. Never dry rap. French-Darija blend is mandatory.`
   },
   {
     keywords: ["TIAKOLA"],
@@ -208,7 +211,8 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - VOCAL: Powerful warm male voice, dominant melodic singing, extended range, Nigerian Pidgin cadence.
 - THEMES: African pride, party, love, resilience, Nigeria, pan-Africanism, freedom.
 - PRODUCTION: Powerful brass section, polyrhythmic percussion (talking drums, congas, shakers), afrobeat guitars. BPM 100-115.
-- LANGUAGE: English, Nigerian Pidgin, Yoruba.`
+- LANGUAGE: English, Nigerian Pidgin, Yoruba.
+- RULE: AFROBEATS GROOVE is sacred. Production must have African percussion DNA. Never pure trap, never drill.`
   },
   {
     keywords: ["BAD BUNNY"],
@@ -272,7 +276,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — G-FUNK:
 - SOUND: G-Funk, West Coast R&B, Gangsta Soul. Smooth and street simultaneously.
 - VOCAL: Velvety baritone male voice, ultra-smooth melodic R&B hooks, rich harmonies. Iconic memorable phrasing.
-- PRODUCTION: G-Funk synths (Moog/Minimoog), deep funk bass, talk box, groovy slow drums. BPM 88-100.`
+- THEMES: West Coast party, chill cruising, laid-back love, G-Funk lifestyle, smooth street success.
+- PRODUCTION: G-Funk synths (Moog/Minimoog), deep funk bass, talk box, groovy slow drums. BPM 88-100.
+- RULE: SMOOTH MELODIC HOOKS are the signature. Never dry rap, never aggressive flow, never fast uptempo.`
   },
   {
     keywords: ["MOBB DEEP", "MOBB", "PRODIGY", "HAVOC"],
@@ -289,7 +295,8 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - SOUND: Underground Hardcore Hip-Hop, Dark Orchestral Boom Bap, Cinematic Militant Rap.
 - VOCAL: Deep gravelly aggressive baritone, staccato militant delivery. Raw power. NO autotune. NO singing.
 - THEMES: Militant spirituality, conspiracy, violent street metaphors, anti-establishment, boxing/combat imagery.
-- PRODUCTION: Cinematic orchestral samples (cellos, violins), dark choir vocals, hard boom bap drums. BPM 85-95.`
+- PRODUCTION: Cinematic orchestral samples (cellos, violins), dark choir vocals, hard boom bap drums. BPM 85-95.
+- RULE: ORCHESTRAL CINEMATIC DARKNESS. Production = classical music meets street violence. Hook = orchestral break, NEVER pop melody.`
   },
   {
     keywords: ["JORJA SMITH", "JORJA"],
@@ -299,7 +306,8 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
 - VOCAL: FEMALE warm alto, British soul inflection, natural vibrato. Jazz phrasing. NO heavy autotune.
 - THEMES: Emotional honesty, modern love/heartbreak, London life, vulnerability as power.
 - PRODUCTION: Live bass guitar, warm Rhodes piano, soft jazz drums, subtle string pads, acoustic guitar. BPM 85-105.
-- LANGUAGE: English with British inflection.`
+- LANGUAGE: English with British inflection.
+- RULE: ORGANIC WARMTH and VOCAL INTIMACY are non-negotiable. Production serves the voice, never overwhelms it.`
   },
   {
     keywords: ["THE WEEKND", "WEEKND"],
@@ -317,7 +325,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — EMO TRAP:
 - SOUND: Emo Melodic Rap, Freestyle Emotional Stream, Guitar-Driven Sad Trap.
 - VOCAL: Emotional autotune tenor, raw freestyle quality, vulnerable crying delivery.
-- PRODUCTION: Electric guitar melodies, deep 808 bass, trap hi-hat rolls, soft piano layers. BPM 140-160.`
+- THEMES: Heartbreak, emotional vulnerability, love obsession, youth anxiety, substance abuse as metaphor.
+- PRODUCTION: Electric guitar melodies, deep 808 bass, trap hi-hat rolls, soft piano layers. BPM 140-160.
+- RULE: EMOTIONAL VULNERABILITY is the signature. Freestyle energy, melodic flow, never overly structured or polished.`
   },
   {
     keywords: ["TEMS"],
@@ -325,7 +335,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — ALT-AFRO SOUL:
 - SOUND: Alt-Afro Soul, Ethereal R&B, Modern African Soul.
 - VOCAL: FEMALE ethereal alto-soprano, haunting. Intimate whisper to powerful emotional peak. NEVER rap.
-- PRODUCTION: Soft afro percussion, warm bass, ethereal synth pads, fingerpicked acoustic guitar, layered harmonies. BPM 95-110.`
+- THEMES: Complex love, feminine independence, spirituality, introspection, quiet strength, African feminine identity.
+- PRODUCTION: Soft afro percussion, warm bass, ethereal synth pads, fingerpicked acoustic guitar, layered harmonies. BPM 95-110.
+- RULE: NEVER rap — everything is sung ethereally. FEMALE voice mandatory. Production serves the voice, never overwhelms it.`
   },
   {
     keywords: ["ASAKE"],
@@ -333,8 +345,10 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — AMAPIANO-FUJI:
 - SOUND: Amapiano-Fuji Fusion, Street Lagos, Percussive Afrobeats.
 - VOCAL: MALE energetic tenor, street chant/communal delivery. Percussive vocal attacks. Fuji ornamentation.
+- THEMES: Street party, Yoruba pride, Lagos nightlife, success, communal energy, Nigerian identity.
 - PRODUCTION: Deep amapiano bass, heavy log drums, Yoruba talking drum, polyrhythmic fuji percussion. BPM 108-118.
-- LANGUAGE: English and Yoruba mixed.`
+- LANGUAGE: English and Yoruba mixed.
+- RULE: COMMUNAL PERCUSSIVE ENERGY is non-negotiable. Never slow, never melancholic solo introspection. Street chant = communal power.`
   },
   {
     keywords: ["JOÉ DWÈT FILÉ", "JOE DWET FILE", "DWET FILE", "DWÈT FILÉ"],
@@ -342,8 +356,10 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — MODERN ZOUK:
 - SOUND: Modern Zouk, Caribbean R&B, Romantic Island Pop.
 - VOCAL: MALE warm tenor, soft romantic intimate delivery with Creole accent. Natural vibrato. Never aggressive.
+- THEMES: Romantic love, Caribbean nostalgia, gentle island living, Caribbean nights, tender emotions.
 - PRODUCTION: Warm zouk bass, drum machine zouk groove, steel pan textures, island acoustic guitar, lush synth pads. BPM 90-105.
-- LANGUAGE: FRENCH and ANTILLEAN CREOLE mixed.`
+- LANGUAGE: FRENCH and ANTILLEAN CREOLE mixed.
+- RULE: ROMANTIC ISLAND WARMTH is the signature. Never aggressive, never trap darkness, never dry delivery. Pure tenderness.`
   },
   {
     keywords: ["VALD"],
@@ -376,11 +392,11 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     keywords: ["TRAVIS SCOTT"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — PSYCHEDELIC TRAP:
-- SOUND: Psychedelic Dark Trap, Ambient Atmospheric Rap, Cosmic Autotune.
-- VOCAL: Thick artistic autotune, modulated spatial voice, melodic ad-libs throughout. Floating singing.
-- THEMES: Cosmic nightlife, festival energy, controlled chaos, psychedelic aesthetics.
+- SOUND: Psychedelic Dark Trap, Ambient Atmospheric Rap, Cosmic Autotune. Production is the main character.
+- VOCAL: Thick artistic autotune, modulated spatial voice, melodic ad-libs throughout. Voice floats as one layer in a saturated soundscape.
+- THEMES: Cosmic nightlife, festival chaos, controlled psychedelia, space as metaphor, collective energy.
 - PRODUCTION: Saturated deep bass, atmospheric floating synths, frequent beat switches, phaser/flanger effects, massive reverb. BPM 130-150.
-- RULE: BEAT SWITCHES and COSMIC atmosphere are essential.`
+- RULE: ATMOSPHERE and BEAT SWITCHES are non-negotiable. Static = wrong. Every section must evolve sonically.`
   },
   {
     keywords: ["DRAKE"],
@@ -404,20 +420,20 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     keywords: ["PLAYBOI CARTI"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — RAGE/VAMP:
-- SOUND: Rage Trap, Vamp Aesthetic, Minimalist Punk Rap.
-- VOCAL: High-pitched extreme autotune, short repetitive ad-libs, voice as texture/percussion. Textural minimalism.
-- THEMES: Vamp aesthetic, punk attitude, mosh pit energy, dark fashion.
-- PRODUCTION: Extremely saturated 808, distorted synth stabs, aggressive minimal drums. BPM 150-175.
-- RULE: TEXTUAL MINIMALISM is the signature. Voice = rhythm instrument, not lyrical vehicle.`
+- SOUND: Rage Trap, Vamp Aesthetic, Minimalist Punk Rap. Voice is texture, not message.
+- VOCAL: High-pitched extreme autotune, short repetitive ad-libs (2-4 words max), voice as rhythmic percussion. Textural minimalism.
+- THEMES: Vamp aesthetic, punk energy, mosh pit chaos, dark fashion, minimalism as maximalism.
+- PRODUCTION: Extremely saturated 808s, distorted synth stabs, aggressive minimal drums, dark repetitive melodies. BPM 150-175.
+- RULE: TEXTURAL MINIMALISM. Voice = rhythm instrument, not lyrical vehicle. Every word is a percussion hit.`
   },
   {
     keywords: ["KANYE WEST"],
-    instructions: `# ARTIST PROFILE — AVANT-GARDE MAXIMALIST:
-- SOUND: Avant-Garde Rap, Gospel-Rap, Art-Pop, Maximalist Hip-Hop.
-- VOCAL: Expressive varied voice, rap/singing/gospel alternation, unpredictable flow, occasional artistic autotune.
-- THEMES: Artistic grandeur, gospel/faith, ego and vulnerability, maximalism as philosophy.
-- PRODUCTION: Chopped soul samples, massive gospel choirs, grandiose orchestration, industrial drums, distorted bass.
-- RULE: ARTISTIC AMBITION and SOUL SAMPLES/GOSPEL CHOIRS are non-negotiable.`
+    instructions: `# ARTIST PROFILE — GOSPEL MAXIMALIST:
+- SOUND: Gospel-Rap, Avant-Garde Hip-Hop, Maximalist Art-Pop. Everything pushed to its extreme.
+- VOCAL: Expressive varied voice — rap/singing/gospel chanting alternation. No fixed mode. Voice serves the emotion.
+- THEMES: Artistic grandeur, spiritual crisis and redemption, ego and vulnerability, faith, fashion, maximalism as philosophy.
+- PRODUCTION: Chopped soul vocal samples, massive gospel choirs, grand piano, orchestral strings, industrial drums, distorted bass. BPM 90-130.
+- RULE: MAXIMALIST AMBITION is the signature. Subtle = wrong. Every section must feel like a statement. SOUL SAMPLES + GOSPEL CHOIRS are sacred.`
   },
   {
     keywords: ["LANA DEL REY"],
@@ -435,7 +451,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — CINEMATIC SOUL R&B:
 - SOUND: Cinematic Soul R&B, Jazz-Inflected Vocals, Lush Orchestral R&B.
 - VOCAL: Breathy smoky female alto with golden jazz timbre. Tenderness to powerful delivery.
-- PRODUCTION: Lush orchestral strings, warm bass guitar, jazz piano chords, soft brush drums. BPM 75-95.`
+- THEMES: Yearning love, emotional complexity, feminine strength, cinematic loneliness, intimacy.
+- PRODUCTION: Lush orchestral strings, warm bass guitar, jazz piano chords, soft brush drums. BPM 75-95.
+- RULE: CINEMATIC WARMTH is non-negotiable. Production must frame the voice like a film score — never overwhelm it.`
   },
   {
     keywords: ["POST MALONE", "POST"],
@@ -443,7 +461,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — GENRE-BENDING MELODIC:
 - SOUND: Genre-Bending Melodic Rap, Emotional Crooning, Acoustic-Trap Hybrid.
 - VOCAL: Raspy warm male tenor, melodic autotune crooning. Emotional vulnerability, accessible delivery.
-- PRODUCTION: Acoustic guitar foundation, 808 bass, trap drums, atmospheric pads. BPM 80-110.`
+- THEMES: Heartbreak, loneliness, fame and emptiness, friendship, nostalgic warmth.
+- PRODUCTION: Acoustic guitar foundation, 808 bass, trap drums, atmospheric pads. BPM 80-110.
+- RULE: WARM ACCESSIBILITY is the goal. Emotional and melodic, never aggressive, always singable.`
   },
   {
     keywords: ["BILAL SGHIR", "CHEB BILAL SGHIR"],
@@ -460,7 +480,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — EMOTIONAL DANCE:
 - SOUND: Emotional Sampling Electronic, Voice-Memo Dance Music, Euphoric Rave Intimacy.
 - VOCAL: Pitched voice memo samples as primary melodic element. Human intimacy within electronic dance.
-- PRODUCTION: Voice memo hooks, pulsing house bass, breakbeat drums, pitched vocal samples. BPM 125-140.`
+- THEMES: Friendship, love, loss, euphoria, moments captured in time, collective dancefloor feeling.
+- PRODUCTION: Voice memo hooks, pulsing house bass, breakbeat drums, pitched vocal samples. BPM 125-140.
+- RULE: HUMAN INTIMACY within electronic dance. Voice memos = emotional anchors. NEVER cold or clinical. The feeling IS the song.`
   },
   {
     keywords: ["PEGGY GOU"],
@@ -468,26 +490,28 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — HOUSE-DISCO:
 - SOUND: Groovy House Disco Fusion, Smooth Tech-House, Warm Analog Dance.
 - VOCAL: Smooth house vocal hooks, groove-locking phrasing for dancefloor.
-- PRODUCTION: Deep house bass, funky synth riffs, crisp house drums, retro synth arpeggios. BPM 120-128.`
+- THEMES: Dancefloor liberation, summer nights, groove as lifestyle, Seoul-Berlin cultural fusion.
+- PRODUCTION: Deep house bass, funky synth riffs, crisp house drums, retro synth arpeggios. BPM 120-128.
+- RULE: GROOVE and DANCEFLOOR are the only criteria. No heavy themes, no dark production. Pure feel-good dance energy.`
   },
-  // ── NEW PROFILES (previously missing) ───────────────────────────────────
+  // ── NEW PROFILES ──────────────────────────────────────────────────────────
   {
     keywords: ["STROMAE"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — ELECTRO-CHANSON BELGE:
-- SOUND: Belgian Art-Pop, Electro-Chanson Française, Danceable Melancholy. Dance floor meets poetic vulnerability.
-- VOCAL: Theatrical expressive male voice, alternating powerful singing and spoken-sung delivery. Expressive modulation — from whisper to dramatic power.
-- THEMES: Danceable melancholy, social critique, fatherhood, modern society loneliness, Belgian-Congolese dual identity, dark humor.
-- PRODUCTION: Modern electronic synths, subtle Congolese rumba influences, dancefloor drums, occasional orchestral accents. BPM 110-130.
+- SOUND: Belgian Art-Pop, Electro-Chanson Française, Danceable Melancholy.
+- VOCAL: Theatrical expressive male voice, alternating powerful singing and spoken-sung delivery.
+- THEMES: Danceable melancholy, social critique, fatherhood, modern isolation, Belgian-Congolese identity, dark humor.
+- PRODUCTION: Modern electronic synths, subtle Congolese rumba influences, dancefloor drums, orchestral accents. BPM 110-130.
 - LANGUAGE: French, literary vocabulary, accessible irony.
-- RULE: The CONTRAST between dark themes and danceable production is the non-negotiable signature.`
+- RULE: Dark theme + danceable production — the CONTRAST is the signature.`
   },
   {
     keywords: ["WIZKID"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — SMOOTH AFROBEATS:
 - SOUND: Smooth Afrobeats, Effortless Afro-Pop, Lagos Nonchalant Groove.
-- VOCAL: Silky male tenor, nonchalant effortless delivery, fluid melodic singing with Yoruba inflection. NEVER aggressive.
+- VOCAL: Silky male tenor, nonchalant effortless delivery, fluid melodic singing with Yoruba inflection.
 - THEMES: Love, dance, Lagos nightlife, African pride, feminine beauty, positive vibes.
 - PRODUCTION: Log drums, shekere percussion, warm sub bass, soft synth pads, clean afro guitar licks. BPM 100-112.
 - LANGUAGE: English with Yoruba inflections.
@@ -498,7 +522,7 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: false,
     instructions: `# ARTIST PROFILE — DARK AMBIENT CLOUD RAP:
 - SOUND: Dark Emotional Cloud Rap, Ambient Trap, Cinematic Nocturnal Bass-Driven.
-- VOCAL: Soft autotuned MALE voice that almost sings but never fully commits. Breathy close-mic whisper-croon. NOT R&B singing — closer to murmuring over a dark fog.
+- VOCAL: Soft autotuned MALE voice that almost sings but never fully commits. Breathy close-mic whisper-croon.
 - THEMES: Toxic romance, night drives at 3am, luxury sadness, emotional isolation, nocturnal loneliness.
 - PRODUCTION: Deep ominous sub bass, dark melodic 808s in half-time, dreamy atmospheric pads, washed-out detuned synths, distant bell plucks. BPM 60-80.
 - RULE: NEVER aggressive, NEVER uptempo, NEVER acoustic, NEVER power ballad. Hazy, slow, cinematic fog.`
@@ -506,10 +530,10 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
   {
     keywords: ["SCH"],
     instructions: `# ARTIST PROFILE — CINEMATIC DARK TRAP MARSEILLE:
-- SOUND: Cinematic Dark Trap, Orchestral French Rap, Marseille Luxury Darkness. SCH = dark poetry + cinematic production.
-- VOCAL: Very deep grave authoritative voice — imposing, measured. Dark melodic autotune on hooks only. Deliberate flow with dramatic pauses.
-- THEMES: Marseille luxury darkness, cinematic storytelling, power and domination, dark poetry, strategic patience.
-- PRODUCTION: Dark orchestral strings, cinematic brass stabs, heavy distorted 808, crisp trap hi-hats, reverb-drenched atmospheric pads, dramatic build-ups. Hi-end polished mix. BPM 130-140.
+- SOUND: Cinematic Dark Trap, Orchestral French Rap, Marseille Luxury Darkness.
+- VOCAL: Very deep grave authoritative voice — imposing, measured. Dark melodic autotune on hooks only.
+- THEMES: Marseille luxury darkness, cinematic storytelling, power, dark poetry, strategic patience.
+- PRODUCTION: Dark orchestral strings, cinematic brass stabs, heavy distorted 808, reverb-drenched pads, dramatic build-ups. BPM 130-140.
 - LANGUAGE: French, dark literary vocabulary, Marseille references.
 - RULE: CINEMATIC GRANDEUR is non-negotiable. Never cheerful, never lo-fi, never frantic.`
   },
@@ -518,19 +542,19 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — NEO-SOUL ALTERNATIVE R&B:
 - SOUND: Neo-Soul R&B, Alternative R&B, Warm Organic Contemporary Soul.
-- VOCAL: Emotional breathy female vocals, neo-soul melisma runs. Switches between whisper intimacy and full emotional belt. Confessional delivery.
-- THEMES: Emotional vulnerability, complex relationships, feminine empowerment, confessional storytelling, self-discovery.
-- PRODUCTION: Warm organic production — live drums, Rhodes piano, acoustic guitar textures, lush vocal harmonies, ethereal reverb. BPM 80-105.
+- VOCAL: Emotional breathy female vocals, neo-soul melisma runs. Switches between whisper and full emotional belt.
+- THEMES: Emotional vulnerability, complex relationships, feminine empowerment, confessional storytelling.
+- PRODUCTION: Live drums, Rhodes piano, acoustic guitar, lush harmonies, ethereal reverb. BPM 80-105.
 - RULE: WARMTH and VOCAL INTIMACY are the signature. Production serves the voice.`
   },
   {
     keywords: ["MAES"],
     instructions: `# ARTIST PROFILE — STREET MELODIC TRAP SEVRAN:
 - SOUND: Street Melodic Trap, Dark French Rap, Sevran Energy. Raw authenticity above all.
-- VOCAL: Deep grave voice with melodic autotune on hooks. Raw street delivery on verses — direct, percussive, authentic.
+- VOCAL: Deep grave voice with melodic autotune on hooks. Raw street delivery on verses.
 - THEMES: Sevran street life, loyalty, survival, money, betrayal, nocturnal introspection.
-- PRODUCTION: Heavy 808 sub bass, dark piano melodies, crisp trap drums, complex hi-hats, nocturnal street atmosphere. BPM 125-140.
-- LANGUAGE: French, street slang, raw Sevran vocabulary.
+- PRODUCTION: Heavy 808, dark piano, crisp trap drums, complex hi-hats. BPM 125-140.
+- LANGUAGE: French, raw Sevran street vocabulary.
 - RULE: RAW AUTHENTICITY is non-negotiable. Never overly polished or commercial.`
   },
   {
@@ -538,18 +562,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — HARDCORE MEDITERRANEAN TRAP:
 - SOUND: Hard French Trap, Hardcore Street Rap, Mediterranean Gangster Atmosphere.
 - VOCAL: Deep authoritative voice with Mediterranean accent. Hard aggressive rap delivery. No singing.
-- THEMES: Mediterranean gangster culture, street business codes, loyalty, Maghreb-French identity, survival.
-- PRODUCTION: Aggressive 808, oriental melodic samples (subtle), dark synth stabs, hard snare, triplet hi-hats. BPM 120-135.
-- LANGUAGE: French with Mediterranean/Maghreb slang and references.
+- THEMES: Mediterranean gangster culture, street codes, Maghreb-French identity, loyalty, survival.
+- PRODUCTION: Aggressive 808, subtle oriental samples, dark synth stabs, hard snare, triplet hi-hats. BPM 120-135.
+- LANGUAGE: French with Mediterranean/Maghreb slang.
 - RULE: HARD and DIRECT. No singing, no soft, no overly melodic.`
   },
   {
     keywords: ["WERENOI"],
     instructions: `# ARTIST PROFILE — MELODIC EMOTIONAL STREET RAP:
 - SOUND: Melodic French Trap, Emotional Street Rap, Close-Mic Sincerity.
-- VOCAL: Deep resonant voice with emotional melodic autotune throughout. Sincere raw delivery — never performative.
-- THEMES: Street emotions, family loyalty, survival, authentic pain, nocturnal introspection, emotional vulnerability.
-- PRODUCTION: Deep sliding 808, melancholic piano, atmospheric pads, crisp trap drums, close-mic intimate feel. BPM 120-135.
+- VOCAL: Deep resonant voice with emotional melodic autotune. Sincere raw delivery.
+- THEMES: Street emotions, family loyalty, survival, authentic pain, nocturnal introspection.
+- PRODUCTION: Deep sliding 808, melancholic piano, atmospheric pads, crisp trap drums. BPM 120-135.
 - RULE: EMOTIONAL SINCERITY is the DNA. Never purely technical, always felt.`
   },
   {
@@ -558,8 +582,8 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     instructions: `# ARTIST PROFILE — AFRO-TRAP ORIGINATOR:
 - SOUND: Afro-Trap, African Rhythm Meets French Rap, Bouncy Festive Street.
 - VOCAL: Festive energetic male voice with light autotune. African-French bouncy cadence.
-- THEMES: Afro-Trap originator identity, African diaspora pride, Paris street party, dance, celebration, cultural roots.
-- PRODUCTION: Bouncy 808, African percussion (djembe, sabar, congas), festive synth melodies, bright energy. BPM 100-115.
+- THEMES: Afro-Trap identity, African diaspora pride, Paris street party, dance, celebration.
+- PRODUCTION: Bouncy 808, African percussion (djembe, sabar, congas), festive synth melodies. BPM 100-115.
 - RULE: BOUNCE and CELEBRATION are non-negotiable. Never dark, never slow.`
   },
   {
@@ -567,9 +591,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — FRENCH AFRO-R&B:
 - SOUND: French Afro-R&B, Smooth Melodic Pop-R&B, Warm Romantic Nocturnal.
-- VOCAL: Rich smooth male tenor with melodic autotune. Singing-dominant delivery. Romantic sensual warmth.
-- THEMES: Romance, sensuality, love stories, nocturnal tenderness, smooth lifestyle, diaspora identity.
-- PRODUCTION: Lush Rhodes chords, warm sub bass, subtle afro percussion, smooth R&B drums, hi-end polished mix. BPM 90-110.
+- VOCAL: Rich smooth male tenor with melodic autotune. Singing-dominant. Romantic sensual warmth.
+- THEMES: Romance, sensuality, love stories, nocturnal tenderness, smooth lifestyle.
+- PRODUCTION: Lush Rhodes chords, warm sub bass, subtle afro percussion, smooth R&B drums. BPM 90-110.
 - RULE: ROMANTIC WARMTH is the signature. Never aggressive, never hard.`
   },
   {
@@ -577,18 +601,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — CONGOLESE-FRENCH MELODIC R&B:
 - SOUND: French Afro-Pop R&B, Romantic Melodic, Congolese-French Fusion.
-- VOCAL: Smooth melodic male vocals with autotune. Topline-dominant. Congolese-French cadence with romantic inflection.
-- THEMES: Congolese-French romance, family bonds, love stories, nocturnal tenderness, diaspora identity.
-- PRODUCTION: Warm 808, lush keyboard pads, afro percussion, Congolese guitar textures, polished romantic atmosphere. BPM 95-115.
+- VOCAL: Smooth melodic male vocals with autotune. Topline-dominant. Congolese-French cadence.
+- THEMES: Romance, family bonds, love stories, nocturnal tenderness, diaspora identity.
+- PRODUCTION: Warm 808, lush keyboard pads, afro percussion, Congolese guitar textures. BPM 95-115.
 - RULE: SINGING DOMINATES throughout. Strong melodic hooks always.`
   },
   {
     keywords: ["LOMEPAL"],
     instructions: `# ARTIST PROFILE — INDIE FRENCH RAP:
 - SOUND: Indie French Rap, Emotional Acoustic-Electronic Hybrid, Parisian Skateboard Culture.
-- VOCAL: Raw emotional male voice with minimal processing. Confessional intimate delivery. Fluid between rap and singing.
-- THEMES: Skateboard culture, Parisian indie scene, emotional vulnerability, youth angst, authenticity.
-- PRODUCTION: Acoustic guitar layers, indie synth textures, live drum feel, warm bass. BPM 85-110.
+- VOCAL: Raw emotional male voice with minimal processing. Confessional intimate delivery.
+- THEMES: Skateboard culture, Parisian indie scene, emotional vulnerability, youth angst.
+- PRODUCTION: Acoustic guitar layers, indie synths, live drum feel, warm bass. BPM 85-110.
 - RULE: RAW CONFESSIONAL INTIMACY is the DNA. No heavy autotune, no hard trap.`
   },
   {
@@ -596,18 +620,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — BELGIAN ELECTRO-POP:
 - SOUND: Belgian Art-Pop, Sophisticated Electro-Pop, Elegant Ironic Pop.
-- VOCAL: Crystal clear female vocals with NO autotune. Belgian French accent. Sophisticated pop singing with restraint and elegance.
-- THEMES: Belgian pop identity, feminism, self-empowerment, youth, social commentary, subtle irony.
-- PRODUCTION: Bright synth arpeggios, electronic drums, punchy pop bass, pop claps, colorful polished production. BPM 110-125.
-- RULE: ELEGANCE and SUBTLETY are non-negotiable. Catchy but never vulgar, sophisticated but accessible.`
+- VOCAL: Crystal clear female vocals with NO autotune. Belgian French accent. Sophisticated restraint.
+- THEMES: Feminism, self-empowerment, Belgian identity, youth irony, social commentary.
+- PRODUCTION: Bright synth arps, electronic drums, punchy pop bass, pop claps. BPM 110-125.
+- RULE: ELEGANCE and SUBTLETY are non-negotiable. Catchy but never vulgar.`
   },
   {
     keywords: ["REMA"],
     isMelodic: true,
     instructions: `# ARTIST PROFILE — AFRORAVE:
-- SOUND: Afrorave, Nigerian Pop-Rave, High-Energy Electronic Afrobeats, Festival Sound.
-- VOCAL: Youthful male vocals with infectious melodic hooks. High-energy delivery, Afrorave cadence. Never dark or aggressive.
-- THEMES: Nigerian afrorave movement, youth culture, global dance floors, high-energy celebration, infectious joy.
+- SOUND: Afrorave, Nigerian Pop-Rave, High-Energy Electronic Afrobeats.
+- VOCAL: Youthful male vocals with infectious melodic hooks. High-energy Afrorave cadence.
+- THEMES: Nigerian youth culture, global dancefloor, celebration, love, infectious joy.
 - PRODUCTION: Rave synth stabs, punchy afro bass, African percussion, electronic hi-hats. BPM 105-120.
 - RULE: HIGH ENERGY and INFECTIOUS GROOVE are mandatory. Never slow, never dark.`
   },
@@ -615,19 +639,19 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     keywords: ["NAS"],
     instructions: `# ARTIST PROFILE — EAST COAST LYRICAL BOOM BAP:
 - SOUND: East Coast Boom Bap, Lyrical Hip-Hop, Golden Era Storytelling Rap.
-- VOCAL: Deep male voice, NO autotune, lyrical precision, storytelling narrative cadence. Dense multisyllabic rhymes.
-- THEMES: Queens NY street poetry, hip-hop heritage, lyrical supremacy, social commentary, introspection.
+- VOCAL: Deep male voice, NO autotune, lyrical precision, storytelling cadence. Dense multisyllabic rhymes.
+- THEMES: Queens NY street poetry, hip-hop heritage, lyrical supremacy, social commentary, survival wisdom.
 - PRODUCTION: Boom bap drums, jazz samples, soul chops, vinyl crackle. BPM 85-95.
-- LANGUAGE: English, rich NY street vocabulary, literary references.
-- RULE: LYRICAL PRECISION and BOOM BAP are sacred. No trap hi-hats, no autotune, no EDM.`
+- LANGUAGE: English, rich NY vocabulary, literary references.
+- RULE: LYRICAL PRECISION and BOOM BAP are sacred. No trap hi-hats, no autotune.`
   },
   {
     keywords: ["NIRO"],
     instructions: `# ARTIST PROFILE — MELODIC EMOTIONAL TRAP BLOIS:
 - SOUND: Melodic French Trap, Emotional Street Rap, Raw Authentic Sincerity.
-- VOCAL: Deep emotional voice with melodic autotune. Raw authentic delivery. Alternates singing hooks and rap verses.
-- THEMES: Blois street life, raw authenticity, emotional vulnerability, overlooked city pride, family and loyalty.
-- PRODUCTION: Deep 808, melancholic piano melodies, atmospheric strings, trap drums. BPM 115-130.
+- VOCAL: Deep emotional voice with melodic autotune. Raw authentic delivery.
+- THEMES: Blois street life, emotional vulnerability, overlooked city pride, family loyalty.
+- PRODUCTION: Deep 808, melancholic piano, atmospheric strings, trap drums. BPM 115-130.
 - RULE: RAW AUTHENTICITY is non-negotiable. Never overly polished, always sincere.`
   },
   {
@@ -635,9 +659,9 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     isMelodic: true,
     instructions: `# ARTIST PROFILE — FRENCH HOUSE DJ-PRODUCER:
 - SOUND: French House, Tropical House, Afro House, Summer Festival Electronic.
-- VOCAL: Filtered vocal chops and house vocal samples. Production-driven — no traditional rapper/singer.
-- THEMES: French house scene, summer festivals, Ibiza energy, tropical dancefloor vibes.
-- PRODUCTION: Four-on-the-floor kick, tropical percussion, house bassline, bright synth melodies, filtered vocal chops. BPM 120-128.
+- VOCAL: Filtered vocal chops and house samples. Production-driven.
+- THEMES: Summer festivals, Ibiza energy, tropical dancefloor, French house culture.
+- PRODUCTION: Four-on-the-floor kick, tropical percussion, house bassline, bright synth melodies. BPM 120-128.
 - RULE: DANCEFLOOR GROOVE and SUMMER ENERGY are mandatory.`
   },
 ];
@@ -773,7 +797,6 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Themes: island love, tropical warmth, Caribbean nights, romance.
 - Language: French and Antillean Creole mixed.`,
 
-    // ── NEW DNA ENTRIES ─────────────────────────────────────────────────────
     'ELECTRO_CHANSON_BELGE': `ELECTRO-CHANSON BELGE (STROMAE) DNA:
 - Dance floor production with poetic literary lyrics — the contrast IS the style.
 - Electronic synths + subtle Congolese rumba rhythmic influences + orchestral accents.
@@ -848,11 +871,10 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 
     'BOOM_BAP_US': `EAST COAST BOOM BAP DNA (NAS):
 - Golden era New York hip-hop — lyrical density, boom bap drums, jazz/soul samples.
-- Themes: Queens NY street poetry, lyrical supremacy, social commentary, hip-hop heritage, survival and wisdom.
+- Themes: Queens NY street poetry, lyrical supremacy, social commentary, hip-hop heritage, survival.
 - Flow: dense multisyllabic rhymes, storytelling narrative, classic NY cadence. NO autotune.
 - Production: boom bap drums, jazz samples, soul chops, vinyl crackle. BPM 85-95.
-- Language: English — rich NY street vocabulary, literary depth, complex wordplay.
-- RULE: LYRICAL CRAFT is sacred. Never trap production, never autotune.`,
+- Language: English — rich NY street vocabulary, literary depth, complex wordplay.`,
 
     'MELODIC_STREET_FR': `MELODIC STREET TRAP (WERENOI / NIRO / MAES) DNA:
 - Raw emotional authenticity over dark melodic trap. Sincerity above all.
@@ -866,21 +888,45 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - No singing — deep authoritative voice, hard percussive rap, dramatic pauses.
 - Themes: street codes, Mediterranean identity, Maghreb-French dual identity, loyalty, survival.
 - Production: aggressive 808, subtle oriental samples, dark synth stabs, hard snare.
-- Language: French with Mediterranean/Maghreb slang references.
-- RULE: HARD and DIRECT. Aggression from the voice, not the instruments.`,
+- Language: French with Mediterranean/Maghreb slang references.`,
 
     'EXPERIMENTAL_ABSURDIST': `EXPERIMENTAL ABSURDIST RAP (VALD) DNA:
 - Unpredictability IS the style. Tone shifts radically mid-verse — serious to ironic to absurd.
-- Themes: dark humor, social satire, internet/geek culture, provocation with intelligence, absurdist wordplay.
-- Flow: fast technical default, but switches tempo, register, and tone without warning.
-- Production: hard trap drums, dark synths, unexpected beat switches and samples.
-- Language: French — multi-layered, ironic, references from pop culture/anime/geopolitics.
-- RULE: If it feels too predictable, it's wrong. Chaos is controlled.`,
+- Themes: dark humor, social satire, internet/geek culture, provocation with intelligence.
+- Flow: fast technical default, switches tempo, register, and tone without warning.
+- Language: French — multi-layered, ironic, references pop culture/anime/geopolitics.`,
+
+    // ── Priority 3: New specific DNA for Travis, Kanye, Carti ─────────────
+    'PSYCHEDELIC_TRAP': `PSYCHEDELIC TRAP (TRAVIS SCOTT) DNA:
+- Atmosphere and sonic immersion are the main characters — production IS the statement.
+- Beat switches are structural: each section can change BPM, key, or sonic texture.
+- Thick artistic autotune — voice floats as one layer in a saturated, constantly evolving soundscape.
+- Themes: cosmic nightlife, festival chaos, controlled psychedelia, space as metaphor, collective energy.
+- Production: saturated deep 808s, atmospheric floating synths, phaser/flanger effects, massive reverb, layered ad-lib chains. BPM 130-150.
+- Language: English — short visceral phrases, ad-lib chains dominate over structured verses.
+- RULE: ATMOSPHERE and BEAT SWITCHES are mandatory. Static = wrong. Every section must evolve.`,
+
+    'GOSPEL_MAXIMALIST': `GOSPEL MAXIMALIST (KANYE WEST) DNA:
+- Maximalism as philosophy — every element pushed to its extreme. Nothing is understated.
+- Chopped soul + massive gospel choirs + industrial drums + orchestral strings = the DNA stack.
+- Vocal: rap/singing/gospel chanting with no fixed mode — voice serves the emotion, not the technique.
+- Themes: spiritual crisis and redemption, artistic grandeur, ego and vulnerability, faith, fashion, maximalism.
+- Production: chopped soul vocal samples, massive gospel choirs, grand piano, orchestral strings, industrial drums, distorted bass. BPM 90-130.
+- Language: English — confessional, grandiose, references to God/faith and luxury simultaneously.
+- RULE: MAXIMALIST AMBITION is the signature. Every section must feel like a statement. Subtle = wrong.`,
+
+    'RAGE_VAMP': `RAGE VAMP TRAP (PLAYBOI CARTI) DNA:
+- Voice is texture, NOT a lyrical vehicle. Words are percussion hits, not messages.
+- Short phrases maximum 2-4 words, ad-lib chains dominate. Flow = rhythmic stab, not flowing bar.
+- Themes: vamp aesthetic, punk energy, dark fashion, mosh pit chaos, minimalism as maximalism.
+- Production: extremely saturated 808s, distorted synth stabs, aggressive minimal drums, dark repetitive melodies. BPM 150-175.
+- Language: English — minimal, textural, repetitive. Each word = a rhythmic event.
+- RULE: TEXTURAL MINIMALISM. If every word is easily understood and carries narrative weight, it's wrong.`,
   };
 
   const matchKeys: string[] = [];
 
-  // French Rap (generic — for artists without more specific match)
+  // French Rap (generic)
   if (upper.includes('JUL') || upper.includes('GAZO') || upper.includes('NINHO') ||
       upper.includes('FREEZE') || upper.includes('ALPHA') ||
       upper.includes('NEKFEU') || upper.includes('ORELSAN') || upper.includes('BOOBA') ||
@@ -890,7 +936,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('RAP_FR');
   }
 
-  // Specific overrides replacing generic RAP_FR for known artists
+  // Specific overrides
   if (upper.includes('VALD')) matchKeys.push('EXPERIMENTAL_ABSURDIST');
   if (upper.includes('SCH')) matchKeys.push('CINEMATIC_TRAP_FR');
   if (upper.includes('LACRIM')) matchKeys.push('HARDCORE_MEDITERRANEAN');
@@ -898,7 +944,12 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   if (upper.includes('ORELSAN') || upper.includes('LOMEPAL') || upper.includes('NEKFEU')) matchKeys.push('STORYTELLING');
   if (upper.includes('LOMEPAL')) matchKeys.push('INDIE_RAP_FR');
 
-  // DAMSO — specialized dark trap melodic Belgian
+  // Priority 3: specific DNA for Travis, Kanye, Carti (replaces generic US_UK_RAP)
+  if (upper.includes('TRAVIS SCOTT')) matchKeys.push('PSYCHEDELIC_TRAP');
+  if (upper.includes('KANYE WEST') || upper.includes('KANYE')) matchKeys.push('GOSPEL_MAXIMALIST');
+  if (upper.includes('PLAYBOI CARTI') || upper.includes('CARTI')) matchKeys.push('RAGE_VAMP');
+
+  // DAMSO
   if (upper.includes('DAMSO')) matchKeys.push('DARK_TRAP_MELODIC');
 
   // Drill FR
@@ -909,15 +960,15 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   // Dark Lyrical
   if (upper.includes('FREEZE') || upper.includes('ALPHA WANN') || upper.includes('SDM')) matchKeys.push('DARK_LYRICAL');
 
-  // US/UK Rap
-  if (upper.includes('DRAKE') || upper.includes('TRAVIS SCOTT') || upper.includes('KENDRICK') ||
-      upper.includes('CARTI') || upper.includes('KANYE') || upper.includes('JUICE WRLD') ||
-      upper.includes('POST MALONE') || upper.includes('NATE DOGG') || upper.includes('MOBB DEEP') ||
+  // US/UK Rap (Travis, Kanye, Carti now excluded — have specific DNA above)
+  if (upper.includes('DRAKE') || upper.includes('KENDRICK') ||
+      upper.includes('JUICE WRLD') || upper.includes('POST MALONE') ||
+      upper.includes('NATE DOGG') || upper.includes('MOBB DEEP') ||
       upper.includes('JEDI MIND') || upper.includes('VINNIE PAZ') || upper.includes('DR. DRE')) {
     matchKeys.push('US_UK_RAP');
   }
 
-  // NAS — specific boom bap
+  // NAS
   if (upper.includes('NAS')) matchKeys.push('BOOM_BAP_US');
 
   // UK Melodic Drill
@@ -925,32 +976,32 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('UK_MELODIC_DRILL');
   }
 
-  // Reggaeton / Latin
+  // Reggaeton
   if (upper.includes('REGGAETON') || upper.includes('LATIN') || upper.includes('BAD BUNNY') ||
       upper.includes('BALVIN') || upper.includes('KAROL G') || upper.includes('ROSALÍA')) {
     matchKeys.push('REGGAETON');
   }
 
-  // Afrobeats (general)
+  // Afrobeats
   if (upper.includes('AFROBEAT') || upper.includes('BURNA') || upper.includes('ASAKE') ||
       upper.includes('MHD') || upper.includes('TIAKOLA')) {
     matchKeys.push('AFROBEATS');
   }
 
-  // Afrorave (REMA + WIZKID)
+  // Afrorave
   if (upper.includes('REMA') || upper.includes('WIZKID')) matchKeys.push('AFRORAVE_NIGERIAN');
 
   // Afro Soul
   if (upper.includes('TEMS')) matchKeys.push('AFRO_SOUL');
 
-  // Caribbean / Dancehall / Zouk
+  // Caribbean / Zouk
   if (upper.includes('CARIBBEAN') || upper.includes('DANCEHALL') || upper.includes('KALASH') ||
       upper.includes('ZOUK') || upper.includes('DWET') || upper.includes('DWÈT')) {
     matchKeys.push('CARIBBEAN');
     if (upper.includes('ZOUK') || upper.includes('DWET') || upper.includes('DWÈT')) matchKeys.push('ZOUK');
   }
 
-  // Maghreb / Raï
+  // Maghreb
   if (upper.includes('MAGHREB') || upper.includes('RAÏ') || upper.includes('TIF') ||
       upper.includes('SOOLKING') || upper.includes('BILAL SGHIR') || upper.includes('CHEB MAMI') ||
       upper.includes('DJALIL PALERMO') || upper.includes('RIMK') || upper.includes('KHALED') ||
@@ -958,7 +1009,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('MAGHREB');
   }
 
-  // Afro Melodic / Afro-Trap festif
+  // Afro Melodic / Festif
   if (upper.includes('TIAKOLA') || upper.includes('DADJU')) matchKeys.push('AFRO_MELO');
   if (upper.includes('NISKA') || upper.includes('MHD')) matchKeys.push('AFRO_TRAP_FESTIF');
 
@@ -967,16 +1018,16 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('AFRO_POP_RNB_FR');
   }
 
-  // Electro / House / Festival
+  // Electro / House
   if (upper.includes('ELECTRO') || upper.includes('HOUSE') || upper.includes('DAFT') ||
       upper.includes('PEGGY GOU') || upper.includes('HUGEL') || upper.includes('FRED AGAIN')) {
     matchKeys.push('ELECTRO');
   }
 
-  // Stromae — electro-chanson
+  // Stromae
   if (upper.includes('STROMAE')) matchKeys.push('ELECTRO_CHANSON_BELGE');
 
-  // Angèle — electro-pop belge
+  // Angèle
   if (upper.includes('ANGÈLE') || upper.includes('ANGELE')) matchKeys.push('ELECTRO_POP_BELGE');
 
   // Melodic Trap
@@ -991,7 +1042,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('HARDCORE');
   }
 
-  // Neo-Soul / R&B
+  // Neo-Soul
   if (upper.includes('SZA') || upper.includes('SNOH') || upper.includes('SADE') ||
       upper.includes('JORJA') || upper.includes('MONSIEUR NOV')) {
     matchKeys.push('NEO_SOUL');
@@ -1007,13 +1058,13 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
     matchKeys.push('CLOUD_RAP');
   }
 
-  // Dream Pop / Sadcore
+  // Dream Pop
   if (upper.includes('LANA DEL REY') || upper.includes('LANA')) matchKeys.push('DREAM_POP_SADCORE');
 
   // Dark Pop ASMR
   if (upper.includes('BILLIE EILISH') || upper.includes('BILLIE')) matchKeys.push('DARK_POP_ASMR');
 
-  // Melodic Street Pop (JUL / Marseille)
+  // Melodic Street Pop
   if (upper.includes('JUL') || (upper.includes('MARSEILLE') && upper.includes('POP'))) {
     matchKeys.push('MELODIC_STREET_POP');
   }
