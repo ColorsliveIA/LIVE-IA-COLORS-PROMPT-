@@ -449,26 +449,26 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
 
   'SDM': {
     artist: 'SDM',
-    sunoStyleTemplate: 'French Trap, Dark Melodic Drill, Minimal Cold Street Rap, 130-150 BPM, Key: F Minor, Sub-Heavy 808 Long Decay, Dark Sparse Piano Notes, Glacial Icy Synth Pads, Crisp Drill Hi-Hats, Airy Ethereal Textures, Deep Male Voice Stable Flow, Restrained Cold Hooks, Nocturnal Urban Minimalism, 2020s',
+    sunoStyleTemplate: 'French Trap Dark Banlieue, Afro-Drill Paris, 130-150 BPM, Key: F Minor, Deep Bass Sub-808 Heavy Slides, Dark Sparse Piano Minor Key, Glacial Icy Synth Pads, Crisp Drill Hi-Hats, DEEP LOW BASS MALE VOICE — Never High-Pitched Never Falsetto, Powerful Impact Dark Autotune Chorus, Nocturnal Urban Cold, 2020s',
     sunoBpmRange: '130-150',
     sunoKey: 'F Minor',
-    sunoVocalTags: ['Deep Masculine Rap', 'Heavy Metallic Autotune Hooks', 'Cold Arrogant Delivery', 'Minimal Staccato Flow'],
+    sunoVocalTags: ['Deep Low Bass Baritone', 'Dark Low-Register Autotune Hooks', 'Cold Authoritative Delivery', 'Never High Pitched Never Falsetto'],
     sunoWeirdness: 35,
     sunoStyleInfluence: 85,
-    sunoExcludeStyles: 'no afro percussion or afrobeats bounce, no warm R&B chords, no bright pop melodies, no acoustic instruments, no heavy metallic autotune saturation, no dancehall riddim',
-    vocalDNA: 'Deep male voice, stable controlled tone. Light autotune on hooks only — not dominant. Cold detached delivery in verses, restrained melodic on hooks. No screaming, no crooning, no warmth. Presence through calm authority, not volume.',
+    sunoExcludeStyles: 'no high-pitched vocals, no falsetto, no tenor voice, no afro percussion or afrobeats bounce, no warm R&B chords, no bright pop melodies, no acoustic instruments, no dancehall riddim, NEVER feminine or high voice',
+    vocalDNA: 'DEEP LOW BASS MALE VOICE — the lowest possible masculine register. NOT tenor, NOT high-pitched, NOT melodic falsetto. Cold authoritative baritone on verses (dry, no autotune). On hooks: low-register dark metallic autotune — pitch stays LOW and dark, never rises to high notes.',
     flowPattern: 'Minimal staccato rap on verses — cold, spaced, deliberate. Hooks switch to dark metallic autotune melodic phrases. No warmth, no bounce — everything is cold and cutting. Silence between phrases is part of the flow.',
     productionFingerprint: 'Signature: heavy 808 sub-bass with long slides, dark somber piano (minor key, sparse notes), glacial icy synths, airy ethereal pad textures, crisp drill-style hi-hats, minimal arrangement with lots of cold space, nocturnal urban atmosphere — think empty city streets at 3AM',
     culturalAnchors: 'Paris banlieue nocturnal life, cold urban solitude, arrogant street success, introspective darkness, loyalty codes, Ile-de-France concrete jungle, night drives, cold ambition',
     structureDNA: 'Verse-hook-verse. Verses dense (14-16 bars) but minimal in delivery. Hooks are short dark autotune phrases repeated. Beat switches possible. Arrangement is SPARSE — space and silence are weapons.',
-    hookType: 'Dark metallic autotune hook — short glacial phrases, NOT melodic afro singing, NOT warm R&B',
+    hookType: 'Powerful dark low-pitched autotune hook — strong impact, deep bass register, HIGH ENERGY CHORUS — NOT high-pitched melodic, NOT falsetto, NOT restrained',
     vocalPlacement: 'Dry forward close-mic on verses, glacial reverb on autotune hooks, cold stereo width',
     energyCurve: 'Flat cold intensity with hook peaks — no warm buildup, stays dark and controlled throughout',
     productionMarkers: 'sub-heavy 808 with long decay and slides, dark sparse piano notes (single notes not chords), glacial icy synth pads, crisp drill hi-hats, minimal arrangement with cold empty space, airy reverb textures, no warmth',
-    hookStrategy: 'short cold melodic hook, minimal variation, low pitch range, repeated phrasing with slight autotune, no bright uplift, no emotional swell — restrained and cold',
+    hookStrategy: 'POWERFUL dark low-register autotune hook — deep bass voice on chorus, strong melodic impact, low pitch range, high repetition, IMPACTFUL not restrained — chorus must hit hard and dark',
     verseBehavior: 'stable linear flow, low variation, clean articulation, minimal pauses, controlled breath, cold presence through steadiness not aggression',
-    antiPatterns: 'Avoid afro-trap or afrobeats influence. Avoid warm festive bounce. Avoid smooth R&B crooner tone. Avoid heavy metallic autotune dominance — autotune is restrained. Production stays COLD and MINIMAL.',
-    sunoMetatags: { vocalStyle: 'French Trap Dark Rap', vocalEffect: 'Heavy Metallic Autotune on Hooks, Dry Verses', mood: 'Cold, Nocturnal, Arrogant, Introspective', energy: 'Medium-High Controlled', texture: 'Glacial Minimal Dark', instrument: 'Heavy 808 Sub-Bass, Dark Piano, Icy Synths, Drill Hi-Hats, Airy Pads' }
+    antiPatterns: 'Avoid afro-trap or afrobeats influence. Avoid warm festive bounce. Avoid smooth R&B crooner tone. Avoid high-pitched or falsetto vocals. Production stays COLD and MINIMAL.',
+    sunoMetatags: { vocalStyle: 'Deep Bass Masculine Rap', vocalEffect: 'Dark Low-Register Autotune on Hooks, Dry Deep Baritone Verses', mood: 'Cold, Nocturnal, Arrogant, Powerful', energy: 'Medium-High with Powerful Hook Impact', texture: 'Glacial Minimal Dark', instrument: 'Heavy 808 Sub-Bass, Dark Piano, Icy Synths, Drill Hi-Hats' }
   },
 
   'NISKA': {
