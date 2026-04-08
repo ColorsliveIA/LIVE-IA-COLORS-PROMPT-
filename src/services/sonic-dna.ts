@@ -1786,7 +1786,7 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
 // Mapping centralisé D11–D18 + harmonicProfileId pour le corpus.
 // Source de vérité unique : édité ici au lieu de modifier 17 blocs DNA.
 // Mergé au runtime par getArtistSonicDNA() — non destructif.
-type CursorOverrides = Pick<SonicDNA,
+export type CursorOverrides = Pick<SonicDNA,
   | 'compositionMode' | 'territorialAnchor' | 'registerMode'
   | 'conceptualMode' | 'referenceDensity' | 'technicityMode'
   | 'honorCode' | 'tempoGravity' | 'harmonicProfileId'>;
@@ -1855,6 +1855,27 @@ export function mergeCursorsIntoDNA(dna: SonicDNA, overrides: Partial<CursorOver
     honorCode:          dna.honorCode          ?? overrides.honorCode,
     tempoGravity:       dna.tempoGravity       ?? overrides.tempoGravity,
     harmonicProfileId:  dna.harmonicProfileId  ?? overrides.harmonicProfileId,
+  };
+}
+
+/**
+ * SPRINT 4 — Explicit caller override. overrides WIN over whatever the DNA
+ * already contains. Use this when the user/script explicitly wants to force
+ * a cursor value (e.g. via HARMONIC_PRESETS or a future UI slider).
+ */
+export function overrideCursorsOnDNA(dna: SonicDNA, overrides: Partial<CursorOverrides>): SonicDNA {
+  if (!overrides) return dna;
+  return {
+    ...dna,
+    compositionMode:    overrides.compositionMode    ?? dna.compositionMode,
+    territorialAnchor:  overrides.territorialAnchor  ?? dna.territorialAnchor,
+    registerMode:       overrides.registerMode       ?? dna.registerMode,
+    conceptualMode:     overrides.conceptualMode     ?? dna.conceptualMode,
+    referenceDensity:   overrides.referenceDensity   ?? dna.referenceDensity,
+    technicityMode:     overrides.technicityMode     ?? dna.technicityMode,
+    honorCode:          overrides.honorCode          ?? dna.honorCode,
+    tempoGravity:       overrides.tempoGravity       ?? dna.tempoGravity,
+    harmonicProfileId:  overrides.harmonicProfileId  ?? dna.harmonicProfileId,
   };
 }
 

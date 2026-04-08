@@ -1,6 +1,6 @@
 import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
-import { getArtistSonicDNA, SonicDNA } from './sonic-dna';
+import { getArtistSonicDNA, SonicDNA, overrideCursorsOnDNA, CursorOverrides } from './sonic-dna';
 import { buildBanlistBlock, lintForGimmickLeaks, stripGlobalBanlist, buildLeakFixInstruction } from './gimmick-banlist';
 import { buildHarmonicBlock, validateHarmonicCoherence } from './harmonic-profiles';
 import { buildCursorsBlock } from './cursors-block';
@@ -127,10 +127,15 @@ export async function generateMusicContext(
   customNegativePrompt?: string, weirdness: number = 0, styleInfluence: number = 100,
   vocalTechnique: string = 'none', productionFinish: string = 'none',
   secondaryInspiredBy: string = 'none', advancedTags: string[] = [],
-  mode: 'all' | 'lyrics' | 'style' = 'all'
+  mode: 'all' | 'lyrics' | 'style' = 'all',
+  cursorOverrides?: Partial<CursorOverrides>
 ) {
   const bpmInfo = manualBpm ? `- BPM imposé: ${manualBpm}` : `- BPM: Auto (energy ${energy})`;
-  const sonicDNA = getArtistSonicDNA(inspiredBy);
+  const baseSonicDNA = getArtistSonicDNA(inspiredBy);
+  // Sprint 4 — apply cursor overrides on top of corpus defaults (non destructif).
+  const sonicDNA = (baseSonicDNA && cursorOverrides)
+    ? overrideCursorsOnDNA(baseSonicDNA, cursorOverrides)
+    : baseSonicDNA;
   const artistExcludeStyles = sonicDNA?.sunoExcludeStyles || '';
   const genreNegativePrompt = getGenreSpecificNegativePrompt(genre, inspiredBy);
   const combinedNegativePrompt = [artistExcludeStyles || genreNegativePrompt, customNegativePrompt].filter(Boolean).join(', ');
@@ -419,6 +424,18 @@ Respond ONLY in JSON (no backticks).`;
     // Re-lint final state for the diagnostics payload
     const finalLeaks = lintForGimmickLeaks(collectLyrics(parsed), inspiredBy, secondaryInspiredBy);
 
+    // Sprint 4 — surface applied cursors + harmonic profile for audit
+    const appliedCursors = sonicDNA ? {
+      compositionMode:   sonicDNA.compositionMode,
+      registerMode:      sonicDNA.registerMode,
+      conceptualMode:    sonicDNA.conceptualMode,
+      technicityMode:    sonicDNA.technicityMode,
+      honorCode:         sonicDNA.honorCode,
+      tempoGravity:      sonicDNA.tempoGravity,
+      referenceDensity:  sonicDNA.referenceDensity,
+      territorialAnchor: sonicDNA.territorialAnchor,
+    } : null;
+
     return {
       ...parsed,
       sunoPrompts: dedup,
@@ -427,7 +444,9 @@ Respond ONLY in JSON (no backticks).`;
         gimmickLeaks: finalLeaks,
         harmonicViolations,
         globalStripCount,
-        retried
+        retried,
+        appliedHarmonicProfile: sonicDNA?.harmonicProfileId || null,
+        appliedCursors,
       }
     };
   }, 2).catch((err) => {

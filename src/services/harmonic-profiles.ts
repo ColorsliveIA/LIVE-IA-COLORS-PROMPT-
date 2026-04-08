@@ -366,3 +366,120 @@ export function validateHarmonicCoherence(
 
   return violations;
 }
+
+// ── SPRINT 4 — HARMONIC PRESETS ──
+// Named recipes combining a harmonic profile + a curated set of cursor
+// overrides. Consumed by callers (scripts, tests, future UI) via
+// applyHarmonicPreset(id), which returns a Partial<CursorOverrides>
+// ready to pass into generateMusicContext's cursorOverrides param.
+
+import type { CursorOverrides } from './sonic-dna';
+
+export interface HarmonicPreset {
+  id: string;
+  label: string;
+  description: string;
+  cursors: Partial<CursorOverrides>;
+}
+
+export const HARMONIC_PRESETS: HarmonicPreset[] = [
+  {
+    id: 'dark-combative-drill',
+    label: 'Dark Combative Drill',
+    description: 'Cold drill instrumentation, confrontational register, no narrative, fast tempo.',
+    cursors: {
+      harmonicProfileId: 'drill-fr-cold',
+      compositionMode: 'hook-driven',
+      registerMode: 'combative',
+      conceptualMode: 'non-narrative',
+      technicityMode: 'standard',
+      honorCode: 'implicit',
+      tempoGravity: 'fast',
+      referenceDensity: 25,
+    }
+  },
+  {
+    id: 'contemplative-jazz-soul',
+    label: 'Contemplative Jazz Soul',
+    description: 'Jazz/soul palette, introspective register, virtuoso writing, mid tempo.',
+    cursors: {
+      harmonicProfileId: 'jazz-soul-rhodes',
+      compositionMode: 'text-first',
+      registerMode: 'contemplative',
+      conceptualMode: 'narrative-real',
+      technicityMode: 'virtuoso',
+      honorCode: 'implicit',
+      tempoGravity: 'mid',
+      referenceDensity: 70,
+    }
+  },
+  {
+    id: 'cloud-melodic-arabe',
+    label: 'Cloud Melodic Arabe',
+    description: 'Cloud trap with Arabic lexical anchors, melody-first, slow gravity.',
+    cursors: {
+      harmonicProfileId: 'cloud-trap-arabe',
+      compositionMode: 'melody-first',
+      registerMode: 'contemplative',
+      conceptualMode: 'non-narrative',
+      technicityMode: 'simple-volunteer',
+      honorCode: 'implicit',
+      tempoGravity: 'slow',
+      referenceDensity: 20,
+      territorialAnchor: { lang: 'arabe', density: 30, role: 'lexical' },
+    }
+  },
+  {
+    id: 'boom-bap-virtuoso',
+    label: 'Boom-Bap Virtuoso',
+    description: 'Boom-bap piano loop, virtuoso technicity, text-first, high reference density.',
+    cursors: {
+      harmonicProfileId: 'boom-bap-piano-loop',
+      compositionMode: 'text-first',
+      registerMode: 'combative',
+      conceptualMode: 'non-narrative',
+      technicityMode: 'virtuoso',
+      honorCode: 'implicit',
+      tempoGravity: 'mid',
+      referenceDensity: 80,
+    }
+  },
+  {
+    id: 'marseille-pop-naive',
+    label: 'Marseille Pop Naïve',
+    description: 'Sunny Mediterranean pop, simple-volunteer writing, hook-driven, hybrid register.',
+    cursors: {
+      harmonicProfileId: 'marseille-pop-naive',
+      compositionMode: 'hook-driven',
+      registerMode: 'hybrid',
+      conceptualMode: 'non-narrative',
+      technicityMode: 'simple-volunteer',
+      honorCode: 'implicit',
+      tempoGravity: 'mid',
+      referenceDensity: 15,
+    }
+  },
+  {
+    id: 'street-honor-code',
+    label: 'Street Honor Code',
+    description: 'Street 808 + vocoder, central honor code, narrative-real, combative.',
+    cursors: {
+      harmonicProfileId: 'street-grave-808-vocoder',
+      compositionMode: 'text-first',
+      registerMode: 'combative',
+      conceptualMode: 'narrative-real',
+      technicityMode: 'standard',
+      honorCode: 'central',
+      tempoGravity: 'mid',
+      referenceDensity: 45,
+    }
+  },
+];
+
+/** Returns a Partial<CursorOverrides> recipe for a given preset id, or null. */
+export function applyHarmonicPreset(presetId: string): Partial<CursorOverrides> | null {
+  const preset = HARMONIC_PRESETS.find(p => p.id === presetId);
+  return preset ? { ...preset.cursors } : null;
+}
+
+export const HARMONIC_PRESET_IDS = HARMONIC_PRESETS.map(p => p.id);

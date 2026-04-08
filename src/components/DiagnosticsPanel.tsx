@@ -15,6 +15,17 @@ export interface GenerationDiagnostics {
   harmonicViolations: { kind: 'anti-pattern' | 'low-coverage'; detail: string }[];
   globalStripCount: number;
   retried: boolean;
+  appliedHarmonicProfile?: string | null;
+  appliedCursors?: {
+    compositionMode?: string;
+    registerMode?: string;
+    conceptualMode?: string;
+    technicityMode?: string;
+    honorCode?: string;
+    tempoGravity?: string;
+    referenceDensity?: number;
+    territorialAnchor?: { lang: string; density: number; role?: string } | null;
+  } | null;
 }
 
 interface Props {
@@ -25,7 +36,17 @@ export default function DiagnosticsPanel({ diagnostics }: Props) {
   const [open, setOpen] = useState(false);
   if (!diagnostics) return null;
 
-  const { gimmickLeaks, harmonicViolations, globalStripCount, retried } = diagnostics;
+  const { gimmickLeaks, harmonicViolations, globalStripCount, retried, appliedHarmonicProfile, appliedCursors } = diagnostics;
+  const cursorSummary = appliedCursors ? [
+    appliedCursors.compositionMode,
+    appliedCursors.registerMode,
+    appliedCursors.technicityMode,
+    appliedCursors.tempoGravity,
+    appliedCursors.honorCode && appliedCursors.honorCode !== 'none' ? `honor:${appliedCursors.honorCode}` : null,
+    appliedCursors.territorialAnchor && appliedCursors.territorialAnchor.lang !== 'none'
+      ? `${appliedCursors.territorialAnchor.lang}:${appliedCursors.territorialAnchor.density}%`
+      : null,
+  ].filter(Boolean).join(' · ') : '';
   const leakCount = gimmickLeaks?.length || 0;
   const violationCount = harmonicViolations?.length || 0;
   const hasIssue = leakCount > 0 || violationCount > 0 || globalStripCount > 0 || retried;
@@ -112,6 +133,17 @@ export default function DiagnosticsPanel({ diagnostics }: Props) {
       {open && !hasIssue && (
         <div className="border-t border-zinc-800 px-3 py-2 text-zinc-500">
           No leaks, no harmonic violations, no retry needed.
+        </div>
+      )}
+
+      {open && (appliedHarmonicProfile || cursorSummary) && (
+        <div className="border-t border-zinc-800 px-3 py-2 text-[10px] text-zinc-500 font-mono flex flex-wrap gap-x-3 gap-y-1">
+          {appliedHarmonicProfile && (
+            <span>🎛 Profile: <span className="text-zinc-300">{appliedHarmonicProfile}</span></span>
+          )}
+          {cursorSummary && (
+            <span>Cursors: <span className="text-zinc-300">{cursorSummary}</span></span>
+          )}
         </div>
       )}
     </div>
