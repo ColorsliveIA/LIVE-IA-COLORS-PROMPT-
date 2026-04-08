@@ -17,19 +17,23 @@ const Type = {
 const FAST_MODEL = "gemini-2.5-flash";
 const HEAVY_MODEL = "gemini-2.5-flash";
 
-async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 2): Promise<T> {
+async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 4): Promise<T> {
   let lastError: any;
   for (let i = 0; i <= maxRetries; i++) {
     try {
       return await fn();
     } catch (e: any) {
       lastError = e;
-      const isRetryable =
-        e?.message?.includes('503') || e?.status === 503 || e?.error?.code === 503 ||
-        e?.message?.includes('429') || e?.status === 429 || e?.error?.code === 429 ||
-        e?.error?.status === 'RESOURCE_EXHAUSTED' || e?.message?.includes('high demand');
+      const is503 = e?.message?.includes('503') || e?.status === 503 || e?.error?.code === 503 ||
+        e?.message?.includes('temporarily unavailable') || e?.message?.includes('high demand');
+      const is429 = e?.message?.includes('429') || e?.status === 429 || e?.error?.code === 429 ||
+        e?.error?.status === 'RESOURCE_EXHAUSTED';
+      const isRetryable = is503 || is429;
       if (isRetryable && i < maxRetries) {
-        const delay = (e?.status === 429 || e?.error?.code === 429) ? 5000 * (i + 1) : 1000 * (i + 1);
+        // Exponential backoff with jitter: 503 → 1.5s, 3s, 6s, 12s | 429 → 5s, 10s, 20s, 40s
+        const base = is429 ? 5000 : 1500;
+        const delay = base * Math.pow(2, i) + Math.random() * 500;
+        console.warn(`[RETRY ${i + 1}/${maxRetries}] ${is503 ? '503' : '429'} — waiting ${Math.round(delay)}ms`);
         await new Promise(resolve => setTimeout(resolve, delay));
         continue;
       }
