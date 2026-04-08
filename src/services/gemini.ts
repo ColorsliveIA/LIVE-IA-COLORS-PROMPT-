@@ -1,6 +1,8 @@
 import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
 import { getArtistSonicDNA, SonicDNA } from './sonic-dna';
+import { buildBanlistBlock, lintForGimmickLeaks } from './gimmick-banlist';
+import { buildHarmonicBlock } from './harmonic-profiles';
 
 const Type = {
   OBJECT: "OBJECT",
@@ -229,6 +231,8 @@ V5.5 METATAGS:
 
 ${artistSpecifics}
 ${sonicDNABlock}
+${buildHarmonicBlock(sonicDNA?.harmonicProfileId, inspiredBy)}
+${buildBanlistBlock(inspiredBy, secondaryInspiredBy)}
 ${secondaryBlendingBlock}
 ${buildVariantDivergenceConstraints(genre, inspiredBy, era)}
 ${artistIdentitySummary ? `\n# ARTIST IDENTITY:\n${artistIdentitySummary}\n` : ''}
@@ -357,7 +361,15 @@ Respond ONLY in JSON (no backticks).`;
       }
       dedup.push(v);
     }
-    return { ...parsed, sunoPrompts: dedup, structuredLyrics: parsed.structuredLyrics || [] };
+    // Gimmick leak diagnostic (does not block, just flags)
+    const lyricsCorpus = (parsed.lyrics || '') + '\n' +
+      (parsed.structuredLyrics || []).map((s: any) => s?.text || '').join('\n');
+    const gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
+    if (gimmickLeaks.length > 0) {
+      console.warn(`[GIMMICK LEAK] ${gimmickLeaks.length} forbidden tokens:`,
+        gimmickLeaks.map(l => `${l.artist}:${l.token}`).join(', '));
+    }
+    return { ...parsed, sunoPrompts: dedup, structuredLyrics: parsed.structuredLyrics || [], _gimmickLeaks: gimmickLeaks };
   }, 2).catch((err) => {
     const fallback = sonicDNA?.sunoStyleTemplate || getGenreFallbackStyle(genre);
     return {

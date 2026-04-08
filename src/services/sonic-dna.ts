@@ -46,6 +46,30 @@ export interface SonicDNA {
     texture: string;
     instrument: string;
   };
+  // ── CURSEURS V3 (D11–D18) — Sprint 1 corpus 25 artistes ──
+  // Tous optionnels pour rétrocompatibilité. Quand absents, comportement par défaut inchangé.
+  /** D11 — text-first (rap classique) | melody-first (Hamza/Tiakola) | hook-driven (Jul) */
+  compositionMode?: 'text-first' | 'melody-first' | 'hook-driven';
+  /** D12 — ancrage territorial linguistique. lang + density 0..100 */
+  territorialAnchor?: {
+    lang: 'none' | 'arabe' | 'kabyle' | 'lingala' | 'creole' | 'italo' | 'darija';
+    density: number;
+    role?: 'lexical' | 'samples' | 'both';
+  };
+  /** D13 — registre dominant : combatif | contemplatif | hybride */
+  registerMode?: 'combative' | 'contemplative' | 'hybrid';
+  /** D14 — non-narratif | narratif réaliste | concept fictionnel (Laylow) */
+  conceptualMode?: 'non-narrative' | 'narrative-real' | 'concept-fictional';
+  /** D15 — densité de références externes 0..100 (Freeze=encyclopédique) */
+  referenceDensity?: number;
+  /** D16 — simple-volontaire (Jul) | standard | virtuose (Alpha Wann) */
+  technicityMode?: 'simple-volunteer' | 'standard' | 'virtuoso';
+  /** D17 — code d'honneur : none | implicite | central (Rohff/Lacrim) */
+  honorCode?: 'none' | 'implicit' | 'central';
+  /** D18 — gravité tempo BPM ressentie (slow/mid/fast) */
+  tempoGravity?: 'slow' | 'mid' | 'fast';
+  /** Profil harmonique explicite (override le productionFingerprint quand présent) */
+  harmonicProfileId?: string;
 }
 
 const SONIC_DNA_MAP: Record<string, SonicDNA> = {
