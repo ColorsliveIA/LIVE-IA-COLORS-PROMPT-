@@ -378,6 +378,73 @@ export function validateHarmonicCoherence(
   return violations;
 }
 
+// ── VARIANT DIVERGENCE — Mechanical mutation within profile ──
+// Returns a mutated variant string by swapping mood/texture tokens
+// drawn from contrasts internal to the harmonic profile (zero foreign-genre risk).
+const TEXTURE_FLIPS: [RegExp, string][] = [
+  [/\bcold\b/gi, 'warm'],
+  [/\bwarm\b/gi, 'cold'],
+  [/\bdark\b/gi, 'dim-lit'],
+  [/\bbright\b/gi, 'shadowy'],
+  [/\bdry\b/gi, 'reverb-drenched'],
+  [/\bwet\b/gi, 'tight'],
+  [/\bsparse\b/gi, 'dense'],
+  [/\bdense\b/gi, 'sparse'],
+  [/\bminimal\b/gi, 'layered'],
+  [/\blayered\b/gi, 'minimal'],
+  [/\bmelodic\b/gi, 'percussive'],
+  [/\bpercussive\b/gi, 'melodic'],
+  [/\baggressive\b/gi, 'introspective'],
+  [/\bsmooth\b/gi, 'gritty'],
+  [/\bgritty\b/gi, 'smooth'],
+  [/\bdriving\b/gi, 'lurching'],
+];
+
+function shiftBpm(text: string, deltaMin: number, deltaMax: number): string {
+  return text.replace(/(\d{2,3})\s*(?:bpm|BPM)/g, (_, n) => {
+    const base = parseInt(n, 10);
+    const delta = deltaMin + Math.floor(Math.random() * (deltaMax - deltaMin + 1));
+    return `${base + delta} BPM`;
+  });
+}
+
+export function mutateVariantWithinProfile(
+  variant: string,
+  variantIndex: 1 | 2,
+  profileId?: string | null
+): string {
+  if (!variant) return variant;
+  let out = variant;
+  // V2 (index 1) → 1 texture flip + ±10 BPM
+  // V3 (index 2) → 2 texture flips + ±15 BPM (opposite direction)
+  const flipCount = variantIndex === 1 ? 1 : 2;
+  const shuffled = [...TEXTURE_FLIPS].sort(() => Math.random() - 0.5);
+  let flipped = 0;
+  for (const [pattern, replacement] of shuffled) {
+    if (flipped >= flipCount) break;
+    if (pattern.test(out)) {
+      out = out.replace(pattern, replacement);
+      flipped++;
+    }
+  }
+  // BPM swing
+  if (variantIndex === 1) out = shiftBpm(out, 8, 14);
+  else out = shiftBpm(out, -16, -10);
+
+  // Append a profile-specific contrast tag if we have one
+  const profile = getHarmonicProfile(profileId);
+  if (profile && profile.sunoTags.length >= 3) {
+    // V2 emphasises odd-indexed tags, V3 emphasises last tag
+    const contrastTag = variantIndex === 1
+      ? profile.sunoTags[1] || profile.sunoTags[0]
+      : profile.sunoTags[profile.sunoTags.length - 1];
+    if (!out.toLowerCase().includes(contrastTag.toLowerCase())) {
+      out = `[${contrastTag}] ${out}`;
+    }
+  }
+  return out;
+}
+
 // ── SPRINT 5 — SELF-HEALING FIX INSTRUCTION ──
 // Builds a corrective directive from harmonic violations, to be re-injected
 // into Gemini during a self-healing retry pass.

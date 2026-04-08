@@ -2,7 +2,7 @@ import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
 import { getArtistSonicDNA, SonicDNA, overrideCursorsOnDNA, CursorOverrides } from './sonic-dna';
 import { buildBanlistBlock, lintForGimmickLeaks, stripGlobalBanlist, buildLeakFixInstruction } from './gimmick-banlist';
-import { buildHarmonicBlock, validateHarmonicCoherence, buildHarmonicFixInstruction } from './harmonic-profiles';
+import { buildHarmonicBlock, validateHarmonicCoherence, buildHarmonicFixInstruction, mutateVariantWithinProfile } from './harmonic-profiles';
 import { buildCursorsBlock } from './cursors-block';
 
 const Type = {
@@ -95,12 +95,22 @@ function getGenreFallbackStyle(genre: string): string {
 // injecting random external genres.
 function buildVariantDivergenceConstraints(_genre: string, inspiredBy: string, era: string): string {
   return `
-  VARIANT RULES — ABSOLUTE:
-  V1 = PURE "${inspiredBy}" signature. Use the Sonic DNA + Harmonic Profile only. Era ${era}. ZERO blend.
-  V2 = Same harmonic profile, but ±10-15 BPM swing, 1 texture flip (e.g. dry→reverb or warm→cold), light secondary blend (≤20%) IF a secondary artist is provided.
-  V3 = Same harmonic profile, but explore the opposite end of its instrument palette, mood-flip on at least 2 metatags, secondary blend up to 30% IF provided.
-  HARD RULE: Never inject a foreign genre that is not part of the active harmonic profile or the secondary artist's DNA. Variants diverge through PROFILE-INTERNAL contrast, not random fusion.
-  VALIDATION: If 2 variants share >50% tokens → mark with [DIVERGENCE].
+  ⚠️⚠️⚠️ VARIANT DIVERGENCE — NON-NEGOTIABLE ⚠️⚠️⚠️
+  sunoPrompts[] MUST contain 3 visibly DIFFERENT prompts. Returning identical or near-identical strings is a HARD FAILURE.
+  Each variant MUST diverge from the others by AT LEAST:
+    • 1 different BPM value (±8 BPM minimum between V1 and V2, ±15 BPM minimum between V1 and V3)
+    • 2 different texture/mood adjectives (cold↔warm, dry↔reverb, sparse↔dense, melodic↔percussive, etc.)
+    • 1 different instrument emphasis pulled from the harmonic profile palette
+
+  V1 = PURE "${inspiredBy}" signature. Sonic DNA + Harmonic Profile, baseline BPM, dominant texture from the profile. Era ${era}. ZERO blend.
+  V2 = Same harmonic profile, BPM +8 to +14 from V1, ONE texture flip (e.g. cold→warm OR dry→reverb-drenched), emphasise a SECONDARY instrument from the profile palette, light secondary-artist blend (≤20%) IF provided.
+  V3 = Same harmonic profile, BPM -10 to -16 from V1, TWO texture flips (mood + density), emphasise the LAST instrument in the profile palette, secondary-artist blend up to 30% IF provided.
+
+  HARD RULES:
+    1. NEVER inject a foreign genre absent from the active harmonic profile or the secondary artist's DNA.
+    2. NEVER copy V1 verbatim into V2 or V3.
+    3. Each variant MUST contain at least one tag the others don't.
+    4. If you fail any of the above, the system will mechanically rewrite the variants and the retry will be visible to the user.
   `;
 }
 
@@ -323,9 +333,9 @@ Respond ONLY in JSON (no backticks).`;
       const vT = new Set(v.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
       const cT = new Set(core.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
       const sim = vT.size > 0 ? [...vT].filter(t => cT.has(t)).length / vT.size : 1;
-      if (!v || sim > 0.80) {
+      if (!v || sim > 0.55) {
         const base = v || core;
-        v = base.includes('[DIVERGENCE]') ? base : `[DIVERGENCE V${i + 1}] ${base}`;
+        v = mutateVariantWithinProfile(base, i as 1 | 2, sonicDNA?.harmonicProfileId);
       }
       dedup.push(v);
     }
