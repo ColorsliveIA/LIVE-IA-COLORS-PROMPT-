@@ -12,9 +12,9 @@ export const Home: React.FC<HomeProps> = ({ onSelect }) => {
     <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
       {/* Background Atmosphere */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#E8712A]/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#E8712A]/5 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(232,113,42,0.03)_0%,transparent_70%)]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#10B981]/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#10B981]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.03)_0%,transparent_70%)]" />
       </div>
 
       <div className="max-w-6xl w-full z-10">
@@ -25,11 +25,11 @@ export const Home: React.FC<HomeProps> = ({ onSelect }) => {
             transition={{ duration: 0.8 }}
             className="flex items-center justify-center gap-3 mb-6"
           >
-            <div className="w-12 h-12 bg-[#E8712A] rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(232,113,42,0.3)]">
+            <div className="w-12 h-12 bg-[#10B981] rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)]">
               <Zap size={24} className="text-black fill-current" />
             </div>
             <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase italic">
-              Aura <span className="text-[#E8712A]">Studio</span>
+              Aura <span className="text-[#10B981]">Studio</span>
             </h1>
           </motion.div>
 
@@ -63,14 +63,14 @@ export const Home: React.FC<HomeProps> = ({ onSelect }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             onClick={() => onSelect('studio')}
-            className="group relative bg-white/5 border border-white/10 rounded-[32px] p-8 md:p-12 text-left overflow-hidden transition-all hover:border-[#E8712A]/50 hover:bg-white/[0.07]"
+            className="group relative bg-white/5 border border-white/10 rounded-[32px] p-8 md:p-12 text-left overflow-hidden transition-all hover:border-[#10B981]/50 hover:bg-white/[0.07]"
           >
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
               <Mic2 size={120} />
             </div>
             
             <div className="relative z-10">
-              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#E8712A] group-hover:text-black transition-colors">
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#10B981] group-hover:text-black transition-colors">
                 <Layers size={28} />
               </div>
               
@@ -79,7 +79,7 @@ export const Home: React.FC<HomeProps> = ({ onSelect }) => {
                 Visualize your artist, customize their look, and generate full-stack music identities.
               </p>
               
-              <div className="flex items-center gap-2 text-[#E8712A] font-bold uppercase tracking-widest text-sm">
+              <div className="flex items-center gap-2 text-[#10B981] font-bold uppercase tracking-widest text-sm">
                 Enter Studio <ArrowRight size={18} />
               </div>
             </div>
@@ -96,14 +96,14 @@ export const Home: React.FC<HomeProps> = ({ onSelect }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
             onClick={() => onSelect('suno')}
-            className="group relative bg-[#E8712A] rounded-[32px] p-8 md:p-12 text-left overflow-hidden transition-all hover:shadow-[0_0_50px_rgba(232,113,42,0.3)]"
+            className="group relative bg-[#10B981] rounded-[32px] p-8 md:p-12 text-left overflow-hidden transition-all hover:shadow-[0_0_50px_rgba(16,185,129,0.3)]"
           >
             <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-30 transition-opacity text-black">
               <Music size={120} />
             </div>
             
             <div className="relative z-10">
-              <div className="w-14 h-14 bg-black/20 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-[#E8712A] transition-colors text-black">
+              <div className="w-14 h-14 bg-black/20 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-black group-hover:text-[#10B981] transition-colors text-black">
                 <Disc size={28} />
               </div>
               

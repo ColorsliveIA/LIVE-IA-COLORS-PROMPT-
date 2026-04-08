@@ -85,19 +85,19 @@ export const BpmAnalyzer: React.FC<Props> = ({ onBpmDetected }) => {
     <div className="border border-[#242420] rounded-xl overflow-hidden bg-[#0d0d0b] shadow-xl shadow-black/30 group/bpm">
       <div className="px-4 py-2 bg-[#141411] border-b border-[#242420] flex items-center justify-between relative overflow-hidden">
         {/* Subtle glow effect */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E8712A]/30 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#10B981]/30 to-transparent" />
         
         <div className="flex items-center gap-2">
-          <div className={`w-1 h-1 rounded-full ${isAnalyzing ? 'bg-[#E8712A] animate-ping' : 'bg-[#444]'}`} />
+          <div className={`w-1 h-1 rounded-full ${isAnalyzing ? 'bg-[#10B981] animate-ping' : 'bg-[#444]'}`} />
           <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#888880] font-black">BPM_ANALYZER_v1</span>
         </div>
-        <div className="font-bebas text-[18px] tracking-[0.1em] text-[#E8712A] leading-none drop-shadow-[0_0_8px_rgba(232,113,42,0.3)]">
+        <div className="font-bebas text-[18px] tracking-[0.1em] text-[#10B981] leading-none drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
           {isAnalyzing ? 'SCANNING' : bpm ? `${bpm} BPM` : 'IDLE'}
         </div>
       </div>
       
       <div className="p-4 flex flex-col gap-4">
-        <label className="border border-dashed border-[#242420] rounded-lg p-4 text-center cursor-pointer hover:border-[#E8712A] hover:bg-[#17120a] transition-all relative group/drop">
+        <label className="border border-dashed border-[#242420] rounded-lg p-4 text-center cursor-pointer hover:border-[#10B981] hover:bg-[#17120a] transition-all relative group/drop">
           <input 
             type="file" 
             accept="audio/*" 
@@ -105,7 +105,7 @@ export const BpmAnalyzer: React.FC<Props> = ({ onBpmDetected }) => {
             onChange={(e) => e.target.files && handleFile(e.target.files[0])}
           />
           <div className="flex flex-col items-center gap-2">
-            <svg className="w-5 h-5 text-[#444] group-hover/drop:text-[#E8712A] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-[#444] group-hover/drop:text-[#10B981] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
             <div className="font-mono text-[9px] tracking-[0.15em] text-[#666] uppercase font-bold group-hover/drop:text-[#e8e4dc]">
@@ -121,7 +121,7 @@ export const BpmAnalyzer: React.FC<Props> = ({ onBpmDetected }) => {
           </div>
           
           <div className="flex flex-col items-end">
-            <div className={`font-bebas text-[32px] tracking-widest leading-none ${bpm ? 'text-[#E8712A]' : 'text-[#333]'}`}>
+            <div className={`font-bebas text-[32px] tracking-widest leading-none ${bpm ? 'text-[#10B981]' : 'text-[#333]'}`}>
               {isAnalyzing ? '...' : bpm || '000'}
             </div>
             <div className="font-mono text-[8px] tracking-[0.2em] text-[#888880] font-black">DETECTED_BPM</div>
@@ -131,13 +131,13 @@ export const BpmAnalyzer: React.FC<Props> = ({ onBpmDetected }) => {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <span className="font-mono text-[8px] text-[#555] uppercase font-bold tracking-widest">Tempo Classification</span>
-            <span className="font-mono text-[8px] text-[#E8712A] uppercase font-bold tracking-widest">
+            <span className="font-mono text-[8px] text-[#10B981] uppercase font-bold tracking-widest">
               {isAnalyzing ? 'ANALYZING...' : bpm ? bpmLabel(bpm) : 'WAITING'}
             </span>
           </div>
           <div className="h-1 bg-[#1a1a14] rounded-full overflow-hidden border border-[#242420]">
             <div 
-              className="h-full bg-gradient-to-r from-[#E8712A] to-[#ff9d66] transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(232,113,42,0.5)]" 
+              className="h-full bg-gradient-to-r from-[#10B981] to-[#34D399] transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(16,185,129,0.5)]" 
               style={{ width: bpm ? `${Math.min(100, Math.max(0, ((bpm - 60) / 140) * 100))}%` : '0%' }}
             />
           </div>

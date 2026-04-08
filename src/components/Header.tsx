@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'COLORS' })
       <div className="px-6 border-r border-white/5 flex items-center gap-6 flex-shrink-0 relative z-20">
         <button 
           onClick={onMenuClick}
-          className="p-2.5 rounded-lg hover:bg-white/5 transition-all text-white/20 hover:text-[#E8712A] border border-transparent hover:border-white/10 group"
+          className="p-2.5 rounded-lg hover:bg-white/5 transition-all text-white/20 hover:text-[#10B981] border border-transparent hover:border-white/10 group"
           title="Menu Principal"
         >
           <LayoutGrid size={20} />
@@ -38,8 +38,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'COLORS' })
           <div className="w-1 h-1 rounded-full bg-white/20" />
           CHAT GPT
         </div>
-        <div className="rounded-md px-3 py-1.5 font-mono text-[9px] tracking-widest border border-[#E8712A]/20 bg-[#E8712A]/5 text-[#E8712A] whitespace-nowrap uppercase font-bold flex items-center gap-2">
-          <div className="w-1 h-1 rounded-full bg-[#E8712A] shadow-[0_0_4px_#E8712A]" />
+        <div className="rounded-md px-3 py-1.5 font-mono text-[9px] tracking-widest border border-[#10B981]/20 bg-[#10B981]/5 text-[#10B981] whitespace-nowrap uppercase font-bold flex items-center gap-2">
+          <div className="w-1 h-1 rounded-full bg-[#10B981] shadow-[0_0_4px_#10B981]" />
           KLING 3.0
         </div>
         <div className="rounded-md px-3 py-1.5 font-mono text-[9px] tracking-widest border border-white/5 bg-white/[0.02] text-white/40 whitespace-nowrap uppercase font-bold flex items-center gap-2">
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'COLORS' })
       <div className="px-6 flex items-center gap-2 relative z-20">
         <a className="rounded-md px-3 py-2 font-mono text-[9px] tracking-widest cursor-pointer border border-white/10 bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all font-bold uppercase" href="https://nanobanana.ai" target="_blank" rel="noreferrer">NB_LINK</a>
         <a className="rounded-md px-3 py-2 font-mono text-[9px] tracking-widest cursor-pointer border border-white/10 bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all font-bold uppercase" href="https://chatgpt.com" target="_blank" rel="noreferrer">GPT_LINK</a>
-        <a className="rounded-md px-3 py-2 font-mono text-[9px] tracking-widest cursor-pointer border border-[#E8712A]/30 bg-[#E8712A]/10 text-[#E8712A] hover:bg-[#E8712A]/20 transition-all font-bold uppercase" href="https://klingai.com" target="_blank" rel="noreferrer">KLING_LINK</a>
+        <a className="rounded-md px-3 py-2 font-mono text-[9px] tracking-widest cursor-pointer border border-[#10B981]/30 bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981]/20 transition-all font-bold uppercase" href="https://klingai.com" target="_blank" rel="noreferrer">KLING_LINK</a>
       </div>
     </div>
   );

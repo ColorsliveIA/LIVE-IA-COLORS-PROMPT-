@@ -7,7 +7,7 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", serif;
   
-  --color-accent: #E8712A;
+  --color-accent: #10B981;
   --color-accent-hover: #ff7d2f;
   --color-bg-deep: #050505;
   --color-panel: #0a0a0a;
@@ -121,7 +121,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #E8712A;
+  outline: 2px solid #10B981;
   outline-offset: 2px;
   border-radius: 8px;
 }
@@ -132,7 +132,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #E8712A;
+  background: #10B981;
   cursor: pointer;
   border: 2px solid #0a0a0a;
   box-shadow: 0 0 6px rgba(232, 113, 42, 0.4);
@@ -142,7 +142,7 @@ input[type="range"]::-moz-range-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #E8712A;
+  background: #10B981;
   cursor: pointer;
   border: 2px solid #0a0a0a;
   box-shadow: 0 0 6px rgba(232, 113, 42, 0.4);

@@ -32,7 +32,7 @@ const Screw = () => (
 );
 
 const CollapsibleSection: React.FC<CollapsibleProps> = ({ title, icon, children, isOpen, onToggle, badge, tooltip, toggle }) => (
-  <div className={`border border-white/5 rounded-xl bg-[#0a0a0a] mb-2 transition-all duration-300 relative overflow-hidden ${isOpen ? 'ring-1 ring-[#E8712A]/10 shadow-xl shadow-black/40' : 'hover:border-white/10'}`}>
+  <div className={`border border-white/5 rounded-xl bg-[#0a0a0a] mb-2 transition-all duration-300 relative overflow-hidden ${isOpen ? 'ring-1 ring-[#10B981]/10 shadow-xl shadow-black/40' : 'hover:border-white/10'}`}>
     {/* Rack Screws */}
     <div className="absolute top-1.5 left-1.5"><Screw /></div>
     <div className="absolute top-1.5 right-1.5"><Screw /></div>
@@ -42,16 +42,16 @@ const CollapsibleSection: React.FC<CollapsibleProps> = ({ title, icon, children,
       className={`w-full px-4 py-3 flex items-center justify-between transition-all group cursor-pointer ${isOpen ? 'bg-white/5' : 'bg-transparent hover:bg-white/[0.02]'}`}
     >
       <div className="flex items-center gap-3 pl-2">
-        <span className={`${isOpen ? 'text-[#E8712A]' : 'text-white/20'} group-hover:text-[#E8712A] transition-colors`}>{icon}</span>
+        <span className={`${isOpen ? 'text-[#10B981]' : 'text-white/20'} group-hover:text-[#10B981] transition-colors`}>{icon}</span>
         {tooltip ? (
           <Tooltip text={tooltip} position="right">
-            <span className={`font-mono text-[10px] tracking-[0.15em] uppercase transition-colors ${isOpen ? 'text-[#E8712A] font-black' : 'text-white/60 font-bold'}`}>{title}</span>
+            <span className={`font-mono text-[10px] tracking-[0.15em] uppercase transition-colors ${isOpen ? 'text-[#10B981] font-black' : 'text-white/60 font-bold'}`}>{title}</span>
           </Tooltip>
         ) : (
-          <span className={`font-mono text-[10px] tracking-[0.15em] uppercase transition-colors ${isOpen ? 'text-[#E8712A] font-black' : 'text-white/60 font-bold'}`}>{title}</span>
+          <span className={`font-mono text-[10px] tracking-[0.15em] uppercase transition-colors ${isOpen ? 'text-[#10B981] font-black' : 'text-white/60 font-bold'}`}>{title}</span>
         )}
         {badge ? (
-          <span className="bg-[#E8712A] text-black font-mono text-[9px] px-1.5 rounded min-w-[16px] h-[16px] flex items-center justify-center font-black">
+          <span className="bg-[#10B981] text-black font-mono text-[9px] px-1.5 rounded min-w-[16px] h-[16px] flex items-center justify-center font-black">
             {badge}
           </span>
         ) : null}
@@ -63,12 +63,12 @@ const CollapsibleSection: React.FC<CollapsibleProps> = ({ title, icon, children,
               e.stopPropagation();
               toggle.onToggle(e);
             }}
-            className={`font-bebas text-[11px] tracking-widest px-3 py-1 rounded transition-all border ${toggle.active ? 'bg-[#E8712A]/10 border-[#E8712A]/30 text-[#E8712A] shadow-[0_0_10px_rgba(232,113,42,0.1)]' : 'bg-white/5 border-white/10 text-white/20 hover:border-white/20'}`}
+            className={`font-bebas text-[11px] tracking-widest px-3 py-1 rounded transition-all border ${toggle.active ? 'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.1)]' : 'bg-white/5 border-white/10 text-white/20 hover:border-white/20'}`}
           >
             {toggle.active ? 'ACTIF ✓' : 'INACTIF'}
           </button>
         )}
-        {isOpen ? <ChevronUp size={12} className="text-[#E8712A]" /> : <ChevronDown size={12} className="text-white/20" />}
+        {isOpen ? <ChevronUp size={12} className="text-[#10B981]" /> : <ChevronDown size={12} className="text-white/20" />}
       </div>
     </div>
     {isOpen && (
@@ -137,7 +137,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/rand:translate-x-full transition-transform duration-1000" />
           <span className="inline-flex items-center gap-2 relative z-10">
-            <Sparkles size={14} className="text-[#E8712A]" /> PERSO RANDOM
+            <Sparkles size={14} className="text-[#10B981]" /> PERSO RANDOM
           </span>
         </button>
       </Tooltip>
@@ -155,7 +155,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
               <label className="font-mono text-[9px] tracking-widest uppercase text-white/30 mb-2 block cursor-help">Artiste / Session</label>
             </Tooltip>
             <input 
-              className="bg-white/5 border border-white/10 text-white text-[12px] p-2.5 rounded-md outline-none w-full focus:border-[#E8712A]/50 transition-all placeholder:text-white/20"
+              className="bg-white/5 border border-white/10 text-white text-[12px] p-2.5 rounded-md outline-none w-full focus:border-[#10B981]/50 transition-all placeholder:text-white/20"
               value={state.artist}
               onChange={e => setState(prev => ({ ...prev, artist: e.target.value }))}
               placeholder="ex: Lil Durk, Future, Drake…"
@@ -168,14 +168,14 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
               <div className="flex gap-2">
                 <button 
                   onClick={() => setSex('male')}
-                  className={`flex-1 border rounded-md p-2 text-center transition-all ${state.sex === 'male' ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 text-white/40'}`}
+                  className={`flex-1 border rounded-md p-2 text-center transition-all ${state.sex === 'male' ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/10 bg-white/5 text-white/40'}`}
                 >
                   <div className="font-bebas text-[14px] tracking-widest leading-none">♂</div>
                   <div className="font-mono text-[8px] mt-1 uppercase tracking-tighter font-bold">Homme</div>
                 </button>
                 <button 
                   onClick={() => setSex('female')}
-                  className={`flex-1 border rounded-md p-2 text-center transition-all ${state.sex === 'female' ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 text-white/40'}`}
+                  className={`flex-1 border rounded-md p-2 text-center transition-all ${state.sex === 'female' ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/10 bg-white/5 text-white/40'}`}
                 >
                   <div className="font-bebas text-[14px] tracking-widest leading-none">♀</div>
                   <div className="font-mono text-[8px] mt-1 uppercase tracking-tighter font-bold">Femme</div>
@@ -248,7 +248,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                       setExpression(exp.key, exp.prompt);
                     }
                   }}
-                  className={`border rounded-md p-2 text-center transition-all ${state.expressionKey === exp.key ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 hover:border-white/20 text-white/40'}`}
+                  className={`border rounded-md p-2 text-center transition-all ${state.expressionKey === exp.key ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/10 bg-white/5 hover:border-white/20 text-white/40'}`}
                 >
                   <div className="font-bebas text-[12px] tracking-widest leading-none">
                     {exp.name}
@@ -305,7 +305,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                 <button
                   key={s.key}
                   onClick={() => toggleWardrobe('sils', s.key)}
-                  className={`font-mono text-[9px] px-2.5 py-1.5 rounded-md border transition-all uppercase tracking-tight font-bold ${state.wardrobe.sils.includes(s.key) ? 'border-[#E8712A] text-[#E8712A] bg-[#E8712A]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20'}`}
+                  className={`font-mono text-[9px] px-2.5 py-1.5 rounded-md border transition-all uppercase tracking-tight font-bold ${state.wardrobe.sils.includes(s.key) ? 'border-[#10B981] text-[#10B981] bg-[#10B981]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20'}`}
                 >
                   {s.name}
                 </button>
@@ -319,7 +319,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                 <button
                   key={s.key}
                   onClick={() => toggleWardrobe('styles', s.key)}
-                  className={`font-mono text-[9px] px-2.5 py-1.5 rounded-md border transition-all uppercase tracking-tight font-bold ${state.wardrobe.styles.includes(s.key) ? 'border-[#E8712A] text-[#E8712A] bg-[#E8712A]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20'}`}
+                  className={`font-mono text-[9px] px-2.5 py-1.5 rounded-md border transition-all uppercase tracking-tight font-bold ${state.wardrobe.styles.includes(s.key) ? 'border-[#10B981] text-[#10B981] bg-[#10B981]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20'}`}
                 >
                   {s.name}
                 </button>
@@ -330,13 +330,13 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
           {state.wardrobe.styles.includes('street') && (
             <div className="mt-4 border-t border-white/5 pt-4">
               <div className="flex items-center justify-between mb-2">
-                <label className="font-mono text-[9px] tracking-widest uppercase text-[#E8712A] font-bold">Hip Hop / Rap Outfit</label>
+                <label className="font-mono text-[9px] tracking-widest uppercase text-[#10B981] font-bold">Hip Hop / Rap Outfit</label>
                 <button 
                   onClick={() => {
                     const randomRapper = RAPPER_STYLES[Math.floor(Math.random() * RAPPER_STYLES.length)];
                     setState(prev => ({ ...prev, selectedArtistOutfit: randomRapper }));
                   }}
-                  className="font-mono text-[8px] text-white/40 hover:text-[#E8712A] transition-colors uppercase tracking-widest"
+                  className="font-mono text-[8px] text-white/40 hover:text-[#10B981] transition-colors uppercase tracking-widest"
                 >
                   Randomize
                 </button>
@@ -346,7 +346,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   <button
                     key={s.name}
                     onClick={() => setState(prev => ({ ...prev, selectedArtistOutfit: prev.selectedArtistOutfit?.name === s.name ? null : s }))}
-                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
+                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
                   >
                     <div className="font-bebas text-[11px] tracking-widest leading-none">{s.name}</div>
                     <div className="font-mono text-[7px] mt-1 opacity-60 truncate">{s.prompt}</div>
@@ -359,13 +359,13 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
           {state.wardrobe.styles.includes('pop') && (
             <div className="mt-4 border-t border-white/5 pt-4">
               <div className="flex items-center justify-between mb-2">
-                <label className="font-mono text-[9px] tracking-widest uppercase text-[#E8712A] font-bold">Pop Artist Outfit</label>
+                <label className="font-mono text-[9px] tracking-widest uppercase text-[#10B981] font-bold">Pop Artist Outfit</label>
                 <button 
                   onClick={() => {
                     const randomPop = POP_ARTIST_STYLES[Math.floor(Math.random() * POP_ARTIST_STYLES.length)];
                     setState(prev => ({ ...prev, selectedArtistOutfit: randomPop }));
                   }}
-                  className="font-mono text-[8px] text-white/40 hover:text-[#E8712A] transition-colors uppercase tracking-widest"
+                  className="font-mono text-[8px] text-white/40 hover:text-[#10B981] transition-colors uppercase tracking-widest"
                 >
                   Randomize
                 </button>
@@ -375,7 +375,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   <button
                     key={s.name}
                     onClick={() => setState(prev => ({ ...prev, selectedArtistOutfit: prev.selectedArtistOutfit?.name === s.name ? null : s }))}
-                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
+                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
                   >
                     <div className="font-bebas text-[11px] tracking-widest leading-none">{s.name}</div>
                     <div className="font-mono text-[7px] mt-1 opacity-60 truncate">{s.prompt}</div>
@@ -388,13 +388,13 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
           {state.wardrobe.styles.includes('rnb') && (
             <div className="mt-4 border-t border-white/5 pt-4">
               <div className="flex items-center justify-between mb-2">
-                <label className="font-mono text-[9px] tracking-widest uppercase text-[#E8712A] font-bold">R&B Artist Outfit</label>
+                <label className="font-mono text-[9px] tracking-widest uppercase text-[#10B981] font-bold">R&B Artist Outfit</label>
                 <button 
                   onClick={() => {
                     const randomRnb = RNB_ARTIST_STYLES[Math.floor(Math.random() * RNB_ARTIST_STYLES.length)];
                     setState(prev => ({ ...prev, selectedArtistOutfit: randomRnb }));
                   }}
-                  className="font-mono text-[8px] text-white/40 hover:text-[#E8712A] transition-colors uppercase tracking-widest"
+                  className="font-mono text-[8px] text-white/40 hover:text-[#10B981] transition-colors uppercase tracking-widest"
                 >
                   Randomize
                 </button>
@@ -404,7 +404,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   <button
                     key={s.name}
                     onClick={() => setState(prev => ({ ...prev, selectedArtistOutfit: prev.selectedArtistOutfit?.name === s.name ? null : s }))}
-                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
+                    className={`text-left px-3 py-2 rounded border transition-all ${state.selectedArtistOutfit?.name === s.name ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/5 bg-white/[0.02] text-white/40 hover:border-white/10'}`}
                   >
                     <div className="font-bebas text-[11px] tracking-widest leading-none">{s.name}</div>
                     <div className="font-mono text-[7px] mt-1 opacity-60 truncate">{s.prompt}</div>
@@ -436,7 +436,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   <button
                     key={d}
                     onClick={() => setState(prev => ({ ...prev, videoParams: { ...prev.videoParams, duration: d as any } }))}
-                    className={`flex-1 font-bebas text-[12px] py-1.5 rounded border transition-all ${state.videoParams.duration === d ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 text-white/20'}`}
+                    className={`flex-1 font-bebas text-[12px] py-1.5 rounded border transition-all ${state.videoParams.duration === d ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/10 bg-white/5 text-white/20'}`}
                   >
                     {d}
                   </button>
@@ -450,7 +450,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                   type="range" min="1" max="10" 
                   value={state.videoParams.intensity}
                   onChange={e => setState(prev => ({ ...prev, videoParams: { ...prev.videoParams, intensity: parseInt(e.target.value) } }))}
-                  className="w-full h-1 bg-white/5 rounded-lg appearance-none cursor-pointer accent-[#E8712A]"
+                  className="w-full h-1 bg-white/5 rounded-lg appearance-none cursor-pointer accent-[#10B981]"
                 />
               </div>
             </div>
@@ -501,7 +501,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                 <button
                   key={m}
                   onClick={() => setMode(m as GenerationMode)}
-                  className={`border rounded-md p-2 text-center transition-all ${state.mode === m ? 'border-[#E8712A] bg-[#E8712A]/10' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
+                  className={`border rounded-md p-2 text-center transition-all ${state.mode === m ? 'border-[#10B981] bg-[#10B981]/10' : 'border-white/10 bg-white/5 hover:border-white/20'}`}
                 >
                   <div className={`font-bebas text-[11px] tracking-widest leading-none ${m === 'multishot' ? 'text-[#9a6adc]' : 'text-white'}`}>
                     {m.toUpperCase()}
@@ -521,7 +521,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                 <button
                   key={c.hex}
                   onClick={() => setColor(c)}
-                  className={`h-8 rounded-md border-2 transition-all relative group ${state.color.hex === c.hex ? 'border-[#E8712A] scale-105' : 'border-transparent hover:scale-105'}`}
+                  className={`h-8 rounded-md border-2 transition-all relative group ${state.color.hex === c.hex ? 'border-[#10B981] scale-105' : 'border-transparent hover:scale-105'}`}
                   style={{ background: c.hex }}
                   title={c.name}
                 >
@@ -545,7 +545,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                 <button
                   key={s.id}
                   onClick={() => setState(prev => ({ ...prev, studioStyle: s.id as any }))}
-                  className={`border rounded-md p-2 text-center transition-all ${state.studioStyle === s.id ? 'border-[#E8712A] bg-[#E8712A]/10 text-[#E8712A]' : 'border-white/10 bg-white/5 hover:border-white/20 text-white/40'}`}
+                  className={`border rounded-md p-2 text-center transition-all ${state.studioStyle === s.id ? 'border-[#10B981] bg-[#10B981]/10 text-[#10B981]' : 'border-white/10 bg-white/5 hover:border-white/20 text-white/40'}`}
                 >
                   <div className="font-bebas text-[11px] tracking-widest leading-none">{s.name}</div>
                   <div className="font-mono text-[7px] mt-1 uppercase tracking-tighter opacity-70">{s.sub}</div>
@@ -559,7 +559,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
               <span className="font-mono text-[8px] tracking-widest uppercase text-white/30">Référence Artiste</span>
               <button 
                 onClick={() => setState(prev => ({ ...prev, styleRefActive: !prev.styleRefActive }))}
-                className={`font-bebas text-[11px] tracking-widest px-2 py-0.5 rounded-sm transition-all ${state.styleRefActive ? 'bg-[#E8712A]/10 border border-[#E8712A]/30 text-[#E8712A]' : 'bg-white/5 border border-white/10 text-white/20'}`}
+                className={`font-bebas text-[11px] tracking-widest px-2 py-0.5 rounded-sm transition-all ${state.styleRefActive ? 'bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981]' : 'bg-white/5 border border-white/10 text-white/20'}`}
               >
                 {state.styleRefActive ? 'ACTIF ✓' : 'INACTIF'}
               </button>
@@ -571,7 +571,7 @@ export const Sidebar: React.FC<Props> = ({ state, setState, onRandomize }) => {
                     <button
                       key={s.name}
                       onClick={() => setState(prev => ({ ...prev, styleRefSelected: prev.styleRefSelected === s.name ? null : s.name }))}
-                      className={`font-mono text-[7px] px-2 py-1 rounded-sm border transition-all ${state.styleRefSelected === s.name ? 'border-[#E8712A] text-[#E8712A] bg-[#E8712A]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20 hover:text-white'}`}
+                      className={`font-mono text-[7px] px-2 py-1 rounded-sm border transition-all ${state.styleRefSelected === s.name ? 'border-[#10B981] text-[#10B981] bg-[#10B981]/10' : 'border-white/10 text-white/40 bg-white/5 hover:border-white/20 hover:text-white'}`}
                     >
                       {s.name}
                     </button>

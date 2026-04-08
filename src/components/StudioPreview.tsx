@@ -87,7 +87,7 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
     <div className="border border-[#242420] rounded-xl overflow-hidden bg-[#0d0d0b] shadow-2xl shadow-black/50">
       <div className="flex items-center justify-between px-3 py-2 bg-[#141411] border-b border-[#242420]">
         <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A] animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
           <span className="font-mono text-[9px] tracking-widest text-[#e8e4dc] uppercase font-bold">
             LIVE PREVIEW
           </span>
@@ -149,11 +149,11 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
               <g opacity="0.4">
                 <line 
                   x1="160" y1={upperLipY} x2="192" y2={upperLipY} 
-                  stroke="#E8712A" strokeWidth="0.2" strokeDasharray="1,1" 
+                  stroke="#10B981" strokeWidth="0.2" strokeDasharray="1,1" 
                 />
                 <text 
                   x="195" y={upperLipY + 1} 
-                  fontFamily="monospace" fontSize="3" fill="#E8712A" 
+                  fontFamily="monospace" fontSize="3" fill="#10B981" 
                   className="uppercase tracking-tighter"
                 >
                   Align: Upper Lip
@@ -180,7 +180,7 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
         </svg>
         
         <div className="absolute top-3 right-3 flex flex-col items-end gap-1 pointer-events-none">
-          <div className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 font-mono text-[7px] text-[#E8712A] font-bold tracking-widest">
+          <div className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 font-mono text-[7px] text-[#10B981] font-bold tracking-widest">
             {PLAN_LABELS[state.selectedPlan] || 'MICRO PLAFOND'}
           </div>
           <div className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 font-mono text-[7px] text-[#4a7aaa] font-bold tracking-widest">
@@ -199,19 +199,19 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
                 onClick={() => onPlanChange(pId)}
                 className={`relative group border rounded-xl p-2 transition-all flex flex-col items-center justify-center gap-2 overflow-hidden ${
                   state.selectedPlan === pId 
-                    ? 'border-[#E8712A] bg-[#17120a] shadow-[0_0_15px_rgba(232,113,42,0.2)]' 
+                    ? 'border-[#10B981] bg-[#17120a] shadow-[0_0_15px_rgba(16,185,129,0.2)]' 
                     : 'border-[#242420] bg-[#141411] hover:border-[#333] grayscale opacity-50 hover:opacity-100 hover:grayscale-0'
                 }`}
               >
                 <div className={`p-2 rounded-lg transition-colors ${
-                  state.selectedPlan === pId ? 'bg-[#E8712A]/20 text-[#E8712A]' : 'bg-white/5 text-white/40'
+                  state.selectedPlan === pId ? 'bg-[#10B981]/20 text-[#10B981]' : 'bg-white/5 text-white/40'
                 }`}>
                   {PLAN_ICONS[pId]}
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <div className={`font-bebas text-[10px] tracking-widest leading-none mb-1 ${
-                    state.selectedPlan === pId ? 'text-[#E8712A]' : 'text-[#e8e4dc]'
+                    state.selectedPlan === pId ? 'text-[#10B981]' : 'text-[#e8e4dc]'
                   }`}>
                     {pId === 'none' ? 'AUTO' : pId.split('-')[1].toUpperCase().substring(0, 3)}
                   </div>
@@ -221,7 +221,7 @@ export const StudioPreview: React.FC<Props> = ({ state, onPlanChange, onMotionCh
                 </div>
 
                 {state.selectedPlan === pId && (
-                  <div className="absolute top-0 right-0 w-4 h-4 bg-[#E8712A] flex items-center justify-center rounded-bl-lg">
+                  <div className="absolute top-0 right-0 w-4 h-4 bg-[#10B981] flex items-center justify-center rounded-bl-lg">
                     <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                   </div>
                 )}

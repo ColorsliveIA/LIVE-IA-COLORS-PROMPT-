@@ -251,7 +251,7 @@ export default function App() {
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setShowSplash(true)}
-                className="p-1.5 rounded-md bg-white/5 text-[#888880] hover:text-[#E8712A]"
+                className="p-1.5 rounded-md bg-white/5 text-[#888880] hover:text-[#10B981]"
               >
                 <LayoutGrid size={18} />
               </button>
@@ -263,7 +263,7 @@ export default function App() {
               <button 
                 onClick={generatePrompts}
                 disabled={isGenerating || state.music.isGenerating}
-                className="bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[14px] tracking-[3px] px-4 py-2 rounded-md cursor-pointer disabled:opacity-50"
+                className="bg-[#10B981] text-[#0a0a08] border-none font-bebas text-[14px] tracking-[3px] px-4 py-2 rounded-md cursor-pointer disabled:opacity-50"
               >
                 {isGenerating ? '...' : '⬤ GÉNÉRER'}
               </button>
@@ -274,13 +274,13 @@ export default function App() {
           <div className="flex border-b border-[#242420] bg-[#0a0a08] sticky top-[65px] z-40">
             <button 
               onClick={() => setState(prev => ({ ...prev, activeTab: 'visual' }))}
-              className={`flex-1 py-3 font-bebas text-[12px] tracking-[0.2em] transition-all flex items-center justify-center gap-2 border-b-2 ${state.activeTab === 'visual' ? 'border-[#E8712A] text-[#E8712A]' : 'border-transparent text-[#444]'}`}
+              className={`flex-1 py-3 font-bebas text-[12px] tracking-[0.2em] transition-all flex items-center justify-center gap-2 border-b-2 ${state.activeTab === 'visual' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-[#444]'}`}
             >
               VISUAL
             </button>
             <button 
               onClick={() => setState(prev => ({ ...prev, activeTab: 'music' }))}
-              className={`flex-1 py-3 font-bebas text-[12px] tracking-[0.2em] transition-all flex items-center justify-center gap-2 border-b-2 ${state.activeTab === 'music' ? 'border-[#E8712A] text-[#E8712A]' : 'border-transparent text-[#444]'}`}
+              className={`flex-1 py-3 font-bebas text-[12px] tracking-[0.2em] transition-all flex items-center justify-center gap-2 border-b-2 ${state.activeTab === 'music' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-[#444]'}`}
             >
               MUSIC (SUNO)
             </button>
@@ -303,7 +303,7 @@ export default function App() {
 
                 {isGenerating && (
                   <div className="py-10 flex flex-col items-center justify-center gap-3">
-                    <div className="w-8 h-8 border-2 border-[#E8712A] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-2 border-[#10B981] border-t-transparent rounded-full animate-spin" />
                     <div className="font-mono text-[8px] tracking-widest text-[#484840]">GÉNÉRATION...</div>
                   </div>
                 )}
@@ -322,7 +322,7 @@ export default function App() {
                     {state.mode === 'ensemble' && (
                       <>
                         <PromptBlock id="m-e-nb" hdrColor="#c4a030" iaLabel="NB" params={['16:9']} promptText={results.ensemblePrompt} />
-                        <PromptBlock id="m-e-kl" hdrColor="#E8712A" iaLabel="KLING" params={['16:9']} promptText={results.klingPrompt} />
+                        <PromptBlock id="m-e-kl" hdrColor="#10B981" iaLabel="KLING" params={['16:9']} promptText={results.klingPrompt} />
                       </>
                     )}
                     {state.mode === 'multishot' && results.multishotPrompts.map((p: string, i: number) => (
@@ -342,7 +342,7 @@ export default function App() {
             <button 
               onClick={generatePrompts}
               disabled={isGenerating || state.music.isGenerating}
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#E8712A] text-[#0a0a08] border-none font-bebas text-[16px] tracking-[4px] px-10 py-3.5 rounded-full cursor-pointer shadow-[0_4px_20px_rgba(232,113,42,0.5)] z-[100] disabled:opacity-50"
+              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#10B981] text-[#0a0a08] border-none font-bebas text-[16px] tracking-[4px] px-10 py-3.5 rounded-full cursor-pointer shadow-[0_4px_20px_rgba(16,185,129,0.5)] z-[100] disabled:opacity-50"
             >
               {isGenerating ? 'GÉNÉRATION...' : '⬤ GÉNÉRER'}
             </button>
@@ -359,7 +359,7 @@ export default function App() {
           <div className="h-12 border-b border-[#242420] flex items-center px-6 gap-8 bg-[#0a0a08] z-50">
             <button 
               onClick={() => setShowSplash(true)}
-              className="h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 text-[#444] hover:text-[#E8712A]"
+              className="h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 text-[#444] hover:text-[#10B981]"
             >
               <LayoutGrid size={16} />
               MENU
@@ -367,16 +367,16 @@ export default function App() {
             <div className="w-px h-4 bg-[#242420]" />
             <button 
               onClick={() => setState(prev => ({ ...prev, activeTab: 'visual' }))}
-              className={`h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 border-b-2 ${state.activeTab === 'visual' ? 'border-[#E8712A] text-[#E8712A]' : 'border-transparent text-[#444] hover:text-[#666]'}`}
+              className={`h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 border-b-2 ${state.activeTab === 'visual' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-[#444] hover:text-[#666]'}`}
             >
-              <div className={`w-1.5 h-1.5 rounded-full ${state.activeTab === 'visual' ? 'bg-[#E8712A]' : 'bg-[#444]'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${state.activeTab === 'visual' ? 'bg-[#10B981]' : 'bg-[#444]'}`} />
               VISUAL STUDIO
             </button>
             <button 
               onClick={() => setState(prev => ({ ...prev, activeTab: 'music' }))}
-              className={`h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 border-b-2 ${state.activeTab === 'music' ? 'border-[#E8712A] text-[#E8712A]' : 'border-transparent text-[#444] hover:text-[#666]'}`}
+              className={`h-full font-bebas text-sm tracking-[0.2em] transition-all flex items-center gap-2 border-b-2 ${state.activeTab === 'music' ? 'border-[#10B981] text-[#10B981]' : 'border-transparent text-[#444] hover:text-[#666]'}`}
             >
-              <div className={`w-1.5 h-1.5 rounded-full ${state.activeTab === 'music' ? 'bg-[#E8712A]' : 'bg-[#444]'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full ${state.activeTab === 'music' ? 'bg-[#10B981]' : 'bg-[#444]'}`} />
               MUSIC STUDIO (SUNO)
             </button>
           </div>
@@ -390,7 +390,7 @@ export default function App() {
                 />
                 
                 <div className="bg-[#0a0a08] border-b border-[#242420] px-[18px] py-2 flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A]" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
                   <div className="font-mono text-[10px] tracking-widest text-[#888880] leading-relaxed">
                     <strong>Caméra ref. COLORSxSTUDIOS:</strong> ARRI Alexa 35 · Super35 · Log-C4 · ProRes 4444 · 24fps
                   </div>
@@ -429,7 +429,7 @@ export default function App() {
                           <svg width="180" height="180" viewBox="0 0 100 100" className="transform -rotate-90">
                             <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a17" strokeWidth="1" />
                             <motion.circle 
-                              cx="50" cy="50" r="45" fill="none" stroke="#E8712A" strokeWidth="2" 
+                              cx="50" cy="50" r="45" fill="none" stroke="#10B981" strokeWidth="2" 
                               strokeDasharray="283"
                               animate={{ strokeDashoffset: 283 - (283 * genProgress) / 100 }}
                               transition={{ duration: 0.5, ease: "easeOut" }}
@@ -442,12 +442,12 @@ export default function App() {
                         </div>
                         
                         <div className="flex flex-col items-center gap-2 max-w-xs w-full">
-                          <div className="font-mono text-[9px] tracking-[2px] text-[#E8712A] uppercase animate-pulse text-center h-4">
+                          <div className="font-mono text-[9px] tracking-[2px] text-[#10B981] uppercase animate-pulse text-center h-4">
                             {genStatus}
                           </div>
                           <div className="w-full h-[1px] bg-[#242420] relative overflow-hidden">
                             <motion.div 
-                              className="absolute inset-y-0 left-0 bg-[#E8712A]"
+                              className="absolute inset-y-0 left-0 bg-[#10B981]"
                               animate={{ width: `${genProgress}%` }}
                               transition={{ duration: 0.5 }}
                             />
@@ -485,7 +485,7 @@ export default function App() {
                               <button
                                 key={tab.id}
                                 onClick={() => setActiveFilter(tab.id as any)}
-                                className={`font-mono text-[8px] px-3 py-1.5 rounded-md transition-all tracking-widest ${activeFilter === tab.id ? 'bg-[#E8712A] text-black font-bold' : 'text-[#666] hover:text-[#888]'}`}
+                                className={`font-mono text-[8px] px-3 py-1.5 rounded-md transition-all tracking-widest ${activeFilter === tab.id ? 'bg-[#10B981] text-black font-bold' : 'text-[#666] hover:text-[#888]'}`}
                               >
                                 {tab.label}
                               </button>
@@ -590,7 +590,7 @@ export default function App() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <PromptBlock 
                                     id="e-kl" 
-                                    hdrColor="#E8712A" 
+                                    hdrColor="#10B981" 
                                     iaLabel="KLING 3.0" 
                                     params={['16:9', '--v 3.0', 'Slow motion']} 
                                     promptText={results.klingPrompt}
@@ -655,7 +655,7 @@ export default function App() {
                 <button 
                   onClick={generatePrompts}
                   disabled={isGenerating || state.music.isGenerating}
-                  className="fixed bottom-5 right-5 z-[200] bg-[#E8712A] text-[#0d0d0b] border-none font-bebas text-[16px] tracking-[4px] px-6 py-3 rounded-md cursor-pointer shadow-[0_4px_22px_rgba(232,113,42,0.45)] transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95 disabled:bg-[#2a2a24] disabled:text-[#444] disabled:cursor-not-allowed disabled:shadow-none"
+                  className="fixed bottom-5 right-5 z-[200] bg-[#10B981] text-[#0d0d0b] border-none font-bebas text-[16px] tracking-[4px] px-6 py-3 rounded-md cursor-pointer shadow-[0_4px_22px_rgba(16,185,129,0.45)] transition-all hover:opacity-90 hover:-translate-y-0.5 active:scale-95 disabled:bg-[#2a2a24] disabled:text-[#444] disabled:cursor-not-allowed disabled:shadow-none"
                 >
                   {isGenerating ? 'GÉNÉRATION...' : '⬤ GÉNÉRER'}
                 </button>

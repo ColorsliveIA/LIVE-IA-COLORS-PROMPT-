@@ -53,7 +53,7 @@ export const PromptBlock: React.FC<Props> = ({ id, hdrColor, iaLabel, params, ne
     <div className="border border-[#242420] rounded-xl overflow-hidden mb-6 bg-[#0d0d0b] shadow-2xl shadow-black/40 transition-all hover:border-[#3a3a35] group/block relative">
       {/* Decorative hardware corner */}
       <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none opacity-20">
-        <div className="absolute top-2 right-2 w-1 h-1 bg-[#E8712A] rounded-full" />
+        <div className="absolute top-2 right-2 w-1 h-1 bg-[#10B981] rounded-full" />
         <div className="absolute top-2 right-4 w-1 h-1 bg-[#444] rounded-full" />
       </div>
 
@@ -89,7 +89,7 @@ export const PromptBlock: React.FC<Props> = ({ id, hdrColor, iaLabel, params, ne
         </div>
       </div>
       
-      <div className="bg-[#090907] p-6 font-mono text-[13px] leading-relaxed text-[#e8e4dc] whitespace-pre-wrap max-h-[400px] overflow-y-auto selection:bg-[#E8712A] selection:text-black relative group/text">
+      <div className="bg-[#090907] p-6 font-mono text-[13px] leading-relaxed text-[#e8e4dc] whitespace-pre-wrap max-h-[400px] overflow-y-auto selection:bg-[#10B981] selection:text-black relative group/text">
         {/* Text area decorative elements */}
         <div className="absolute top-2 left-2 w-1 h-4 bg-[#242420] opacity-30" />
         <div className="absolute top-2 left-2 w-4 h-1 bg-[#242420] opacity-30" />
@@ -106,7 +106,7 @@ export const PromptBlock: React.FC<Props> = ({ id, hdrColor, iaLabel, params, ne
             className={`font-bebas text-[13px] tracking-[0.2em] px-5 py-2 rounded-md transition-all border flex items-center gap-2.5 group/btn ${
               copied 
                 ? 'bg-[#17200f] border-[#2a4a1a] text-[#5a9a3a] shadow-[0_0_15px_rgba(42,74,26,0.2)]' 
-                : 'bg-[#1a1a14] border-[#242420] text-[#e8e4dc] hover:bg-[#E8712A] hover:text-black hover:border-[#E8712A] shadow-lg'
+                : 'bg-[#1a1a14] border-[#242420] text-[#e8e4dc] hover:bg-[#10B981] hover:text-black hover:border-[#10B981] shadow-lg'
             }`}
           >
             {copied ? (
@@ -149,7 +149,7 @@ export const PromptBlock: React.FC<Props> = ({ id, hdrColor, iaLabel, params, ne
               onClick={() => setShowFull(!showFull)}
               className={`font-bebas text-[13px] tracking-[0.2em] px-4 py-2 rounded-md transition-all border ${
                 showFull 
-                  ? 'bg-[#17120a] border-[#E8712A] text-[#E8712A] shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                  ? 'bg-[#17120a] border-[#10B981] text-[#10B981] shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                   : 'bg-[#1a1a14] border-[#242420] text-[#e8e4dc] hover:border-[#444]'
               }`}
             >
