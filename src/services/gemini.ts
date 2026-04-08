@@ -2,7 +2,7 @@ import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
 import { getArtistSonicDNA, SonicDNA, overrideCursorsOnDNA, CursorOverrides } from './sonic-dna';
 import { buildBanlistBlock, lintForGimmickLeaks, stripGlobalBanlist, buildLeakFixInstruction } from './gimmick-banlist';
-import { buildHarmonicBlock, validateHarmonicCoherence } from './harmonic-profiles';
+import { buildHarmonicBlock, validateHarmonicCoherence, buildHarmonicFixInstruction } from './harmonic-profiles';
 import { buildCursorsBlock } from './cursors-block';
 
 const Type = {
@@ -349,45 +349,73 @@ Respond ONLY in JSON (no backticks).`;
 
     let lyricsCorpus = collectLyrics(parsed);
     let gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
-    let retried = false;
+    let harmonicViolations = validateHarmonicCoherence(
+      parsed.sunoPrompt || '',
+      sonicDNA?.harmonicProfileId,
+      inspiredBy
+    );
+    let healingPasses = 0;
+    let lastRawJson = response.text || '';
+    const MAX_HEALING_PASSES = 2;
 
-    // (a) Auto-rewrite retry on artist gimmick leak (max 1 pass)
-    const artistLeaks = gimmickLeaks.filter(l => l.artist !== 'GLOBAL');
-    if (artistLeaks.length > 0) {
+    // ── SPRINT 5 — SELF-HEALING MULTI-PASS LOOP ──
+    // Each pass can target gimmick leaks AND/OR harmonic violations in one shot.
+    // Loop exits early as soon as both validators come back clean.
+    while (healingPasses < MAX_HEALING_PASSES) {
+      const artistLeaks = gimmickLeaks.filter(l => l.artist !== 'GLOBAL');
+      const needsLeakFix = artistLeaks.length > 0;
+      const needsHarmonicFix = harmonicViolations.length > 0;
+      if (!needsLeakFix && !needsHarmonicFix) break;
+
       try {
-        retried = true;
-        const fixInstr = buildLeakFixInstruction(artistLeaks);
-        // Sprint 3 — re-inject the active directive blocks so the retry
-        // does not lose the harmonic profile, the cursors, or the banlist context.
+        healingPasses += 1;
+        const fixParts: string[] = [];
+        if (needsLeakFix) fixParts.push(buildLeakFixInstruction(artistLeaks));
+        if (needsHarmonicFix) {
+          fixParts.push(buildHarmonicFixInstruction(
+            harmonicViolations,
+            sonicDNA?.harmonicProfileId,
+            inspiredBy
+          ));
+        }
         const directiveContext = [
           buildHarmonicBlock(sonicDNA?.harmonicProfileId, inspiredBy),
           buildCursorsBlock(sonicDNA),
           buildBanlistBlock(inspiredBy, secondaryInspiredBy),
         ].filter(Boolean).join('\n');
-        const fixPrompt = `${fixInstr}\n\n${directiveContext}\n\nORIGINAL OUTPUT (JSON):\n${response.text}\n\nReturn the corrected JSON with the SAME schema.`;
+        const fixPrompt = `[SELF-HEALING PASS ${healingPasses}/${MAX_HEALING_PASSES}]\n${fixParts.join('\n\n')}\n\n${directiveContext}\n\nORIGINAL OUTPUT (JSON):\n${lastRawJson}\n\nReturn the corrected JSON with the SAME schema. Fix ALL issues above in a single response.`;
         const fixResp = await callGemini({
           model: HEAVY_MODEL,
           contents: fixPrompt,
           config: {
-            temperature: 0.6,
+            temperature: 0.5,
             responseMimeType: "application/json",
             responseSchema: useFullSchema ? fullSchema : lightSchema,
             systemInstruction
           }
         });
-        if (fixResp.text) {
-          const fixed = JSON.parse(fixResp.text);
-          if (fixed.lyrics) parsed.lyrics = fixed.lyrics;
-          if (Array.isArray(fixed.structuredLyrics) && fixed.structuredLyrics.length > 0) {
-            parsed.structuredLyrics = fixed.structuredLyrics;
-          }
-          lyricsCorpus = collectLyrics(parsed);
-          gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
+        if (!fixResp.text) break;
+        lastRawJson = fixResp.text;
+        const fixed = JSON.parse(fixResp.text);
+        if (fixed.lyrics) parsed.lyrics = fixed.lyrics;
+        if (Array.isArray(fixed.structuredLyrics) && fixed.structuredLyrics.length > 0) {
+          parsed.structuredLyrics = fixed.structuredLyrics;
         }
+        if (fixed.sunoPrompt) parsed.sunoPrompt = fixed.sunoPrompt;
+        // Re-run both validators for the next loop iteration
+        lyricsCorpus = collectLyrics(parsed);
+        gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
+        harmonicViolations = validateHarmonicCoherence(
+          parsed.sunoPrompt || '',
+          sonicDNA?.harmonicProfileId,
+          inspiredBy
+        );
       } catch (e: any) {
-        console.warn('[GUARDRAIL] leak-fix retry failed:', e?.message || e);
+        console.warn(`[GUARDRAIL] self-healing pass ${healingPasses} failed:`, e?.message || e);
+        break;
       }
     }
+    const retried = healingPasses > 0;
 
     // (b) Hard-strip GLOBAL banlist (mère/maman) — non-negotiable
     let globalStripCount = 0;
@@ -410,8 +438,9 @@ Respond ONLY in JSON (no backticks).`;
       console.warn(`[GUARDRAIL] hard-stripped ${globalStripCount} global-banlist tokens (mère/maman)`);
     }
 
-    // (c) Harmonic coherence validation (non-blocking diagnostic)
-    const harmonicViolations = validateHarmonicCoherence(
+    // (c) Harmonic coherence — already validated in the self-healing loop above.
+    // Re-run one final time so the diagnostics reflect the post-strip state.
+    harmonicViolations = validateHarmonicCoherence(
       parsed.sunoPrompt || '',
       sonicDNA?.harmonicProfileId,
       inspiredBy
@@ -445,6 +474,7 @@ Respond ONLY in JSON (no backticks).`;
         harmonicViolations,
         globalStripCount,
         retried,
+        healingPasses,
         appliedHarmonicProfile: sonicDNA?.harmonicProfileId || null,
         appliedCursors,
       }

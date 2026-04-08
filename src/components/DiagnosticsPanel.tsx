@@ -15,6 +15,7 @@ export interface GenerationDiagnostics {
   harmonicViolations: { kind: 'anti-pattern' | 'low-coverage'; detail: string }[];
   globalStripCount: number;
   retried: boolean;
+  healingPasses?: number;
   appliedHarmonicProfile?: string | null;
   appliedCursors?: {
     compositionMode?: string;
@@ -36,7 +37,7 @@ export default function DiagnosticsPanel({ diagnostics }: Props) {
   const [open, setOpen] = useState(false);
   if (!diagnostics) return null;
 
-  const { gimmickLeaks, harmonicViolations, globalStripCount, retried, appliedHarmonicProfile, appliedCursors } = diagnostics;
+  const { gimmickLeaks, harmonicViolations, globalStripCount, retried, healingPasses, appliedHarmonicProfile, appliedCursors } = diagnostics;
   const cursorSummary = appliedCursors ? [
     appliedCursors.compositionMode,
     appliedCursors.registerMode,
@@ -79,7 +80,11 @@ export default function DiagnosticsPanel({ diagnostics }: Props) {
           <span>⚙</span>
           <span>Diagnostics</span>
           <span className={`rounded-full border px-2 py-0.5 text-[10px] ${pill}`}>{label}</span>
-          {retried && <span className="text-blue-300 text-[10px]">↻ retried</span>}
+          {retried && (
+            <span className="text-blue-300 text-[10px]">
+              ↻ healed {healingPasses && healingPasses > 1 ? `×${healingPasses}` : ''}
+            </span>
+          )}
         </span>
         <span className="text-zinc-500">{open ? '▾' : '▸'}</span>
       </button>

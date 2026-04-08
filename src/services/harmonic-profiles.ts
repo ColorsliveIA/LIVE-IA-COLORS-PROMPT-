@@ -367,6 +367,33 @@ export function validateHarmonicCoherence(
   return violations;
 }
 
+// ── SPRINT 5 — SELF-HEALING FIX INSTRUCTION ──
+// Builds a corrective directive from harmonic violations, to be re-injected
+// into Gemini during a self-healing retry pass.
+export function buildHarmonicFixInstruction(
+  violations: HarmonicViolation[],
+  profileId?: string | null,
+  inspiredBy?: string
+): string {
+  if (!violations.length) return '';
+  let profile = getHarmonicProfile(profileId);
+  if (!profile && inspiredBy) {
+    const s = suggestHarmonicProfileForArtist(inspiredBy);
+    if (s) profile = HARMONIC_PROFILES[s];
+  }
+  const lines: string[] = ['⚠️ HARMONIC COHERENCE FIX REQUIRED ⚠️'];
+  const antiPatterns = violations.filter(v => v.kind === 'anti-pattern').map(v => v.detail);
+  const coverage = violations.find(v => v.kind === 'low-coverage');
+  if (antiPatterns.length) {
+    lines.push(`STRIP these forbidden harmonic anti-patterns from sunoPrompt: ${antiPatterns.join(', ')}`);
+  }
+  if (coverage && profile) {
+    lines.push(`INSERT at least 2 instruments from this palette into sunoPrompt: ${profile.instruments.slice(0, 6).join(', ')}`);
+    lines.push(`Use these Suno tags: ${profile.sunoTags.slice(0, 4).join(', ')}`);
+  }
+  return lines.join('\n');
+}
+
 // ── SPRINT 4 — HARMONIC PRESETS ──
 // Named recipes combining a harmonic profile + a curated set of cursor
 // overrides. Consumed by callers (scripts, tests, future UI) via
