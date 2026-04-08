@@ -651,19 +651,43 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-accent/50 rounded-bl-3xl" />
               <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-accent/50 rounded-br-3xl" />
 
+              {/* Horizontal Scanning Beam */}
+              <motion.div
+                initial={{ y: '-100%' }}
+                animate={{ y: '100vh' }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/80 to-transparent shadow-[0_0_20px_rgba(16,185,129,0.6)] pointer-events-none"
+              />
+
               <div className="flex flex-col items-center text-center gap-8">
-                <div className="relative">
-                  <motion.div 
-                    animate={{ 
-                      scale: [1, 1.5, 1],
-                      rotate: [0, 180, 360]
-                    }}
+                <div className="relative w-32 h-32 flex items-center justify-center">
+                  {/* Concentric Pulse Rings */}
+                  {[0, 0.6, 1.2].map((delay, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ scale: [1, 2.2, 2.2], opacity: [0.7, 0, 0] }}
+                      transition={{ duration: 1.8, repeat: Infinity, delay, ease: "easeOut" }}
+                      className="absolute inset-0 w-24 h-24 m-auto rounded-full border-2 border-accent/60"
+                    />
+                  ))}
+                  {/* Spinning Glow */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
                     transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 bg-accent/20 blur-2xl rounded-full" 
+                    className="absolute inset-0 w-24 h-24 m-auto rounded-full"
+                    style={{
+                      background: 'conic-gradient(from 0deg, transparent 0%, rgba(16,185,129,0.4) 50%, transparent 100%)',
+                      filter: 'blur(8px)'
+                    }}
                   />
-                  <div className="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center relative z-10 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
-                    <Zap size={40} className="text-accent fill-current animate-pulse" />
-                  </div>
+                  {/* Core Icon */}
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-24 h-24 rounded-full bg-accent/15 border-2 border-accent/60 flex items-center justify-center relative z-10 shadow-[0_0_40px_rgba(16,185,129,0.6)]"
+                  >
+                    <Zap size={42} className="text-accent fill-current drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                  </motion.div>
                 </div>
                 
                 <div className="space-y-4">
@@ -685,8 +709,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
                 <div className="w-full space-y-3">
                   <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative border border-white/10">
-                    <motion.div 
-                      className="h-full bg-gradient-to-r from-accent via-[#ff8c42] to-accent"
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-accent via-[#34D399] to-accent"
                       initial={{ width: "0%" }}
                       animate={{ width: `${loadingProgress}%` }}
                       transition={{ duration: 0.3 }}
@@ -713,6 +737,19 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 90 ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-white/10'}`} />
                     <span className="font-mono text-[8px] text-white/20 uppercase">Finalize</span>
                   </div>
+                </div>
+
+                {/* Audio Waveform Pulse Bars */}
+                <div className="flex items-end justify-center gap-1 h-10 w-full">
+                  {[0.0, 0.15, 0.3, 0.45, 0.6, 0.45, 0.3, 0.15, 0.0, 0.2, 0.4, 0.55, 0.4, 0.2, 0.0].map((delay, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ scaleY: [0.2, 1, 0.2] }}
+                      transition={{ duration: 0.9, repeat: Infinity, delay, ease: "easeInOut" }}
+                      className="w-1 bg-gradient-to-t from-accent/30 via-accent to-accent/60 rounded-full origin-bottom shadow-[0_0_6px_rgba(16,185,129,0.5)]"
+                      style={{ height: `${20 + (i % 4) * 8}px` }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -2544,34 +2581,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         </div>
       )}
 
-      {/* FLOATING STICKY GENERATE BUTTON — quick-access mirror of BANGER */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.92 }}
-        onClick={() => !state.music.isGenerating && handleGenerate('all')}
-        disabled={state.music.isGenerating}
-        className={`fixed bottom-6 right-6 z-40 px-5 py-3 rounded-full font-bebas text-sm tracking-[0.2em] flex items-center gap-2 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.7)] transition-all border-2 ${
-          state.music.isGenerating
-            ? 'bg-white/10 text-white/40 border-white/10 cursor-not-allowed'
-            : 'bg-[#10B981] text-black border-[#10B981]/60 hover:bg-[#34D399]'
-        }`}
-        title="Generate (⌘↵)"
-      >
-        {state.music.isGenerating ? (
-          <>
-            <RefreshCw size={14} className="animate-spin" />
-            <span>GEN…</span>
-          </>
-        ) : (
-          <>
-            <Zap size={14} className="fill-current" />
-            <span>GENERATE</span>
-            <span className="font-mono text-[7px] opacity-50 ml-1">⌘↵</span>
-          </>
-        )}
-      </motion.button>
     </div>
   );
 };
