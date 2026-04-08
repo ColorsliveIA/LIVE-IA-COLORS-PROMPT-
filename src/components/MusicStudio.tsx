@@ -832,28 +832,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             </div>
 
-            <div className="space-y-5">
-              {/* Audio Analysis Upload */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 transition-all hover:bg-white/[0.04] hover:border-white/10">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Activity size={12} className="text-[#E8712A]" />
-                    <span className="font-mono text-[9px] text-white/40 uppercase tracking-widest">Reference Analysis</span>
-                  </div>
-                  {state.music.isAnalyzingAudio && <Loader2 size={12} className="text-[#E8712A] animate-spin" />}
-                </div>
-                <label className="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-white/5 rounded-xl cursor-pointer hover:border-[#E8712A]/40 transition-all group bg-black/40">
-                  <div className="flex flex-col items-center justify-center">
-                    <Upload size={18} className="text-white/20 group-hover:text-[#E8712A] transition-all transform group-hover:-translate-y-1" />
-                    <p className="font-mono text-[9px] text-white/30 mt-2 group-hover:text-white/60 transition-colors uppercase tracking-widest">
-                      {state.music.isAnalyzingAudio ? 'Processing...' : 'Drop Reference MP3'}
-                    </p>
-                  </div>
-                  <input type="file" className="hidden" accept="audio/mpeg" onChange={handleAudioUpload} disabled={state.music.isAnalyzingAudio} />
-                </label>
-              </div>
-            </div>
-
             {/* Genre Selection Grid */}
             <div className="space-y-3">
               <div className="flex items-center justify-between ml-1">
@@ -920,10 +898,18 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               )}
             </div>
 
-            {/* Inspired By Select */}
-            <div className="relative">
-              <div className="flex items-center justify-between mb-2.5 ml-1">
-                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Inspired By</label>
+            {/* Inspired By Select — HERO BLOCK (upgraded visibility) */}
+            <div className="relative rounded-2xl border border-[#E8712A]/25 bg-gradient-to-br from-[#E8712A]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(232,113,42,0.08)]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-[#E8712A]/15 border border-[#E8712A]/30">
+                    <User size={14} className="text-[#E8712A]" />
+                  </div>
+                  <div>
+                    <h4 className="font-bebas text-base tracking-[0.2em] text-white leading-none">INSPIRED BY</h4>
+                    <p className="font-mono text-[8px] text-[#E8712A]/70 uppercase tracking-widest mt-1">Artist DNA Anchor</p>
+                  </div>
+                </div>
                 <div className="flex items-center gap-2">
                   {scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy) && (
                     <button 
@@ -1100,20 +1086,28 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             </div>
 
-            {/* Harmonic Preset Selector (Sprint 4 — applies a curated cursor recipe) */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between ml-1">
-                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Harmonic Preset</label>
+            {/* Harmonic Preset Selector — HERO BLOCK (Sprint 4, upgraded visibility) */}
+            <div className="relative rounded-2xl border border-[#E8712A]/25 bg-gradient-to-br from-[#E8712A]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(232,113,42,0.08)] space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-[#E8712A]/15 border border-[#E8712A]/30">
+                    <Sliders size={14} className="text-[#E8712A]" />
+                  </div>
+                  <div>
+                    <h4 className="font-bebas text-base tracking-[0.2em] text-white leading-none">HARMONIC PRESET</h4>
+                    <p className="font-mono text-[8px] text-[#E8712A]/70 uppercase tracking-widest mt-1">Curated Cursor Recipe</p>
+                  </div>
+                </div>
                 {selectedHarmonicPreset && (
                   <button
                     onClick={() => setSelectedHarmonicPreset(null)}
-                    className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                    className="px-2 py-1 rounded-md border border-[#E8712A]/30 bg-[#E8712A]/10 font-mono text-[8px] text-[#E8712A] hover:bg-[#E8712A]/20 transition-colors uppercase tracking-tighter"
                   >
                     Clear
                   </button>
                 )}
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {HARMONIC_PRESETS.map(p => {
                   const isActive = selectedHarmonicPreset === p.id;
                   return (
@@ -1121,10 +1115,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       key={p.id}
                       onClick={() => setSelectedHarmonicPreset(isActive ? null : p.id)}
                       title={p.description}
-                      className={`px-3 py-1.5 rounded-full border font-mono text-[9px] uppercase tracking-tighter transition-all ${
+                      className={`px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-tighter transition-all ${
                         isActive
-                          ? 'bg-[#E8712A]/20 border-[#E8712A]/50 text-[#E8712A] shadow-[0_0_10px_rgba(232,113,42,0.15)]'
-                          : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20 hover:text-white/60'
+                          ? 'bg-[#E8712A]/25 border-[#E8712A]/60 text-white shadow-[0_0_15px_rgba(232,113,42,0.25)]'
+                          : 'bg-black/40 border-white/10 text-white/50 hover:border-[#E8712A]/30 hover:text-white/80'
                       }`}
                     >
                       {p.label}
@@ -1133,7 +1127,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 })}
               </div>
               {selectedHarmonicPreset && (
-                <p className="font-mono text-[9px] text-white/30 ml-1 leading-relaxed">
+                <p className="font-mono text-[9px] text-white/60 leading-relaxed italic border-t border-white/5 pt-2">
                   {HARMONIC_PRESETS.find(p => p.id === selectedHarmonicPreset)?.description}
                 </p>
               )}
