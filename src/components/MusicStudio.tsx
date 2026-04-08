@@ -566,7 +566,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             className={`fixed top-5 left-1/2 z-[200] px-5 py-3 rounded-xl border backdrop-blur-xl shadow-2xl font-mono text-[11px] font-bold tracking-wider ${
               toastMessage.type === 'success' ? 'bg-green-950/80 border-green-500/30 text-green-300' :
               toastMessage.type === 'error' ? 'bg-red-950/80 border-red-500/30 text-red-300' :
-              'bg-[#E8712A]/10 border-[#E8712A]/30 text-[#E8712A]'
+              'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]'
             }`}
           >
             <div className="flex items-center gap-2">
@@ -601,7 +601,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
             </div>
 
-            <div className="bg-[#0a0a0a] border-2 border-accent/30 rounded-3xl p-10 max-w-lg w-full mx-4 shadow-[0_0_100px_rgba(232,113,42,0.3)] relative overflow-hidden">
+            <div className="bg-[#0a0a0a] border-2 border-accent/30 rounded-3xl p-10 max-w-lg w-full mx-4 shadow-[0_0_100px_rgba(16,185,129,0.3)] relative overflow-hidden">
               {/* Animated Corner Accents */}
               <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-accent/50 rounded-tl-3xl" />
               <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-accent/50 rounded-tr-3xl" />
@@ -618,7 +618,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                     className="absolute inset-0 bg-accent/20 blur-2xl rounded-full" 
                   />
-                  <div className="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center relative z-10 shadow-[0_0_30px_rgba(232,113,42,0.4)]">
+                  <div className="w-24 h-24 rounded-full bg-accent/10 border-2 border-accent/40 flex items-center justify-center relative z-10 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
                     <Zap size={40} className="text-accent fill-current animate-pulse" />
                   </div>
                 </div>
@@ -659,15 +659,15 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 {/* Status Indicators */}
                 <div className="grid grid-cols-3 gap-4 w-full pt-4 border-t border-white/5">
                   <div className="flex flex-col items-center gap-1">
-                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 30 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 30 ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-white/10'}`} />
                     <span className="font-mono text-[8px] text-white/20 uppercase">Lyrics</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
-                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 60 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 60 ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-white/10'}`} />
                     <span className="font-mono text-[8px] text-white/20 uppercase">Style</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
-                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 90 ? 'bg-accent shadow-[0_0_8px_rgba(232,113,42,0.8)]' : 'bg-white/10'}`} />
+                    <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 90 ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-white/10'}`} />
                     <span className="font-mono text-[8px] text-white/20 uppercase">Finalize</span>
                   </div>
                 </div>
@@ -686,7 +686,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         <div className="flex items-center gap-3 sm:gap-6 w-full sm:w-auto">
           <button 
             onClick={onMenuClick}
-            className="p-1.5 sm:p-2 rounded-xl bg-white/5 text-white/40 hover:text-[#E8712A] hover:bg-white/10 transition-all group shrink-0"
+            className="p-1.5 sm:p-2 rounded-xl bg-white/5 text-white/40 hover:text-[#10B981] hover:bg-white/10 transition-all group shrink-0"
             title="Menu Principal"
           >
             <LayoutGrid size={18} className="sm:w-5 sm:h-5" />
@@ -703,7 +703,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 />
               ))}
             </div>
-            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center shadow-[0_0_20px_rgba(232,113,42,0.3)] shrink-0">
+            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)] shrink-0">
               <Music size={14} className="text-black sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
@@ -749,7 +749,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2 rounded-lg font-mono text-[8px] sm:text-[10px] uppercase tracking-widest transition-all ${
                   activeTab === tab.id 
-                    ? 'bg-[#E8712A] text-black shadow-[0_0_15px_rgba(232,113,42,0.3)]' 
+                    ? 'bg-[#10B981] text-black shadow-[0_0_15px_rgba(16,185,129,0.3)]' 
                     : 'text-white/40 hover:text-white/60 hover:bg-white/5'
                 }`}
               >
@@ -778,8 +778,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <LayoutGrid size={14} className="text-[#E8712A]" />
+                <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                  <LayoutGrid size={14} className="text-[#10B981]" />
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg tracking-widest text-white">COMPOSITION</h3>
@@ -787,7 +787,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </div>
               </div>
               <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#E8712A] animate-pulse shadow-[0_0_10px_#E8712A]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_10px_#10B981]" />
               </div>
             </div>
 
@@ -797,7 +797,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Genre & Style</label>
                 <button
                   onClick={() => setShowAllGenres(!showAllGenres)}
-                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                  className="font-mono text-[8px] text-[#10B981] hover:text-white transition-colors uppercase tracking-tighter"
                 >
                   {showAllGenres ? 'Show Less' : 'Show All'}
                 </button>
@@ -810,7 +810,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     value={genreSearch}
                     onChange={(e) => setGenreSearch(e.target.value)}
                     placeholder="Rechercher un genre..."
-                    className="w-full bg-black/40 border border-white/10 rounded-xl pl-8 pr-3 py-2.5 font-mono text-[10px] text-white/60 placeholder-white/20 focus:outline-none focus:border-[#E8712A]/40 transition-all"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl pl-8 pr-3 py-2.5 font-mono text-[10px] text-white/60 placeholder-white/20 focus:outline-none focus:border-[#10B981]/40 transition-all"
                   />
                 </div>
               )}
@@ -824,17 +824,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       onClick={() => updateMusicState({ genre: isActive ? '' : g.name })}
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                          ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                           : 'bg-black/40 border-white/5 hover:border-white/20'
                       }`}
                     >
                       {isActive && (
                         <motion.div 
                           layoutId="genre-active"
-                          className="absolute inset-0 bg-[#E8712A]/5 pointer-events-none"
+                          className="absolute inset-0 bg-[#10B981]/5 pointer-events-none"
                         />
                       )}
-                      <Icon size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                      <Icon size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                       <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                         {g.name}
                       </span>
@@ -852,21 +852,21 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   value={customGenre}
                   onChange={(e) => setCustomGenre(e.target.value)}
                   placeholder="Enter custom genre..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
             </div>
 
             {/* Inspired By Select — HERO BLOCK (upgraded visibility) */}
-            <div className="relative rounded-2xl border border-[#E8712A]/25 bg-gradient-to-br from-[#E8712A]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(232,113,42,0.08)]">
+            <div className="relative rounded-2xl border border-[#10B981]/25 bg-gradient-to-br from-[#10B981]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(16,185,129,0.08)]">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-[#E8712A]/15 border border-[#E8712A]/30">
-                    <User size={14} className="text-[#E8712A]" />
+                  <div className="p-1.5 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30">
+                    <User size={14} className="text-[#10B981]" />
                   </div>
                   <div>
                     <h4 className="font-bebas text-base tracking-[0.2em] text-white leading-none">INSPIRED BY</h4>
-                    <p className="font-mono text-[8px] text-[#E8712A]/70 uppercase tracking-widest mt-1">Artist DNA Anchor</p>
+                    <p className="font-mono text-[8px] text-[#10B981]/70 uppercase tracking-widest mt-1">Artist DNA Anchor</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -885,20 +885,20 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md transition-all disabled:cursor-not-allowed group ${
                       scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy)
                         ? 'bg-green-500/10 border border-green-500/20 text-green-500'
-                        : 'bg-[#E8712A]/10 border border-[#E8712A]/20 hover:bg-[#E8712A]/20 disabled:opacity-30'
+                        : 'bg-[#10B981]/10 border border-[#10B981]/20 hover:bg-[#10B981]/20 disabled:opacity-30'
                     }`}
                   >
                     {isScanningArtist ? (
-                      <Loader2 size={10} className="animate-spin text-[#E8712A]" />
+                      <Loader2 size={10} className="animate-spin text-[#10B981]" />
                     ) : scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy) ? (
                       <CheckCircle2 size={10} className="text-green-500" />
                     ) : (
-                      <Zap size={10} className="text-[#E8712A] group-hover:scale-110 transition-transform" />
+                      <Zap size={10} className="text-[#10B981] group-hover:scale-110 transition-transform" />
                     )}
                     <span className={`font-mono text-[8px] uppercase font-bold ${
                       scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy)
                         ? 'text-green-500'
-                        : 'text-[#E8712A]'
+                        : 'text-[#10B981]'
                     }`}>
                       {scannedIdentityArtist === (state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy) ? 'Identity Scanned' : 'Scan Identity'}
                     </span>
@@ -922,10 +922,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
               <button 
                 onClick={() => setShowArtistModal(true)}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
               >
                 <div className="text-left flex items-center gap-3">
-                  <User size={14} className="text-[#E8712A]" />
+                  <User size={14} className="text-[#10B981]" />
                   <div>
                     <div className="font-mono text-xs text-white font-medium">{state.music.inspiredBy || 'Select Artist'}</div>
                     <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">
@@ -933,8 +933,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     </div>
                   </div>
                 </div>
-                <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#E8712A]/10 transition-colors">
-                  <Search size={14} className="text-white/20 group-hover:text-[#E8712A]" />
+                <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#10B981]/10 transition-colors">
+                  <Search size={14} className="text-white/20 group-hover:text-[#10B981]" />
                 </div>
               </button>
 
@@ -944,7 +944,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   value={customArtist}
                   onChange={(e) => setCustomArtist(e.target.value)}
                   placeholder="Enter custom artist..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
 
@@ -1003,10 +1003,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <motion.div 
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className="mt-3 p-3 bg-[#E8712A]/5 border border-[#E8712A]/10 rounded-xl"
+                  className="mt-3 p-3 bg-[#10B981]/5 border border-[#10B981]/10 rounded-xl"
                 >
                   <div className="flex items-start gap-2">
-                    <Info size={12} className="text-[#E8712A] mt-0.5 shrink-0" />
+                    <Info size={12} className="text-[#10B981] mt-0.5 shrink-0" />
                     <p className="font-mono text-[9px] text-white/60 leading-relaxed italic">
                       {state.music.artistIdentitySummary}
                     </p>
@@ -1015,19 +1015,19 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               )}
               
               <p className="mt-2 font-mono text-[7px] text-white/20 uppercase tracking-tighter leading-relaxed ml-1">
-                <Zap size={8} className="inline mr-1 text-[#E8712A]" />
+                <Zap size={8} className="inline mr-1 text-[#10B981]" />
                 AI will perform deep data scraping of the artist's lyrical style, song structure, and production approach for maximum authenticity.
               </p>
 
               {/* Secondary Artist Selection (Blending) */}
               <div className="space-y-3 mt-4">
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1 flex items-center gap-2">
-                  <Layers size={10} className="text-[#E8712A]" />
+                  <Layers size={10} className="text-[#10B981]" />
                   <span>Secondary Artist (Style Blending)</span>
                 </label>
                 <button 
                   onClick={() => setShowSecondaryArtistModal(true)}
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                 >
                   <div className="text-left flex items-center gap-3">
                     <User size={14} className="text-white/40" />
@@ -1038,29 +1038,29 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       </div>
                     </div>
                   </div>
-                  <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#E8712A]/10 transition-colors">
-                    <Search size={14} className="text-white/20 group-hover:text-[#E8712A]" />
+                  <div className="p-1.5 bg-white/5 rounded-lg group-hover:bg-[#10B981]/10 transition-colors">
+                    <Search size={14} className="text-white/20 group-hover:text-[#10B981]" />
                   </div>
                 </button>
               </div>
             </div>
 
             {/* Harmonic Preset Selector — HERO BLOCK (Sprint 4, upgraded visibility) */}
-            <div className="relative rounded-2xl border border-[#E8712A]/25 bg-gradient-to-br from-[#E8712A]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(232,113,42,0.08)] space-y-3">
+            <div className="relative rounded-2xl border border-[#10B981]/25 bg-gradient-to-br from-[#10B981]/[0.06] via-black/40 to-black/60 p-4 shadow-[0_0_30px_rgba(16,185,129,0.08)] space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-[#E8712A]/15 border border-[#E8712A]/30">
-                    <Sliders size={14} className="text-[#E8712A]" />
+                  <div className="p-1.5 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30">
+                    <Sliders size={14} className="text-[#10B981]" />
                   </div>
                   <div>
                     <h4 className="font-bebas text-base tracking-[0.2em] text-white leading-none">HARMONIC PRESET</h4>
-                    <p className="font-mono text-[8px] text-[#E8712A]/70 uppercase tracking-widest mt-1">Curated Cursor Recipe</p>
+                    <p className="font-mono text-[8px] text-[#10B981]/70 uppercase tracking-widest mt-1">Curated Cursor Recipe</p>
                   </div>
                 </div>
                 {selectedHarmonicPreset && (
                   <button
                     onClick={() => setSelectedHarmonicPreset(null)}
-                    className="px-2 py-1 rounded-md border border-[#E8712A]/30 bg-[#E8712A]/10 font-mono text-[8px] text-[#E8712A] hover:bg-[#E8712A]/20 transition-colors uppercase tracking-tighter"
+                    className="px-2 py-1 rounded-md border border-[#10B981]/30 bg-[#10B981]/10 font-mono text-[8px] text-[#10B981] hover:bg-[#10B981]/20 transition-colors uppercase tracking-tighter"
                   >
                     Clear
                   </button>
@@ -1076,8 +1076,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       title={p.description}
                       className={`px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-tighter transition-all ${
                         isActive
-                          ? 'bg-[#E8712A]/25 border-[#E8712A]/60 text-white shadow-[0_0_15px_rgba(232,113,42,0.25)]'
-                          : 'bg-black/40 border-white/10 text-white/50 hover:border-[#E8712A]/30 hover:text-white/80'
+                          ? 'bg-[#10B981]/25 border-[#10B981]/60 text-white shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+                          : 'bg-black/40 border-white/10 text-white/50 hover:border-[#10B981]/30 hover:text-white/80'
                       }`}
                     >
                       {p.label}
@@ -1098,7 +1098,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Variantes de production</label>
                 <button 
                   onClick={() => setShowAllProductionStyles(!showAllProductionStyles)}
-                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                  className="font-mono text-[8px] text-[#10B981] hover:text-white transition-colors uppercase tracking-tighter"
                 >
                   {showAllProductionStyles ? 'Show Less' : 'Show All'}
                 </button>
@@ -1112,11 +1112,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       onClick={() => updateMusicState({ productionStyle: isActive ? '' : p.name })}
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                          ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                           : 'bg-black/40 border-white/5 hover:border-white/20'
                       }`}
                     >
-                      <Sliders size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                      <Sliders size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                       <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                         {p.name}
                       </span>
@@ -1134,7 +1134,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   value={customProduction}
                   onChange={(e) => setCustomProduction(e.target.value)}
                   placeholder="Enter custom production style..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
             </div>
@@ -1145,7 +1145,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Mood / Vibe</label>
                 <button 
                   onClick={() => setShowAllMoods(!showAllMoods)}
-                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                  className="font-mono text-[8px] text-[#10B981] hover:text-white transition-colors uppercase tracking-tighter"
                 >
                   {showAllMoods ? 'Show Less' : 'Show All'}
                 </button>
@@ -1160,17 +1160,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       onClick={() => updateMusicState({ mood: isActive ? '' : m.name })}
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                          ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                           : 'bg-black/40 border-white/5 hover:border-white/20'
                       }`}
                     >
                       {isActive && (
                         <motion.div 
                           layoutId="mood-active"
-                          className="absolute inset-0 bg-[#E8712A]/5 pointer-events-none"
+                          className="absolute inset-0 bg-[#10B981]/5 pointer-events-none"
                         />
                       )}
-                      <Icon size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                      <Icon size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                       <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                         {m.name}
                       </span>
@@ -1188,7 +1188,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   value={customMood}
                   onChange={(e) => setCustomMood(e.target.value)}
                   placeholder="Enter custom mood..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
             </div>
@@ -1198,16 +1198,16 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Lyrics Language</label>
               <button 
                 onClick={() => setShowLangSelect(!showLangSelect)}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
               >
                 <div className="text-left flex items-center gap-2">
-                  <Globe size={14} className="text-[#E8712A]" />
+                  <Globe size={14} className="text-[#10B981]" />
                   <div>
                     <div className="font-mono text-xs text-white font-medium">{state.music.language || 'Select Language'}</div>
                     <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">{selectedLang.sub}</div>
                   </div>
                 </div>
-                <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showLangSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
+                <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showLangSelect ? 'rotate-180 text-[#10B981]' : ''}`} />
               </button>
 
               <AnimatePresence>
@@ -1227,10 +1227,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                             setShowLangSelect(false);
                           }}
                           className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                            state.music.language === l.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
+                            state.music.language === l.name ? 'bg-[#10B981]/10 border border-[#10B981]/20' : 'border border-transparent'
                           }`}
                         >
-                          <span className={`font-mono text-xs font-bold tracking-tight ${state.music.language === l.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
+                          <span className={`font-mono text-xs font-bold tracking-tight ${state.music.language === l.name ? 'text-[#10B981]' : 'text-white/80'}`}>
                             {l.name}
                           </span>
                           <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{l.sub}</span>
@@ -1247,7 +1247,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   value={customLang}
                   onChange={(e) => setCustomLang(e.target.value)}
                   placeholder="Enter custom language..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
             </div>
@@ -1260,7 +1260,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 onBlur={(e) => updateMusicState({ theme: e.target.value })}
                 placeholder="De quoi parle la chanson ?"
                 rows={3}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all resize-none placeholder:text-white/20 shadow-inner"
+                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all resize-none placeholder:text-white/20 shadow-inner"
               />
             </div>
 
@@ -1268,8 +1268,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             <div>
               <div className="relative">
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Tempo (BPM)</label>
-                <div className="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl px-4 py-3 group hover:border-[#E8712A]/40 transition-all shadow-inner">
-                  <Clock size={14} className="text-[#E8712A]" />
+                <div className="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl px-4 py-3 group hover:border-[#10B981]/40 transition-all shadow-inner">
+                  <Clock size={14} className="text-[#10B981]" />
                   <input
                     type="number"
                     value={state.music.bpm || ''}
@@ -1286,12 +1286,12 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <div className="mt-6 pt-6 border-t border-white/5">
                   <button
                     onClick={() => setShowAdvancedTagsModal(true)}
-                    className="w-full group relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-[#E8712A]/5 to-transparent border border-[#E8712A]/20 hover:border-[#E8712A]/40 transition-all"
+                    className="w-full group relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-[#10B981]/5 to-transparent border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all"
                   >
                     <div className="flex items-center justify-between relative z-10">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20 group-hover:scale-110 transition-transform">
-                          <Sparkles size={16} className="text-[#E8712A]" />
+                        <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20 group-hover:scale-110 transition-transform">
+                          <Sparkles size={16} className="text-[#10B981]" />
                         </div>
                         <div className="text-left">
                           <h4 className="font-bebas text-lg tracking-widest text-white">ADVANCED DNA TAGS</h4>
@@ -1306,7 +1306,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         {state.music.advancedTags.length > 0 && (
                           <div className="flex -space-x-1">
                             {state.music.advancedTags.slice(0, 3).map((tag, i) => (
-                              <div key={i} className="w-5 h-5 rounded-full bg-[#E8712A] border border-black flex items-center justify-center">
+                              <div key={i} className="w-5 h-5 rounded-full bg-[#10B981] border border-black flex items-center justify-center">
                                 <span className="font-mono text-[8px] text-black font-bold">{tag[0]}</span>
                               </div>
                             ))}
@@ -1317,11 +1317,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                             )}
                           </div>
                         )}
-                        <ChevronDown size={16} className="text-white/20 group-hover:text-[#E8712A] transition-colors" />
+                        <ChevronDown size={16} className="text-white/20 group-hover:text-[#10B981] transition-colors" />
                       </div>
                     </div>
                     {/* Animated Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E8712A]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#10B981]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </button>
                 </div>
               </div>
@@ -1332,7 +1332,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 {[...Array(12)].map((_, i) => (
                   <div 
                     key={i} 
-                    className="w-full bg-[#E8712A] vu-meter-bar" 
+                    className="w-full bg-[#10B981] vu-meter-bar" 
                     style={{ animationDelay: `${i * 0.05}s` }}
                   />
                 ))}
@@ -1358,8 +1358,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <Mic size={14} className="text-[#E8712A]" />
+                <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                  <Mic size={14} className="text-[#10B981]" />
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg tracking-widest text-white">VOCAL PRODUCTION</h3>
@@ -1381,11 +1381,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           onClick={() => updateMusicState({ voiceType: isActive ? '' : v.name })}
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
-                              ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                              ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                               : 'bg-black/40 border-white/5 hover:border-white/20'
                           }`}
                         >
-                          <UserCircle size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                          <UserCircle size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                           <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                             {v.name}
                           </span>
@@ -1407,11 +1407,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           onClick={() => updateMusicState({ vocalTimbre: isActive ? '' : t.name })}
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
-                              ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                              ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                               : 'bg-black/40 border-white/5 hover:border-white/20'
                           }`}
                         >
-                          <Waves size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                          <Waves size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                           <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                             {t.name}
                           </span>
@@ -1427,7 +1427,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Singing Style</label>
                     <button 
                       onClick={() => setShowAllSingingStyles(!showAllSingingStyles)}
-                      className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                      className="font-mono text-[8px] text-[#10B981] hover:text-white transition-colors uppercase tracking-tighter"
                     >
                       {showAllSingingStyles ? 'Show Less' : 'Show All'}
                     </button>
@@ -1441,11 +1441,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           onClick={() => updateMusicState({ singingStyle: isActive ? '' : s.name })}
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
-                              ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                              ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                               : 'bg-black/40 border-white/5 hover:border-white/20'
                           }`}
                         >
-                          <Mic2 size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                          <Mic2 size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                           <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                             {s.name}
                           </span>
@@ -1460,7 +1460,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Vocal Presence</label>
                   <button 
                     onClick={() => setShowPresenceSelect(!showPresenceSelect)}
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                   >
                     <div className="text-left">
                       <div className="font-mono text-xs text-white font-medium">{state.music.vocalPresence || 'Select Presence'}</div>
@@ -1468,7 +1468,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         {state.music.vocalPresence === 'CUSTOM' ? 'User Defined Presence' : selectedPresence.sub}
                       </div>
                     </div>
-                    <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showPresenceSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
+                    <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showPresenceSelect ? 'rotate-180 text-[#10B981]' : ''}`} />
                   </button>
 
                   <AnimatePresence>
@@ -1488,10 +1488,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                                 setShowPresenceSelect(false);
                               }}
                               className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                                state.music.vocalPresence === p.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
+                                state.music.vocalPresence === p.name ? 'bg-[#10B981]/10 border border-[#10B981]/20' : 'border border-transparent'
                               }`}
                             >
-                              <span className={`font-mono text-xs font-bold tracking-tight ${state.music.vocalPresence === p.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
+                              <span className={`font-mono text-xs font-bold tracking-tight ${state.music.vocalPresence === p.name ? 'text-[#10B981]' : 'text-white/80'}`}>
                                 {p.name}
                               </span>
                               <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{p.sub}</span>
@@ -1508,16 +1508,16 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Vocal Technique (V5.2)</label>
                   <button 
                     onClick={() => setShowVocalTechniqueSelect(!showVocalTechniqueSelect)}
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                   >
                     <div className="text-left flex items-center gap-2">
-                      <Mic2 size={14} className="text-[#E8712A]" />
+                      <Mic2 size={14} className="text-[#10B981]" />
                       <div>
                         <div className="font-mono text-xs text-white font-medium">{state.music.vocalTechnique || 'Standard'}</div>
                         <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter">{selectedVocalTechnique.sub}</div>
                       </div>
                     </div>
-                    <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showVocalTechniqueSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
+                    <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showVocalTechniqueSelect ? 'rotate-180 text-[#10B981]' : ''}`} />
                   </button>
 
                   <AnimatePresence>
@@ -1537,10 +1537,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                                 setShowVocalTechniqueSelect(false);
                               }}
                               className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                                state.music.vocalTechnique === t.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
+                                state.music.vocalTechnique === t.name ? 'bg-[#10B981]/10 border border-[#10B981]/20' : 'border border-transparent'
                               }`}
                             >
-                              <span className={`font-mono text-xs font-bold tracking-tight ${state.music.vocalTechnique === t.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
+                              <span className={`font-mono text-xs font-bold tracking-tight ${state.music.vocalTechnique === t.name ? 'text-[#10B981]' : 'text-white/80'}`}>
                                 {t.name}
                               </span>
                               <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{t.sub}</span>
@@ -1560,7 +1560,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     defaultValue={state.music.accent}
                     onBlur={(e) => updateMusicState({ accent: e.target.value })}
                     placeholder="e.g. British, Southern, Patois..."
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
 
@@ -1568,22 +1568,22 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <div className="relative group/ref">
                   <div className="flex items-center justify-between mb-2.5 ml-1">
                     <div className="flex items-center gap-2">
-                      <div className="p-1 rounded-md bg-[#E8712A]/10">
-                        <User size={10} className="text-[#E8712A]" />
+                      <div className="p-1 rounded-md bg-[#10B981]/10">
+                        <User size={10} className="text-[#10B981]" />
                       </div>
                       <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Vocal Reference</label>
                     </div>
-                    <div className="w-1 h-1 rounded-full bg-[#E8712A]/40 group-focus-within/ref:bg-[#E8712A] transition-colors" />
+                    <div className="w-1 h-1 rounded-full bg-[#10B981]/40 group-focus-within/ref:bg-[#10B981] transition-colors" />
                   </div>
                   <textarea 
                     rows={2}
                     defaultValue={state.music.vocalReference}
                     onBlur={(e) => updateMusicState({ vocalReference: e.target.value })}
                     placeholder="e.g. Jorja Smith-like restraint, airy falsetto with deep soul resonance..."
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20 resize-none custom-scrollbar"
+                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20 resize-none custom-scrollbar"
                   />
                   <div className="absolute bottom-3 right-3 opacity-0 group-focus-within/ref:opacity-100 transition-opacity">
-                    <div className="font-mono text-[8px] text-[#E8712A] uppercase tracking-widest">Ref. Mode</div>
+                    <div className="font-mono text-[8px] text-[#10B981] uppercase tracking-widest">Ref. Mode</div>
                   </div>
                 </div>
 
@@ -1599,11 +1599,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           onClick={() => updateMusicState({ emotionLevel: isActive ? '' : e.name })}
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
-                              ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
+                              ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                               : 'bg-black/40 border-white/5 hover:border-white/20'
                           }`}
                         >
-                          <Heart size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
+                          <Heart size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
                           <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
                             {e.name}
                           </span>
@@ -1631,12 +1631,12 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             <div className="absolute bottom-2 left-2"><Screw /></div>
             <div className="absolute bottom-2 right-2"><Screw /></div>
 
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#E8712A]/50 to-transparent opacity-30" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#10B981]/50 to-transparent opacity-30" />
             
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <Activity size={14} className="text-[#E8712A]" />
+                <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                  <Activity size={14} className="text-[#10B981]" />
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg tracking-widest text-white">PERFORMANCE & DYNAMICS</h3>
@@ -1650,7 +1650,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   onChange={(e) => updateMusicState({ performanceActive: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#E8712A]"></div>
+                <div className="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#10B981]"></div>
               </label>
             </div>
 
@@ -1667,9 +1667,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
-                          <Activity size={12} className="text-[#E8712A]" /> Energy
+                          <Activity size={12} className="text-[#10B981]" /> Energy
                         </label>
-                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.energy}%</span>
+                        <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.music.energy}%</span>
                       </div>
                       <input
                         type="range"
@@ -1677,7 +1677,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         max="100"
                         value={state.music.energy}
                         onChange={(e) => updateMusicState({ energy: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                       />
                       <div className="flex justify-between mt-1">
                         <span className="font-mono text-[7px] text-white/15">Calme</span>
@@ -1688,9 +1688,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
-                          <Heart size={12} className="text-[#E8712A]" /> Emotional Intensity
+                          <Heart size={12} className="text-[#10B981]" /> Emotional Intensity
                         </label>
-                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.emotionalIntensity}%</span>
+                        <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.music.emotionalIntensity}%</span>
                       </div>
                       <input
                         type="range"
@@ -1698,7 +1698,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         max="100"
                         value={state.music.emotionalIntensity}
                         onChange={(e) => updateMusicState({ emotionalIntensity: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                       />
                       <div className="flex justify-between mt-1">
                         <span className="font-mono text-[7px] text-white/15">Neutre</span>
@@ -1709,9 +1709,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
-                          <Sparkles size={12} className="text-[#E8712A]" /> Weirdness (V5.2)
+                          <Sparkles size={12} className="text-[#10B981]" /> Weirdness (V5.2)
                         </label>
-                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.weirdness}%</span>
+                        <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.music.weirdness}%</span>
                       </div>
                       <input
                         type="range"
@@ -1719,7 +1719,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         max="100"
                         value={state.music.weirdness}
                         onChange={(e) => updateMusicState({ weirdness: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                       />
                       <div className="flex justify-between mt-1">
                         <span className="font-mono text-[7px] text-white/15">Classique</span>
@@ -1730,9 +1730,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
-                          <Flame size={12} className="text-[#E8712A]" /> Style Influence
+                          <Flame size={12} className="text-[#10B981]" /> Style Influence
                         </label>
-                        <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.styleInfluence}%</span>
+                        <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.music.styleInfluence}%</span>
                       </div>
                       <input
                         type="range"
@@ -1740,7 +1740,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         max="100"
                         value={state.music.styleInfluence}
                         onChange={(e) => updateMusicState({ styleInfluence: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                        className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                       />
                       <div className="flex justify-between mt-1">
                         <span className="font-mono text-[7px] text-white/15">Libre</span>
@@ -1754,9 +1754,9 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest flex items-center gap-2 ml-1">
-                    <Clock size={12} className="text-[#E8712A]" /> Duration (sec)
+                    <Clock size={12} className="text-[#10B981]" /> Duration (sec)
                   </label>
-                  <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.music.duration}s</span>
+                  <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.music.duration}s</span>
                 </div>
                 <input 
                   type="range"
@@ -1765,7 +1765,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   step="5"
                   value={state.music.duration}
                   onChange={(e) => updateMusicState({ duration: parseInt(e.target.value) })}
-                  className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                  className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                 />
               </div>
 
@@ -1779,14 +1779,14 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         onChange={(e) => setState(prev => ({ ...prev, manualBpm: e.target.checked, bpm: e.target.checked ? (prev.bpm || 120) : prev.bpm }))}
                         className="peer sr-only"
                       />
-                      <div className="w-4 h-4 border border-white/10 rounded bg-black/40 peer-checked:bg-[#E8712A] peer-checked:border-[#E8712A] transition-all flex items-center justify-center">
+                      <div className="w-4 h-4 border border-white/10 rounded bg-black/40 peer-checked:bg-[#10B981] peer-checked:border-[#10B981] transition-all flex items-center justify-center">
                         <Zap size={10} className={`text-white transition-opacity ${state.manualBpm ? 'opacity-100' : 'opacity-0'}`} />
                       </div>
                     </div>
                     <span className={`transition-colors ${state.manualBpm ? 'text-white' : 'text-white/30'}`}>MANUAL BPM</span>
                   </label>
                   {state.manualBpm && (
-                    <span className="font-mono text-[10px] text-[#E8712A] font-bold bg-[#E8712A]/10 px-2 py-0.5 rounded-full">{state.bpm} BPM</span>
+                    <span className="font-mono text-[10px] text-[#10B981] font-bold bg-[#10B981]/10 px-2 py-0.5 rounded-full">{state.bpm} BPM</span>
                   )}
                 </div>
                 {state.manualBpm && (
@@ -1799,7 +1799,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     step="1"
                     value={state.bpm || 120}
                     onChange={(e) => setState(prev => ({ ...prev, bpm: parseInt(e.target.value) }))}
-                    className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#E8712A] hover:bg-white/10 transition-colors"
+                    className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-[#10B981] hover:bg-white/10 transition-colors"
                   />
                 )}
               </div>
@@ -1844,7 +1844,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   whileTap={{ scale: 0.95 }}
                   onClick={handleBangerClick}
                   disabled={state.music.isGenerating || state.isGenerating}
-                  className={`px-4 py-2 sm:px-8 sm:py-4 rounded-full font-bebas text-lg sm:text-2xl tracking-[0.25em] transition-all flex items-center justify-center gap-3 relative overflow-hidden shadow-[0_0_30px_rgba(232,113,42,0.4)] hover:shadow-[0_0_50px_rgba(232,113,42,0.6)] group/btn ${
+                  className={`px-4 py-2 sm:px-8 sm:py-4 rounded-full font-bebas text-lg sm:text-2xl tracking-[0.25em] transition-all flex items-center justify-center gap-3 relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] group/btn ${
                     (state.music.isGenerating || state.isGenerating) 
                       ? 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed' 
                       : 'bg-accent text-black hover:bg-accent-hover border-2 border-accent/50'
@@ -1936,8 +1936,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
               <div className="flex items-center justify-between px-2">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                    <BarChart3 size={14} className="text-[#E8712A]" />
+                  <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                    <BarChart3 size={14} className="text-[#10B981]" />
                   </div>
                   <div>
                     <h3 className="font-bebas text-lg tracking-widest text-white">QUALITÉ DU PROMPT</h3>
@@ -1945,7 +1945,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="font-bebas text-4xl text-[#E8712A] drop-shadow-[0_0_10px_rgba(232,113,42,0.3)]">{state.music.quality.score}</span>
+                  <span className="font-bebas text-4xl text-[#10B981] drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">{state.music.quality.score}</span>
                   <span className="font-mono text-[10px] text-white/20 ml-1">/100</span>
                 </div>
               </div>
@@ -1961,25 +1961,25 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <div key={i}>
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-mono text-[9px] text-white/40 uppercase tracking-widest ml-1">{metric.label}</span>
-                      <span className="font-mono text-[10px] text-[#E8712A] font-bold">{metric.value}%</span>
+                      <span className="font-mono text-[10px] text-[#10B981] font-bold">{metric.value}%</span>
                     </div>
                     <div className="h-1 bg-white/5 rounded-full overflow-hidden shadow-inner">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${metric.value}%` }}
                         transition={{ duration: 1, delay: i * 0.1 }}
-                        className="h-full bg-gradient-to-r from-[#E8712A]/50 to-[#E8712A]"
+                        className="h-full bg-gradient-to-r from-[#10B981]/50 to-[#10B981]"
                       />
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="p-4 bg-[#E8712A]/5 border border-[#E8712A]/10 rounded-xl backdrop-blur-sm relative">
+              <div className="p-4 bg-[#10B981]/5 border border-[#10B981]/10 rounded-xl backdrop-blur-sm relative">
                 <div className="absolute top-2 left-2 opacity-20">
-                  <FileText size={10} className="text-[#E8712A]" />
+                  <FileText size={10} className="text-[#10B981]" />
                 </div>
-                <p className="font-mono text-[10px] text-[#E8712A] italic leading-relaxed text-center px-4">
+                <p className="font-mono text-[10px] text-[#10B981] italic leading-relaxed text-center px-4">
                   "{state.music.quality.message}"
                 </p>
               </div>
@@ -2009,8 +2009,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
               <div className="flex flex-col gap-3 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                 {state.music.history.map((item) => (
-                  <div key={item.id} className="p-4 bg-black/40 border border-white/5 rounded-xl group/item hover:border-[#E8712A]/30 transition-all shadow-inner relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-[#E8712A] opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                  <div key={item.id} className="p-4 bg-black/40 border border-white/5 rounded-xl group/item hover:border-[#10B981]/30 transition-all shadow-inner relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-[#10B981] opacity-0 group-hover/item:opacity-100 transition-opacity" />
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
                         <Clock size={10} className="text-white/20" />
@@ -2019,10 +2019,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       <div className="flex items-center gap-2">
                         <button 
                           onClick={() => copyToClipboard(item.sunoPrompt, `history-style-${item.id}`)}
-                          className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all"
+                          className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all"
                           title="Copy Style"
                         >
-                          {copiedText === `history-style-${item.id}` ? <CheckCircle2 size={12} className="text-[#E8712A]" /> : <FileText size={12} />}
+                          {copiedText === `history-style-${item.id}` ? <CheckCircle2 size={12} className="text-[#10B981]" /> : <FileText size={12} />}
                         </button>
                         {item.negativePrompt && (
                           <button 
@@ -2035,10 +2035,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                         )}
                         <button
                           onClick={() => copyToClipboard(item.lyrics, `history-lyrics-${item.id}`)}
-                          className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all"
+                          className="p-2 bg-white/5 rounded-lg border border-white/10 text-white/30 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all"
                           title="Copy Lyrics"
                         >
-                          {copiedText === `history-lyrics-${item.id}` ? <CheckCircle2 size={12} className="text-[#E8712A]" /> : <Mic size={12} />}
+                          {copiedText === `history-lyrics-${item.id}` ? <CheckCircle2 size={12} className="text-[#10B981]" /> : <Mic size={12} />}
                         </button>
                         <button
                           onClick={() => {
@@ -2079,8 +2079,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                    <Music size={14} className="text-[#E8712A]" />
+                  <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                    <Music size={14} className="text-[#10B981]" />
                   </div>
                   <div>
                     <h3 className="font-bebas text-lg tracking-widest text-white">IDENTITY</h3>
@@ -2090,13 +2090,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <button 
                 onClick={handleSuggestArtistAndTitle}
                 disabled={isSuggestingIdentity}
-                className="p-2 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20 hover:bg-[#E8712A]/20 transition-all group disabled:opacity-50"
+                className="p-2 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20 hover:bg-[#10B981]/20 transition-all group disabled:opacity-50"
                 title="Suggérer un nom et un titre"
               >
                 {isSuggestingIdentity ? (
-                  <Loader2 size={14} className="text-[#E8712A] animate-spin" />
+                  <Loader2 size={14} className="text-[#10B981] animate-spin" />
                 ) : (
-                  <Sparkles size={14} className="text-[#E8712A] group-hover:scale-110 transition-transform" />
+                  <Sparkles size={14} className="text-[#10B981] group-hover:scale-110 transition-transform" />
                 )}
               </button>
             </div>
@@ -2109,7 +2109,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   defaultValue={state.music.artistName || ''}
                   onBlur={(e) => updateMusicState({ artistName: e.target.value })}
                   placeholder="ARTISTE"
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/10"
+                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -2119,7 +2119,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   defaultValue={state.music.songTitle || ''}
                   onBlur={(e) => updateMusicState({ songTitle: e.target.value })}
                   placeholder="TITRE"
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/10"
+                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
                 />
               </div>
             </div>
@@ -2138,8 +2138,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-4 sm:gap-0">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <FileText size={14} className="text-[#E8712A]" />
+                <div className="p-1.5 rounded-lg bg-[#10B981]/10 border border-[#10B981]/20">
+                  <FileText size={14} className="text-[#10B981]" />
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg tracking-widest text-white">SUNO V5 PROMPT</h3>
@@ -2150,13 +2150,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <button 
                   onClick={() => handleGenerate('style')}
                   disabled={state.music.isGenerating}
-                  className="p-2 bg-white/5 rounded-xl border border-white/10 text-white/40 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all"
+                  className="p-2 bg-white/5 rounded-xl border border-white/10 text-white/40 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all"
                   title="Remix Style Only"
                 >
                   <RefreshCw size={14} className={state.music.isGenerating ? 'animate-spin' : ''} />
                 </button>
-                <div className="px-2 py-1 bg-[#E8712A]/10 rounded-lg border border-[#E8712A]/20">
-                  <span className="font-mono text-[8px] text-[#E8712A] font-bold tracking-widest uppercase">V5.2 Evolution</span>
+                <div className="px-2 py-1 bg-[#10B981]/10 rounded-lg border border-[#10B981]/20">
+                  <span className="font-mono text-[8px] text-[#10B981] font-bold tracking-widest uppercase">V5.2 Evolution</span>
                 </div>
               </div>
             </div>
@@ -2167,7 +2167,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <textarea
                     value={editedPrompt}
                     onChange={(e) => setEditedPrompt(e.target.value)}
-                    className="w-full bg-black/80 border border-[#E8712A]/40 rounded-xl p-5 font-mono text-[10px] text-white/80 leading-relaxed min-h-[120px] shadow-inner backdrop-blur-md resize-y focus:outline-none focus:border-[#E8712A]/60 focus:ring-1 focus:ring-[#E8712A]/20"
+                    className="w-full bg-black/80 border border-[#10B981]/40 rounded-xl p-5 font-mono text-[10px] text-white/80 leading-relaxed min-h-[120px] shadow-inner backdrop-blur-md resize-y focus:outline-none focus:border-[#10B981]/60 focus:ring-1 focus:ring-[#10B981]/20"
                     autoFocus
                   />
                   <div className="absolute bottom-3 right-3 flex items-center gap-2">
@@ -2182,7 +2182,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     </button>
                     <button
                       onClick={() => { updateMusicState({ sunoPrompt: editedPrompt }); setIsEditingPrompt(false); showToast('Prompt mis à jour', 'success'); }}
-                      className="px-3 py-1.5 bg-[#E8712A]/20 rounded-lg border border-[#E8712A]/40 text-[#E8712A] hover:bg-[#E8712A]/30 text-[9px] font-mono uppercase tracking-widest font-bold transition-all"
+                      className="px-3 py-1.5 bg-[#10B981]/20 rounded-lg border border-[#10B981]/40 text-[#10B981] hover:bg-[#10B981]/30 text-[9px] font-mono uppercase tracking-widest font-bold transition-all"
                     >
                       Appliquer
                     </button>
@@ -2203,17 +2203,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <>
                       <button
                         onClick={() => { setEditedPrompt(state.music.sunoPrompt); setIsEditingPrompt(true); }}
-                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
+                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#10B981] hover:border-[#10B981]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
                         title="Modifier le prompt"
                       >
                         <Edit3 size={14} />
                       </button>
                       <button
                         onClick={() => copyToClipboard(state.music.sunoPrompt, 'sunoPrompt')}
-                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
+                        className="p-2 bg-white/10 rounded-xl border border-white/10 text-white/60 hover:text-[#10B981] hover:border-[#10B981]/40 transition-all opacity-0 group-hover/prompt:opacity-100 backdrop-blur-md"
                         title="Copier le prompt"
                       >
-                        {copiedText === 'sunoPrompt' ? <CheckCircle2 size={14} className="text-[#E8712A]" /> : <Copy size={14} />}
+                        {copiedText === 'sunoPrompt' ? <CheckCircle2 size={14} className="text-[#10B981]" /> : <Copy size={14} />}
                       </button>
                     </>
                   )}
@@ -2227,14 +2227,14 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 {state.music.sunoPrompts.map((variant, idx) => (
                   <div key={idx} className="relative group/variant">
                     <div className="bg-black/40 border border-white/5 rounded-xl p-4 font-mono text-[10px] text-white/50 leading-relaxed shadow-inner hover:border-white/10 transition-all">
-                      <span className="text-[#E8712A] font-bold mr-3">V{idx + 1}</span>
+                      <span className="text-[#10B981] font-bold mr-3">V{idx + 1}</span>
                       {variant}
                     </div>
                     <button 
                       onClick={() => copyToClipboard(variant, `variant-${idx}`)}
-                      className="absolute top-2 right-2 p-2 bg-white/10 rounded-xl border border-white/10 text-white/40 hover:text-[#E8712A] hover:border-[#E8712A]/40 transition-all opacity-0 group-hover/variant:opacity-100 backdrop-blur-md"
+                      className="absolute top-2 right-2 p-2 bg-white/10 rounded-xl border border-white/10 text-white/40 hover:text-[#10B981] hover:border-[#10B981]/40 transition-all opacity-0 group-hover/variant:opacity-100 backdrop-blur-md"
                     >
-                      {copiedText === `variant-${idx}` ? <CheckCircle2 size={12} className="text-[#E8712A]" /> : <Copy size={12} />}
+                      {copiedText === `variant-${idx}` ? <CheckCircle2 size={12} className="text-[#10B981]" /> : <Copy size={12} />}
                     </button>
                   </div>
                 ))}
@@ -2268,17 +2268,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               return (
                 <div className="mt-4 flex flex-col gap-3">
                   <div className="flex items-center gap-2 ml-1">
-                    <Sliders size={12} className="text-[#E8712A]/80" />
-                    <span className="font-mono text-[9px] text-[#E8712A]/80 uppercase tracking-widest font-bold">Sonic DNA — Auto-applied · {state.music.inspiredBy}</span>
+                    <Sliders size={12} className="text-[#10B981]/80" />
+                    <span className="font-mono text-[9px] text-[#10B981]/80 uppercase tracking-widest font-bold">Sonic DNA — Auto-applied · {state.music.inspiredBy}</span>
                   </div>
                   <div className="grid grid-cols-4 gap-2">
-                    <div className="bg-[#E8712A]/5 border border-[#E8712A]/15 rounded-xl p-3 text-center">
-                      <span className="font-mono text-[7px] text-[#E8712A]/70 block mb-1 uppercase tracking-wider">Weirdness</span>
+                    <div className="bg-[#10B981]/5 border border-[#10B981]/15 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-[#10B981]/70 block mb-1 uppercase tracking-wider">Weirdness</span>
                       <span className="font-mono text-lg text-white/90 font-bold">{dnaSettings.weirdness}</span>
                       <span className="font-mono text-[8px] text-white/25 ml-0.5">/100</span>
                     </div>
-                    <div className="bg-[#E8712A]/5 border border-[#E8712A]/15 rounded-xl p-3 text-center">
-                      <span className="font-mono text-[7px] text-[#E8712A]/70 block mb-1 uppercase tracking-wider">Style Infl.</span>
+                    <div className="bg-[#10B981]/5 border border-[#10B981]/15 rounded-xl p-3 text-center">
+                      <span className="font-mono text-[7px] text-[#10B981]/70 block mb-1 uppercase tracking-wider">Style Infl.</span>
                       <span className="font-mono text-lg text-white/90 font-bold">{dnaSettings.styleInfluence}</span>
                       <span className="font-mono text-[8px] text-white/25 ml-0.5">%</span>
                     </div>
@@ -2301,22 +2301,22 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
             <div className="mt-6 pt-6 border-t border-white/5">
               <div className="flex items-center gap-2 mb-3 ml-1">
-                <div className="p-1 rounded bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <HelpCircle size={10} className="text-[#E8712A]" />
+                <div className="p-1 rounded bg-[#10B981]/10 border border-[#10B981]/20">
+                  <HelpCircle size={10} className="text-[#10B981]" />
                 </div>
                 <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest font-bold">Suno V5.2 Workflow Guide</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
-                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 1</span>
+                  <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 1</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Style Prompt</span> dans la case "Style of Music" de Suno.</p>
                 </div>
                 <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
-                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 2</span>
+                  <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 2</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Negative Prompt</span> dans "Exclude Styles" (Custom Mode).</p>
                 </div>
                 <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
-                  <span className="font-mono text-[8px] text-[#E8712A] block mb-1">STEP 3</span>
+                  <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 3</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez les <span className="text-white/60">Lyrics</span>. Les balises [ ] et ( ) sont déjà optimisées.</p>
                 </div>
               </div>
@@ -2334,8 +2334,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-4 sm:gap-0 mb-6 sticky top-0 z-10 bg-[#0c0c0c]/40 backdrop-blur-xl py-2">
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
-                  <Mic size={18} className="text-[#E8712A]" />
+                <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
+                  <Mic size={18} className="text-[#10B981]" />
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg sm:text-xl tracking-widest text-white/90">LYRICAL ARCHITECTURE</h3>
@@ -2346,7 +2346,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <button 
                   onClick={() => handleGenerate('lyrics')}
                   disabled={state.music.isGenerating}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-white/60 hover:text-[#E8712A] hover:bg-[#E8712A]/10 hover:border-[#E8712A]/40 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md"
+                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-white/60 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md"
                   title="Remix & Refine Lyrics to match artist style"
                 >
                   <RefreshCw size={14} className={state.music.isGenerating ? 'animate-spin' : ''} />
@@ -2355,7 +2355,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 {state.music.lyrics && (
                   <button 
                     onClick={() => copyToClipboard(state.music.lyrics.map(v => `[${v.type}]\n${v.text}`).join('\n\n'), 'lyrics')}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#E8712A] rounded-xl text-black hover:bg-[#ff7d2f] transition-all font-mono text-[10px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(232,113,42,0.3)]"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#10B981] rounded-xl text-black hover:bg-[#ff7d2f] transition-all font-mono text-[10px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(16,185,129,0.3)]"
                   >
                     {copiedText === 'lyrics' ? <CheckCircle2 size={14} /> : <Copy size={14} />}
                     {copiedText === 'lyrics' ? 'Copié !' : 'Copier Tout'}
@@ -2364,7 +2364,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             </div>
             
-            <div className="flex-1 p-4 sm:p-8 lg:p-12 overflow-y-auto font-mono text-xs sm:text-sm text-white/40 leading-loose whitespace-pre-wrap selection:bg-[#E8712A]/30 selection:text-[#E8712A] custom-scrollbar bg-[radial-gradient(circle_at_top_right,rgba(232,113,42,0.03),transparent_40%)]">
+            <div className="flex-1 p-4 sm:p-8 lg:p-12 overflow-y-auto font-mono text-xs sm:text-sm text-white/40 leading-loose whitespace-pre-wrap selection:bg-[#10B981]/30 selection:text-[#10B981] custom-scrollbar bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.03),transparent_40%)]">
               {state.music.lyrics && state.music.lyrics.length > 0 ? (
                 <div className="relative max-w-2xl mx-auto space-y-4">
                   {state.music.lyrics.map((verse, i) => (
@@ -2373,10 +2373,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 + i * 0.05 }}
-                      className="group relative bg-[#0c0c0c] border border-white/5 rounded-xl p-5 hover:border-[#E8712A]/30 transition-all"
+                      className="group relative bg-[#0c0c0c] border border-white/5 rounded-xl p-5 hover:border-[#10B981]/30 transition-all"
                     >
                       <div className="flex justify-between items-center mb-3">
-                        <span className="font-mono text-[9px] text-[#E8712A] font-bold uppercase tracking-widest bg-[#E8712A]/10 px-2 py-1 rounded">
+                        <span className="font-mono text-[9px] text-[#10B981] font-bold uppercase tracking-widest bg-[#10B981]/10 px-2 py-1 rounded">
                           {verse.type}
                         </span>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -2413,7 +2413,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <div className="h-full flex flex-col items-center justify-center text-center opacity-10 grayscale">
                   <div className="relative">
                     <Mic size={64} className="mb-6" />
-                    <div className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-[#E8712A] animate-ping" />
+                    <div className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-[#10B981] animate-ping" />
                   </div>
                   <p className="font-bebas text-3xl tracking-[0.3em]">AUCUNE PAROLE GÉNÉRÉE</p>
                   <p className="font-mono text-[11px] uppercase mt-3 tracking-widest">Configurez le style et cliquez sur générer</p>
@@ -2423,17 +2423,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               {state.music.lipSyncExcerpt && (
                 <div className="mt-10 sm:mt-16 pt-10 sm:pt-16 border-t border-white/5 max-w-2xl mx-auto">
                   <div className="flex items-center gap-3 mb-6 sm:mb-8">
-                    <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
-                      <VideoIcon size={16} className="text-[#E8712A] sm:w-[18px] sm:h-[18px]" />
+                    <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
+                      <VideoIcon size={16} className="text-[#10B981] sm:w-[18px] sm:h-[18px]" />
                     </div>
-                    <span className="font-bebas text-lg sm:text-xl tracking-widest text-[#E8712A]">GUIDE LIP-SYNC (15 SEC)</span>
+                    <span className="font-bebas text-lg sm:text-xl tracking-widest text-[#10B981]">GUIDE LIP-SYNC (15 SEC)</span>
                   </div>
-                  <div className="bg-[#E8712A]/5 border border-[#E8712A]/10 rounded-2xl p-4 sm:p-8 backdrop-blur-sm relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-[#E8712A] opacity-50" />
-                    <p className="font-mono text-[9px] sm:text-[11px] text-[#E8712A]/70 mb-6 sm:mb-8 leading-relaxed italic">
+                  <div className="bg-[#10B981]/5 border border-[#10B981]/10 rounded-2xl p-4 sm:p-8 backdrop-blur-sm relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-[#10B981] opacity-50" />
+                    <p className="font-mono text-[9px] sm:text-[11px] text-[#10B981]/70 mb-6 sm:mb-8 leading-relaxed italic">
                       Utilisez ce guide pour synchroniser précisément les mouvements de bouche sur votre vidéo Suno. Les mentions entre crochets indiquent l'émotion, et les barres obliques la phonétique.
                     </p>
-                    <div className="whitespace-pre-wrap font-mono text-[11px] sm:text-[13px] text-white/80 leading-loose bg-black/60 p-4 sm:p-8 rounded-xl border border-white/5 shadow-inner group-hover:border-[#E8712A]/20 transition-all">
+                    <div className="whitespace-pre-wrap font-mono text-[11px] sm:text-[13px] text-white/80 leading-loose bg-black/60 p-4 sm:p-8 rounded-xl border border-white/5 shadow-inner group-hover:border-[#10B981]/20 transition-all">
                       {state.music.lipSyncExcerpt}
                     </div>
                   </div>
@@ -2529,8 +2529,8 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
       >
         <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
-              <User size={20} className="text-[#E8712A]" />
+            <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
+              <User size={20} className="text-[#10B981]" />
             </div>
             <div>
               <h2 className="font-bebas text-2xl tracking-widest text-white">SELECT ARTIST DNA</h2>
@@ -2547,13 +2547,13 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
 
         <div className="p-6 bg-black/40">
           <div className="relative group">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#E8712A] transition-colors" />
+            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#10B981] transition-colors" />
             <input
               type="text"
               value={artistSearch}
               onChange={(e) => setArtistSearch(e.target.value)}
               placeholder="Search by name, genre, or style..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-6 py-4 font-mono text-sm text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20 shadow-inner"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-6 py-4 font-mono text-sm text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20 shadow-inner"
               autoFocus
             />
           </div>
@@ -2570,20 +2570,20 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
                 }}
                 className={`text-left p-4 rounded-2xl transition-all flex flex-col gap-1 group relative overflow-hidden ${
                   selectedArtist === a.name 
-                    ? 'bg-[#E8712A]/10 border border-[#E8712A]/40 shadow-[0_0_20px_rgba(232,113,42,0.1)]' 
+                    ? 'bg-[#10B981]/10 border border-[#10B981]/40 shadow-[0_0_20px_rgba(16,185,129,0.1)]' 
                     : 'bg-white/[0.02] border border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
                 }`}
               >
                 <div className="flex items-center justify-between relative z-10">
-                  <span className={`font-mono text-sm font-bold tracking-tight ${selectedArtist === a.name ? 'text-[#E8712A]' : 'text-white/80 group-hover:text-white'}`}>
+                  <span className={`font-mono text-sm font-bold tracking-tight ${selectedArtist === a.name ? 'text-[#10B981]' : 'text-white/80 group-hover:text-white'}`}>
                     {a.name}
                   </span>
-                  {selectedArtist === a.name && <CheckCircle2 size={14} className="text-[#E8712A]" />}
+                  {selectedArtist === a.name && <CheckCircle2 size={14} className="text-[#10B981]" />}
                 </div>
                 <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest relative z-10 group-hover:text-white/50 transition-colors">{a.sub}</span>
                 
                 {/* Hover Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#E8712A]/0 to-[#E8712A]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/0 to-[#10B981]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
             ))}
           </div>
@@ -2599,7 +2599,7 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
                   onCustomSelect(artistSearch);
                   onClose();
                 }}
-                className="px-6 py-3 bg-[#E8712A]/10 border border-[#E8712A]/20 rounded-xl font-mono text-[10px] text-[#E8712A] hover:bg-[#E8712A] hover:text-black transition-all uppercase font-bold tracking-widest"
+                className="px-6 py-3 bg-[#10B981]/10 border border-[#10B981]/20 rounded-xl font-mono text-[10px] text-[#10B981] hover:bg-[#10B981] hover:text-black transition-all uppercase font-bold tracking-widest"
               >
                 Use "{artistSearch}" as custom artist
               </button>
@@ -2650,8 +2650,8 @@ const AdvancedTagsModal: React.FC<{
       >
         <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-[#E8712A]/10 border border-[#E8712A]/20">
-              <Sparkles size={20} className="text-[#E8712A]" />
+            <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
+              <Sparkles size={20} className="text-[#10B981]" />
             </div>
             <div>
               <h2 className="font-bebas text-2xl tracking-widest text-white">ADVANCED DNA TAGS</h2>
@@ -2659,8 +2659,8 @@ const AdvancedTagsModal: React.FC<{
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="px-3 py-1.5 rounded-full bg-[#E8712A]/10 border border-[#E8712A]/20">
-              <span className="font-mono text-[10px] text-[#E8712A] font-bold">{selectedTags.length} SELECTED</span>
+            <div className="px-3 py-1.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/20">
+              <span className="font-mono text-[10px] text-[#10B981] font-bold">{selectedTags.length} SELECTED</span>
             </div>
             <button 
               onClick={onClose}
@@ -2689,20 +2689,20 @@ const AdvancedTagsModal: React.FC<{
                       onClick={() => onSelect(tag.name)}
                       className={`text-left p-3 rounded-xl transition-all flex flex-col gap-1 group relative overflow-hidden border ${
                         isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.05)]' 
+                          ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.05)]' 
                           : 'bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
                       }`}
                     >
                       <div className="flex items-center justify-between relative z-10">
-                        <span className={`font-mono text-[10px] font-bold tracking-tight ${isActive ? 'text-[#E8712A]' : 'text-white/60 group-hover:text-white'}`}>
+                        <span className={`font-mono text-[10px] font-bold tracking-tight ${isActive ? 'text-[#10B981]' : 'text-white/60 group-hover:text-white'}`}>
                           {tag.name}
                         </span>
-                        {isActive && <CheckCircle2 size={10} className="text-[#E8712A]" />}
+                        {isActive && <CheckCircle2 size={10} className="text-[#10B981]" />}
                       </div>
                       <span className="font-mono text-[8px] text-white/20 uppercase tracking-tighter relative z-10 group-hover:text-white/40 transition-colors">{tag.sub}</span>
                       
                       {/* Hover Glow */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#E8712A]/0 to-[#E8712A]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/0 to-[#10B981]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
                   );
                 })}
@@ -2715,7 +2715,7 @@ const AdvancedTagsModal: React.FC<{
           <p className="font-mono text-[8px] text-white/20 uppercase tracking-[0.2em]">Select multiple tags to refine the AI's musical direction</p>
           <button 
             onClick={onClose}
-            className="px-8 py-3 bg-[#E8712A] text-black rounded-xl font-bebas text-xl tracking-widest hover:bg-[#ff7d33] transition-all shadow-[0_0_20px_rgba(232,113,42,0.2)]"
+            className="px-8 py-3 bg-[#10B981] text-black rounded-xl font-bebas text-xl tracking-widest hover:bg-[#ff7d33] transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
           >
             CONFIRM SELECTION
           </button>
