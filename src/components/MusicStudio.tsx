@@ -556,6 +556,49 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     <div className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative">
       <div className="scanline-effect" />
 
+      {/* PERSISTENT SUMMARY BAR — Sticky DNA snapshot at top of studio */}
+      <div className="sticky top-0 z-30 backdrop-blur-md bg-black/70 border-b border-[#10B981]/20 px-4 py-2 flex items-center gap-3 text-[10px] font-mono uppercase tracking-tighter overflow-x-auto">
+        <span className="flex items-center gap-1.5 shrink-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_6px_#10B981]" />
+          <span className="text-white/40">DNA</span>
+        </span>
+        <span className="text-white/20">·</span>
+        <span className="shrink-0">
+          <span className="text-white/30">Artist:</span>{' '}
+          <span className="text-[#10B981] font-bold">{state.music.inspiredBy || '—'}</span>
+        </span>
+        {state.music.secondaryInspiredBy && state.music.secondaryInspiredBy !== 'none' && (
+          <>
+            <span className="text-white/20">·</span>
+            <span className="shrink-0">
+              <span className="text-white/30">×</span>{' '}
+              <span className="text-[#10B981]/70">{state.music.secondaryInspiredBy}</span>
+            </span>
+          </>
+        )}
+        {selectedHarmonicPreset && (
+          <>
+            <span className="text-white/20">·</span>
+            <span className="shrink-0">
+              <span className="text-white/30">Preset:</span>{' '}
+              <span className="text-[#10B981]">{HARMONIC_PRESETS.find(p => p.id === selectedHarmonicPreset)?.label || selectedHarmonicPreset}</span>
+            </span>
+          </>
+        )}
+        {state.music.genre && (
+          <>
+            <span className="text-white/20">·</span>
+            <span className="shrink-0 text-white/50">{state.music.genre}</span>
+          </>
+        )}
+        {state.music.mood && (
+          <>
+            <span className="text-white/20">·</span>
+            <span className="shrink-0 text-white/50">{state.music.mood}</span>
+          </>
+        )}
+      </div>
+
       {/* Toast Notification */}
       <AnimatePresence>
         {toastMessage && (
@@ -2491,6 +2534,35 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           />
         )}
       </AnimatePresence>
+
+      {/* FLOATING STICKY GENERATE BUTTON — quick-access mirror of BANGER */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.92 }}
+        onClick={() => !state.music.isGenerating && handleGenerate('all')}
+        disabled={state.music.isGenerating}
+        className={`fixed bottom-6 right-6 z-40 px-5 py-3 rounded-full font-bebas text-sm tracking-[0.2em] flex items-center gap-2 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.7)] transition-all border-2 ${
+          state.music.isGenerating
+            ? 'bg-white/10 text-white/40 border-white/10 cursor-not-allowed'
+            : 'bg-[#10B981] text-black border-[#10B981]/60 hover:bg-[#34D399]'
+        }`}
+        title="Generate (⌘↵)"
+      >
+        {state.music.isGenerating ? (
+          <>
+            <RefreshCw size={14} className="animate-spin" />
+            <span>GEN…</span>
+          </>
+        ) : (
+          <>
+            <Zap size={14} className="fill-current" />
+            <span>GENERATE</span>
+            <span className="font-mono text-[7px] opacity-50 ml-1">⌘↵</span>
+          </>
+        )}
+      </motion.button>
     </div>
   );
 };
