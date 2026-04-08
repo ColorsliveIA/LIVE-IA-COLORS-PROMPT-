@@ -2,6 +2,7 @@
  * Artist-specific instruction profiles for Gemini prompt generation.
  * v4 — Axe 1 (structure uniform) / Axe 2 (contradictions fixed) / Function audit
  * v4.1 — SDM: deep bass voice enforcement, powerful hooks
+ * v4.2 — Option B: enriched writing DNA for 6 key FR rap categories
  */
 
 export interface ArtistProfile {
@@ -740,46 +741,57 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
   const upper = (inspiredBy + ' ' + genre).toUpperCase();
 
   const dnaMap: Record<string, string> = {
-    'RAP_FR': `FRENCH RAP DNA:
-- Verlan, street slang ("charbon", "moula", "wesh", "frero", "daronne", "les keufs").
-- Themes: street life, melancholy of success, betrayal, loyalty, survival, money.
-- Flow: choppy percussive OR floating melodic. Internal rhymes prioritized.
-- Language: raw French, authentic, never academic.`,
+    // ── OPTION B v4.2 — Enriched writing DNA for key FR categories ──
+
+    'RAP_FR': `FRENCH RAP WRITING DNA:
+- REGISTER: Verlan + street slang mandatory ("charbon", "moula", "wesh", "frero", "daronne", "les keufs", "caillera", "ouf", "meuf", "vénère"). Dosage: 40-60% of verse lines contain at least one street marker. Vulgarités at line-end for sonic closure (1-3 per verse max), NOT every line.
+- EMOTIONAL TERRITORY: Identify ONE dominant territory before writing — survival/betrayal/melancholy-of-success/loyalty/raw-money — and stay in it. If the last track was melancholic, this one should push toward aggression or celebration.
+- CONCRETE IMAGES over abstraction: favelas, halls d'immeuble, carrelage frais, clés sur le comptoir, billets humides, portables grillés, voitures de location, fenêtres barricadées. NEVER "ma vie est un enfer" — ALWAYS "j'dors sur le sol de la cuisine depuis trois jours".
+- FLOW: choppy percussive (hard consonants, phrase-end stab) OR floating melodic (long syllables riding the 808). Internal rhymes on 8th/12th syllable. Lines 6-10 syllables max for aggressive delivery.
+- ANTI-CLICHE: Banned default images — nuit, feu, or, silence, yeux, ciel, luxe, empire, trône, néon. Replace with specific concrete object or behavior.
+- Language: raw French, authentic, never academic. Contractions as heard: "j'vais", "t'as", "y'a", "j'suis".`,
 
     'MELODIC_STREET_POP': `MELODIC STREET POP (MARSEILLE) DNA:
 - Omnipresent melodic autotune — voice always singing, never dry rap.
 - Themes: neighborhood loyalty, street love, Mediterranean sunshine and melancholy.
-- Flow: ultra-melodic, fast, bouncy. Signature piano + punchy 808.
-- Language: French with Marseille open vowels and elisions.
-- FORBIDDEN: dry rap flow.`,
+- Flow: ultra-melodic, fast, bouncy. Signature piano + punchy 808. Open vowels on long syllables.
+- Language: French with Marseille open vowels and elisions. "j'ai", "t'as", "c'est" contracted naturally.
+- FORBIDDEN: dry rap flow. Every line must be singable.`,
 
-    'US_UK_RAP': `US/UK RAP DNA:
+    'US_UK_RAP': `US/UK RAP WRITING DNA:
 - Language: English imperatively.
-- Slang: "no cap", "opps", "sliding", "stacks", "gang", "move different", "drip".
-- Flow: melodic trap OR dark psychedelic OR drill. Triplet flows, ad-libs, punch-in delivery.`,
+- Slang: "no cap", "opps", "sliding", "stacks", "gang", "move different", "drip", "on sight", "feds watching".
+- Flow: melodic trap (behind-the-beat floating) OR dark psychedelic (ad-lib chains) OR drill (ahead-of-beat stabbing). Triplet flows, punch-in delivery, breath-heavy phrasing.
+- Concrete images: Uber receipts, hotel room service, security cameras, courtroom dates, wire transfers, trap phone, rented Bentley.`,
 
-    'DRILL_FR': `FRENCH DRILL DNA:
-- Sliding aggressive 808s, frantic triplet hi-hats, dark minor piano.
-- Syncopated brutal flow with dramatic pauses between bars.
-- Raw territorial language — street, violent, menacing. Pure aggression. NEVER melodic singing hooks.`,
+    'DRILL_FR': `FRENCH DRILL WRITING DNA:
+- DELIVERY: Syncopated brutal flow with dramatic pauses between bars. Voice IS the percussion — hard consonant attacks, short sharp phrases (4-8 syllables), deliberate silence between lines.
+- REGISTER: Dense street slang + verlan in 50-70% of lines. Vulgarités at LINE-END as sonic violence ("bâtard", "fils de pute" — once per section, not every line). Territorial naming (93, Sevran, Aubervilliers, Val-de-Marne).
+- CONCRETE IMAGES: pas des métaphores — des faits: descentes de flics, têtes brûlées au coin, argent caché dans les murs, GSM avec clé SIM jetable, semelles trempées à 3h du mat.
+- FORBIDDEN: melodic singing hooks, uplifting messages, academic French, any decorative abstraction.
+- HOOK: chant hook — short repeated phrase (3-6 syllables), aggressive, territorial, crowd-repeatable slogan.`,
 
-    'DARK_TRAP_MELODIC': `DARK TRAP MELODIC (BELGIAN / DAMSO) DNA:
-- Rap-first: staccato flow, phrase-end doubling, short echo delays. Cold metallic autotune — NEVER warm R&B.
-- Dark minor key piano loops, haunting pads, sliding distorted 808, crisp metallic hi-hats. 130-142 BPM.
-- Themes: dark philosophy, sexuality as weapon, existential duality, Belgian noir, intellectual provocation.
-- Language: rich sophisticated French, complex metaphors, permanent double meaning, Belgian slang.`,
+    'DARK_TRAP_MELODIC': `DARK TRAP MELODIC (BELGIAN / DAMSO) WRITING DNA:
+- RAP-FIRST: staccato flow, phrase-end doubling, short echo delays. Cold metallic autotune — NEVER warm R&B register.
+- DOUBLE SENS PERMANENT: every line must work on two levels simultaneously — surface meaning (street/sexual) and deeper philosophical meaning. This ambiguity IS the style.
+- SENSUALITÉ LEXICALE: sensuality as intellectual territory, not decoration. Specific body, texture, action — never vague "désir".
+- RUPTURES SYNTAXIQUES: deliberate broken syntax, half-sentences, subject without verb. Creates cold menacing effect.
+- Language: rich sophisticated French, complex metaphors, Belgian slang, permanent implied threat or seduction.
+- Dark minor key piano loops, haunting pads, sliding 808, metallic hi-hats. 130-142 BPM.
+- FORBIDDEN: warm R&B autotune, afro-pop, singing as primary delivery.`,
 
-    'DARK_LYRICAL': `DARK LYRICAL DNA:
+    'DARK_LYRICAL': `DARK LYRICAL WRITING DNA:
 - Dense technical flow — zero melody, syllable = percussion.
+- Multi-layered references: geopolitics, esoterism, anime, film noir, history — stacked in same verse.
 - Dark boom-bap/drill hybrid, pitched orchestral samples, cinematic bleakness.
-- Occult, cultural, multi-layered references. Rap as intellectual weapon.`,
+- Flow: surgical cold precision. Occult, hermetic, coded. Rap as intellectual weapon.`,
 
     'REGGAETON': `REGGAETON / LATIN URBAN DNA:
 - Dembow riddim is mandatory (syncopated kick pattern).
 - Spanish rhythmic flow, catchy danceable hooks, sensual party themes.
 - Production: bouncy round bass, Latin synths, reggaeton percussion.`,
 
-    'AFROBEATS': `AFROBEATS DNA:
+    'AFROBEATS': `AFROBEATS WRITING DNA:
 - Authentic afro percussion (log drums, talking drums, congas, shekere).
 - Infectious grooves, joyful melodies, call-and-response hooks, positive energy.
 - Themes: celebration, cultural pride, dance, love, Africa.
@@ -790,7 +802,7 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Festive positive tropical dancefloor energy — never dark or heavy.
 - Language: Creole/Patois blended with French.`,
 
-    'MAGHREB': `MAGHREB / RAI DNA:
+    'MAGHREB': `MAGHREB / RAI WRITING DNA:
 - Oriental instrumentation (oud, derbouka, qanun, violin, accordion).
 - Melodies in Arabic scales, raw emotional delivery.
 - Themes: nostalgia (Houma), exile, love, celebration. French-Darija bilingual mix.
@@ -801,26 +813,29 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Rap/singing alternation, festive yet melancholic energy.
 - Themes: success, love, dance, quartier pride, Congolese/African cultural identity.`,
 
-    'STORYTELLING': `STORYTELLING / ALT-RAP DNA:
+    'STORYTELLING': `STORYTELLING / ALT-RAP WRITING DNA:
 - Poetic narrative flow — conversational, literary, never rushed.
+- Each verse advances the story: context → tension → revelation. No paraphrasing of the same idea.
 - Organic production: jazz piano, acoustic guitar, live drums, warm bass.
 - Themes: introspection, dark humor, everyday absurdity, social observation.
-- Language: French literary register mixed with modern slang.`,
+- Language: French literary register mixed with modern slang. Irony delivered deadpan.`,
 
     'ELECTRO': `ELECTRO / HOUSE DNA:
 - Precise electronic production, dominant synths, four-on-the-floor or house groove.
 - Vocal chops, vocoder, or minimal house vocal hooks.
 - Structure: build-up, peak, drop. Energy for dancefloor.`,
 
-    'MELODIC_TRAP': `MELODIC TRAP DNA:
+    'MELODIC_TRAP': `MELODIC TRAP WRITING DNA:
 - Melodic autotune throughout — smooth rap/singing alternation.
 - Deep 808s, dark melodies (piano, guitar), complex hi-hats, atmospheric pads.
-- Themes: nocturnal introspection, success and melancholy, loyalty, night.`,
+- Themes: nocturnal introspection, success and melancholy, loyalty, night.
+- Hooks must hit emotionally — not just be melodically pretty.`,
 
-    'HARDCORE': `HARDCORE RAP DNA:
+    'HARDCORE': `HARDCORE RAP WRITING DNA:
 - Deep aggressive voice, zero melody, maximum dominance.
 - Massive production: dark orchestral OR heavy trap. Cinematic aggression.
-- Themes: power, confrontation, survival, street credibility, domination.`,
+- Themes: power, confrontation, survival, street credibility, domination.
+- Lines must be short and final — no subordinate clauses, no hesitation.`,
 
     'NEO_SOUL': `NEO-SOUL / ALTERNATIVE R&B DNA:
 - Warm organic production — live instruments, Rhodes piano, acoustic guitar.
@@ -840,11 +855,14 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Themes: spiritual connection, feminine strength, African heritage, quiet power.
 - Language: English with Nigerian inflection.`,
 
-    'CLOUD_RAP': `CLOUD RAP DNA:
-- Floating ethereal autotune, slow deep 808s, massive reverb.
-- Minimalist but immersive production — space and silence are weapons.
-- Themes: introspection, melancholy, hovering between worlds, solitude, family bonds.
-- Language: French, introspective register, simple vocabulary with emotional weight.`,
+    'CLOUD_RAP': `CLOUD RAP — PNL ARCHITECTURE (TWO-LAYER MANDATORY):
+- LAYER 1 — DOMESTIC REAL: objects, gestures, the apartment, silence, la daronne, concrete, everyday textures — carrelage froid, couverture grise, robinet qui goutte, SMS sans réponse, téléphone en mode avion.
+- LAYER 2 — CHARGED REFERENCE: video games, geography, mythology, nature, cinema, manga — encoded with philosophical weight. Kratos = chosen solitude + family only. Epona = freedom as only accessible luxury. Uranus = what the cité can't buy but the sky gives free.
+- PUNCHLINE = COLLISION BETWEEN THE TWO LAYERS in one line. Without this collision, it's flat realism.
+- REGISTER: neither purely street nor purely poetic — both simultaneously in the same line. Surreal, sensual, and true at once.
+- PNL NEVER: explains intentions, moralizes, delivers conclusions. They place the image and leave.
+- Language: French, introspective, simple vocabulary with enormous emotional gravity. Breathy, almost sung, never shouted.
+- FORBIDDEN fast or aggressive flow.`,
 
     'ZOUK': `ZOUK / ISLAND R&B DNA:
 - Zouk groove rhythm, warm Caribbean bass, drum machine groove.
@@ -859,12 +877,13 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Language: French — literary, accessible, ironic. Write poetry that works over a dance beat.
 - RULE: The theme must be DARK but the PRODUCTION must make you want to DANCE.`,
 
-    'CINEMATIC_TRAP_FR': `CINEMATIC DARK TRAP (SCH / MARSEILLE) DNA:
-- Orchestral grandeur meets trap darkness. Think movie score + French street rap.
-- Themes: Marseille luxury, dark poetry, patience, power, cinematic storytelling.
-- Flow: deliberate, measured, dramatic pauses. Deep authoritative voice, precise bars.
-- Production: orchestral strings, brass stabs, heavy 808, reverb-drenched pads, hi-end polish.
-- Language: French — dark literary vocabulary, strategic metaphors, Marseille references.`,
+    'CINEMATIC_TRAP_FR': `CINEMATIC DARK TRAP WRITING DNA (SCH / MARSEILLE):
+- TONE: Deliberate, measured, never rushed. Deep authoritative presence — silence between lines is power.
+- VOCABULARY: dark literary — not poetic, but precise and cold. "La patience comme une lame" not "j'attends". Specific Marseille geography: les quartiers Nord, l'Estaque, la Corniche, la rue de la République.
+- IMAGES: domination through objects and logistics — les clés, les billets comptés, le silence dans une salle d'audience, une Mercedes garée trop longtemps au même endroit.
+- FLOW: long measured bars (10-14 syllables), dramatic pauses between strophes, no filler syllables.
+- HOOK: dark melodic refrain — not a pop chorus. One authoritative phrase repeated with orchestral swell.
+- FORBIDDEN: cheerful, lo-fi, frantic delivery, anything that sounds improvised.`,
 
     'AFRO_TRAP_FESTIF': `AFRO-TRAP FESTIF (NISKA / MHD) DNA:
 - Pure celebration energy — bounce, party, pride, dance.
@@ -928,11 +947,14 @@ export function getRelevantWritingDNA(inspiredBy: string, genre: string): string
 - Flow: dense multisyllabic rhymes, storytelling narrative, classic NY cadence. NO autotune.
 - Language: English — rich NY street vocabulary, literary depth, complex wordplay.`,
 
-    'MELODIC_STREET_FR': `MELODIC STREET TRAP (WERENOI / NIRO / MAES) DNA:
-- Raw emotional authenticity over dark melodic trap. Sincerity above all.
-- Melodic autotune on hooks, percussive raw rap on verses. Close-mic intimate feel.
-- Themes: street pain, family loyalty, survival, emotional vulnerability, nocturnal introspection.
-- Language: French — authentic street vocabulary, emotional directness, no artifice.`,
+    'MELODIC_STREET_FR': `MELODIC STREET TRAP WRITING DNA (WERENOI / NIRO / MAES):
+- SINCERITY OVER TECHNIQUE: every line must feel LIVED, not crafted. The speaker is in pain or has been. No decorative suffering.
+- SHORT IMPACTFUL LINES: 6-10 syllables maximum. Weight through compression, not density.
+- CONFESSIONS NOT GENERALIZATIONS: "j'ai pleuré dans les chiottes du tribunal" not "les épreuves m'ont forgé". Specific act, specific place.
+- Melodic autotune on hooks (emotional peak), percussive raw rap on verses. Close-mic intimate feel.
+- HOOK: one emotionally charged phrase that carries the whole track. Simple melody, maximum weight.
+- Themes: street pain, family loyalty, survival, authentic vulnerability, nocturnal introspection.
+- Language: French — authentic street vocabulary, emotional directness, no artifice. Contractions natural.`,
 
     'HARDCORE_MEDITERRANEAN': `HARDCORE MEDITERRANEAN TRAP (LACRIM) DNA:
 - Hard, direct, authoritative. Mediterranean gangster atmosphere meets French trap.
