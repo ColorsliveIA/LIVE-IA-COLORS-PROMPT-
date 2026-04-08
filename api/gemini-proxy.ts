@@ -58,21 +58,25 @@ function isRateLimited(ip: string): { limited: boolean; retryAfter?: number } {
 // ── Allowed models — gemini-2.0-flash removed (no longer available) ──
 const ALLOWED_MODELS = new Set([
   "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.5-pro",
   "gemini-2.5-flash-preview-05-20",
-  // Legacy redirect aliases — mapped to gemini-2.5-flash in fallback chain
+  // Legacy aliases — mapped via MODEL_FALLBACKS
   "gemini-2.0-flash",
   "gemini-2.0-flash-lite",
   "gemini-3-flash-preview",
 ]);
 
 // ── Model fallback chain ─────────────────────────────────────────────
-// gemini-2.0-flash is dead (NOT_FOUND for new users) → always fallback to gemini-2.5-flash
+// On 503/404, walk this chain across LIVE alternative models.
 const MODEL_FALLBACKS: Record<string, string[]> = {
-  "gemini-2.5-flash": [],                                      // no fallback needed
-  "gemini-2.5-flash-preview-05-20": ["gemini-2.5-flash"],
-  "gemini-2.0-flash": ["gemini-2.5-flash"],                    // dead model → redirect
-  "gemini-2.0-flash-lite": ["gemini-2.5-flash"],               // deprecated → redirect
-  "gemini-3-flash-preview": ["gemini-2.5-flash"],
+  "gemini-2.5-flash": ["gemini-2.5-flash-lite", "gemini-2.5-pro"],
+  "gemini-2.5-flash-lite": ["gemini-2.5-flash", "gemini-2.5-pro"],
+  "gemini-2.5-pro": ["gemini-2.5-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.5-flash-preview-05-20": ["gemini-2.5-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.0-flash": ["gemini-2.5-flash", "gemini-2.5-flash-lite"],
+  "gemini-2.0-flash-lite": ["gemini-2.5-flash-lite", "gemini-2.5-flash"],
+  "gemini-3-flash-preview": ["gemini-2.5-flash", "gemini-2.5-flash-lite"],
 };
 
 const ALLOWED_ORIGINS = [

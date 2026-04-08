@@ -16,7 +16,7 @@ const Type = {
 // ── Single active model: gemini-2.5-flash (gemini-2.0-flash is dead) ──
 const FAST_MODEL = "gemini-2.5-flash";
 const HEAVY_MODEL = "gemini-2.5-flash";
-const FALLBACK_MODEL = "gemini-2.0-flash";
+const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 
 // Tracks whether the primary model is currently in a 503 brownout window.
 // When tripped, we skip straight to the fallback model for ~60s to avoid
