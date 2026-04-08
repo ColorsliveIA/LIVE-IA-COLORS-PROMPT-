@@ -6,7 +6,7 @@ import { getArtistSunoSettings } from '../services/sonic-dna';
 import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
-import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_ERAS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_INSTRUMENTATION, MUSIC_PRODUCTION_STYLES, MUSIC_STRUCTURES, MUSIC_VOCAL_TECHNIQUES, MUSIC_PRODUCTION_FINISHES, MUSIC_VOCAL_TEXTURES, MUSIC_VOCAL_INTERPRETATIONS, MUSIC_FLOW_TAGS, MUSIC_WRITING_TAGS, MUSIC_DRUM_BASS_TAGS, MUSIC_MELODY_TAGS, MUSIC_ATMOSPHERE_TAGS, MUSIC_MIX_TAGS, MUSIC_STRUCTURE_TAGS } from '../constants';
+import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_PRODUCTION_STYLES, MUSIC_VOCAL_TECHNIQUES, MUSIC_VOCAL_TEXTURES, MUSIC_VOCAL_INTERPRETATIONS, MUSIC_FLOW_TAGS, MUSIC_WRITING_TAGS, MUSIC_DRUM_BASS_TAGS, MUSIC_MELODY_TAGS, MUSIC_ATMOSPHERE_TAGS, MUSIC_MIX_TAGS, MUSIC_STRUCTURE_TAGS } from '../constants';
 
 interface MusicStudioProps {
   state: SessionState;
@@ -24,22 +24,18 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [showAdvancedTagsModal, setShowAdvancedTagsModal] = useState(false);
   const [artistSearch, setArtistSearch] = useState('');
   const [secondaryArtistSearch, setSecondaryArtistSearch] = useState('');
-  const [showEraSelect, setShowEraSelect] = useState(false);
   const [showCommSelect, setShowCommSelect] = useState(false);
   const [showVoiceSelect, setShowVoiceSelect] = useState(false);
   const [showTimbreSelect, setShowTimbreSelect] = useState(false);
   const [showStyleSelect, setShowStyleSelect] = useState(false);
   const [showPresenceSelect, setShowPresenceSelect] = useState(false);
   const [showEmotionSelect, setShowEmotionSelect] = useState(false);
-  const [showInstrumentationSelect, setShowInstrumentationSelect] = useState(false);
   const [showProductionSelect, setShowProductionSelect] = useState(false);
-  const [showStructureSelect, setShowStructureSelect] = useState(false);
   const [showVocalTechniqueSelect, setShowVocalTechniqueSelect] = useState(false);
   const [showProductionFinishSelect, setShowProductionFinishSelect] = useState(false);
   const [showAllGenres, setShowAllGenres] = useState(false);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const [showAllSingingStyles, setShowAllSingingStyles] = useState(false);
-  const [showAllInstrumentation, setShowAllInstrumentation] = useState(false);
   const [showAllProductionStyles, setShowAllProductionStyles] = useState(false);
   const [isScanningArtist, setIsScanningArtist] = useState(false);
   const [isSuggestingIdentity, setIsSuggestingIdentity] = useState(false);
@@ -221,13 +217,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [customMood, setCustomMood] = useState('');
   const [customLang, setCustomLang] = useState('');
   const [customArtist, setCustomArtist] = useState('');
-  const [customEra, setCustomEra] = useState('');
   const [customVoice, setCustomVoice] = useState('');
   const [customTimbre, setCustomTimbre] = useState('');
   const [customStyle, setCustomStyle] = useState('');
-  const [customInstrumentation, setCustomInstrumentation] = useState('');
   const [customProduction, setCustomProduction] = useState('');
-  const [customStructure, setCustomStructure] = useState('');
   const [scanError, setScanError] = useState<string | null>(null);
 
   const handleScanArtist = async () => {
@@ -319,30 +312,24 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     const randomMood = getRandom(MUSIC_MOODS.filter(m => m.id !== 'custom'));
     const randomLang = getRandom(MUSIC_LANGUAGES.filter(l => l.id !== 'custom'));
     const randomArtist = getRandom(MUSIC_ARTISTS.filter(a => a.id !== 'custom'));
-    const randomEra = getRandom(MUSIC_ERAS.filter(e => e.id !== 'custom'));
     const randomVoice = getRandom(MUSIC_VOICE_TYPES.filter(v => v.id !== 'custom'));
     const randomTimbre = getRandom(MUSIC_TIMBRES.filter(t => t.id !== 'custom'));
     const randomStyle = getRandom(MUSIC_SINGING_STYLES.filter(s => s.id !== 'custom'));
     const randomPresence = getRandom(MUSIC_VOCAL_PRESENCE);
     const randomEmotion = getRandom(MUSIC_EMOTION_LEVELS);
-    const randomInstrumentation = getRandom(MUSIC_INSTRUMENTATION.filter(i => i.id !== 'custom'));
     const randomProduction = getRandom(MUSIC_PRODUCTION_STYLES.filter(p => p.id !== 'custom'));
-    const randomStructure = getRandom(MUSIC_STRUCTURES.filter(s => s.id !== 'custom'));
 
     updateMusicState({
       genre: randomGenre.name,
       mood: randomMood.name,
       language: randomLang.name,
       inspiredBy: randomArtist.name,
-      era: randomEra.name,
       voiceType: randomVoice.name,
       vocalTimbre: randomTimbre.name,
       singingStyle: randomStyle.name,
       vocalPresence: randomPresence.name,
       emotionLevel: randomEmotion.name,
-      instrumentation: randomInstrumentation.name,
       styleBlend: randomProduction.name,
-      structure: randomStructure.name,
       energy: Math.floor(Math.random() * 100),
       emotionalIntensity: Math.floor(Math.random() * 100),
     });
@@ -381,17 +368,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     const finalMood = state.music.mood === 'CUSTOM' ? customMood : state.music.mood;
     const finalLang = state.music.language === 'CUSTOM' ? customLang : state.music.language;
     const finalArtist = state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy;
-    const finalEra = state.music.era === 'CUSTOM' ? customEra : state.music.era;
     const finalVoice = state.music.voiceType === 'CUSTOM' ? customVoice : state.music.voiceType;
     const finalTimbre = state.music.vocalTimbre === 'CUSTOM' ? customTimbre : state.music.vocalTimbre;
     const finalStyle = state.music.singingStyle === 'CUSTOM' ? customStyle : state.music.singingStyle;
-    const finalInstrumentation = state.music.instrumentation === 'CUSTOM' ? customInstrumentation : state.music.instrumentation;
     const finalProduction = state.music.productionStyle === 'CUSTOM' ? customProduction : state.music.productionStyle;
     const finalStyleBlend = state.music.styleBlend;
-    const selectedStructureObj = MUSIC_STRUCTURES.find(s => s.name === state.music.structure);
-    const finalStructure = state.music.structure === 'CUSTOM' 
-      ? customStructure 
-      : (selectedStructureObj ? `${selectedStructureObj.name} (${selectedStructureObj.sub})` : '');
 
     try {
       // Add a timeout to the generation call
@@ -402,7 +383,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         state.music.artistName || state.music.inspiredBy || state.artist || 'Artiste',
         finalLang || 'FRANÇAIS',
         finalArtist,
-        finalEra,
+        '',
         state.music.performanceActive,
         state.music.energy,
         state.music.emotionalIntensity,
@@ -413,17 +394,17 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         state.music.accent,
         state.music.vocalReference,
         state.music.emotionLevel,
-        finalInstrumentation,
+        '',
         finalProduction,
         state.manualBpm ? state.bpm : null,
-        finalStructure,
+        '',
         finalStyleBlend,
         state.music.artistIdentitySummary,
         state.music.customNegativePrompt,
         state.music.weirdness,
         state.music.styleInfluence,
         state.music.vocalTechnique,
-        state.music.productionFinish,
+        '',
         state.music.secondaryInspiredBy,
         state.music.advancedTags,
         mode
@@ -596,17 +577,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const selectedMood = MUSIC_MOODS.find(m => m.name === state.music.mood) || { name: '', sub: 'Select Mood' };
   const selectedLang = MUSIC_LANGUAGES.find(l => l.name === state.music.language) || { name: '', sub: 'Select Language' };
   const selectedArtist = MUSIC_ARTISTS.find(a => a.name === state.music.inspiredBy) || { name: '', sub: 'Select Artist' };
-  const selectedEra = MUSIC_ERAS.find(e => e.name === state.music.era) || { name: '', sub: 'Select Era' };
   const selectedVoice = MUSIC_VOICE_TYPES.find(v => v.name === state.music.voiceType) || { name: '', sub: 'Select Voice Type' };
   const selectedTimbre = MUSIC_TIMBRES.find(t => t.name === state.music.vocalTimbre) || { name: '', sub: 'Select Timbre' };
   const selectedStyle = MUSIC_SINGING_STYLES.find(s => s.name === state.music.singingStyle) || { name: '', sub: 'Select Style' };
   const selectedPresence = MUSIC_VOCAL_PRESENCE.find(p => p.name === state.music.vocalPresence) || { name: '', sub: 'Select Presence' };
   const selectedEmotion = MUSIC_EMOTION_LEVELS.find(e => e.name === state.music.emotionLevel) || { name: '', sub: 'Select Emotion' };
-  const selectedInstrumentation = MUSIC_INSTRUMENTATION.find(i => i.name === state.music.instrumentation) || { name: '', sub: 'Select Instrumentation' };
   const selectedProduction = MUSIC_PRODUCTION_STYLES.find(p => p.name === state.music.productionStyle) || { name: '', sub: 'Select Production' };
-  const selectedStructure = MUSIC_STRUCTURES.find(s => s.name === state.music.structure) || { name: '', sub: 'Select Structure' };
   const selectedVocalTechnique = MUSIC_VOCAL_TECHNIQUES.find(t => t.name === state.music.vocalTechnique) || { name: '', sub: 'Select Technique' };
-  const selectedProductionFinish = MUSIC_PRODUCTION_FINISHES.find(f => f.name === state.music.productionFinish) || { name: '', sub: 'Select Finish' };
 
   return (
     <div className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative">
@@ -1115,53 +1092,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
             </div>
 
-            {/* Instrumentation Selection Grid */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between ml-1">
-                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Instrumentation</label>
-                <button 
-                  onClick={() => setShowAllInstrumentation(!showAllInstrumentation)}
-                  className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
-                >
-                  {showAllInstrumentation ? 'Show Less' : 'Show All'}
-                </button>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(showAllInstrumentation ? MUSIC_INSTRUMENTATION : MUSIC_INSTRUMENTATION.slice(0, 4)).map((i) => {
-                  const isActive = state.music.instrumentation === i.name;
-                  return (
-                    <button
-                      key={i.id}
-                      onClick={() => updateMusicState({ instrumentation: isActive ? '' : i.name })}
-                      className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
-                        isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20'
-                      }`}
-                    >
-                      <Layers size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
-                      <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
-                        {i.name}
-                      </span>
-                      <span className="font-mono text-[7px] text-white/20 uppercase mt-1 tracking-tighter z-10 text-center line-clamp-1">
-                        {i.sub}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              
-              {state.music.instrumentation === 'CUSTOM' && (
-                <input 
-                  type="text"
-                  value={customInstrumentation}
-                  onChange={(e) => setCustomInstrumentation(e.target.value)}
-                  placeholder="Enter custom instrumentation..."
-                  className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
-                />
-              )}
-            </div>
-
             {/* Variantes de production Selection Grid */}
             <div className="space-y-3">
               <div className="flex items-center justify-between ml-1">
@@ -1207,75 +1137,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
                 />
               )}
-            </div>
-
-            {/* Production Finish Select */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-2xl">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#E8712A]/10 flex items-center justify-center border border-[#E8712A]/20">
-                    <Layers size={20} className="text-[#E8712A]" />
-                  </div>
-                  <div>
-                    <h3 className="font-mono text-xs font-bold text-white uppercase tracking-[0.2em]">Production Finish</h3>
-                    <p className="font-mono text-[9px] text-white/30 uppercase mt-1 tracking-widest">Post-Processing & Texture (V5.2)</p>
-                  </div>
-                </div>
-                <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10">
-                  <span className="font-mono text-[8px] text-white/40 uppercase tracking-tighter">Suno V5.2 Engine</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {MUSIC_PRODUCTION_FINISHES.map(f => {
-                  const isSelected = state.music.productionFinish === f.name;
-                  return (
-                    <button
-                      key={f.id}
-                      onClick={() => updateMusicState({ productionFinish: isSelected ? '' : f.name })}
-                      className={`relative group flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 overflow-hidden border ${
-                        isSelected 
-                          ? 'bg-[#E8712A]/20 border-[#E8712A]/50 shadow-[0_0_20px_rgba(232,113,42,0.2)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20 hover:bg-white/5'
-                      }`}
-                    >
-                      <div className={`absolute inset-0 bg-gradient-to-br from-[#E8712A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                      <span className={`font-mono text-[10px] font-bold tracking-tight z-10 text-center ${isSelected ? 'text-[#E8712A]' : 'text-white/60'}`}>
-                        {f.name}
-                      </span>
-                      <span className="font-mono text-[7px] text-white/20 uppercase mt-1 tracking-tighter z-10 text-center line-clamp-1">
-                        {f.sub}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Era Selection Grid */}
-            <div className="space-y-3">
-              <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1">Era / Period</label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {MUSIC_ERAS.slice(0, 4).map((e) => {
-                  const isActive = state.music.era === e.name;
-                  return (
-                    <button
-                      key={e.id}
-                      onClick={() => updateMusicState({ era: isActive ? '' : e.name })}
-                      className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
-                        isActive 
-                          ? 'bg-[#E8712A]/10 border-[#E8712A]/40 shadow-[0_0_15px_rgba(232,113,42,0.1)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20'
-                      }`}
-                    >
-                      <HistoryIcon size={12} className={`mb-2 transition-colors ${isActive ? 'text-[#E8712A]' : 'text-white/20 group-hover:text-white/40'}`} />
-                      <span className={`font-mono text-[9px] font-bold text-center leading-tight z-10 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/60'}`}>
-                        {e.name}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
             </div>
 
             {/* Mood Selection Grid */}
@@ -1403,13 +1264,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               />
             </div>
 
-            {/* BPM & Structure */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* BPM */}
+            <div>
               <div className="relative">
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Tempo (BPM)</label>
                 <div className="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl px-4 py-3 group hover:border-[#E8712A]/40 transition-all shadow-inner">
                   <Clock size={14} className="text-[#E8712A]" />
-                  <input 
+                  <input
                     type="number"
                     value={state.music.bpm || ''}
                     onChange={(e) => updateMusicState({ bpm: parseInt(e.target.value) || null })}
@@ -1421,64 +1282,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
 
               <div className="relative">
-                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Structure</label>
-                <button 
-                  onClick={() => setShowStructureSelect(!showStructureSelect)}
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#E8712A]/40 transition-all shadow-inner"
-                >
-                  <div className="text-left flex items-center gap-3">
-                    <FileText size={14} className="text-[#E8712A]" />
-                    <div>
-                      <div className="font-mono text-xs text-white font-medium truncate max-w-[120px]">{state.music.structure || 'Select Structure'}</div>
-                      <div className="font-mono text-[9px] text-white/30 uppercase mt-0.5 tracking-tighter truncate max-w-[120px]">
-                        {state.music.structure === 'CUSTOM' ? 'User Defined Structure' : selectedStructure.sub}
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronDown size={16} className={`text-white/20 transition-transform duration-300 ${showStructureSelect ? 'rotate-180 text-[#E8712A]' : ''}`} />
-                </button>
-
-                <AnimatePresence>
-                  {showStructureSelect && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute top-full left-0 w-full mt-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl z-[60] overflow-hidden backdrop-blur-xl"
-                    >
-                      <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
-                        {MUSIC_STRUCTURES.map(s => (
-                          <button
-                            key={s.id}
-                            onClick={() => {
-                              updateMusicState({ structure: state.music.structure === s.name ? '' : s.name });
-                              setShowStructureSelect(false);
-                            }}
-                            className={`w-full text-left px-4 py-3 rounded-lg transition-all flex flex-col gap-0.5 hover:bg-white/5 ${
-                              state.music.structure === s.name ? 'bg-[#E8712A]/10 border border-[#E8712A]/20' : 'border border-transparent'
-                            }`}
-                          >
-                            <span className={`font-mono text-xs font-bold tracking-tight ${state.music.structure === s.name ? 'text-[#E8712A]' : 'text-white/80'}`}>
-                              {s.name}
-                            </span>
-                            <span className="font-mono text-[8px] text-white/30 uppercase tracking-tighter">{s.sub}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {state.music.structure === 'CUSTOM' && (
-                  <input 
-                    type="text"
-                    value={customStructure}
-                    onChange={(e) => setCustomStructure(e.target.value)}
-                    placeholder="Enter custom structure (e.g. V-C-V-C-B-C)..."
-                    className="w-full mt-3 bg-black/60 border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#E8712A]/50 outline-none transition-all placeholder:text-white/20"
-                  />
-                )}
-
                 {/* Advanced DNA Tags Button */}
                 <div className="mt-6 pt-6 border-t border-white/5">
                   <button
