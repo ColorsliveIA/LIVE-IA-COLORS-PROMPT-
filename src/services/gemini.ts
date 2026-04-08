@@ -100,41 +100,20 @@ function getGenreFallbackStyle(genre: string): string {
   return 'Contemporary urban production, dynamic 808s, atmospheric layers, street credibility, modern textures, 100-120 BPM';
 }
 
-function buildVariantDivergenceConstraints(genre: string, inspiredBy: string, era: string): string {
-  const g = genre.toUpperCase();
-  const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
-  const fusionPools: Record<string, string[]> = {
-    DRILL: ["Dark cinematic orchestral strings","Industrial electronic textures","Cloud rap ambient pads","Grime UK bassline"],
-    TRAP_FR: ["Boom bap jazz samples","Afrobeats percussion","Cloud rap ambient synths","Raï oriental melodies"],
-    TRAP: ["Lo-fi indie guitar textures","Synthwave retro 80s pads","R&B soul chords","Latin trap reggaeton bounce"],
-    RAP_FR: ["Jazz-funk live instruments","Electronic minimal techno","Afro-Caribbean percussion"],
-    RAP: ["Soul-funk vintage production","Jazz samples and saxophone","Gospel choir harmonies"],
-    RNB: ["Neo-soul electronic textures","Jazz piano trio","Afrobeats danceable percussion"],
-    POP: ["Synth-wave retro 80s","Tropical house percussion","Indie folk acoustic layers"],
-    HOUSE: ["Deep house melodic pianos","Afro house organic percussion","Disco strings and funk guitar"],
-    AFRO: ["Caribbean dancehall bounce","Amapiano deep bass","R&B smooth production"],
-    CLOUD: ["Shoegaze ambient reverb","Lo-fi jazz samples","Dream pop shimmering synths"]
-  };
-  let fusionGenre: string;
-  if (g.includes('DRILL')) fusionGenre = pick(fusionPools.DRILL);
-  else if (g.includes('TRAP') && g.includes('FR')) fusionGenre = pick(fusionPools.TRAP_FR);
-  else if (g.includes('TRAP')) fusionGenre = pick(fusionPools.TRAP);
-  else if (g.includes('RAP') && g.includes('FR')) fusionGenre = pick(fusionPools.RAP_FR);
-  else if (g.includes('RAP')) fusionGenre = pick(fusionPools.RAP);
-  else if (g.includes('R&B') || g.includes('SOUL')) fusionGenre = pick(fusionPools.RNB);
-  else if (g.includes('POP')) fusionGenre = pick(fusionPools.POP);
-  else if (g.includes('HOUSE') || g.includes('ELECTRO')) fusionGenre = pick(fusionPools.HOUSE);
-  else if (g.includes('AFRO')) fusionGenre = pick(fusionPools.AFRO);
-  else if (g.includes('CLOUD')) fusionGenre = pick(fusionPools.CLOUD);
-  else fusionGenre = pick(["Electronic ambient textures","Jazz-influenced progressions","Afrobeats rhythmic percussion"]);
-  const eraShifts: Record<string, string> = { '2020s': '2010s', '2010s': '2000s', '2000s': '1990s', '1990s': '2000s' };
-  const adjacentEra = eraShifts[era] || '2010s';
+// SPRINT 3 — Sober variant divergence rules.
+// REMOVED (was limiting): random fusion-genre pools that contradicted the
+// harmonic profile discipline. The harmonic profile + secondaryBlendingBlock
+// + cursors block now own variant identity. This helper only states the
+// shape rules (V1 pure, V2 mid-divergence, V3 max-divergence) without
+// injecting random external genres.
+function buildVariantDivergenceConstraints(_genre: string, inspiredBy: string, era: string): string {
   return `
   VARIANT RULES — ABSOLUTE:
-  V1 = Pure "${inspiredBy}" signature. Use ONLY Sonic DNA. Era ${era}. ZERO blend.
-  V2 = Differ from V1: ±10-20 BPM + opposite grain + era ${adjacentEra}. Max 20% blend.
-  V3 = Differ from V1+V2: integrate "${fusionGenre}" (up to 40%) + 2 different instruments + opposite reverb.
-  VALIDATION: If 2 variants share >50% tokens → regenerate.
+  V1 = PURE "${inspiredBy}" signature. Use the Sonic DNA + Harmonic Profile only. Era ${era}. ZERO blend.
+  V2 = Same harmonic profile, but ±10-15 BPM swing, 1 texture flip (e.g. dry→reverb or warm→cold), light secondary blend (≤20%) IF a secondary artist is provided.
+  V3 = Same harmonic profile, but explore the opposite end of its instrument palette, mood-flip on at least 2 metatags, secondary blend up to 30% IF provided.
+  HARD RULE: Never inject a foreign genre that is not part of the active harmonic profile or the secondary artist's DNA. Variants diverge through PROFILE-INTERNAL contrast, not random fusion.
+  VALIDATION: If 2 variants share >50% tokens → mark with [DIVERGENCE].
   `;
 }
 
@@ -340,7 +319,10 @@ Respond ONLY in JSON (no backticks).`;
       }
     }
 
-    // Deduplicate V1/V2/V3
+    // SPRINT 3 — Sober dedup. Only flags collisions with [DIVERGENCE V*],
+    // no more crude regex Major↔Minor swaps or BPM fudging that bypassed
+    // the harmonic profile discipline. The model is responsible for the
+    // musical divergence; we just label fallbacks if it failed.
     const core = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
     const dedup = [core];
@@ -350,16 +332,8 @@ Respond ONLY in JSON (no backticks).`;
       const cT = new Set(core.toLowerCase().split(/[\[\],\s]+/).filter((t: string) => t.length > 3));
       const sim = vT.size > 0 ? [...vT].filter(t => cT.has(t)).length / vT.size : 1;
       if (!v || sim > 0.80) {
-        let mod = v || core;
-        const bpmM = core.match(/(\d{2,3})-(\d{2,3})\s*BPM/i);
-        if (bpmM) {
-          const mid = (parseInt(bpmM[1]) + parseInt(bpmM[2])) / 2, shift = i === 1 ? -15 : 15;
-          mod = mod.replace(/(\d{2,3})-(\d{2,3})\s*BPM/i, `${Math.round(Math.max(60, mid+shift-10))}-${Math.round(Math.min(200, mid+shift+10))} BPM`);
-        }
-        if (i === 1 && mod.includes('Minor')) mod = mod.replace(/Minor/g, 'Major');
-        else if (mod.includes('Major')) mod = mod.replace(/Major/g, 'Minor');
-        if (!mod.includes('[DIVERGENCE]')) mod = `[DIVERGENCE V${i+1}] ` + mod;
-        v = mod;
+        const base = v || core;
+        v = base.includes('[DIVERGENCE]') ? base : `[DIVERGENCE V${i + 1}] ${base}`;
       }
       dedup.push(v);
     }
@@ -378,7 +352,14 @@ Respond ONLY in JSON (no backticks).`;
       try {
         retried = true;
         const fixInstr = buildLeakFixInstruction(artistLeaks);
-        const fixPrompt = `${fixInstr}\n\nORIGINAL OUTPUT (JSON):\n${response.text}\n\nReturn the corrected JSON with the SAME schema.`;
+        // Sprint 3 — re-inject the active directive blocks so the retry
+        // does not lose the harmonic profile, the cursors, or the banlist context.
+        const directiveContext = [
+          buildHarmonicBlock(sonicDNA?.harmonicProfileId, inspiredBy),
+          buildCursorsBlock(sonicDNA),
+          buildBanlistBlock(inspiredBy, secondaryInspiredBy),
+        ].filter(Boolean).join('\n');
+        const fixPrompt = `${fixInstr}\n\n${directiveContext}\n\nORIGINAL OUTPUT (JSON):\n${response.text}\n\nReturn the corrected JSON with the SAME schema.`;
         const fixResp = await callGemini({
           model: HEAVY_MODEL,
           contents: fixPrompt,

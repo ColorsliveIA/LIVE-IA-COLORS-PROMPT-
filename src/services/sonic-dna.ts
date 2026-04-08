@@ -1782,34 +1782,118 @@ const SONIC_DNA_MAP: Record<string, SonicDNA> = {
   }
 };
 
+// ── SPRINT 3 — CORPUS CURSORS MAP (27 artistes) ──
+// Mapping centralisé D11–D18 + harmonicProfileId pour le corpus.
+// Source de vérité unique : édité ici au lieu de modifier 17 blocs DNA.
+// Mergé au runtime par getArtistSonicDNA() — non destructif.
+type CursorOverrides = Pick<SonicDNA,
+  | 'compositionMode' | 'territorialAnchor' | 'registerMode'
+  | 'conceptualMode' | 'referenceDensity' | 'technicityMode'
+  | 'honorCode' | 'tempoGravity' | 'harmonicProfileId'>;
+
+const CORPUS_CURSORS: Record<string, CursorOverrides> = {
+  BOOBA:        { compositionMode: 'hook-driven',  registerMode: 'combative',     conceptualMode: 'non-narrative',   referenceDensity: 70, technicityMode: 'virtuoso',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'synth-dark-boom-bap' },
+  DAMSO:        { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'narrative-real',  referenceDensity: 55, technicityMode: 'virtuoso',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'jazz-soul-rhodes' },
+  KAARIS:       { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'non-narrative',   referenceDensity: 35, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'mystic-orchestral-808' },
+  SCH:          { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'concept-fictional', referenceDensity: 60, technicityMode: 'virtuoso',       honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'italo-cinematic-minor', territorialAnchor: { lang: 'italo', density: 25, role: 'lexical' } },
+  NINHO:        { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'narrative-real',  referenceDensity: 30, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'afro-trap-melodic' },
+  HAMZA:        { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'non-narrative',   referenceDensity: 40, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'slow', harmonicProfileId: 'cloud-rnb-velvet' },
+  TIAKOLA:      { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 25, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'gospel-kalimba-afro' },
+  "RIM'K":      { compositionMode: 'text-first',   registerMode: 'hybrid',        conceptualMode: 'narrative-real',  referenceDensity: 50, technicityMode: 'standard',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'rai-mediterranean-vintage', territorialAnchor: { lang: 'arabe', density: 35, role: 'both' } },
+  JUL:          { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 15, technicityMode: 'simple-volunteer', honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'marseille-pop-naive' },
+  ORELSAN:      { compositionMode: 'text-first',   registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 75, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'pop-chanson-acoustic' },
+  NEKFEU:       { compositionMode: 'text-first',   registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 80, technicityMode: 'virtuoso',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'boom-bap-piano-loop' },
+  PNL:          { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'non-narrative',   referenceDensity: 20, technicityMode: 'simple-volunteer', honorCode: 'implicit', tempoGravity: 'slow', harmonicProfileId: 'cloud-trap-arabe', territorialAnchor: { lang: 'arabe', density: 25, role: 'lexical' } },
+  'FREEZE CORLEONE': { compositionMode: 'text-first', registerMode: 'combative', conceptualMode: 'non-narrative',   referenceDensity: 95, technicityMode: 'virtuoso',         honorCode: 'central',  tempoGravity: 'slow', harmonicProfileId: 'mystic-orchestral-808' },
+  'ALPHA WANN': { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'non-narrative',   referenceDensity: 65, technicityMode: 'virtuoso',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'boom-bap-piano-loop' },
+  LAYLOW:       { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'concept-fictional', referenceDensity: 70, technicityMode: 'virtuoso',       honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'synth-retro-futur' },
+  GAZO:         { compositionMode: 'hook-driven',  registerMode: 'combative',     conceptualMode: 'non-narrative',   referenceDensity: 25, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'fast', harmonicProfileId: 'drill-fr-cold' },
+  'KALASH CRIMINEL': { compositionMode: 'text-first', registerMode: 'combative',  conceptualMode: 'non-narrative',   referenceDensity: 30, technicityMode: 'standard',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'drill-fr-cold' },
+  DINOS:        { compositionMode: 'text-first',   registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 70, technicityMode: 'virtuoso',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'conscient-jazz-soul' },
+  LOMEPAL:      { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 60, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'pop-chanson-acoustic' },
+  LUJIPEKA:     { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'non-narrative',   referenceDensity: 50, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'lofi-glitch-808' },
+  IAM:          { compositionMode: 'text-first',   registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 90, technicityMode: 'virtuoso',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'conscient-oriental-sampled' },
+  MÉDINE:       { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'narrative-real',  referenceDensity: 95, technicityMode: 'virtuoso',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'conscient-oriental-sampled', territorialAnchor: { lang: 'arabe', density: 20, role: 'lexical' } },
+  'OXMO PUCCINO': { compositionMode: 'text-first', registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 85, technicityMode: 'virtuoso',         honorCode: 'implicit', tempoGravity: 'slow', harmonicProfileId: 'poet-jazz-noir' },
+  ROHFF:        { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'narrative-real',  referenceDensity: 50, technicityMode: 'virtuoso',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'street-grave-808-vocoder' },
+  LACRIM:       { compositionMode: 'text-first',   registerMode: 'combative',     conceptualMode: 'narrative-real',  referenceDensity: 40, technicityMode: 'standard',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'street-grave-808-vocoder', territorialAnchor: { lang: 'arabe', density: 20, role: 'lexical' } },
+  'MISTER YOU': { compositionMode: 'text-first',   registerMode: 'hybrid',        conceptualMode: 'narrative-real',  referenceDensity: 45, technicityMode: 'standard',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'rai-mediterranean-vintage', territorialAnchor: { lang: 'arabe', density: 25, role: 'lexical' } },
+  "HEUSS L'ENFOIRÉ": { compositionMode: 'hook-driven', registerMode: 'hybrid',    conceptualMode: 'narrative-real',  referenceDensity: 35, technicityMode: 'simple-volunteer', honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'street-grave-808-vocoder' },
+};
+
+/** Normalise une clé corpus pour lookup tolérant accents/quotes */
+function normalizeCorpusKey(s: string): string {
+  return (s || '').toUpperCase().trim().replace(/\s+/g, ' ');
+}
+
+/** Résout les curseurs corpus pour un nom d'artiste (fuzzy includes) */
+function resolveCorpusCursors(inspiredBy: string): CursorOverrides | null {
+  const target = normalizeCorpusKey(inspiredBy);
+  if (!target) return null;
+  if (CORPUS_CURSORS[target]) return CORPUS_CURSORS[target];
+  for (const key of Object.keys(CORPUS_CURSORS)) {
+    const k = normalizeCorpusKey(key);
+    if (target.includes(k) || k.includes(target)) return CORPUS_CURSORS[key];
+  }
+  return null;
+}
+
+/**
+ * SPRINT 3 — Merge cursor overrides into a SonicDNA without mutating the source.
+ * Existing fields on the DNA take precedence (corpus curseurs ne casse pas un override manuel).
+ */
+export function mergeCursorsIntoDNA(dna: SonicDNA, overrides: Partial<CursorOverrides>): SonicDNA {
+  if (!overrides) return dna;
+  return {
+    ...dna,
+    compositionMode:    dna.compositionMode    ?? overrides.compositionMode,
+    territorialAnchor:  dna.territorialAnchor  ?? overrides.territorialAnchor,
+    registerMode:       dna.registerMode       ?? overrides.registerMode,
+    conceptualMode:     dna.conceptualMode     ?? overrides.conceptualMode,
+    referenceDensity:   dna.referenceDensity   ?? overrides.referenceDensity,
+    technicityMode:     dna.technicityMode     ?? overrides.technicityMode,
+    honorCode:          dna.honorCode          ?? overrides.honorCode,
+    tempoGravity:       dna.tempoGravity       ?? overrides.tempoGravity,
+    harmonicProfileId:  dna.harmonicProfileId  ?? overrides.harmonicProfileId,
+  };
+}
+
 export function getArtistSonicDNA(inspiredBy: string): SonicDNA | null {
   if (!inspiredBy || inspiredBy === 'none') return null;
 
   const upper = inspiredBy.toUpperCase().trim();
 
-  const exactKey = Object.keys(SONIC_DNA_MAP).find(k => k.toUpperCase() === upper);
-  if (exactKey) return SONIC_DNA_MAP[exactKey];
+  let resolved: SonicDNA | null = null;
 
-  const candidates: { key: string; score: number }[] = [];
-  for (const key of Object.keys(SONIC_DNA_MAP)) {
-    if (key === 'DEFAULT') continue;
-    const keyUpper = key.toUpperCase();
-    if (upper.length < 4 && keyUpper.length < 4) continue;
-    if (upper.includes(keyUpper) || keyUpper.includes(upper)) {
-      const shorter = Math.min(upper.length, keyUpper.length);
-      const longer = Math.max(upper.length, keyUpper.length);
-      const ratio = shorter / longer;
-      if (ratio >= 0.5) {
-        candidates.push({ key, score: ratio });
+  const exactKey = Object.keys(SONIC_DNA_MAP).find(k => k.toUpperCase() === upper);
+  if (exactKey) {
+    resolved = SONIC_DNA_MAP[exactKey];
+  } else {
+    const candidates: { key: string; score: number }[] = [];
+    for (const key of Object.keys(SONIC_DNA_MAP)) {
+      if (key === 'DEFAULT') continue;
+      const keyUpper = key.toUpperCase();
+      if (upper.length < 4 && keyUpper.length < 4) continue;
+      if (upper.includes(keyUpper) || keyUpper.includes(upper)) {
+        const shorter = Math.min(upper.length, keyUpper.length);
+        const longer = Math.max(upper.length, keyUpper.length);
+        const ratio = shorter / longer;
+        if (ratio >= 0.5) candidates.push({ key, score: ratio });
       }
     }
-  }
-  if (candidates.length > 0) {
-    candidates.sort((a, b) => b.score - a.score);
-    return SONIC_DNA_MAP[candidates[0].key];
+    if (candidates.length > 0) {
+      candidates.sort((a, b) => b.score - a.score);
+      resolved = SONIC_DNA_MAP[candidates[0].key];
+    }
   }
 
-  return SONIC_DNA_MAP['DEFAULT'] || null;
+  if (!resolved) resolved = SONIC_DNA_MAP['DEFAULT'] || null;
+  if (!resolved) return null;
+
+  // Merge corpus cursors (Sprint 3) — non destructif
+  const cursors = resolveCorpusCursors(inspiredBy);
+  if (cursors) return mergeCursorsIntoDNA(resolved, cursors);
+  return resolved;
 }
 
 export function getArtistSunoSettings(inspiredBy: string) {

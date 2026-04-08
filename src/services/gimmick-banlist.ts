@@ -240,11 +240,6 @@ export function lintForGimmickLeaks(
   return leaks;
 }
 
-/** Nombre total d'artistes dans la banlist */
-export function getBanlistSize(): number {
-  return Object.keys(GIMMICK_BANLIST).length;
-}
-
 /**
  * SPRINT 2 — Hard-strip global banlist words from a text.
  * Replaces every GLOBAL_BANLIST occurrence (word-boundary, case-insensitive)
