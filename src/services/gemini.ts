@@ -59,23 +59,6 @@ async function callGemini(payload: { model: string; contents: any; config?: any 
   return parsed;
 }
 
-export async function analyzeAudio(base64Data: string, mimeType: string) {
-  const prompt = `Analyse ce fichier audio (MIME: ${mimeType}). Identifie: BPM exact, Genre/sous-genres, Mood, Structure, Artiste si reconnu, Energy 0-100, Vocal Style.
-  Réponds UNIQUEMENT en JSON: {"bpm":number,"genre":"string","mood":"string","structure":"string","artistInfo":"string","energy":number,"vocalStyle":"string"}`;
-  return withRetry(async () => {
-    const response = await callGemini({
-      model: FAST_MODEL,
-      contents: [{ parts: [{ inlineData: { data: base64Data, mimeType } }, { text: prompt }] }],
-      config: {
-        systemInstruction: "Expert audio engineer. Precise analysis for Suno AI. Be exact on BPM and genre.",
-        tools: [{ googleSearch: {} }]
-      }
-    });
-    try { return JSON.parse((response.text || "{}").replace(/```json\s*/g, "").replace(/```\s*/g, "").trim()); }
-    catch { return null; }
-  });
-}
-
 function getGenreSpecificNegativePrompt(genre: string, inspiredBy: string): string {
   const g = genre.toUpperCase();
   const melodic = isArtistMelodic(inspiredBy);

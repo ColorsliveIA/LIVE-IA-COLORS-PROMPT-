@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { SessionState, MusicState, Verse } from '../types';
-import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Upload, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle, Edit3, RotateCcw } from 'lucide-react';
-import { generateMusicContext, analyzeAudio, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
+import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle, Edit3, RotateCcw } from 'lucide-react';
+import { generateMusicContext, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
 import { getArtistSunoSettings } from '../services/sonic-dna';
 import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
@@ -539,47 +539,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       <div className="w-full h-[1px] bg-white/5 rotate-45" />
     </div>
   );
-
-  const handleAudioUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setState(prev => ({ ...prev, music: { ...prev.music, isAnalyzingAudio: true } }));
-
-    try {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const base64 = (reader.result as string).split(',')[1];
-        const analysis = await analyzeAudio(base64, file.type);
-        
-        if (analysis) {
-          setState(prev => ({
-            ...prev,
-            bpm: analysis.bpm || prev.bpm,
-            manualBpm: analysis.bpm ? true : prev.manualBpm,
-            music: {
-              ...prev.music,
-              genre: analysis.genre || prev.music.genre,
-              mood: analysis.mood || prev.music.mood,
-              energy: analysis.energy || prev.music.energy,
-              isAnalyzingAudio: false
-            }
-          }));
-          
-          // If artist info found, maybe we can use it
-          if (analysis.artistInfo) {
-            console.log("Artist Info found:", analysis.artistInfo);
-          }
-        } else {
-          setState(prev => ({ ...prev, music: { ...prev.music, isAnalyzingAudio: false } }));
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Audio analysis error:", error);
-      setState(prev => ({ ...prev, music: { ...prev.music, isAnalyzingAudio: false } }));
-    }
-  };
 
   const selectedGenre = MUSIC_GENRES.find(g => g.name === state.music.genre) || { name: '', sub: 'Select Genre' };
   const selectedMood = MUSIC_MOODS.find(m => m.name === state.music.mood) || { name: '', sub: 'Select Mood' };

@@ -70,7 +70,6 @@ export interface MusicState {
     message: string;
   };
   isGenerating: boolean;
-  isAnalyzingAudio: boolean;
   weirdness: number;
   styleInfluence: number;
   vocalTechnique: string;

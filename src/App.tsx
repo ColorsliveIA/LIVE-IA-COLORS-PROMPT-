@@ -72,7 +72,6 @@ const INITIAL_STATE: SessionState = {
     duration: 180,
     sunoPrompt: '',
     isGenerating: false,
-    isAnalyzingAudio: false,
     weirdness: 0,
     styleInfluence: 100,
     vocalTechnique: 'none',
