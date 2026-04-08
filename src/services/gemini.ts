@@ -18,9 +18,6 @@ const FAST_MODEL = "gemini-2.5-flash";
 const HEAVY_MODEL = "gemini-2.5-flash";
 const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 
-// Tracks whether the primary model is currently in a 503 brownout window.
-// When tripped, we skip straight to the fallback model for ~60s to avoid
-// burning the user's time on a known-broken endpoint.
 let primaryBrownoutUntil = 0;
 function isPrimaryBrownedOut() { return Date.now() < primaryBrownoutUntil; }
 function tripPrimaryBrownout(ms = 60_000) { primaryBrownoutUntil = Date.now() + ms; }
@@ -55,7 +52,6 @@ async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 4): Promi
         e?.error?.status === 'RESOURCE_EXHAUSTED';
       const isRetryable = is503 || is429;
       if (isRetryable && i < maxRetries) {
-        // Exponential backoff with jitter: 503 → 1.5s, 3s, 6s, 12s | 429 → 5s, 10s, 20s, 40s
         const base = is429 ? 5000 : 1500;
         const delay = base * Math.pow(2, i) + Math.random() * 500;
         console.warn(`[RETRY ${i + 1}/${maxRetries}] ${is503 ? '503' : '429'} — waiting ${Math.round(delay)}ms`);
@@ -107,17 +103,11 @@ function getGenreFallbackStyle(genre: string): string {
   if (g.includes('AFRO')) return 'Afrobeat percussion, infectious grooves, joyful melodies, celebratory energy, African drums, 110-130 BPM';
   if (g.includes('POP')) return 'Contemporary pop, catchy hooks, bright synths, punchy drums, accessible production, 95-120 BPM';
   if (g.includes('HOUSE')) return 'House groove, 4-on-the-floor drums, hypnotic synths, dancefloor build, electronic textures, 120-130 BPM';
-  if (g.includes('RAÏ')) return 'Raï fusion, oriental instruments, emotional vocals, Arabic scales, mixed French-Arabic, 100-120 BPM';
+  if (g.includes('RAI')) return 'Rai fusion, oriental instruments, emotional vocals, Arabic scales, mixed French-Arabic, 100-120 BPM';
   if (g.includes('CLOUD')) return 'Cloud rap, ethereal synths, spacious reverb, dreamy vibes, introspective delivery, 80-100 BPM';
   return 'Contemporary urban production, dynamic 808s, atmospheric layers, street credibility, modern textures, 100-120 BPM';
 }
 
-// SPRINT 3 — Sober variant divergence rules.
-// REMOVED (was limiting): random fusion-genre pools that contradicted the
-// harmonic profile discipline. The harmonic profile + secondaryBlendingBlock
-// + cursors block now own variant identity. This helper only states the
-// shape rules (V1 pure, V2 mid-divergence, V3 max-divergence) without
-// injecting random external genres.
 function buildVariantDivergenceConstraints(_genre: string, inspiredBy: string, era: string): string {
   return `
   ⚠️⚠️⚠️ VARIANT DIVERGENCE — NON-NEGOTIABLE ⚠️⚠️⚠️
@@ -176,8 +166,17 @@ export async function generateMusicContext(
 ABSOLUTE RULES:
 ★ sunoPrompt and sunoPrompts[] MUST ALWAYS be in ENGLISH. NEVER French, Arabic, or other.
 ★ STYLE PROMPT: 500-600 chars. 10 DIMENSIONS: [STYLE]+[BPM+Key]+[GRAIN]+[SPACE]+[INSTRUMENTS]+[VOCAL TEXTURE]+[DYNAMIC]+[MIX]+[CULTURAL]+[ERA]. Texture > Genre naming.
-★ LYRICS: Full structure. [ ] tags, ( ) ad-libs. V5.5: [Pre-Chorus],[Post-Chorus],[Bridge],[Interlude],[Solo:Instrument],[Break],[Build],[Drop].
-★ REGISTER: Adapt to intensity (${emotionalIntensity}/100) + energy (${energy}/100).
+★ LYRICS — WRITING QUALITY ENGINE:
+  STRUCTURE: Full structure required. [ ] section tags, ( ) ad-libs, ~word~=melisma, CAPS=shouted.
+  V5.5 SECTIONS: [Verse],[Pre-Chorus],[Chorus],[Post-Chorus],[Bridge],[Interlude],[Solo:Instrument],[Break],[Build],[Drop],[Outro].
+  REGISTER: Adapt to intensity (${emotionalIntensity}/100) + energy (${energy}/100). Street register active for trap/drill: verlan + argot in 40-60% of verse lines. Vulgarités at line-end for sonic violence, NOT systematic. NEVER academic French for street genres.
+  ORIENTATION (silent, before writing): (1) WHO speaks — age, pressure, social posture (2) EMOTIONAL TERRITORY — confess/seduce/threaten/dominate/survive/celebrate (3) CORRECT REGISTER for this mouth (4) WHAT the listener must feel after the chorus.
+  SECTION JOBS: Verse=narrative+detail+world-building (private logic, subtext) | Pre-Chorus=tension+lift+emotional tilt | Chorus=SIMPLER than verse+unforgettable | Bridge=rupture OR confession OR twist OR altitude change — NEVER Verse 3.
+  CONCRETE IMAGES: Physical world — textures, places, objects: wet asphalt, receipts, elevator, cracked mirrors, cheap plastic, velvet seats, fingerprints, motel rooms, empty bottles. Mix noble imagery + dirty/tactile. This contrast makes lyrics expensive and lived-in.
+  HOOK RULES: Short enough to memorize instantly. Open vowels. Internal bounce. ONE core emotional idea. Sounds inevitable after first listen. FORBIDDEN: too wordy, explains instead of hits, interchangeable with other songs.
+  ANTI-CLICHE: Reject any line that (a) could belong to 50 other songs (b) is stylish but emotionally false (c) arrives by habit not necessity. A rough true line beats a beautiful false line.
+  RICHNESS: When flat — replace abstract noun with concrete object | replace generic emotion with visible behavior | add contradiction | add place/class marker | add sensory residue | add aftermath instead of declaration | use unusual verb | let one line stay brutally simple after two denser ones.
+  SELF-OPPOSITION (silent, after draft): Find 3 weakest lines → why exactly weak → rewrite more concrete/musical/true. Prefer inhabited over literary.
 ${vocalDeliveryRule}
 ${vocoderRule}
 ★ ANTI-GENERIC: BANNED "Trap" or "Pop" alone. Use precise sonic textures.
@@ -346,10 +345,6 @@ Respond ONLY in JSON (no backticks).`;
       }
     }
 
-    // SPRINT 3 — Sober dedup. Only flags collisions with [DIVERGENCE V*],
-    // no more crude regex Major↔Minor swaps or BPM fudging that bypassed
-    // the harmonic profile discipline. The model is responsible for the
-    // musical divergence; we just label fallbacks if it failed.
     const core = parsed.sunoPrompt || (parsed.sunoPrompts?.[0]) || "";
     const variants = parsed.sunoPrompts || [];
     const dedup = [core];
@@ -364,7 +359,7 @@ Respond ONLY in JSON (no backticks).`;
       }
       dedup.push(v);
     }
-    // ─── SPRINT 2 — ACTIVE GUARDRAILS ───
+
     const collectLyrics = (p: any) =>
       (p.lyrics || '') + '\n' +
       (p.structuredLyrics || []).map((s: any) => s?.text || '').join('\n');
@@ -380,9 +375,6 @@ Respond ONLY in JSON (no backticks).`;
     let lastRawJson = response.text || '';
     const MAX_HEALING_PASSES = 2;
 
-    // ── SPRINT 5 — SELF-HEALING MULTI-PASS LOOP ──
-    // Each pass can target gimmick leaks AND/OR harmonic violations in one shot.
-    // Loop exits early as soon as both validators come back clean.
     while (healingPasses < MAX_HEALING_PASSES) {
       const artistLeaks = gimmickLeaks.filter(l => l.artist !== 'GLOBAL');
       const needsLeakFix = artistLeaks.length > 0;
@@ -424,7 +416,6 @@ Respond ONLY in JSON (no backticks).`;
           parsed.structuredLyrics = fixed.structuredLyrics;
         }
         if (fixed.sunoPrompt) parsed.sunoPrompt = fixed.sunoPrompt;
-        // Re-run both validators for the next loop iteration
         lyricsCorpus = collectLyrics(parsed);
         gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
         harmonicViolations = validateHarmonicCoherence(
@@ -439,7 +430,6 @@ Respond ONLY in JSON (no backticks).`;
     }
     const retried = healingPasses > 0;
 
-    // (b) Hard-strip GLOBAL banlist (mère/maman) — non-negotiable
     let globalStripCount = 0;
     if (parsed.lyrics) {
       const r = stripGlobalBanlist(parsed.lyrics);
@@ -460,8 +450,6 @@ Respond ONLY in JSON (no backticks).`;
       console.warn(`[GUARDRAIL] hard-stripped ${globalStripCount} global-banlist tokens (mère/maman)`);
     }
 
-    // (c) Harmonic coherence — already validated in the self-healing loop above.
-    // Re-run one final time so the diagnostics reflect the post-strip state.
     harmonicViolations = validateHarmonicCoherence(
       parsed.sunoPrompt || '',
       sonicDNA?.harmonicProfileId,
@@ -472,10 +460,8 @@ Respond ONLY in JSON (no backticks).`;
         harmonicViolations.map(v => `${v.kind}:${v.detail}`).join(' | '));
     }
 
-    // Re-lint final state for the diagnostics payload
     const finalLeaks = lintForGimmickLeaks(collectLyrics(parsed), inspiredBy, secondaryInspiredBy);
 
-    // Sprint 4 — surface applied cursors + harmonic profile for audit
     const appliedCursors = sonicDNA ? {
       compositionMode:   sonicDNA.compositionMode,
       registerMode:      sonicDNA.registerMode,
@@ -551,14 +537,43 @@ export async function getArtistVocalIdentity(artistName: string) {
 }
 
 export async function rerollVerse(context: any, verse: Verse) {
-  const prompt = `Expert Suno V5.5 lyrics writer. Genre: ${context.genre} | Mood: ${context.mood} | Inspired by: ${context.inspiredBy}
-  Regenerate section: Type=${verse.type} | Current: ${verse.text}
-  Keep style coherence. Use V5.5 metatags [Vocal Style:],[Mood:],[Energy:] on separate lines. FORBIDDEN: real artist names. Only the new lyrics.`;
+  const artistDNA = getRelevantWritingDNA(context.inspiredBy || '', context.genre || '');
+  const artistProfile = getArtistSpecificInstructions(context.inspiredBy || '');
+  const sectionJob = verse.type === 'chorus'
+    ? 'Chorus = SIMPLER than verse, unforgettable, ONE core emotional idea, sounds inevitable after first listen'
+    : verse.type === 'bridge'
+    ? 'Bridge = rupture OR confession OR altitude change — NEVER another verse'
+    : verse.type === 'pre-chorus' || verse.type === 'prechorus'
+    ? 'Pre-Chorus = tension, lift, emotional tilt — opens the chest before the chorus hits'
+    : 'Verse = narrative, detail, world-building, private logic, subtext';
+
+  const prompt = `Expert Suno V5.5 lyrics rewriter. Rewrite this section with higher quality.
+
+ARTIST: ${context.inspiredBy} | GENRE: ${context.genre} | MOOD: ${context.mood} | LANGUAGE: ${context.language || 'French'}
+SECTION TYPE: ${verse.type}
+CURRENT TEXT:
+${verse.text}
+
+REWRITING RULES:
+- SECTION JOB: ${sectionJob}
+- Match the artist exact register, flow, vocabulary from the DNA below
+- CONCRETE IMAGES over abstraction: physical world (objects, textures, places, receipts, corridors, wet asphalt, cheap plastic)
+- ANTI-CLICHE: reject any line that could belong to 50 other songs. A rough true line beats a beautiful false line.
+- HOOK (if chorus): short enough to memorize, open vowels, ONE emotional idea, sounds inevitable
+- Street register where appropriate: verlan + argot for trap/drill, NEVER academic French for street genres
+- Use V5.5 metatags [Vocal Style:],[Mood:],[Energy:] on SEPARATE lines BEFORE the rewritten lyrics
+- FORBIDDEN: real artist names
+
+ARTIST WRITING DNA:
+${artistDNA}
+${artistProfile}
+
+Return ONLY the rewritten section with metatags. No explanations. No markdown.`;
   return withRetry(async () => {
     const response = await callGeminiResilient({
       model: FAST_MODEL,
       contents: prompt,
-      config: { systemInstruction: "Suno V5.5 lyrics writer. New lyrics only, with metatags." }
+      config: { systemInstruction: "Elite Suno V5.5 lyrics rewriter. Return only the rewritten section with V5.5 metatags. No markdown, no explanation, no preamble." }
     });
     return response.text || verse.text;
   });
