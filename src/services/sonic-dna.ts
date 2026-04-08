@@ -52,7 +52,7 @@ export interface SonicDNA {
   compositionMode?: 'text-first' | 'melody-first' | 'hook-driven';
   /** D12 — ancrage territorial linguistique. lang + density 0..100 */
   territorialAnchor?: {
-    lang: 'none' | 'arabe' | 'kabyle' | 'lingala' | 'creole' | 'italo' | 'darija';
+    lang: 'none' | 'arabe' | 'kabyle' | 'lingala' | 'creole' | 'italo' | 'darija' | 'spanish';
     density: number;
     role?: 'lexical' | 'samples' | 'both';
   };
@@ -1850,10 +1850,10 @@ const CORPUS_CURSORS: Record<string, CursorOverrides> = {
   'KANYE WEST': { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'concept-fictional', referenceDensity: 60, technicityMode: 'virtuoso',       honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'boom-bap-piano-loop' },
   'PLAYBOI CARTI': { compositionMode: 'hook-driven', registerMode: 'combative',   conceptualMode: 'non-narrative',   referenceDensity: 10, technicityMode: 'simple-volunteer', honorCode: 'none',     tempoGravity: 'fast', harmonicProfileId: 'cloud-trap-arabe' },
   'LANA DEL REY': { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'narrative-real', referenceDensity: 70, technicityMode: 'standard',       honorCode: 'none',     tempoGravity: 'slow', harmonicProfileId: 'pop-chanson-acoustic' },
-  ROSALIA:      { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'concept-fictional', referenceDensity: 50, technicityMode: 'virtuoso',       honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'rai-mediterranean-vintage' },
+  ROSALIA:      { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'concept-fictional', referenceDensity: 50, technicityMode: 'virtuoso',       honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 70, role: 'both' } },
   'BILLIE EILISH': { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'narrative-real', referenceDensity: 50, technicityMode: 'standard',     honorCode: 'none',     tempoGravity: 'slow', harmonicProfileId: 'cloud-rnb-velvet' },
   'THE WEEKND': { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 40, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'synth-retro-futur' },
-  'BAD BUNNY':  { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 30, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'afro-trap-melodic' },
+  'BAD BUNNY':  { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 30, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 80, role: 'both' } },
   'JUICE WRLD': { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'narrative-real',  referenceDensity: 35, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'cloud-rnb-velvet' },
   'POST MALONE':{ compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 30, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'pop-chanson-acoustic' },
   REMA:         { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 15, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'afro-trap-melodic' },

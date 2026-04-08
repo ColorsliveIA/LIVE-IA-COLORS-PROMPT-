@@ -38,7 +38,8 @@ export type HarmonicProfileId =
   | 'marseille-pop-naive'
   | 'conscient-oriental-sampled'
   | 'poet-jazz-noir'
-  | 'street-grave-808-vocoder';
+  | 'street-grave-808-vocoder'
+  | 'reggaeton-latino-dembow';
 
 export interface HarmonicProfile {
   id: HarmonicProfileId;
@@ -241,6 +242,16 @@ export const HARMONIC_PROFILES: Record<HarmonicProfileId, HarmonicProfile> = {
     bpmRange: '80-95',
     antiPatterns: ['kalimba', 'jazz Rhodes', 'cloud pads', 'flamenca'],
     description: 'Slow grave street-mafia — vocoder discrete, 808 sub-bass massive, tempo gravity max.'
+  },
+  'reggaeton-latino-dembow': {
+    id: 'reggaeton-latino-dembow',
+    label: 'Reggaeton Latino Dembow',
+    artistAnchors: ['Bad Bunny', 'Rosalía', 'J Balvin'],
+    instruments: ['dembow drum pattern', 'latin percussion shakers', 'reggaeton 808 sub', 'spanish guitar stabs', 'tropical synth plucks'],
+    sunoTags: ['Dembow', 'Reggaeton', 'Latin Percussion', 'Spanish Guitar'],
+    bpmRange: '88-100',
+    antiPatterns: ['afrobeat log drum', 'amapiano', 'jazz Rhodes', 'drill 140'],
+    description: 'Caribbean-latino dembow groove — dembow boom-ch-boom-chick, latin percussion, spanish inflections, NOT afrobeat.'
   }
 };
 
