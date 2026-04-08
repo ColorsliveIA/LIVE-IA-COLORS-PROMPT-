@@ -244,3 +244,31 @@ export function lintForGimmickLeaks(
 export function getBanlistSize(): number {
   return Object.keys(GIMMICK_BANLIST).length;
 }
+
+/**
+ * SPRINT 2 — Hard-strip global banlist words from a text.
+ * Replaces every GLOBAL_BANLIST occurrence (word-boundary, case-insensitive)
+ * with a neutral filler. Returns the cleaned text + count of substitutions.
+ */
+export function stripGlobalBanlist(text: string, replacement: string = '∅'): { text: string; count: number } {
+  if (!text) return { text: '', count: 0 };
+  let out = text;
+  let count = 0;
+  for (const w of GLOBAL_BANLIST) {
+    const escaped = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`\\b${escaped}\\b`, 'gi');
+    out = out.replace(re, () => { count++; return replacement; });
+  }
+  return { text: out, count };
+}
+
+/**
+ * SPRINT 2 — Build a corrective instruction for a Gemini retry pass.
+ * Given a list of leaks, returns a short directive that asks the model
+ * to rewrite ONLY the offending lines, removing the listed tokens.
+ */
+export function buildLeakFixInstruction(leaks: GimmickLeak[]): string {
+  if (!leaks || leaks.length === 0) return '';
+  const tokens = Array.from(new Set(leaks.map(l => l.token))).slice(0, 30);
+  return `LEAK CORRECTION PASS — The previous output contained forbidden tokens that MUST be removed: ${tokens.join(', ')}. Rewrite ONLY the affected lines (keep all clean lines intact, identical line count, identical structure tags). Replace each forbidden token with a stylistically equivalent expression that does NOT reference the source artist's biography, crew, label, city, or signature gimmicks. Return the same JSON shape.`;
+}

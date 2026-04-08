@@ -313,3 +313,56 @@ ANTI-PATTERNS for this profile (NEVER use): ${profile.antiPatterns.join(', ')}
 CRITICAL: Do NOT default to "Dark Piano Loop" or generic "Cinematic Minor Piano". Use the specific instruments above. The profile is the source of truth for the harmonic identity.
 `;
 }
+
+/**
+ * SPRINT 2 — Validate that a generated sunoPrompt is coherent with the
+ * resolved harmonic profile. Returns a list of violations (anti-patterns
+ * present, or insufficient instrument coverage).
+ *
+ * Non-blocking : the caller decides what to do with the result.
+ */
+export interface HarmonicViolation {
+  kind: 'anti-pattern' | 'low-coverage';
+  detail: string;
+}
+
+export function validateHarmonicCoherence(
+  sunoPrompt: string,
+  explicitProfileId?: string | null,
+  inspiredBy?: string
+): HarmonicViolation[] {
+  if (!sunoPrompt) return [];
+  let profile = getHarmonicProfile(explicitProfileId);
+  if (!profile && inspiredBy) {
+    const s = suggestHarmonicProfileForArtist(inspiredBy);
+    if (s) profile = HARMONIC_PROFILES[s];
+  }
+  if (!profile) return [];
+
+  const lower = sunoPrompt.toLowerCase();
+  const violations: HarmonicViolation[] = [];
+
+  // Anti-pattern detection
+  for (const ap of profile.antiPatterns) {
+    if (!ap || ap.length < 3) continue;
+    if (lower.includes(ap.toLowerCase())) {
+      violations.push({ kind: 'anti-pattern', detail: ap });
+    }
+  }
+
+  // Coverage: at least 2 instruments from the profile palette must appear
+  const matchedInstruments = profile.instruments.filter(inst => {
+    if (!inst || inst.length < 3) return false;
+    // Match on the meaningful core word(s)
+    const core = inst.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+    return core.some(w => lower.includes(w));
+  });
+  if (matchedInstruments.length < 2) {
+    violations.push({
+      kind: 'low-coverage',
+      detail: `only ${matchedInstruments.length}/${profile.instruments.length} instruments matched (expected ≥2 from: ${profile.instruments.slice(0, 4).join(', ')})`
+    });
+  }
+
+  return violations;
+}

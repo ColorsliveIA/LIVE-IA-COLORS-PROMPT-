@@ -1,8 +1,9 @@
 import { Verse } from "../types";
 import { getArtistSpecificInstructions, getRelevantWritingDNA, isArtistMelodic } from './artist-profiles';
 import { getArtistSonicDNA, SonicDNA } from './sonic-dna';
-import { buildBanlistBlock, lintForGimmickLeaks } from './gimmick-banlist';
-import { buildHarmonicBlock } from './harmonic-profiles';
+import { buildBanlistBlock, lintForGimmickLeaks, stripGlobalBanlist, buildLeakFixInstruction } from './gimmick-banlist';
+import { buildHarmonicBlock, validateHarmonicCoherence } from './harmonic-profiles';
+import { buildCursorsBlock } from './cursors-block';
 
 const Type = {
   OBJECT: "OBJECT",
@@ -232,6 +233,7 @@ V5.5 METATAGS:
 ${artistSpecifics}
 ${sonicDNABlock}
 ${buildHarmonicBlock(sonicDNA?.harmonicProfileId, inspiredBy)}
+${buildCursorsBlock(sonicDNA)}
 ${buildBanlistBlock(inspiredBy, secondaryInspiredBy)}
 ${secondaryBlendingBlock}
 ${buildVariantDivergenceConstraints(genre, inspiredBy, era)}
@@ -361,15 +363,92 @@ Respond ONLY in JSON (no backticks).`;
       }
       dedup.push(v);
     }
-    // Gimmick leak diagnostic (does not block, just flags)
-    const lyricsCorpus = (parsed.lyrics || '') + '\n' +
-      (parsed.structuredLyrics || []).map((s: any) => s?.text || '').join('\n');
-    const gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
-    if (gimmickLeaks.length > 0) {
-      console.warn(`[GIMMICK LEAK] ${gimmickLeaks.length} forbidden tokens:`,
-        gimmickLeaks.map(l => `${l.artist}:${l.token}`).join(', '));
+    // ─── SPRINT 2 — ACTIVE GUARDRAILS ───
+    const collectLyrics = (p: any) =>
+      (p.lyrics || '') + '\n' +
+      (p.structuredLyrics || []).map((s: any) => s?.text || '').join('\n');
+
+    let lyricsCorpus = collectLyrics(parsed);
+    let gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
+    let retried = false;
+
+    // (a) Auto-rewrite retry on artist gimmick leak (max 1 pass)
+    const artistLeaks = gimmickLeaks.filter(l => l.artist !== 'GLOBAL');
+    if (artistLeaks.length > 0) {
+      try {
+        retried = true;
+        const fixInstr = buildLeakFixInstruction(artistLeaks);
+        const fixPrompt = `${fixInstr}\n\nORIGINAL OUTPUT (JSON):\n${response.text}\n\nReturn the corrected JSON with the SAME schema.`;
+        const fixResp = await callGemini({
+          model: HEAVY_MODEL,
+          contents: fixPrompt,
+          config: {
+            temperature: 0.6,
+            responseMimeType: "application/json",
+            responseSchema: useFullSchema ? fullSchema : lightSchema,
+            systemInstruction
+          }
+        });
+        if (fixResp.text) {
+          const fixed = JSON.parse(fixResp.text);
+          if (fixed.lyrics) parsed.lyrics = fixed.lyrics;
+          if (Array.isArray(fixed.structuredLyrics) && fixed.structuredLyrics.length > 0) {
+            parsed.structuredLyrics = fixed.structuredLyrics;
+          }
+          lyricsCorpus = collectLyrics(parsed);
+          gimmickLeaks = lintForGimmickLeaks(lyricsCorpus, inspiredBy, secondaryInspiredBy);
+        }
+      } catch (e: any) {
+        console.warn('[GUARDRAIL] leak-fix retry failed:', e?.message || e);
+      }
     }
-    return { ...parsed, sunoPrompts: dedup, structuredLyrics: parsed.structuredLyrics || [], _gimmickLeaks: gimmickLeaks };
+
+    // (b) Hard-strip GLOBAL banlist (mère/maman) — non-negotiable
+    let globalStripCount = 0;
+    if (parsed.lyrics) {
+      const r = stripGlobalBanlist(parsed.lyrics);
+      parsed.lyrics = r.text;
+      globalStripCount += r.count;
+    }
+    if (Array.isArray(parsed.structuredLyrics)) {
+      parsed.structuredLyrics = parsed.structuredLyrics.map((s: any) => {
+        if (s && typeof s.text === 'string') {
+          const r = stripGlobalBanlist(s.text);
+          globalStripCount += r.count;
+          return { ...s, text: r.text };
+        }
+        return s;
+      });
+    }
+    if (globalStripCount > 0) {
+      console.warn(`[GUARDRAIL] hard-stripped ${globalStripCount} global-banlist tokens (mère/maman)`);
+    }
+
+    // (c) Harmonic coherence validation (non-blocking diagnostic)
+    const harmonicViolations = validateHarmonicCoherence(
+      parsed.sunoPrompt || '',
+      sonicDNA?.harmonicProfileId,
+      inspiredBy
+    );
+    if (harmonicViolations.length > 0) {
+      console.warn(`[GUARDRAIL] harmonic violations:`,
+        harmonicViolations.map(v => `${v.kind}:${v.detail}`).join(' | '));
+    }
+
+    // Re-lint final state for the diagnostics payload
+    const finalLeaks = lintForGimmickLeaks(collectLyrics(parsed), inspiredBy, secondaryInspiredBy);
+
+    return {
+      ...parsed,
+      sunoPrompts: dedup,
+      structuredLyrics: parsed.structuredLyrics || [],
+      _diagnostics: {
+        gimmickLeaks: finalLeaks,
+        harmonicViolations,
+        globalStripCount,
+        retried
+      }
+    };
   }, 2).catch((err) => {
     const fallback = sonicDNA?.sunoStyleTemplate || getGenreFallbackStyle(genre);
     return {
