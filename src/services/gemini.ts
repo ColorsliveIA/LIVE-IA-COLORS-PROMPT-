@@ -16,6 +16,31 @@ const Type = {
 // ── Single active model: gemini-2.5-flash (gemini-2.0-flash is dead) ──
 const FAST_MODEL = "gemini-2.5-flash";
 const HEAVY_MODEL = "gemini-2.5-flash";
+const FALLBACK_MODEL = "gemini-2.0-flash";
+
+// Tracks whether the primary model is currently in a 503 brownout window.
+// When tripped, we skip straight to the fallback model for ~60s to avoid
+// burning the user's time on a known-broken endpoint.
+let primaryBrownoutUntil = 0;
+function isPrimaryBrownedOut() { return Date.now() < primaryBrownoutUntil; }
+function tripPrimaryBrownout(ms = 60_000) { primaryBrownoutUntil = Date.now() + ms; }
+
+async function callGeminiResilient(payload: { model: string; contents: any; config?: any }) {
+  const primary = payload.model;
+  const useFallbackFirst = isPrimaryBrownedOut() && primary !== FALLBACK_MODEL;
+  try {
+    return await callGemini({ ...payload, model: useFallbackFirst ? FALLBACK_MODEL : primary });
+  } catch (e: any) {
+    const is503 = e?.message?.includes('503') || e?.status === 503 ||
+      e?.message?.includes('temporarily unavailable') || e?.message?.includes('high demand');
+    if (is503 && primary !== FALLBACK_MODEL && !useFallbackFirst) {
+      console.warn(`[FALLBACK] ${primary} 503 → switching to ${FALLBACK_MODEL}`);
+      tripPrimaryBrownout();
+      return await callGemini({ ...payload, model: FALLBACK_MODEL });
+    }
+    throw e;
+  }
+}
 
 async function withRetry<T>(fn: () => Promise<T>, maxRetries: number = 4): Promise<T> {
   let lastError: any;
@@ -292,7 +317,7 @@ Respond ONLY in JSON (no backticks).`;
   const useFullSchema = mode === 'all' || mode === 'lyrics';
 
   return withRetry(async () => {
-    const response = await callGemini({
+    const response = await callGeminiResilient({
       model: HEAVY_MODEL,
       contents: prompt,
       config: {
@@ -381,7 +406,7 @@ Respond ONLY in JSON (no backticks).`;
           buildBanlistBlock(inspiredBy, secondaryInspiredBy),
         ].filter(Boolean).join('\n');
         const fixPrompt = `[SELF-HEALING PASS ${healingPasses}/${MAX_HEALING_PASSES}]\n${fixParts.join('\n\n')}\n\n${directiveContext}\n\nORIGINAL OUTPUT (JSON):\n${lastRawJson}\n\nReturn the corrected JSON with the SAME schema. Fix ALL issues above in a single response.`;
-        const fixResp = await callGemini({
+        const fixResp = await callGeminiResilient({
           model: HEAVY_MODEL,
           contents: fixPrompt,
           config: {
@@ -489,7 +514,7 @@ Respond ONLY in JSON (no backticks).`;
 export async function suggestArtistAndTitle(theme: string, genre: string, mood: string) {
   const prompt = `Generate a FICTIONAL artist name and song title. Theme: ${theme} | Genre: ${genre} | Mood: ${mood}. NEVER cite a real artist. JSON only.`;
   return withRetry(async () => {
-    const response = await callGemini({
+    const response = await callGeminiResilient({
       model: FAST_MODEL,
       contents: prompt,
       config: {
@@ -511,7 +536,7 @@ export async function getArtistVocalIdentity(artistName: string) {
   const prompt = `Research vocal identity of "${artistName}": voice type, timbre, singing style (melodic or rap?), presence, accent, autotune, language (ex: FRENCH-ARABIC for raï artists), gender, WEIRDNESS 0-100, STYLE INFLUENCE 0-100. Use Google Search. JSON only:
   {"voiceType":"string","vocalTimbre":"string","singingStyle":"string","vocalPresence":"string","accent":"string","vocalReference":"string","language":"string","weirdness":number,"styleInfluence":number,"summary":"string"}`;
   return withRetry(async () => {
-    const response = await callGemini({
+    const response = await callGeminiResilient({
       model: FAST_MODEL,
       contents: prompt,
       config: {
@@ -530,7 +555,7 @@ export async function rerollVerse(context: any, verse: Verse) {
   Regenerate section: Type=${verse.type} | Current: ${verse.text}
   Keep style coherence. Use V5.5 metatags [Vocal Style:],[Mood:],[Energy:] on separate lines. FORBIDDEN: real artist names. Only the new lyrics.`;
   return withRetry(async () => {
-    const response = await callGemini({
+    const response = await callGeminiResilient({
       model: FAST_MODEL,
       contents: prompt,
       config: { systemInstruction: "Suno V5.5 lyrics writer. New lyrics only, with metatags." }
