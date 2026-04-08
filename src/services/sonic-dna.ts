@@ -1872,6 +1872,12 @@ const CORPUS_CURSORS: Record<string, CursorOverrides> = {
   'DAFT PUNK':  { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'concept-fictional', referenceDensity: 30, technicityMode: 'virtuoso',       honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'synth-retro-futur' },
   'FRED AGAIN': { compositionMode: 'melody-first', registerMode: 'contemplative', conceptualMode: 'non-narrative',   referenceDensity: 20, technicityMode: 'virtuoso',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'synth-retro-futur' },
   'PEGGY GOU':  { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 10, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'fast', harmonicProfileId: 'synth-retro-futur' },
+
+  // ── SPRINT 6.1 — LATINO CLUSTER ──
+  'J BALVIN':   { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 15, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 80, role: 'both' } },
+  FEID:         { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 20, technicityMode: 'standard',         honorCode: 'implicit', tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 85, role: 'both' } },
+  'PESO PLUMA': { compositionMode: 'melody-first', registerMode: 'hybrid',        conceptualMode: 'narrative-real',  referenceDensity: 30, technicityMode: 'standard',         honorCode: 'central',  tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 90, role: 'both' } },
+  'KAROL G':    { compositionMode: 'hook-driven',  registerMode: 'hybrid',        conceptualMode: 'non-narrative',   referenceDensity: 20, technicityMode: 'standard',         honorCode: 'none',     tempoGravity: 'mid',  harmonicProfileId: 'reggaeton-latino-dembow', territorialAnchor: { lang: 'spanish', density: 80, role: 'both' } },
 };
 
 /** Normalise une clé corpus pour lookup tolérant accents/quotes */
