@@ -7,6 +7,7 @@ import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
 import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_PRODUCTION_STYLES, MUSIC_VOCAL_TECHNIQUES, MUSIC_VOCAL_TEXTURES, MUSIC_VOCAL_INTERPRETATIONS, MUSIC_FLOW_TAGS, MUSIC_WRITING_TAGS, MUSIC_DRUM_BASS_TAGS, MUSIC_MELODY_TAGS, MUSIC_ATMOSPHERE_TAGS, MUSIC_MIX_TAGS, MUSIC_STRUCTURE_TAGS } from '../constants';
+import DiagnosticsPanel, { GenerationDiagnostics } from './DiagnosticsPanel';
 
 interface MusicStudioProps {
   state: SessionState;
@@ -352,6 +353,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   };
 
   const [isBangerExploding, setIsBangerExploding] = useState(false);
+  const [lastDiagnostics, setLastDiagnostics] = useState<GenerationDiagnostics | null>(null);
 
   const handleBangerClick = () => {
     if (state.music.isGenerating) return;
@@ -415,7 +417,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       );
 
       const result = await Promise.race([generationPromise, timeoutPromise]) as any;
-      
+
+      // Sprint 3 — capture guardrail diagnostics
+      setLastDiagnostics(result?._diagnostics || null);
+
       setState(prev => {
         const newHistory = [
           {
@@ -2193,6 +2198,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   {state.music.sunoPrompt || "Le prompt de style Suno apparaîtra ici..."}
                 </div>
               )}
+              <DiagnosticsPanel diagnostics={lastDiagnostics} />
               {!isEditingPrompt && (
                 <div className="absolute bottom-3 right-3 flex items-center gap-2">
                   <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 3000 ? 'text-red-500' : 'text-white/20'}`}>
