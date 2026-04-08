@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
 import { MUSIC_GENRES, MUSIC_MOODS, MUSIC_LANGUAGES, MUSIC_ARTISTS, MUSIC_COMMERCIALITY, MUSIC_VOICE_TYPES, MUSIC_TIMBRES, MUSIC_SINGING_STYLES, MUSIC_VOCAL_PRESENCE, MUSIC_EMOTION_LEVELS, MUSIC_PRODUCTION_STYLES, MUSIC_VOCAL_TECHNIQUES, MUSIC_VOCAL_TEXTURES, MUSIC_VOCAL_INTERPRETATIONS, MUSIC_FLOW_TAGS, MUSIC_WRITING_TAGS, MUSIC_DRUM_BASS_TAGS, MUSIC_MELODY_TAGS, MUSIC_ATMOSPHERE_TAGS, MUSIC_MIX_TAGS, MUSIC_STRUCTURE_TAGS } from '../constants';
 import DiagnosticsPanel, { GenerationDiagnostics } from './DiagnosticsPanel';
+import { HARMONIC_PRESETS, applyHarmonicPreset } from '../services/harmonic-profiles';
 
 interface MusicStudioProps {
   state: SessionState;
@@ -354,6 +355,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
   const [isBangerExploding, setIsBangerExploding] = useState(false);
   const [lastDiagnostics, setLastDiagnostics] = useState<GenerationDiagnostics | null>(null);
+  const [selectedHarmonicPreset, setSelectedHarmonicPreset] = useState<string | null>(null);
 
   const handleBangerClick = () => {
     if (state.music.isGenerating) return;
@@ -409,7 +411,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         '',
         state.music.secondaryInspiredBy,
         state.music.advancedTags,
-        mode
+        mode,
+        selectedHarmonicPreset ? applyHarmonicPreset(selectedHarmonicPreset) || undefined : undefined
       );
 
       const timeoutPromise = new Promise((_, reject) => 
@@ -1095,6 +1098,45 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </div>
                 </button>
               </div>
+            </div>
+
+            {/* Harmonic Preset Selector (Sprint 4 — applies a curated cursor recipe) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between ml-1">
+                <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest">Harmonic Preset</label>
+                {selectedHarmonicPreset && (
+                  <button
+                    onClick={() => setSelectedHarmonicPreset(null)}
+                    className="font-mono text-[8px] text-[#E8712A] hover:text-white transition-colors uppercase tracking-tighter"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {HARMONIC_PRESETS.map(p => {
+                  const isActive = selectedHarmonicPreset === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => setSelectedHarmonicPreset(isActive ? null : p.id)}
+                      title={p.description}
+                      className={`px-3 py-1.5 rounded-full border font-mono text-[9px] uppercase tracking-tighter transition-all ${
+                        isActive
+                          ? 'bg-[#E8712A]/20 border-[#E8712A]/50 text-[#E8712A] shadow-[0_0_10px_rgba(232,113,42,0.15)]'
+                          : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20 hover:text-white/60'
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {selectedHarmonicPreset && (
+                <p className="font-mono text-[9px] text-white/30 ml-1 leading-relaxed">
+                  {HARMONIC_PRESETS.find(p => p.id === selectedHarmonicPreset)?.description}
+                </p>
+              )}
             </div>
 
             {/* Variantes de production Selection Grid */}
