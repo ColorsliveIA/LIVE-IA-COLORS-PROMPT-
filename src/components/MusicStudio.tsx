@@ -700,7 +700,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </div>
 
                 {/* Status Indicators */}
-                <div className="grid grid-cols-3 gap-4 w-full pt-4 border-t border-white/5">
+                <div className="grid grid-cols-3 gap-4 w-full pt-4 border-t border-[#10B981]/10">
                   <div className="flex flex-col items-center gap-1">
                     <div className={`w-1.5 h-1.5 rounded-full ${loadingProgress > 30 ? 'bg-accent shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-white/10'}`} />
                     <span className="font-mono text-[8px] text-white/20 uppercase">Lyrics</span>
@@ -725,7 +725,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
       <div className="fixed inset-0 bg-grid-white pointer-events-none opacity-[0.01] z-0" />
       
       {/* Header */}
-      <div className="min-h-14 sm:min-h-20 border-b border-white/5 flex flex-col sm:flex-row items-center justify-between px-3 sm:px-10 py-2 sm:py-0 glass-panel sticky top-0 z-50 gap-2 sm:gap-0">
+      <div className="min-h-14 sm:min-h-20 border-b border-[#10B981]/10 flex flex-col sm:flex-row items-center justify-between px-3 sm:px-10 py-2 sm:py-0 glass-panel sticky top-0 z-50 gap-2 sm:gap-0">
         <div className="flex items-center gap-3 sm:gap-6 w-full sm:w-auto">
           <button 
             onClick={onMenuClick}
@@ -780,8 +780,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="w-full xl:w-[400px] flex flex-col gap-6"
         >
-          {/* Tab Navigation */}
-          <div className="flex bg-black/40 border border-white/5 rounded-xl p-1 mb-2">
+          {/* Tab Navigation — polished neon look */}
+          <div className="flex bg-black/60 border border-[#10B981]/15 rounded-xl p-1.5 mb-2 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
             {[
               { id: 'composition', label: 'Composition', icon: LayoutGrid },
               { id: 'vocals', label: 'Vocals', icon: Mic },
@@ -790,15 +790,18 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2 rounded-lg font-mono text-[8px] sm:text-[10px] uppercase tracking-widest transition-all ${
-                  activeTab === tab.id 
-                    ? 'bg-[#10B981] text-black shadow-[0_0_15px_rgba(16,185,129,0.3)]' 
-                    : 'text-white/40 hover:text-white/60 hover:bg-white/5'
+                className={`relative flex-1 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2.5 py-2 sm:py-3 rounded-lg font-mono uppercase tracking-widest transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-[#10B981] text-black font-black text-[10px] sm:text-[12px] shadow-[0_0_25px_rgba(16,185,129,0.5)] scale-[1.02]'
+                    : 'text-white/40 text-[8px] sm:text-[10px] font-bold hover:text-[#10B981]/80 hover:bg-[#10B981]/5'
                 }`}
               >
-                <tab.icon size={12} className="sm:w-3.5 sm:h-3.5" />
+                <tab.icon size={activeTab === tab.id ? 14 : 12} className={activeTab === tab.id ? 'sm:w-4 sm:h-4' : 'sm:w-3.5 sm:h-3.5'} />
                 <span className="hidden sm:inline">{tab.label}</span>
                 <span className="sm:hidden">{tab.label.substring(0, 4)}</span>
+                {activeTab === tab.id && (
+                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#10B981] shadow-[0_0_8px_#10B981]" />
+                )}
               </button>
             ))}
           </div>
@@ -829,7 +832,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <p className="editorial-heading">Core Style & Structure</p>
                 </div>
               </div>
-              <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border border-[#10B981]/10 flex items-center justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_10px_#10B981]" />
               </div>
             </div>
@@ -868,7 +871,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
                           ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20'
+                          : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                       }`}
                     >
                       {isActive && (
@@ -965,7 +968,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
               <button 
                 onClick={() => setShowArtistModal(true)}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
+                className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
               >
                 <div className="text-left flex items-center gap-3">
                   <User size={14} className="text-[#10B981]" />
@@ -1003,7 +1006,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     value={state.music.customNegativePrompt || ''}
                     onChange={(e) => updateMusicState({ customNegativePrompt: e.target.value })}
                     placeholder="Ex: No autotune, No trap, No acoustic..."
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-red-500/40 outline-none transition-all placeholder:text-white/10"
+                    className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-red-500/40 outline-none transition-all placeholder:text-white/10"
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-focus-within:opacity-100 transition-opacity">
                     <div className="px-1.5 py-0.5 rounded bg-red-500/10 border border-red-500/20 font-mono text-[8px] text-red-400 uppercase">Exclude</div>
@@ -1070,7 +1073,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </label>
                 <button 
                   onClick={() => setShowSecondaryArtistModal(true)}
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
+                  className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                 >
                   <div className="text-left flex items-center gap-3">
                     <User size={14} className="text-white/40" />
@@ -1129,7 +1132,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 })}
               </div>
               {selectedHarmonicPreset && (
-                <p className="font-mono text-[9px] text-white/60 leading-relaxed italic border-t border-white/5 pt-2">
+                <p className="font-mono text-[9px] text-white/60 leading-relaxed italic border-t border-[#10B981]/10 pt-2">
                   {HARMONIC_PRESETS.find(p => p.id === selectedHarmonicPreset)?.description}
                 </p>
               )}
@@ -1156,7 +1159,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
                           ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20'
+                          : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                       }`}
                     >
                       <Sliders size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
@@ -1204,7 +1207,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                         isActive 
                           ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                          : 'bg-black/40 border-white/5 hover:border-white/20'
+                          : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                       }`}
                     >
                       {isActive && (
@@ -1241,7 +1244,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Lyrics Language</label>
               <button 
                 onClick={() => setShowLangSelect(!showLangSelect)}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
+                className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
               >
                 <div className="text-left flex items-center gap-2">
                   <Globe size={14} className="text-[#10B981]" />
@@ -1303,7 +1306,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 onBlur={(e) => updateMusicState({ theme: e.target.value })}
                 placeholder="De quoi parle la chanson ?"
                 rows={3}
-                className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all resize-none placeholder:text-white/20 shadow-inner"
+                className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all resize-none placeholder:text-white/20 shadow-inner"
               />
             </div>
 
@@ -1311,7 +1314,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             <div>
               <div className="relative">
                 <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Tempo (BPM)</label>
-                <div className="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl px-4 py-3 group hover:border-[#10B981]/40 transition-all shadow-inner">
+                <div className="flex items-center gap-3 bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 group hover:border-[#10B981]/40 transition-all shadow-inner">
                   <Clock size={14} className="text-[#10B981]" />
                   <input
                     type="number"
@@ -1326,7 +1329,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
               <div className="relative">
                 {/* Advanced DNA Tags Button */}
-                <div className="mt-6 pt-6 border-t border-white/5">
+                <div className="mt-6 pt-6 border-t border-[#10B981]/10">
                   <button
                     onClick={() => setShowAdvancedTagsModal(true)}
                     className="w-full group relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br from-[#10B981]/5 to-transparent border border-[#10B981]/20 hover:border-[#10B981]/40 transition-all"
@@ -1425,7 +1428,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
                               ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                              : 'bg-black/40 border-white/5 hover:border-white/20'
+                              : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                           }`}
                         >
                           <UserCircle size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
@@ -1451,7 +1454,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
                               ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                              : 'bg-black/40 border-white/5 hover:border-white/20'
+                              : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                           }`}
                         >
                           <Waves size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
@@ -1485,7 +1488,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
                               ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                              : 'bg-black/40 border-white/5 hover:border-white/20'
+                              : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                           }`}
                         >
                           <Mic2 size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
@@ -1503,7 +1506,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Vocal Presence</label>
                   <button 
                     onClick={() => setShowPresenceSelect(!showPresenceSelect)}
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
+                    className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                   >
                     <div className="text-left">
                       <div className="font-mono text-xs text-white font-medium">{state.music.vocalPresence || 'Select Presence'}</div>
@@ -1551,7 +1554,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <label className="font-mono text-[9px] text-white/30 uppercase tracking-widest mb-2.5 block ml-1">Vocal Technique (V5.2)</label>
                   <button 
                     onClick={() => setShowVocalTechniqueSelect(!showVocalTechniqueSelect)}
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
+                    className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 flex items-center justify-between group hover:border-[#10B981]/40 transition-all shadow-inner"
                   >
                     <div className="text-left flex items-center gap-2">
                       <Mic2 size={14} className="text-[#10B981]" />
@@ -1603,7 +1606,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     defaultValue={state.music.accent}
                     onBlur={(e) => updateMusicState({ accent: e.target.value })}
                     placeholder="e.g. British, Southern, Patois..."
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
+                    className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20"
                   />
                 </div>
 
@@ -1623,7 +1626,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     defaultValue={state.music.vocalReference}
                     onBlur={(e) => updateMusicState({ vocalReference: e.target.value })}
                     placeholder="e.g. Jorja Smith-like restraint, airy falsetto with deep soul resonance..."
-                    className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20 resize-none custom-scrollbar"
+                    className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-3 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/20 resize-none custom-scrollbar"
                   />
                   <div className="absolute bottom-3 right-3 opacity-0 group-focus-within/ref:opacity-100 transition-opacity">
                     <div className="font-mono text-[8px] text-[#10B981] uppercase tracking-widest">Ref. Mode</div>
@@ -1643,7 +1646,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all relative group overflow-hidden ${
                             isActive 
                               ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                              : 'bg-black/40 border-white/5 hover:border-white/20'
+                              : 'bg-black/40 border-[#10B981]/10 hover:border-white/20'
                           }`}
                         >
                           <Heart size={14} className={`mb-2 transition-colors ${isActive ? 'text-[#10B981]' : 'text-white/20 group-hover:text-white/40'}`} />
@@ -1666,7 +1669,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             whileHover={{ scale: 1.005 }}
-            className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 shadow-2xl relative group"
+            className="bg-[#0a0a0a] border border-[#10B981]/10 rounded-2xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 shadow-2xl relative group"
           >
             {/* Rack Screws */}
             <div className="absolute top-2 left-2"><Screw /></div>
@@ -1993,7 +1996,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </div>
               </div>
 
-              <div className="space-y-4 bg-black/40 p-5 rounded-xl border border-white/5 shadow-inner">
+              <div className="space-y-4 bg-black/40 p-5 rounded-xl border border-[#10B981]/10 shadow-inner">
                 {[
                   { label: 'Cohérence stylistique', value: state.music.quality.coherence },
                   { label: 'Richesse de prod', value: state.music.quality.richness },
@@ -2052,7 +2055,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               </div>
               <div className="flex flex-col gap-3 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                 {state.music.history.map((item) => (
-                  <div key={item.id} className="p-4 bg-black/40 border border-white/5 rounded-xl group/item hover:border-[#10B981]/30 transition-all shadow-inner relative overflow-hidden">
+                  <div key={item.id} className="p-4 bg-black/40 border border-[#10B981]/10 rounded-xl group/item hover:border-[#10B981]/30 transition-all shadow-inner relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-[#10B981] opacity-0 group-hover/item:opacity-100 transition-opacity" />
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-2">
@@ -2152,7 +2155,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   defaultValue={state.music.artistName || ''}
                   onBlur={(e) => updateMusicState({ artistName: e.target.value })}
                   placeholder="ARTISTE"
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
+                  className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
                 />
               </div>
               <div className="space-y-1.5">
@@ -2162,7 +2165,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   defaultValue={state.music.songTitle || ''}
                   onBlur={(e) => updateMusicState({ songTitle: e.target.value })}
                   placeholder="TITRE"
-                  className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
+                  className="w-full bg-black/40 border border-[#10B981]/10 rounded-xl px-4 py-2.5 font-mono text-xs text-white focus:border-[#10B981]/50 outline-none transition-all placeholder:text-white/10"
                 />
               </div>
             </div>
@@ -2232,11 +2235,10 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   </div>
                 </div>
               ) : (
-                <div className="bg-black/60 border border-white/5 rounded-xl p-5 font-mono text-[10px] text-white/60 leading-relaxed min-h-[100px] shadow-inner backdrop-blur-md">
+                <div className="bg-black/60 border border-[#10B981]/10 rounded-xl p-5 font-mono text-[10px] text-white/60 leading-relaxed min-h-[100px] shadow-inner backdrop-blur-md">
                   {state.music.sunoPrompt || "Le prompt de style Suno apparaîtra ici..."}
                 </div>
               )}
-              <DiagnosticsPanel diagnostics={lastDiagnostics} />
               {!isEditingPrompt && (
                 <div className="absolute bottom-3 right-3 flex items-center gap-2">
                   <span className={`font-mono text-[9px] font-bold ${(state.music.sunoPrompt || '').length > 3000 ? 'text-red-500' : 'text-white/20'}`}>
@@ -2269,7 +2271,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest ml-1">Variantes de Production</span>
                 {state.music.sunoPrompts.map((variant, idx) => (
                   <div key={idx} className="relative group/variant">
-                    <div className="bg-black/40 border border-white/5 rounded-xl p-4 font-mono text-[10px] text-white/50 leading-relaxed shadow-inner hover:border-white/10 transition-all">
+                    <div className="bg-black/40 border border-[#10B981]/10 rounded-xl p-4 font-mono text-[10px] text-white/50 leading-relaxed shadow-inner hover:border-white/10 transition-all">
                       <span className="text-[#10B981] font-bold mr-3">V{idx + 1}</span>
                       {variant}
                     </div>
@@ -2325,11 +2327,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       <span className="font-mono text-lg text-white/90 font-bold">{dnaSettings.styleInfluence}</span>
                       <span className="font-mono text-[8px] text-white/25 ml-0.5">%</span>
                     </div>
-                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 text-center">
+                    <div className="bg-white/[0.02] border border-[#10B981]/10 rounded-xl p-3 text-center">
                       <span className="font-mono text-[7px] text-white/30 block mb-1 uppercase tracking-wider">BPM</span>
                       <span className="font-mono text-[11px] text-white/60 font-medium">{dnaSettings.bpmRange}</span>
                     </div>
-                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3 text-center">
+                    <div className="bg-white/[0.02] border border-[#10B981]/10 rounded-xl p-3 text-center">
                       <span className="font-mono text-[7px] text-white/30 block mb-1 uppercase tracking-wider">Key</span>
                       <span className="font-mono text-[11px] text-white/60 font-medium">{dnaSettings.key}</span>
                     </div>
@@ -2342,7 +2344,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               );
             })()}
 
-            <div className="mt-6 pt-6 border-t border-white/5">
+            <div className="mt-6 pt-6 border-t border-[#10B981]/10">
               <div className="flex items-center gap-2 mb-3 ml-1">
                 <div className="p-1 rounded bg-[#10B981]/10 border border-[#10B981]/20">
                   <HelpCircle size={10} className="text-[#10B981]" />
@@ -2350,15 +2352,15 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest font-bold">Suno V5.2 Workflow Guide</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div className="p-3 bg-white/[0.02] border border-[#10B981]/10 rounded-xl">
                   <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 1</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Style Prompt</span> dans la case "Style of Music" de Suno.</p>
                 </div>
-                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div className="p-3 bg-white/[0.02] border border-[#10B981]/10 rounded-xl">
                   <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 2</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez le <span className="text-white/60">Negative Prompt</span> dans "Exclude Styles" (Custom Mode).</p>
                 </div>
-                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div className="p-3 bg-white/[0.02] border border-[#10B981]/10 rounded-xl">
                   <span className="font-mono text-[8px] text-[#10B981] block mb-1">STEP 3</span>
                   <p className="font-mono text-[9px] text-white/40 leading-relaxed">Copiez les <span className="text-white/60">Lyrics</span>. Les balises [ ] et ( ) sont déjà optimisées.</p>
                 </div>
@@ -2416,7 +2418,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 + i * 0.05 }}
-                      className="group relative bg-[#0c0c0c] border border-white/5 rounded-xl p-5 hover:border-[#10B981]/30 transition-all"
+                      className="group relative bg-[#0c0c0c] border border-[#10B981]/10 rounded-xl p-5 hover:border-[#10B981]/30 transition-all"
                     >
                       <div className="flex justify-between items-center mb-3">
                         <span className="font-mono text-[9px] text-[#10B981] font-bold uppercase tracking-widest bg-[#10B981]/10 px-2 py-1 rounded">
@@ -2464,7 +2466,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
               )}
 
               {state.music.lipSyncExcerpt && (
-                <div className="mt-10 sm:mt-16 pt-10 sm:pt-16 border-t border-white/5 max-w-2xl mx-auto">
+                <div className="mt-10 sm:mt-16 pt-10 sm:pt-16 border-t border-[#10B981]/10 max-w-2xl mx-auto">
                   <div className="flex items-center gap-3 mb-6 sm:mb-8">
                     <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
                       <VideoIcon size={16} className="text-[#10B981] sm:w-[18px] sm:h-[18px]" />
@@ -2476,7 +2478,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                     <p className="font-mono text-[9px] sm:text-[11px] text-[#10B981]/70 mb-6 sm:mb-8 leading-relaxed italic">
                       Utilisez ce guide pour synchroniser précisément les mouvements de bouche sur votre vidéo Suno. Les mentions entre crochets indiquent l'émotion, et les barres obliques la phonétique.
                     </p>
-                    <div className="whitespace-pre-wrap font-mono text-[11px] sm:text-[13px] text-white/80 leading-loose bg-black/60 p-4 sm:p-8 rounded-xl border border-white/5 shadow-inner group-hover:border-[#10B981]/20 transition-all">
+                    <div className="whitespace-pre-wrap font-mono text-[11px] sm:text-[13px] text-white/80 leading-loose bg-black/60 p-4 sm:p-8 rounded-xl border border-[#10B981]/10 shadow-inner group-hover:border-[#10B981]/20 transition-all">
                       {state.music.lipSyncExcerpt}
                     </div>
                   </div>
@@ -2534,6 +2536,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
           />
         )}
       </AnimatePresence>
+
+      {/* FLOATING DIAGNOSTICS TOAST — bottom-left, visible right after generation */}
+      {lastDiagnostics && (
+        <div className="fixed bottom-6 left-6 z-40 max-w-md w-[calc(100vw-3rem)] sm:w-auto">
+          <DiagnosticsPanel diagnostics={lastDiagnostics} />
+        </div>
+      )}
 
       {/* FLOATING STICKY GENERATE BUTTON — quick-access mirror of BANGER */}
       <motion.button
@@ -2599,7 +2608,7 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
       >
-        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div className="p-6 border-b border-[#10B981]/10 flex items-center justify-between bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
               <User size={20} className="text-[#10B981]" />
@@ -2643,7 +2652,7 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
                 className={`text-left p-4 rounded-2xl transition-all flex flex-col gap-1 group relative overflow-hidden ${
                   selectedArtist === a.name 
                     ? 'bg-[#10B981]/10 border border-[#10B981]/40 shadow-[0_0_20px_rgba(16,185,129,0.1)]' 
-                    : 'bg-white/[0.02] border border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
+                    : 'bg-white/[0.02] border border-[#10B981]/10 hover:border-white/20 hover:bg-white/[0.05]'
                 }`}
               >
                 <div className="flex items-center justify-between relative z-10">
@@ -2679,7 +2688,7 @@ const ArtistSelectionModal = ({ isOpen, onClose, artists, onSelect, selectedArti
           )}
         </div>
         
-        <div className="p-4 border-t border-white/5 bg-white/[0.01] flex justify-center">
+        <div className="p-4 border-t border-[#10B981]/10 bg-white/[0.01] flex justify-center">
           <p className="font-mono text-[8px] text-white/20 uppercase tracking-[0.3em]">Select an artist to inject their DNA into the generation</p>
         </div>
       </motion.div>
@@ -2720,7 +2729,7 @@ const AdvancedTagsModal: React.FC<{
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         className="relative w-full max-w-4xl bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
       >
-        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div className="p-6 border-b border-[#10B981]/10 flex items-center justify-between bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20">
               <Sparkles size={20} className="text-[#10B981]" />
@@ -2762,7 +2771,7 @@ const AdvancedTagsModal: React.FC<{
                       className={`text-left p-3 rounded-xl transition-all flex flex-col gap-1 group relative overflow-hidden border ${
                         isActive 
                           ? 'bg-[#10B981]/10 border-[#10B981]/40 shadow-[0_0_15px_rgba(16,185,129,0.05)]' 
-                          : 'bg-white/[0.02] border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
+                          : 'bg-white/[0.02] border-[#10B981]/10 hover:border-white/20 hover:bg-white/[0.05]'
                       }`}
                     >
                       <div className="flex items-center justify-between relative z-10">
@@ -2783,7 +2792,7 @@ const AdvancedTagsModal: React.FC<{
           ))}
         </div>
         
-        <div className="p-6 border-t border-white/5 bg-white/[0.01] flex justify-between items-center">
+        <div className="p-6 border-t border-[#10B981]/10 bg-white/[0.01] flex justify-between items-center">
           <p className="font-mono text-[8px] text-white/20 uppercase tracking-[0.2em]">Select multiple tags to refine the AI's musical direction</p>
           <button 
             onClick={onClose}
