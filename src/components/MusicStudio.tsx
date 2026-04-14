@@ -160,6 +160,22 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     'BAILE FUNK': Zap,
     'DANCEHALL': Sun,
     'AMBIENT POP': Wind,
+    'DARK TRAP': Moon,
+    'TRAP MÉLODIQUE': Music,
+    'JERSEY DRILL': Zap,
+    'UK R&B / NEO-SOUL': Heart,
+    'RAP CONSCIENT': Mic,
+    'STREET RAP FR': Flame,
+    'DRILL FR': Flame,
+    'RAGE PHONK': Zap,
+    'POP URBAINE': Radio,
+    'RAP CINÉMATIQUE': VideoIcon,
+    'DETROIT TYPE': Flame,
+    'NEW JAZZ RAP': Music,
+    'CHAÂBI / GNAWA': Globe,
+    'R&B TRAP': Heart,
+    'BOOM BAP CONSCIENT': Mic,
+    'CHILL WAVE': Wind,
   };
 
   const MOOD_ICONS: Record<string, any> = {

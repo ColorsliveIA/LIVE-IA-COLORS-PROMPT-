@@ -39,7 +39,11 @@ export type HarmonicProfileId =
   | 'conscient-oriental-sampled'
   | 'poet-jazz-noir'
   | 'street-grave-808-vocoder'
-  | 'reggaeton-latino-dembow';
+  | 'reggaeton-latino-dembow'
+  | 'neo-soul-uk-rnb'
+  | 'dark-trap-cinematic'
+  | 'street-boom-bap-raw'
+  | 'jersey-drill-bounce';
 
 export interface HarmonicProfile {
   id: HarmonicProfileId;
@@ -252,6 +256,46 @@ export const HARMONIC_PROFILES: Record<HarmonicProfileId, HarmonicProfile> = {
     bpmRange: '88-100',
     antiPatterns: ['afrobeat log drum', 'amapiano', 'jazz Rhodes', 'drill 140'],
     description: 'Caribbean-latino dembow groove — dembow boom-ch-boom-chick, latin percussion, spanish inflections, NOT afrobeat.'
+  },
+  'neo-soul-uk-rnb': {
+    id: 'neo-soul-uk-rnb',
+    label: 'Neo-Soul UK R&B',
+    artistAnchors: ['Jorja Smith', 'Sade', 'Lauryn Hill', 'SZA'],
+    instruments: ['Rhodes piano warm', 'fingerpicked acoustic guitar', 'bass guitar round warm', 'organic brushed drums', 'subtle strings pad', 'shaker percussion'],
+    sunoTags: ['Neo-Soul', 'UK R&B', 'Rhodes Piano', 'Organic Drums', 'Warm Bass Guitar', 'Jazz Chords', 'Intimate'],
+    bpmRange: '75-115',
+    antiPatterns: ['808 sub bass', 'trap hi-hats', 'autotune', 'drill', 'aggressive', 'hype energy', 'heavy compression'],
+    description: 'Intimate warm UK R&B — breath-centered vocals, Rhodes/piano, fingerpicked guitar, organic drums with swing, jazz-influenced chord progressions (7th, 9th, 11th), bass guitar (not 808), subtle reverb, nocturnal mood. Silence as instrument.'
+  },
+  'dark-trap-cinematic': {
+    id: 'dark-trap-cinematic',
+    label: 'Dark Trap Cinématique',
+    artistAnchors: ['SCH', 'Booba récent', 'Damso'],
+    instruments: ['808 sub bass pitched', 'sparse minor piano', 'distant cello', 'cold brass stabs', 'reverse reverb swells', 'sparse trap hi-hats'],
+    sunoTags: ['Dark Trap', 'Cinematic', '808 Sub Bass Pitched', 'Minor Piano', 'Cello Texture', 'Sparse Hi-Hats'],
+    bpmRange: '65-80',
+    antiPatterns: ['warm soul', 'gospel', 'uplifting', 'bright', 'acoustic guitar', 'happy'],
+    description: 'Cold luxury trap — 808 pitched/slides, sparse hi-hats, heavy snare, piano mineur distant, cello texture, pads sombres. Half-time feel. Silence comme texture. Puissance par la retenue.'
+  },
+  'street-boom-bap-raw': {
+    id: 'street-boom-bap-raw',
+    label: 'Street Boom-Bap Brut',
+    artistAnchors: ['Niro', 'Médine', 'Sofiane', 'Kery James'],
+    instruments: ['dusty soul sample loop', 'heavy kick', 'snare crack', 'muted trumpet', 'lo-fi tape saturation', '808 sub dry'],
+    sunoTags: ['Boom-Bap', 'Soul Sample', 'Dusty Vinyl', 'Heavy Kick Snare', 'Lo-fi Tape', 'Close-Mic', 'Street Rap'],
+    bpmRange: '82-98',
+    antiPatterns: ['autotune', 'melodic trap', 'cloud', 'bright', 'happy', 'drill 140'],
+    description: 'Boom-bap brut street FR — sample soul/jazz boucle courte, kick lourd + snare claquante, grain vinyle, voix frontale sèche close-mic, zéro autotune. Le silence entre les phrases est structurel.'
+  },
+  'jersey-drill-bounce': {
+    id: 'jersey-drill-bounce',
+    label: 'Jersey Drill Bounce',
+    artistAnchors: ['Ziak', 'Favé', 'Kerchak', 'Sto'],
+    instruments: ['jersey club kick pattern', 'chopped vocal samples', 'drill 808 glide', 'bouncy synth stabs', 'fast hi-hats', 'bed squeak percs'],
+    sunoTags: ['Jersey Drill', 'Jersey Club', 'Chopped Vocals', 'Bouncy Drums', 'Club Energy', '808 Glide'],
+    bpmRange: '130-140',
+    antiPatterns: ['slow tempo', 'boom-bap', 'acoustic', 'jazz', 'ambient', 'cloud rap'],
+    description: 'Fusion drill + Jersey Club — kicks en pattern club syncopé, samples vocaux choppés, 808 glide, énergie dansante plus que menaçante. Flow rapide, rythme saccadé, ad-libs percussifs.'
   }
 };
 
@@ -293,7 +337,27 @@ export function suggestHarmonicProfileForArtist(inspiredBy: string): HarmonicPro
     'OXMO PUCCINO': 'poet-jazz-noir',
     'OXMO': 'poet-jazz-noir',
     'LACRIM': 'street-grave-808-vocoder',
-    'ROHFF': 'street-grave-808-vocoder'
+    'ROHFF': 'street-grave-808-vocoder',
+    'JORJA SMITH': 'neo-soul-uk-rnb',
+    'JORJA': 'neo-soul-uk-rnb',
+    'SADE': 'neo-soul-uk-rnb',
+    'SZA': 'neo-soul-uk-rnb',
+    'SNOH AALEGRA': 'neo-soul-uk-rnb',
+    'NIRO': 'street-boom-bap-raw',
+    'SOFIANE': 'street-boom-bap-raw',
+    'KERY JAMES': 'street-boom-bap-raw',
+    'ZIAK': 'jersey-drill-bounce',
+    'FAVÉ': 'jersey-drill-bounce',
+    'FAVE': 'jersey-drill-bounce',
+    'KERCHAK': 'jersey-drill-bounce',
+    'FREEZE CORLEONE': 'drill-fr-cold',
+    'FREEZE': 'drill-fr-cold',
+    '1PLIKE140': 'drill-fr-cold',
+    'NEKFEU': 'boom-bap-piano-loop',
+    'VALD': 'lofi-glitch-808',
+    'BAD BUNNY': 'reggaeton-latino-dembow',
+    'ROSALÍA': 'reggaeton-latino-dembow',
+    'ROSALIA': 'reggaeton-latino-dembow'
   };
   if (map[upper]) return map[upper];
   for (const [k, v] of Object.entries(map)) {

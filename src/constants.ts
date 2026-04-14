@@ -465,6 +465,22 @@ export const MUSIC_GENRES = [
   { id: 'baile-funk', name: 'BAILE FUNK', sub: 'Brazilian Favela Beat' },
   { id: 'dancehall', name: 'DANCEHALL', sub: 'Jamaican Riddim' },
   { id: 'ambient', name: 'AMBIENT POP', sub: 'Ethereal / Dreamy' },
+  { id: 'dark-trap', name: 'DARK TRAP', sub: 'Cinematic / Luxury / Cold' },
+  { id: 'trap-melodique', name: 'TRAP MÉLODIQUE', sub: 'Guitar / Melodic / Ninho Style' },
+  { id: 'jersey-drill', name: 'JERSEY DRILL', sub: 'Bouncy Drill / Club / Ziak' },
+  { id: 'uk-rnb', name: 'UK R&B / NEO-SOUL', sub: 'Jorja Smith / Warm / Intimate' },
+  { id: 'rap-conscient', name: 'RAP CONSCIENT', sub: 'Storytelling / Médine / Kery James' },
+  { id: 'street-rap-fr', name: 'STREET RAP FR', sub: 'Niro / Sofiane / Brut / Nord' },
+  { id: 'drill-fr', name: 'DRILL FR', sub: 'Gazo / Freeze / 140 BPM' },
+  { id: 'rage-phonk', name: 'RAGE PHONK', sub: 'Ultra-Aggressive / Memphis / Cowbell' },
+  { id: 'pop-urbaine', name: 'POP URBAINE', sub: 'Jul / Aya / Radio / Chanté-Rappé' },
+  { id: 'cinematic-rap', name: 'RAP CINÉMATIQUE', sub: 'SCH / JVLIVS / Film Noir' },
+  { id: 'detroit-type', name: 'DETROIT TYPE', sub: 'Hard / Raw / Eminem Era' },
+  { id: 'new-jazz-rap', name: 'NEW JAZZ RAP', sub: 'Kendrick / Abstract / Live Band' },
+  { id: 'chaabi-gnawa', name: 'CHAÂBI / GNAWA', sub: 'North African Traditional Fusion' },
+  { id: 'rnb-trap', name: 'R&B TRAP', sub: 'Bryson Tiller / 808 + Soul' },
+  { id: 'boom-bap-conscient', name: 'BOOM BAP CONSCIENT', sub: 'Kery James / Médine / Dense' },
+  { id: 'chill-wave', name: 'CHILL WAVE', sub: 'Lo-fi / Dreamy / Nostalgic' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -492,6 +508,13 @@ export const MUSIC_MOODS = [
   { id: 'soulful', name: 'SOULFUL', sub: 'Deep / Emotional' },
   { id: 'industrial', name: 'INDUSTRIEL', sub: 'Cold / Mechanical' },
   { id: 'vibrant', name: 'VIBRANT', sub: 'Colorful / Tropical' },
+  { id: 'desillusionne', name: 'DÉSILLLUSIONNÉ', sub: 'Cold / Street / Niro' },
+  { id: 'predatory', name: 'PRÉDATEUR', sub: 'Dangerous / Calculating' },
+  { id: 'vulnerable', name: 'VULNÉRABLE', sub: 'Exposed / Fragile / Intimate' },
+  { id: 'nihiliste', name: 'NIHILISTE', sub: 'Drill / No Hope / Cold' },
+  { id: 'lucide', name: 'LUCIDE', sub: 'Clear-eyed / Observant / Detached' },
+  { id: 'menaçant', name: 'MENAÇANT', sub: 'Threatening / Low Energy' },
+  { id: 'nocturne', name: 'NOCTURNE', sub: 'Late Night / After Hours' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -597,6 +620,21 @@ export const MUSIC_ARTISTS = [
   { id: 'tems', name: 'TEMS', sub: 'Alt-Afro Soul / Ethereal', weirdness: 22, styleInfluence: 82 },
   { id: 'asake', name: 'ASAKE', sub: 'Amapiano-Fuji / Street Lagos', weirdness: 25, styleInfluence: 80 },
   { id: 'joe-dwet-file', name: 'JOÉ DWÈT FILÉ', sub: 'Zouk Moderne / R&B Créole', weirdness: 12, styleInfluence: 82 },
+  { id: 'medine', name: 'MÉDINE', sub: 'Rap Conscient / Storytelling Dense', weirdness: 22, styleInfluence: 85 },
+  { id: 'kery-james', name: 'KERY JAMES', sub: 'Rap Conscient / Boom-Bap / Brut', weirdness: 15, styleInfluence: 90 },
+  { id: 'sofiane', name: 'SOFIANE', sub: 'Street Brut / Fianso / Nord', weirdness: 18, styleInfluence: 82 },
+  { id: 'niska', name: 'NISKA', sub: 'Afro-Trap / Energétique / Méchant', weirdness: 15, styleInfluence: 80 },
+  { id: 'ziak', name: 'ZIAK', sub: 'Jersey Drill / Masqué / Anonyme', weirdness: 28, styleInfluence: 78 },
+  { id: 'fave', name: 'FAVÉ', sub: 'Jersey Drill / Mélodique / Nouveau', weirdness: 25, styleInfluence: 75 },
+  { id: '1plike140', name: '1PLIKE140', sub: 'Drill FR / Collectif / Agressif', weirdness: 22, styleInfluence: 80 },
+  { id: 'kalash-criminel', name: 'KALASH CRIMINEL', sub: 'Drill Sombre / Sauvage / Guttural', weirdness: 30, styleInfluence: 82 },
+  { id: 'dinos', name: 'DINOS', sub: 'Conscient / Introspectif / Jazz', weirdness: 20, styleInfluence: 78 },
+  { id: 'sza', name: 'SZA', sub: 'Alt R&B / Neo-Soul / Intimate', weirdness: 22, styleInfluence: 82 },
+  { id: 'lauryn-hill', name: 'LAURYN HILL', sub: 'Neo-Soul Legend / Hip-Hop', weirdness: 15, styleInfluence: 90 },
+  { id: 'tayc', name: 'TAYC', sub: 'Afro-R&B / Sensuel / Mélodique', weirdness: 15, styleInfluence: 80 },
+  { id: 'stromae', name: 'STROMAE', sub: 'Electro-Pop / Poétique / Belgian', weirdness: 35, styleInfluence: 78 },
+  { id: 'wizkid', name: 'WIZKID', sub: 'Afrobeats / Smooth / Global', weirdness: 15, styleInfluence: 80 },
+  { id: 'sdm2', name: 'GUY2BEZBAR', sub: 'Drill / Ça Flingue / Street', weirdness: 20, styleInfluence: 78 },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -656,6 +694,13 @@ export const MUSIC_SINGING_STYLES = [
   { id: 'double-time', name: 'DOUBLE-TIME', sub: 'Fast Technical Flow' },
   { id: 'triplet', name: 'TRIPLET FLOW', sub: 'Migos / Trap Style' },
   { id: 'syncopated', name: 'SYNCOPÉ', sub: 'Off-beat / Jazz Flow' },
+  { id: 'nonchalant', name: 'NONCHALANT', sub: 'Freeze Corleone / Lazy Precision' },
+  { id: 'polymorphe', name: 'POLYMORPHE', sub: 'Damso / Speed-Shift Mid-Verse' },
+  { id: 'chante-rappe', name: 'CHANTÉ-RAPPÉ', sub: 'Jul / Ninho / Melodic Switch' },
+  { id: 'breath-centered', name: 'SOUFFLE-CENTRÉ', sub: 'Jorja Smith / R&B Intimate' },
+  { id: 'staccato-glacial', name: 'STACCATO GLACIAL', sub: 'Freeze / Syllabe Détachée' },
+  { id: 'flow-narratif', name: 'FLOW NARRATIF', sub: 'Niro / SCH / Posé / Poids' },
+  { id: 'drill-flow', name: 'DRILL FLOW', sub: 'Gazo / Rapide / Saccadé' },
   { id: 'custom', name: 'CUSTOM', sub: 'Saisie libre' }
 ];
 
@@ -741,7 +786,10 @@ export const MUSIC_VOCAL_TEXTURES = [
   { id: 'velvet-dark', name: 'VELVET DARK', sub: 'Smooth' },
   { id: 'firm-mid', name: 'FIRM MIDRANGE', sub: 'Present' },
   { id: 'cold-flat', name: 'COLD FLAT', sub: 'Monotone' },
-  { id: 'worn-out', name: 'WORN-OUT', sub: 'Aged' }
+  { id: 'worn-out', name: 'WORN-OUT', sub: 'Aged' },
+  { id: 'warm-husky', name: 'WARM HUSKY', sub: 'Jorja Smith / Sade' },
+  { id: 'street-raspy', name: 'STREET RASPY', sub: 'Niro / Kaaris / Raw' },
+  { id: 'glacial-murmur', name: 'GLACIAL MURMUR', sub: 'Freeze / Whisper Power' }
 ];
 
 export const MUSIC_VOCAL_INTERPRETATIONS = [
@@ -756,7 +804,10 @@ export const MUSIC_VOCAL_INTERPRETATIONS = [
   { id: 'tired-winner', name: 'TIRED WINNER', sub: 'Detached' },
   { id: 'confessional', name: 'CONFESSIONAL', sub: 'Tense' },
   { id: 'stoic', name: 'STOIC', sub: 'Firm' },
-  { id: 'predatory', name: 'PREDATORY', sub: 'Calm' }
+  { id: 'predatory', name: 'PREDATORY', sub: 'Calm' },
+  { id: 'breath-vulnerable', name: 'BREATH-VULNERABLE', sub: 'Exposed / Jorja' },
+  { id: 'ironic-cold', name: 'IRONIC COLD', sub: 'Niro / Dark Humor' },
+  { id: 'nonchalant-lethal', name: 'NONCHALANT LETHAL', sub: 'Freeze / Effortless' }
 ];
 
 export const MUSIC_FLOW_TAGS = [
@@ -775,7 +826,13 @@ export const MUSIC_FLOW_TAGS = [
   { id: 'sniper-precision', name: 'SNIPER PRECISION', sub: 'Sharp' },
   { id: 'staccato-attack', name: 'STACCATO ATTACK', sub: 'Short' },
   { id: 'legato-glide', name: 'LEGATO GLIDE', sub: 'Smooth' },
-  { id: 'high-pressure', name: 'HIGH PRESSURE', sub: 'Urgent' }
+  { id: 'high-pressure', name: 'HIGH PRESSURE', sub: 'Urgent' },
+  { id: 'nonchalant-precise', name: 'NONCHALANT PRECISE', sub: 'Freeze Corleone' },
+  { id: 'polymorphic', name: 'POLYMORPHIC', sub: 'Damso Speed-Shift' },
+  { id: 'melodic-switch', name: 'MELODIC SWITCH', sub: 'Rap→Chant / Ninho' },
+  { id: 'drill-saccade', name: 'DRILL SACCADÉ', sub: 'Gazo / 140BPM' },
+  { id: 'narrative-heavy', name: 'NARRATIVE HEAVY', sub: 'SCH / Niro / Poids' },
+  { id: 'breath-flow', name: 'BREATH FLOW', sub: 'R&B / Jorja / Sade' }
 ];
 
 export const MUSIC_WRITING_TAGS = [
@@ -790,7 +847,14 @@ export const MUSIC_WRITING_TAGS = [
   { id: 'suppressed-emotion', name: 'SUPPRESSED EMOTION', sub: 'Numb' },
   { id: 'melancholic-detachment', name: 'MELANCHOLIC', sub: 'Isolated' },
   { id: 'ego-death', name: 'EGO DEATH', sub: 'Introspective' },
-  { id: 'street-pressure', name: 'STREET PRESSURE', sub: 'Tense' }
+  { id: 'street-pressure', name: 'STREET PRESSURE', sub: 'Tense' },
+  { id: 'paradox-truth', name: 'PARADOX TRUTH', sub: 'Niro / Contradiction' },
+  { id: 'metagore', name: 'MÉTAGORE', sub: 'Booba / Image Choc Gore' },
+  { id: 'encyclopedic-ref', name: 'ENCYCLOPÉDIQUE', sub: 'Freeze / Anime / Geopolit' },
+  { id: 'intimate-confession', name: 'CONFESSION INTIME', sub: 'Jorja / Damso / 3AM' },
+  { id: 'social-consciousness', name: 'CONSCIENCE SOCIALE', sub: 'Médine / Kery James' },
+  { id: 'sensory-violence', name: 'VIOLENCE SENSORIELLE', sub: 'Kaaris / Forcer à Voir' },
+  { id: 'cryptic-poetic', name: 'CRYPTIQUE POÉTIQUE', sub: 'Damso / Multi-Lecture' }
 ];
 
 export const MUSIC_DRUM_BASS_TAGS = [
@@ -804,7 +868,12 @@ export const MUSIC_DRUM_BASS_TAGS = [
   { id: '808-glide', name: '808 GLIDE', sub: 'Drill' },
   { id: 'minimal-bass', name: 'MINIMAL BASS', sub: 'Tight' },
   { id: 'distorted-kick', name: 'DISTORTED KICK', sub: 'Aggressive' },
-  { id: 'organic-percussion', name: 'ORGANIC PERC', sub: 'Natural' }
+  { id: 'organic-percussion', name: 'ORGANIC PERC', sub: 'Natural' },
+  { id: '2-step-garage', name: '2-STEP GARAGE', sub: 'UK / Syncopated / Bouncy' },
+  { id: 'jersey-pattern', name: 'JERSEY PATTERN', sub: 'Club Kicks / Chopped' },
+  { id: 'boom-bap-dusty', name: 'BOOM BAP DUSTY', sub: 'Lo-fi Vinyl / Sample' },
+  { id: 'live-bass-guitar', name: 'BASSE VIVANTE', sub: 'Fingered / Warm / R&B' },
+  { id: 'brush-drums', name: 'DRUMS BROSSÉS', sub: 'Jazz / Organic / Swing' }
 ];
 
 export const MUSIC_MELODY_TAGS = [
@@ -816,7 +885,14 @@ export const MUSIC_MELODY_TAGS = [
   { id: 'analog-pads', name: 'ANALOG PADS', sub: 'Warm' },
   { id: 'vocal-chops', name: 'VOCAL CHOPS', sub: 'Modern' },
   { id: 'soul-sample', name: 'SOUL SAMPLE', sub: 'Vintage' },
-  { id: 'jazz-influence', name: 'JAZZ INFLUENCE', sub: 'Sophisticated' }
+  { id: 'jazz-influence', name: 'JAZZ INFLUENCE', sub: 'Sophisticated' },
+  { id: 'rhodes-warm', name: 'RHODES CHAUD', sub: 'Neo-Soul / Jorja / Vintage' },
+  { id: 'fingerpicked-guitar', name: 'GUITARE FINGERPICK', sub: 'Intimate / Acoustic' },
+  { id: 'muted-trumpet', name: 'TROMPETTE MUTED', sub: 'Soul Sample / 70s' },
+  { id: 'cello-texture', name: 'TEXTURE CELLO', sub: 'Dark / Cinematic / SCH' },
+  { id: 'oriental-melody', name: 'MÉLODIE ORIENTALE', sub: 'Raï / Maqam / Arabe' },
+  { id: 'rai-guitar', name: 'GUITARE RAÏ', sub: 'Sèche / Festive / Mélancolique' },
+  { id: 'dark-orchestral', name: 'ORCHESTRAL SOMBRE', sub: 'Drill / Déformé / Tension' }
 ];
 
 export const MUSIC_ATMOSPHERE_TAGS = [
@@ -828,7 +904,13 @@ export const MUSIC_ATMOSPHERE_TAGS = [
   { id: 'lonely-drive', name: 'LONELY DRIVE', sub: 'Melancholic' },
   { id: 'sparse-keys', name: 'SPARSE KEYS', sub: 'Minimal' },
   { id: 'cold-pads', name: 'COLD PADS', sub: 'Atmospheric' },
-  { id: 'cinematic-texture', name: 'CINEMATIC', sub: 'Epic' }
+  { id: 'cinematic-texture', name: 'CINEMATIC', sub: 'Epic' },
+  { id: 'intimate-nocturnal', name: 'INTIME NOCTURNE', sub: 'Jorja / 3AM / Warm' },
+  { id: 'cage-escalier', name: "CAGE D'ESCALIER", sub: 'FR Street / Béton / Néon' },
+  { id: 'street-naturaliste', name: 'STREET NATURALISTE', sub: 'Niro / Froid / Réaliste' },
+  { id: 'mediterraneen', name: 'MÉDITERRANÉEN', sub: 'Solaire / Raï / Nostalgie' },
+  { id: 'ethereal-cloud', name: 'ÉTHÉRÉ / CLOUD', sub: 'PNL / Planant / Autotune' },
+  { id: 'film-noir', name: 'FILM NOIR', sub: 'SCH / Mafieux / Tension' }
 ];
 
 export const MUSIC_PRODUCTION_FINISHES = [
