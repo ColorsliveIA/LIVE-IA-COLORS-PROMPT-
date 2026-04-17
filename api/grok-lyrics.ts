@@ -141,7 +141,9 @@ ${buildArtistBlock(artistDNA)}
 
 // ── Grok API call with fallback chain ──
 async function callGrokAPI(apiKey: string, systemPrompt: string, userPrompt: string, jsonMode: boolean): Promise<{ text: string; model: string }> {
-  const models = ["grok-3-mini", "grok-3-mini-fast", "grok-2-1212"];
+  // grok-3-mini-fast is best for structured JSON — fast + cheap
+  // grok-3-mini has reasoning overhead that can waste tokens
+  const models = ["grok-3-mini-fast", "grok-3-mini", "grok-2-1212"];
 
   for (const model of models) {
     try {
@@ -151,8 +153,8 @@ async function callGrokAPI(apiKey: string, systemPrompt: string, userPrompt: str
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
         ],
-        temperature: 0.9,
-        max_tokens: 5000
+        temperature: 0.85,
+        max_tokens: 16000
       };
       if (jsonMode) {
         body.response_format = { type: "json_object" };
@@ -252,6 +254,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const { text, model } = await callGrokAPI(apiKey, systemPrompt, userPrompt, true);
 
+      console.log(`Grok response (model=${model}, len=${text.length}):`, text.slice(0, 300));
+
       // Parse JSON response
       let parsed;
       try {
@@ -274,6 +278,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
       }
+
+      // Ensure structuredLyrics exists and has proper format
+      if (parsed.structuredLyrics && Array.isArray(parsed.structuredLyrics)) {
+        parsed.structuredLyrics = parsed.structuredLyrics.map((v: any, i: number) => ({
+          id: v.id || `v${i + 1}`,
+          type: v.type || v.section || `Section ${i + 1}`,
+          text: v.text || v.lyrics || v.content || '',
+          prompt: v.prompt || ''
+        }));
+      } else if (parsed.lyrics && typeof parsed.lyrics === 'string') {
+        // Some Grok responses put everything in a "lyrics" string field
+        const sections = parsed.lyrics.split(/\[([^\]]+)\]/g).filter(Boolean);
+        const structuredLyrics = [];
+        for (let i = 0; i < sections.length - 1; i += 2) {
+          structuredLyrics.push({
+            id: `v${Math.floor(i / 2) + 1}`,
+            type: sections[i].trim(),
+            text: sections[i + 1].trim(),
+            prompt: ''
+          });
+        }
+        if (structuredLyrics.length > 0) {
+          parsed.structuredLyrics = structuredLyrics;
+        }
+      }
+
+      console.log(`Grok parsed: lyrics=${parsed.structuredLyrics?.length || 0} sections, sunoPrompt=${(parsed.sunoPrompt || '').slice(0, 80)}`);
 
       return res.status(200).json({ ...parsed, model, provider: 'grok' });
 

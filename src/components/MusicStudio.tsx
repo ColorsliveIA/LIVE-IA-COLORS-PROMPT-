@@ -54,7 +54,11 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [isGrokGenerating, setIsGrokGenerating] = useState(false);
   const [grokModel, setGrokModel] = useState<string | null>(null);
-  const [aiProvider, setAiProvider] = useState<'gemini' | 'grok'>('gemini');
+
+  // AI Provider comes from parent state — BLUE for grok, GREEN for gemini
+  const aiProvider = state.aiProvider || 'gemini';
+  const setAiProvider = (p: 'gemini' | 'grok') => setState(prev => ({ ...prev, aiProvider: p }));
+  const accent = aiProvider === 'grok' ? '#3B82F6' : '#10B981';
 
   const LOADING_MESSAGES = [
     "Un producteur légendaire rentre dans le studio...",
@@ -599,18 +603,23 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const selectedVocalTechnique = MUSIC_VOCAL_TECHNIQUES.find(t => t.name === state.music.vocalTechnique) || { name: '', sub: 'Select Technique' };
 
   return (
-    <div className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative">
+    <div
+      className="flex-1 flex flex-col bg-bg-deep overflow-hidden selection:bg-accent/30 selection:text-accent relative"
+      style={{ '--color-accent': accent, '--color-accent-hover': aiProvider === 'grok' ? '#60A5FA' : '#ff7d2f' } as React.CSSProperties}
+    >
       <div className="scanline-effect" />
 
       {/* PERSISTENT SUMMARY BAR — Sticky DNA snapshot at top of studio */}
-      <div className="sticky top-0 z-30 backdrop-blur-md bg-black/70 border-b border-[#10B981]/20 px-4 py-2 flex items-center gap-3 text-[10px] font-mono uppercase tracking-tighter overflow-x-auto">
+      <div className="sticky top-0 z-30 backdrop-blur-md bg-black/70 px-4 py-2 flex items-center gap-3 text-[10px] font-mono uppercase tracking-tighter overflow-x-auto"
+        style={{ borderBottom: `1px solid ${accent}33` }}
+      >
         {/* AI Provider Toggle */}
         <div className="flex items-center shrink-0 bg-white/5 rounded-lg border border-white/10 p-0.5">
           <button
             onClick={() => setAiProvider('gemini')}
             className={`px-2.5 py-1 rounded-md transition-all text-[9px] font-bold tracking-wider ${
               aiProvider === 'gemini'
-                ? 'bg-[#4285F4]/20 text-[#4285F4] border border-[#4285F4]/40 shadow-[0_0_8px_rgba(66,133,244,0.2)]'
+                ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
                 : 'text-white/30 hover:text-white/50'
             }`}
           >
@@ -620,7 +629,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
             onClick={() => setAiProvider('grok')}
             className={`px-2.5 py-1 rounded-md transition-all text-[9px] font-bold tracking-wider ${
               aiProvider === 'grok'
-                ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/40 shadow-[0_0_8px_rgba(255,107,53,0.2)]'
+                ? 'bg-[#3B82F6]/20 text-[#3B82F6] border border-[#3B82F6]/40 shadow-[0_0_8px_rgba(59,130,246,0.2)]'
                 : 'text-white/30 hover:text-white/50'
             }`}
           >
@@ -629,13 +638,13 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
         </div>
         <span className="text-white/20">·</span>
         <span className="flex items-center gap-1.5 shrink-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_6px_#10B981]" />
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: accent, boxShadow: `0 0 6px ${accent}` }} />
           <span className="text-white/40">DNA</span>
         </span>
         <span className="text-white/20">·</span>
         <span className="shrink-0">
           <span className="text-white/30">Artist:</span>{' '}
-          <span className="text-[#10B981] font-bold">{state.music.inspiredBy || '—'}</span>
+          <span className="font-bold" style={{ color: accent }}>{state.music.inspiredBy || '—'}</span>
         </span>
         {state.music.secondaryInspiredBy && state.music.secondaryInspiredBy !== 'none' && (
           <>
@@ -1997,11 +2006,12 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   whileTap={{ scale: 0.95 }}
                   onClick={handleBangerClick}
                   disabled={state.music.isGenerating || state.isGenerating}
-                  className={`px-4 py-2 sm:px-8 sm:py-4 rounded-full font-bebas text-lg sm:text-2xl tracking-[0.25em] transition-all flex items-center justify-center gap-3 relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] group/btn ${
-                    (state.music.isGenerating || state.isGenerating) 
-                      ? 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed' 
+                  className={`px-4 py-2 sm:px-8 sm:py-4 rounded-full font-bebas text-lg sm:text-2xl tracking-[0.25em] transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn ${
+                    (state.music.isGenerating || state.isGenerating)
+                      ? 'bg-white/10 text-white/40 border border-white/10 cursor-not-allowed'
                       : 'bg-accent text-black hover:bg-accent-hover border-2 border-accent/50'
                   }`}
+                  style={!(state.music.isGenerating || state.isGenerating) ? { boxShadow: `0 0 30px ${accent}66` } : undefined}
                 >
                   {/* Animated Background Shine */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite] transition-transform" />
@@ -2493,7 +2503,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   <h3 className="font-bebas text-lg sm:text-xl tracking-widest text-white/90">LYRICAL ARCHITECTURE</h3>
                   <p className="editorial-heading">
                     {aiProvider === 'grok' ? 'Grok AI' : 'Gemini'} Generated Poetry & Structure
-                    {grokModel && aiProvider === 'grok' && <span className="ml-2 text-[#ff6b35]/60">· {grokModel}</span>}
+                    {grokModel && aiProvider === 'grok' && <span className="ml-2 text-[#3B82F6]/60">· {grokModel}</span>}
                   </p>
                 </div>
               </div>
@@ -2503,7 +2513,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                   disabled={state.music.isGenerating}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md ${
                     aiProvider === 'grok'
-                      ? 'bg-[#ff6b35]/10 border-[#ff6b35]/30 text-[#ff6b35] hover:bg-[#ff6b35]/20 hover:border-[#ff6b35]/60'
+                      ? 'bg-[#3B82F6]/10 border-[#3B82F6]/30 text-[#3B82F6] hover:bg-[#3B82F6]/20 hover:border-[#3B82F6]/60'
                       : 'bg-white/5 border-white/10 text-white/60 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40'
                   }`}
                   title={`Remix lyrics via ${aiProvider === 'grok' ? 'Grok AI' : 'Gemini'}`}
@@ -2520,7 +2530,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 {state.music.lyrics && (
                   <button 
                     onClick={() => copyToClipboard(state.music.lyrics.map(v => `[${v.type}]\n${v.text}`).join('\n\n'), 'lyrics')}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#10B981] rounded-xl text-black hover:bg-[#ff7d2f] transition-all font-mono text-[10px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-black hover:opacity-80 transition-all font-mono text-[10px] font-bold uppercase tracking-widest"
+                    style={{ backgroundColor: accent, boxShadow: `0 0 15px ${accent}4D` }}
                   >
                     {copiedText === 'lyrics' ? <CheckCircle2 size={14} /> : <Copy size={14} />}
                     {copiedText === 'lyrics' ? 'Copié !' : 'Copier Tout'}

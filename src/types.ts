@@ -149,4 +149,5 @@ export interface SessionState {
   selectedArtistOutfit: ArtistStyle | null;
   music: MusicState;
   view: 'home' | 'studio' | 'suno';
+  aiProvider: 'gemini' | 'grok';
 }
