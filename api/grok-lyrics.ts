@@ -341,15 +341,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // ── PASS 2: Lyrics (raw text, NO JSON) ──
       const lyricsUserPrompt = `Écris les paroles complètes de cette chanson :\n${contextLines}\n\nCommence DIRECTEMENT par [Intro] ou [Verse 1]. Pas de JSON, pas d'explication.`;
 
-      console.log(`Grok 2-PASS: launching style (JSON) + lyrics (text) in parallel...`);
+      console.log(`Grok 2-PASS: launching style (JSON) then lyrics (text) SEQUENTIALLY to avoid xAI rate limits...`);
 
-      // Run both calls IN PARALLEL for speed
-      const [styleResult, lyricsResult] = await Promise.all([
-        callGrokAPI(apiKey, buildStyleSystemPrompt(artistDNA), styleUserPrompt, true)
-          .catch(err => { console.error('Grok PASS1 (style) failed:', err.message); return null; }),
-        callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false)
-          .catch(err => { console.error('Grok PASS2 (lyrics) failed:', err.message); return null; })
-      ]);
+      // Run SEQUENTIALLY — xAI rate-limits concurrent requests on grok-3-mini
+      // PASS 1 first (smaller, faster), then PASS 2 (lyrics, needs more tokens)
+      let styleResult: { text: string; model: string } | null = null;
+      let lyricsResult: { text: string; model: string } | null = null;
+
+      try {
+        styleResult = await callGrokAPI(apiKey, buildStyleSystemPrompt(artistDNA), styleUserPrompt, true);
+        console.log('Grok PASS1 (style) completed OK');
+      } catch (err: any) {
+        console.error('Grok PASS1 (style) failed:', err.message);
+      }
+
+      // Small delay to avoid xAI rate limit between sequential calls
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      try {
+        lyricsResult = await callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false);
+        console.log('Grok PASS2 (lyrics) completed OK, text len:', lyricsResult?.text?.length);
+      } catch (err: any) {
+        console.error('Grok PASS2 (lyrics) failed:', err.message);
+        // RETRY once after a longer delay
+        console.log('Grok PASS2: retrying after 1.5s...');
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+          lyricsResult = await callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false);
+          console.log('Grok PASS2 RETRY succeeded, text len:', lyricsResult?.text?.length);
+        } catch (retryErr: any) {
+          console.error('Grok PASS2 RETRY also failed:', retryErr.message);
+        }
+      }
 
       // ── Parse PASS 1: Style JSON ──
       let styleParsed: any = {};
@@ -466,6 +489,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // ── Assemble final response ──
       const finalModel = lyricsModel || styleModel;
+      const rawLyricsText = lyricsResult?.text?.trim() || '';
       const response = {
         artistName: styleParsed.artistName || artist || 'Artiste',
         songTitle: styleParsed.songTitle || styleParsed.title || 'Untitled',
@@ -473,6 +497,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sunoPrompts: styleParsed.sunoPrompts || (styleParsed.sunoPrompt ? [styleParsed.sunoPrompt] : []),
         negativePrompt: styleParsed.negativePrompt || customNeg || '',
         structuredLyrics,
+        rawLyricsText, // Raw text fallback for client-side parsing
         lipSyncExcerpt: '',
         quality: {
           score: structuredLyrics.length >= 4 ? 85 : (structuredLyrics.length >= 2 ? 70 : 50),
@@ -481,10 +506,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           clarity: 85,
           hook: 80,
           precision: 80,
-          message: `Generated via Grok 2-pass (style: ${styleResult ? 'OK' : 'FAIL'}, lyrics: ${lyricsResult ? `${structuredLyrics.length} sections` : 'FAIL'})`
+          message: `Generated via Grok 2-pass (style: ${styleResult ? 'OK' : 'FAIL'}, lyrics: ${lyricsResult ? `${structuredLyrics.length} sections` : 'FAIL'}) rawLen=${rawLyricsText.length}`
         },
         model: finalModel,
-        provider: 'grok'
+        provider: 'grok',
+        _debug: {
+          pass1_status: styleResult ? 'OK' : 'FAIL',
+          pass2_status: lyricsResult ? 'OK' : 'FAIL',
+          pass2_raw_length: rawLyricsText.length,
+          pass2_sections: structuredLyrics.length,
+          pass2_first200: rawLyricsText.slice(0, 200)
+        }
       };
 
       console.log(`Grok FINAL: ${structuredLyrics.length} lyrics sections, sunoPrompt=${(response.sunoPrompt || '').slice(0, 80)}, model=${finalModel}`);

@@ -197,22 +197,42 @@ export async function generateGrokFull(params: GrokGenerationParams): Promise<Gr
   // Client-side fallback: if API returned no usable lyrics, try parsing raw response
   if (lyrics.length === 0) {
     console.warn('Grok: structuredLyrics empty after normalization, checking alternate keys:', Object.keys(data));
-    // Check if lyrics are in another top-level key
-    const altKeys = ['lyrics', 'verses', 'sections', 'songLyrics', 'paroles'];
-    for (const key of altKeys) {
-      const val = data[key];
-      if (val && Array.isArray(val) && val.length > 0) {
-        lyrics = val.map((v: any, i: number) => ({
+    console.warn('Grok _debug:', JSON.stringify(data._debug || {}));
+
+    // FALLBACK A: Try rawLyricsText from the 2-pass architecture
+    if (data.rawLyricsText && typeof data.rawLyricsText === 'string' && data.rawLyricsText.length > 30) {
+      console.log('Grok: trying rawLyricsText fallback, len:', data.rawLyricsText.length);
+      lyrics = parseGrokLyrics(data.rawLyricsText);
+      if (lyrics.length === 0) {
+        // Last resort: use entire raw text as single verse
+        lyrics = [{
           id: Math.random().toString(36).substr(2, 9),
-          type: (typeof v === 'string' ? `Section ${i + 1}` : v.type || v.section || `Section ${i + 1}`),
-          text: (typeof v === 'string' ? v : v.text || v.lyrics || v.content || v.verse || ''),
+          type: 'Verse',
+          text: data.rawLyricsText,
           prompt: ''
-        })).filter((v: any) => v.text.trim().length > 0);
-        if (lyrics.length > 0) break;
+        }];
       }
-      if (val && typeof val === 'string' && val.length > 50) {
-        lyrics = parseGrokLyrics(val);
-        if (lyrics.length > 0) break;
+      console.log('Grok rawLyricsText fallback:', lyrics.length, 'sections');
+    }
+
+    // FALLBACK B: Check alternate keys in the response
+    if (lyrics.length === 0) {
+      const altKeys = ['lyrics', 'verses', 'sections', 'songLyrics', 'paroles'];
+      for (const key of altKeys) {
+        const val = data[key];
+        if (val && Array.isArray(val) && val.length > 0) {
+          lyrics = val.map((v: any, i: number) => ({
+            id: Math.random().toString(36).substr(2, 9),
+            type: (typeof v === 'string' ? `Section ${i + 1}` : v.type || v.section || `Section ${i + 1}`),
+            text: (typeof v === 'string' ? v : v.text || v.lyrics || v.content || v.verse || ''),
+            prompt: ''
+          })).filter((v: any) => v.text.trim().length > 0);
+          if (lyrics.length > 0) break;
+        }
+        if (val && typeof val === 'string' && val.length > 50) {
+          lyrics = parseGrokLyrics(val);
+          if (lyrics.length > 0) break;
+        }
       }
     }
   }
