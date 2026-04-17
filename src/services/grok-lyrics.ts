@@ -240,3 +240,69 @@ export async function generateGrokLyrics(params: GrokGenerationParams): Promise<
 
   return { lyrics, rawText, model: data.model || 'grok' };
 }
+
+/**
+ * GROK ARTIST SCAN — enriches DNA + generates initial style prompt
+ */
+export interface GrokScanResult {
+  vocalIdentity: {
+    voiceType: string;
+    vocalTimbre: string;
+    singingStyle: string;
+    vocalPresence: string;
+    accent: string;
+    vocalReference: string;
+    language: string;
+    weirdness: number;
+    styleInfluence: number;
+    summary: string;
+  };
+  enrichedDNA: {
+    vocalDNA: string;
+    flowPattern: string;
+    productionFingerprint: string;
+    culturalAnchors: string;
+    structureDNA: string;
+    hookType: string;
+    hookStrategy: string;
+    verseBehavior: string;
+    energyCurve: string;
+    antiPatterns: string;
+  };
+  sunoStylePrompt: string;
+  sunoNegativePrompt: string;
+  suggestedBpm: string;
+  suggestedKey: string;
+  model: string;
+  provider: 'grok';
+}
+
+export async function scanArtistWithGrok(artist: string): Promise<GrokScanResult> {
+  const dnaPayload = getDNAPayload(artist);
+
+  const response = await fetch("/api/grok-scan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      artist,
+      artistDNA: dnaPayload
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: `HTTP ${response.status}` }));
+    throw new Error(err.error || `Grok Scan API error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return {
+    vocalIdentity: data.vocalIdentity || {},
+    enrichedDNA: data.enrichedDNA || {},
+    sunoStylePrompt: data.sunoStylePrompt || '',
+    sunoNegativePrompt: data.sunoNegativePrompt || '',
+    suggestedBpm: data.suggestedBpm || '',
+    suggestedKey: data.suggestedKey || '',
+    model: data.model || 'grok',
+    provider: 'grok'
+  };
+}
