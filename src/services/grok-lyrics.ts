@@ -186,19 +186,42 @@ export async function generateGrokFull(params: GrokGenerationParams): Promise<Gr
     };
   }
 
-  // Ensure structuredLyrics have proper IDs
-  const lyrics = (data.structuredLyrics || []).map((v: any, i: number) => ({
+  // Ensure structuredLyrics have proper IDs and text
+  let lyrics = (data.structuredLyrics || []).map((v: any, i: number) => ({
     id: v.id || Math.random().toString(36).substr(2, 9),
-    type: v.type || `Section ${i + 1}`,
-    text: v.text || '',
+    type: v.type || v.section || `Section ${i + 1}`,
+    text: v.text || v.lyrics || v.content || v.verse || '',
     prompt: v.prompt || ''
-  }));
+  })).filter((v: any) => v.text.trim().length > 0);
+
+  // Client-side fallback: if API returned no usable lyrics, try parsing raw response
+  if (lyrics.length === 0) {
+    console.warn('Grok: structuredLyrics empty after normalization, checking alternate keys:', Object.keys(data));
+    // Check if lyrics are in another top-level key
+    const altKeys = ['lyrics', 'verses', 'sections', 'songLyrics', 'paroles'];
+    for (const key of altKeys) {
+      const val = data[key];
+      if (val && Array.isArray(val) && val.length > 0) {
+        lyrics = val.map((v: any, i: number) => ({
+          id: Math.random().toString(36).substr(2, 9),
+          type: (typeof v === 'string' ? `Section ${i + 1}` : v.type || v.section || `Section ${i + 1}`),
+          text: (typeof v === 'string' ? v : v.text || v.lyrics || v.content || v.verse || ''),
+          prompt: ''
+        })).filter((v: any) => v.text.trim().length > 0);
+        if (lyrics.length > 0) break;
+      }
+      if (val && typeof val === 'string' && val.length > 50) {
+        lyrics = parseGrokLyrics(val);
+        if (lyrics.length > 0) break;
+      }
+    }
+  }
 
   return {
     artistName: data.artistName || params.artist || 'Artiste',
-    songTitle: data.songTitle || 'Untitled',
-    sunoPrompt: data.sunoPrompt || dnaPayload?.sunoStyleTemplate || '',
-    sunoPrompts: data.sunoPrompts || [data.sunoPrompt || ''],
+    songTitle: data.songTitle || data.title || 'Untitled',
+    sunoPrompt: data.sunoPrompt || data.stylePrompt || dnaPayload?.sunoStyleTemplate || '',
+    sunoPrompts: data.sunoPrompts || [data.sunoPrompt || data.stylePrompt || ''],
     negativePrompt: data.negativePrompt || dnaPayload?.sunoExcludeStyles || '',
     structuredLyrics: lyrics,
     lipSyncExcerpt: data.lipSyncExcerpt || '',
