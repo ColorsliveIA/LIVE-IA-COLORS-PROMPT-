@@ -103,52 +103,13 @@ RÈGLES :
 - JSON valide uniquement`;
 }
 
-// ── PASS 2: LYRICS (raw text — Grok excels at creative writing without JSON constraints) ──
+// ── PASS 2: LYRICS (LIGHTWEIGHT prompt — complex prompts cause timeout on grok-3-mini) ──
 function buildLyricsCreativePrompt(artistDNA: any): string {
-  return `Tu es un GHOSTWRITER PROFESSIONNEL. Tu écris des PAROLES DE CHANSON.
-
-${AUTHENTICITY_DIRECTIVE}
-
-${ANTI_IA_RULES}
-
-${buildArtistBlock(artistDNA)}
-
-## FORMAT DE SORTIE — PAROLES BALISÉES (PAS de JSON)
-Écris DIRECTEMENT les paroles avec ces balises Suno V5 :
-
-[Intro]
-(les paroles de l'intro ici)
-
-[Verse 1]
-(couplet 1 complet, 8-12 lignes)
-
-[Pre-Chorus]
-(montée vers le refrain, 2-4 lignes)
-
-[Chorus]
-(refrain accrocheur, 4-8 lignes)
-
-[Verse 2]
-(couplet 2 complet, 8-12 lignes)
-
-[Chorus]
-(refrain identique ou variation)
-
-[Bridge]
-(pont émotionnel, 4-6 lignes)
-
-[Outro]
-(conclusion, 2-4 lignes)
-
-RÈGLES :
-- Commence DIRECTEMENT par [Intro] ou [Verse 1] — JAMAIS "Voici", JAMAIS d'explication
-- Ad-libs entre parenthèses : (grrt), (aïe), (ekip), (oh)
-- ~melisma~ pour les notes tenues
-- MAJUSCULES = cri/emphase
-- Indique les changements vocaux : [Vocal Style: Raspy], [Vocal Style: Whisper], [Vocal Style: Soft]
-- Chaque couplet MINIMUM 8 lignes de VRAI texte
-- ZÉRO ligne vide entre les vers d'une même section
-- JAMAIS de vrais noms d'artistes/marques dans les paroles`;
+  const artistHint = artistDNA?.artist ? `, inspiré du style de ${artistDNA.artist}` : '';
+  return `Tu es un ghostwriter. Écris des paroles de rap/chanson${artistHint}.
+Commence DIRECTEMENT par [Verse 1] ou [Intro]. Pas de JSON, pas d'explication.
+Utilise les balises : [Intro], [Verse 1], [Chorus], [Verse 2], [Bridge], [Outro].
+Ad-libs entre parenthèses. Minimum 8 lignes par couplet. Rimes riches obligatoires.`;
 }
 
 // ── LYRICS ONLY system prompt ──
@@ -341,38 +302,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // ── PASS 2: Lyrics (raw text, NO JSON) ──
       const lyricsUserPrompt = `Écris les paroles complètes de cette chanson :\n${contextLines}\n\nCommence DIRECTEMENT par [Intro] ou [Verse 1]. Pas de JSON, pas d'explication.`;
 
-      console.log(`Grok 2-PASS: launching style (JSON) then lyrics (text) SEQUENTIALLY to avoid xAI rate limits...`);
+      console.log(`Grok 2-PASS: launching style (JSON) + lyrics (text) in PARALLEL with lightweight prompts...`);
 
-      // Run SEQUENTIALLY — xAI rate-limits concurrent requests on grok-3-mini
-      // PASS 1 first (smaller, faster), then PASS 2 (lyrics, needs more tokens)
-      let styleResult: { text: string; model: string } | null = null;
-      let lyricsResult: { text: string; model: string } | null = null;
-
-      try {
-        styleResult = await callGrokAPI(apiKey, buildStyleSystemPrompt(artistDNA), styleUserPrompt, true);
-        console.log('Grok PASS1 (style) completed OK');
-      } catch (err: any) {
-        console.error('Grok PASS1 (style) failed:', err.message);
-      }
-
-      // Small delay to avoid xAI rate limit between sequential calls
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      try {
-        lyricsResult = await callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false);
-        console.log('Grok PASS2 (lyrics) completed OK, text len:', lyricsResult?.text?.length);
-      } catch (err: any) {
-        console.error('Grok PASS2 (lyrics) failed:', err.message);
-        // RETRY once after a longer delay
-        console.log('Grok PASS2: retrying after 1.5s...');
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        try {
-          lyricsResult = await callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false);
-          console.log('Grok PASS2 RETRY succeeded, text len:', lyricsResult?.text?.length);
-        } catch (retryErr: any) {
-          console.error('Grok PASS2 RETRY also failed:', retryErr.message);
-        }
-      }
+      // Run PARALLEL — lightweight PASS 2 prompt avoids reasoning token bloat & Vercel timeout
+      const [styleResult, lyricsResult] = await Promise.all([
+        callGrokAPI(apiKey, buildStyleSystemPrompt(artistDNA), styleUserPrompt, true)
+          .catch(err => { console.error('Grok PASS1 (style) failed:', err.message); return null; }),
+        callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false)
+          .catch(err => { console.error('Grok PASS2 (lyrics) failed:', err.message); return null; })
+      ]);
 
       // ── Parse PASS 1: Style JSON ──
       let styleParsed: any = {};
