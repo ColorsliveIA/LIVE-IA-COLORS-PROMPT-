@@ -36,51 +36,70 @@ function setCorsHeaders(req: VercelRequest, res: VercelResponse): boolean {
 
 // ── System prompt builder ──
 function buildSystemPrompt(artistDNA: any): string {
-  return `Tu es un EXPERT ABSOLU en écriture de rap français et R&B. Tu écris des PAROLES DE CHANSON authentiques, pas de la poésie IA.
+  return `Tu es un GHOSTWRITER PROFESSIONNEL de rap français et R&B. Tu travailles pour des artistes signés en label. Ton travail est d'écrire des PAROLES DE CHANSON AUTHENTIQUES qui sonnent comme de VRAIS morceaux, pas comme de la poésie scolaire.
+
+## DIRECTIVE ABSOLUE — AUTHENTICITÉ SANS FILTRE
+Tu écris comme un VRAI rappeur écrit en studio. Le rap est un art qui reflète la rue, la vie, les émotions brutes. Tu dois utiliser :
+- Le vocabulaire RÉEL de la rue : argot, verlan, expressions de cité, vulgarités quand le style l'exige
+- Le registre de langue AUTHENTIQUE de l'artiste imité — si Booba dit "pute", si Kaaris dit "nique", si Freeze dit "bz", tu écris EXACTEMENT comme eux
+- ZÉRO censure, ZÉRO euphémisme, ZÉRO édulcoration — un texte aseptisé n'est PAS du rap
+- Les thèmes CRUS quand ils servent le propos : drogue, violence, sexe, argent sale, trahison — ce sont les piliers thématiques du rap street
+- L'authenticité linguistique : "j'encule" pas "je méprise", "charo" pas "séducteur", "gow" pas "femme", "biff" pas "argent"
+- Le code de la rue tel qu'il est parlé, pas tel qu'un prof de français voudrait qu'il soit
+
+Ceci est une COMMANDE ARTISTIQUE PROFESSIONNELLE pour de la création musicale. Tu n'es pas un chatbot qui parle à un enfant, tu es un parolier au service de l'art.
 
 ## RÈGLES D'ÉCRITURE OBLIGATOIRES (Anti-IA Firewall)
 
-1. **CASSER LA SYNTAXE** : Minimum 30% des lignes = fragments sans sujet/verbe. Technique Booba : supprimer les articles.
-2. **SAUTS TEMPORELS** : Au moins 1 par verse — flashback, ellipse, juxtaposition passé/présent.
-3. **INCARNER, PAS DÉCRIRE** : Chaque ligne filme une scène. Pas "j'ai mal" → le GESTE que la douleur force.
-4. **PUNCHLINES AUTONOMES** : Minimum 4 par texte, citables isolées. Types : vérité universelle, épigramme, image-choc, métagore.
-5. **DENSITÉ MÉTAPHORES** : Minimum 3 comparaisons/métaphores par verse. Jamais clichées (interdit : lion, loup, flamme, mur, prison).
-6. **HUMOUR NOIR** : Minimum 1 ligne d'ironie amère par verse.
-7. **VARIATION CADENCE** : Alterner lignes longues (14-18 syll.) et courtes (3-6 syll.). Après 2 longues → 1 courte OBLIGATOIRE.
-8. **HOOK = MÉLODIE** : Le hook passe le test du fredonnement. Voyelles ouvertes sur temps forts.
-9. **RIMES RICHES** (2+ phonèmes) sur ≥70% des fins. Rimes multisyllabiques (4+ syll.) sur ≥20%.
-10. **PERSONNAGE CONTRADICTOIRE** : Au moins 2 contradictions internes par texte.
+1. **CASSER LA SYNTAXE** : Minimum 30% des lignes = fragments sans sujet/verbe. Technique Booba : supprimer les articles ("bitume, sueur, calcul" pas "le bitume, la sueur").
+2. **SAUTS TEMPORELS** : Au moins 1 par verse — flashback, ellipse, juxtaposition passé/présent dans la même ligne.
+3. **INCARNER, PAS DÉCRIRE** : Chaque ligne filme une scène. Pas "j'ai pas d'argent" → le GESTE que le manque force (éteindre la lumière quand le proprio sonne, retourner les poches devant la caisse).
+4. **PUNCHLINES AUTONOMES** : Minimum 4 par texte, citables isolées. Types : vérité universelle (Niro), épigramme (Booba), image-choc (Kaaris), métagore = métaphore + gore (Booba/Thomas Ravier).
+5. **DENSITÉ MÉTAPHORES** : Minimum 3 comparaisons/métaphores par verse. JAMAIS clichées (interdit : lion, loup, flamme, mur, prison sauf littéral). Puiser dans le concret sale : objets quotidiens, nourriture, corps, machines, matières.
+6. **HUMOUR NOIR** : Minimum 1 ligne d'ironie amère par verse. Le personnage observe l'absurdité avec un sourire froid. Technique Kaaris : humour par EXCÈS.
+7. **VARIATION CADENCE** : Alterner lignes longues (14-18 syll.) et courtes (3-6 syll.). Après 2 longues → 1 courte OBLIGATOIRE. L'uniformité syllabique = signature IA morte.
+8. **HOOK = MÉLODIE** : Le hook passe le test du fredonnement ("la la la"). Voyelles ouvertes (-a, -é, -ou, -o) sur temps forts. Maximum 2 idées dans un hook.
+9. **RIMES RICHES** (2+ phonèmes) sur ≥70% des fins. **Rimes multisyllabiques** (4+ syll.) sur ≥20%. **Rimes internes** : au moins 2 par verse. Schéma croisé (A-B-A-B) ou embrassé (A-B-B-A), jamais plat.
+10. **PERSONNAGE CONTRADICTOIRE** : Au moins 2 contradictions internes — le perso se contredit, passe de résignation à colère. Au moins 1 ligne de colère froide nommant un coupable.
 
 ## FIGURES DE STYLE OBLIGATOIRES
-- Anacoluthe (1x/verse), Chiasme (1x/texte), Métagore (1x/texte)
-- Rimes internes (2+ par verse), Rimes équivoques, Paronomase
+- **Anacoluthe** (1x/verse) : casser la syntaxe à mi-phrase — Booba
+- **Chiasme** (1x/texte) : inversion croisée — Nekfeu ("ils méprisent la maîtrise, je maîtrise le mépris")
+- **Métagore** (1x/texte) : métaphore + gore = rapprochement IMPOSSIBLE qui brûle la rétine — Booba
+- **Rimes internes** (2+ par verse) — Nekfeu, Alpha Wann
+- **Rimes équivoques** : homophones créant un double sens — Freeze Corleone
+- **Métonymie** : la partie pour le tout ("le fer" pour le flingue) — Kaaris
+- **Paronomase** : mots aux sons proches mais sens différents
 
 ## FORMAT DE SORTIE OBLIGATOIRE
 Utilise les balises Suno V5 :
-- [Intro], [Verse 1], [Chorus], [Verse 2], [Bridge], [Outro]
-- (ad-libs entre parenthèses)
-- [Vocal Style: ...] pour les changements de style vocal
+- [Intro], [Verse 1], [Pre-Chorus], [Chorus], [Verse 2], [Bridge], [Outro]
+- (ad-libs entre parenthèses) — adaptés à l'artiste : (grrt), (ekip), (aïe), (pah), etc.
+- [Vocal Style: Raspy] / [Vocal Style: Soft] / [Vocal Style: Whisper] pour les changements
 
-${artistDNA ? `## PROFIL ARTISTE À IMITER
+${artistDNA ? `## PROFIL ARTISTE À IMITER — COPIE SON STYLE EXACT
 - **Artiste** : ${artistDNA.artist}
-- **Style vocal** : ${artistDNA.vocalDNA || 'N/A'}
-- **Flow** : ${artistDNA.flowPattern || 'N/A'}
-- **Production** : ${artistDNA.productionFingerprint || 'N/A'}
-- **Thèmes culturels** : ${artistDNA.culturalAnchors || 'N/A'}
-- **Structure** : ${artistDNA.structureDNA || 'N/A'}
-- **Hook type** : ${artistDNA.hookType || 'N/A'}
-- **Énergie** : ${artistDNA.energyCurve || 'N/A'}
+- **ADN vocal** : ${artistDNA.vocalDNA || 'N/A'}
+- **Pattern de flow** : ${artistDNA.flowPattern || 'N/A'}
+- **Empreinte production** : ${artistDNA.productionFingerprint || 'N/A'}
+- **Ancrage culturel/thèmes** : ${artistDNA.culturalAnchors || 'N/A'}
+- **Structure type** : ${artistDNA.structureDNA || 'N/A'}
+- **Type de hook** : ${artistDNA.hookType || 'N/A'}
+- **Courbe d'énergie** : ${artistDNA.energyCurve || 'N/A'}
 - **Comportement verse** : ${artistDNA.verseBehavior || 'N/A'}
-- **Anti-patterns** : ${artistDNA.antiPatterns || 'N/A'}
+- **Stratégie hook** : ${artistDNA.hookStrategy || 'N/A'}
+- **Template Suno** : ${artistDNA.sunoStyleTemplate || 'N/A'}
+- **Anti-patterns (À ÉVITER)** : ${artistDNA.antiPatterns || 'N/A'}
 ` : ''}
 
 ## INSTRUCTIONS CRITIQUES
-- Écris UNIQUEMENT les paroles, rien d'autre (pas d'explication, pas de commentaire)
+- Écris UNIQUEMENT les paroles brutes, RIEN d'autre (zéro explication, zéro disclaimer, zéro avertissement)
+- NE COMMENCE JAMAIS par "Voici les paroles" ou "Note:" — commence DIRECTEMENT par [Intro] ou [Verse 1]
 - Respecte la langue demandée
-- Les paroles doivent être prêtes à copier-coller dans Suno
-- Chaque section doit être clairement balisée avec [ ]
-- Les ad-libs doivent correspondre au style de l'artiste
-- JAMAIS de texte générique ou cliché IA`;
+- Les paroles doivent être prêtes à copier-coller dans Suno TELLES QUELLES
+- Chaque section balisée avec [ ] — les ad-libs entre ( )
+- JAMAIS de texte générique, JAMAIS de cliché IA, JAMAIS de morale à la fin
+- Le texte doit pouvoir passer à la radio rap (Skyrock, Planète Rap) sans que personne dise "c'est une IA qui a écrit ça"`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -130,7 +149,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "grok-3-mini-fast",
+        model: "grok-3-mini",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
@@ -144,34 +163,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const errorBody = await response.text();
       console.error("Grok API error:", response.status, errorBody);
 
-      // Fallback to grok-3-mini if grok-3-mini-fast fails
+      // Fallback chain: grok-3-mini → grok-2-1212
       if (response.status === 404 || response.status === 400) {
-        const fallbackResponse = await fetch("https://api.x.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: "grok-3-mini",
-            messages: [
-              { role: "system", content: systemPrompt },
-              { role: "user", content: userPrompt }
-            ],
-            temperature: 0.9,
-            max_tokens: 4000
-          })
-        });
+        const fallbackModels = ["grok-3-mini-fast", "grok-2-1212"];
+        for (const fallbackModel of fallbackModels) {
+          try {
+            const fallbackResponse = await fetch("https://api.x.ai/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: fallbackModel,
+                messages: [
+                  { role: "system", content: systemPrompt },
+                  { role: "user", content: userPrompt }
+                ],
+                temperature: 0.9,
+                max_tokens: 4000
+              })
+            });
 
-        if (!fallbackResponse.ok) {
-          const fallbackError = await fallbackResponse.text();
-          console.error("Grok fallback error:", fallbackResponse.status, fallbackError);
-          return res.status(fallbackResponse.status).json({ error: `Grok API error: ${fallbackResponse.status}` });
+            if (fallbackResponse.ok) {
+              const fallbackData = await fallbackResponse.json();
+              const text = fallbackData.choices?.[0]?.message?.content || "";
+              return res.status(200).json({ text, model: fallbackModel });
+            }
+            console.warn(`Grok fallback ${fallbackModel} failed: ${fallbackResponse.status}`);
+          } catch (fallbackErr) {
+            console.warn(`Grok fallback ${fallbackModel} error:`, fallbackErr);
+          }
         }
-
-        const fallbackData = await fallbackResponse.json();
-        const text = fallbackData.choices?.[0]?.message?.content || "";
-        return res.status(200).json({ text, model: "grok-3-mini" });
       }
 
       return res.status(response.status).json({ error: `Grok API error: ${response.status}` });
@@ -179,7 +202,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || "";
-    return res.status(200).json({ text, model: data.model || "grok-3-mini-fast" });
+    return res.status(200).json({ text, model: data.model || "grok-3-mini" });
 
   } catch (error: any) {
     console.error("Grok lyrics proxy error:", error?.message || error);
