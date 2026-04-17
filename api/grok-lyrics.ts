@@ -169,86 +169,93 @@ ${buildArtistBlock(artistDNA)}
 - JAMAIS d'explication, JAMAIS de disclaimer, JAMAIS de morale`;
 }
 
+// ── Clean Grok response: strip reasoning/thinking tokens ──
+function cleanGrokResponse(text: string): string {
+  // grok-3-mini is a reasoning model — strip <think>...</think> blocks
+  let cleaned = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  // Also strip any other common reasoning wrappers
+  cleaned = cleaned.replace(/^<reasoning>[\s\S]*?<\/reasoning>/gi, '').trim();
+  cleaned = cleaned.replace(/^<thought>[\s\S]*?<\/thought>/gi, '').trim();
+  // Strip markdown code fences
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+  // Strip common preamble phrases
+  cleaned = cleaned.replace(/^(?:Voici|Here (?:are|is)|Sure|OK|D'accord|Bien sûr)[^\n]*\n+/i, '').trim();
+  return cleaned;
+}
+
 // ── Grok API call with fallback chain ──
 async function callGrokAPI(apiKey: string, systemPrompt: string, userPrompt: string, jsonMode: boolean): Promise<{ text: string; model: string }> {
-  // Model priority: grok-3-mini-fast (cheapest/fastest), grok-3-mini (reasoning), grok-2-1212 (legacy)
-  const models = ["grok-3-mini-fast", "grok-3-mini", "grok-2-1212"];
+  // grok-3-mini works reliably. grok-3-mini-fast may not be available on all accounts.
+  // Put grok-3-mini FIRST to avoid wasting time on 404s.
+  const models = ["grok-3-mini", "grok-3-mini-fast", "grok-2-1212"];
   let lastError: string = "";
 
   for (const model of models) {
-    // Try with JSON mode first, then retry without if it fails (some models don't support response_format)
-    const attempts = jsonMode ? [true, false] : [false];
+    try {
+      const body: any = {
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.85,
+        max_tokens: 16000
+      };
+      if (jsonMode) {
+        body.response_format = { type: "json_object" };
+      }
 
-    for (const useJsonMode of attempts) {
-      try {
-        const body: any = {
-          model,
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt }
-          ],
-          temperature: 0.85,
-          max_tokens: 16000
-        };
-        if (useJsonMode) {
-          body.response_format = { type: "json_object" };
+      console.log(`Grok: trying model=${model}, jsonMode=${jsonMode}`);
+
+      const response = await fetch("https://api.x.ai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        let text = data.choices?.[0]?.message?.content || "";
+        const finishReason = data.choices?.[0]?.finish_reason || "unknown";
+        const usageTokens = data.usage ? `in=${data.usage.prompt_tokens} out=${data.usage.completion_tokens}` : "no usage";
+        console.log(`Grok OK: model=${data.model || model}, finish=${finishReason}, ${usageTokens}, raw_len=${text.length}`);
+        console.log(`Grok raw response first 500 chars: ${text.slice(0, 500)}`);
+
+        if (finishReason === 'length') {
+          console.warn(`Grok WARNING: response TRUNCATED (finish_reason=length)`);
         }
 
-        console.log(`Grok: trying model=${model}, jsonMode=${useJsonMode}`);
+        // Clean reasoning tokens from grok-3-mini
+        text = cleanGrokResponse(text);
+        console.log(`Grok cleaned response len=${text.length}, first 300: ${text.slice(0, 300)}`);
 
-        const response = await fetch("https://api.x.ai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify(body)
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const text = data.choices?.[0]?.message?.content || "";
-          const finishReason = data.choices?.[0]?.finish_reason || "unknown";
-          const usageTokens = data.usage ? `in=${data.usage.prompt_tokens} out=${data.usage.completion_tokens}` : "no usage data";
-          console.log(`Grok OK: model=${data.model || model}, finish=${finishReason}, ${usageTokens}, response_len=${text.length}`);
-
-          // Warn if response was truncated
-          if (finishReason === 'length') {
-            console.warn(`Grok WARNING: response truncated (finish_reason=length). Output may be incomplete.`);
-          }
-
-          return { text, model: data.model || model };
-        }
-
-        const status = response.status;
-        const errBody = await response.text().catch(() => '');
-        console.warn(`Grok model=${model} jsonMode=${useJsonMode} failed: ${status} — ${errBody.slice(0, 200)}`);
-        lastError = `${status}: ${errBody.slice(0, 200)}`;
-
-        // 403 = billing issue, don't try other models
-        if (status === 403) {
-          throw new Error(`403 Forbidden — Pas de crédits API xAI. Ajoutez des crédits sur console.x.ai/billing.`);
-        }
-        // 429 = rate limit
-        if (status === 429) {
-          throw new Error(`429 Rate limit — Trop de requêtes. Patientez.`);
-        }
-        // 422 = invalid param (e.g. response_format not supported) — retry without JSON mode
-        if (status === 422 && useJsonMode) {
-          console.warn(`Grok: model=${model} doesn't support response_format, retrying without`);
+        if (!text) {
+          console.warn(`Grok: response empty after cleaning, trying next model`);
+          lastError = 'Empty response after cleaning';
           continue;
         }
-        // 404/400 = model not found, try next model
-        if (status === 404 || status === 400) break;
-        // Other errors
-        throw new Error(`Grok API error: ${status}`);
 
-      } catch (err: any) {
-        if (err.message?.includes('403') || err.message?.includes('429')) throw err;
-        lastError = err.message || 'Unknown error';
-        if (model === models[models.length - 1] && (useJsonMode === false || !jsonMode)) throw err;
-        console.warn(`Grok ${model} jsonMode=${useJsonMode} error:`, err.message);
+        return { text, model: data.model || model };
       }
+
+      const status = response.status;
+      const errBody = await response.text().catch(() => '');
+      console.warn(`Grok model=${model} failed: ${status} — ${errBody.slice(0, 200)}`);
+      lastError = `${status}: ${errBody.slice(0, 200)}`;
+
+      if (status === 403) throw new Error(`403 Forbidden — Pas de crédits API xAI.`);
+      if (status === 429) throw new Error(`429 Rate limit — Trop de requêtes.`);
+      if (status === 404 || status === 400 || status === 422) continue; // try next model
+      throw new Error(`Grok API error: ${status}`);
+
+    } catch (err: any) {
+      if (err.message?.includes('403') || err.message?.includes('429')) throw err;
+      lastError = err.message || 'Unknown error';
+      if (model === models[models.length - 1]) throw err;
+      console.warn(`Grok ${model} error, trying next:`, err.message);
     }
   }
   throw new Error(`All Grok models failed. Last error: ${lastError}`);
@@ -367,23 +374,89 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let structuredLyrics: any[] = [];
       const lyricsModel = lyricsResult?.model || styleModel;
       if (lyricsResult?.text) {
-        const rawLyrics = lyricsResult.text.trim();
-        console.log(`Grok PASS2 lyrics response (len=${rawLyrics.length}):`, rawLyrics.slice(0, 300));
-        structuredLyrics = parseBracketedLyrics(rawLyrics);
-        console.log(`Grok PASS2 parsed: ${structuredLyrics.length} sections`);
+        let rawLyrics = lyricsResult.text.trim();
+        console.log(`Grok PASS2 raw lyrics (len=${rawLyrics.length}), first 500:`, rawLyrics.slice(0, 500));
 
-        // Fallback: if no brackets found, treat entire text as one verse
+        // ATTEMPT 1: If the response is actually JSON (Grok might ignore our "no JSON" instruction)
+        if (rawLyrics.startsWith('{')) {
+          try {
+            const lyricsJson = JSON.parse(rawLyrics);
+            console.log('Grok PASS2: response was JSON, keys:', Object.keys(lyricsJson));
+            // Try to find lyrics in the JSON
+            const lyricsSource = lyricsJson.structuredLyrics || lyricsJson.lyrics || lyricsJson.verses || lyricsJson.sections;
+            if (Array.isArray(lyricsSource)) {
+              structuredLyrics = lyricsSource.map((v: any, i: number) => ({
+                id: `v${i + 1}`,
+                type: (typeof v === 'string' ? `Section ${i + 1}` : v.type || v.section || `Section ${i + 1}`),
+                text: (typeof v === 'string' ? v : v.text || v.lyrics || v.content || ''),
+                prompt: ''
+              })).filter((v: any) => v.text.trim().length > 0);
+              console.log(`Grok PASS2 JSON fallback: ${structuredLyrics.length} sections`);
+            } else if (typeof lyricsSource === 'string') {
+              rawLyrics = lyricsSource; // use string for bracket parsing below
+            }
+          } catch {
+            console.log('Grok PASS2: starts with { but not valid JSON, treating as text');
+          }
+        }
+
+        // ATTEMPT 2: Standard bracket parsing [Section Name]
+        if (structuredLyrics.length === 0) {
+          structuredLyrics = parseBracketedLyrics(rawLyrics);
+          console.log(`Grok PASS2 bracket parse: ${structuredLyrics.length} sections`);
+        }
+
+        // ATTEMPT 3: Split by common section headers without brackets (Verse 1:, Chorus:, etc.)
+        if (structuredLyrics.length === 0) {
+          const headerPattern = /^(Intro|Verse\s*\d*|Couplet\s*\d*|Pre-?Chorus|Chorus|Refrain|Bridge|Pont|Outro|Hook)\s*[:\-]?\s*$/gim;
+          const headerMatches = [...rawLyrics.matchAll(headerPattern)];
+          if (headerMatches.length >= 2) {
+            for (let i = 0; i < headerMatches.length; i++) {
+              const start = headerMatches[i].index! + headerMatches[i][0].length;
+              const end = i + 1 < headerMatches.length ? headerMatches[i + 1].index! : rawLyrics.length;
+              const sectionText = rawLyrics.slice(start, end).trim();
+              if (sectionText.length > 0) {
+                structuredLyrics.push({
+                  id: `v${structuredLyrics.length + 1}`,
+                  type: headerMatches[i][1].trim(),
+                  text: sectionText,
+                  prompt: ''
+                });
+              }
+            }
+            console.log(`Grok PASS2 header parse: ${structuredLyrics.length} sections`);
+          }
+        }
+
+        // ATTEMPT 4: Split by double newlines into verse blocks
         if (structuredLyrics.length === 0 && rawLyrics.length > 50) {
+          const blocks = rawLyrics.split(/\n\s*\n/).filter(b => b.trim().length > 10);
+          if (blocks.length >= 2) {
+            const sectionNames = ['Intro', 'Verse 1', 'Pre-Chorus', 'Chorus', 'Verse 2', 'Chorus', 'Bridge', 'Outro'];
+            structuredLyrics = blocks.map((block, i) => ({
+              id: `v${i + 1}`,
+              type: sectionNames[i] || `Section ${i + 1}`,
+              text: block.trim(),
+              prompt: ''
+            }));
+            console.log(`Grok PASS2 block split: ${structuredLyrics.length} sections`);
+          }
+        }
+
+        // ATTEMPT 5: Last resort — entire text as single verse
+        if (structuredLyrics.length === 0 && rawLyrics.length > 30) {
           structuredLyrics = [{
             id: 'v1',
             type: 'Verse',
             text: rawLyrics,
             prompt: ''
           }];
-          console.log('Grok PASS2 fallback: wrapped entire text as single verse');
+          console.log('Grok PASS2 last resort: entire text as single verse');
         }
+
+        console.log(`Grok PASS2 FINAL: ${structuredLyrics.length} sections, total chars=${structuredLyrics.reduce((a: number, v: any) => a + v.text.length, 0)}`);
       } else {
-        console.warn('Grok PASS2 (lyrics) returned nothing');
+        console.warn('Grok PASS2 (lyrics) returned NOTHING — lyricsResult:', JSON.stringify(lyricsResult));
       }
 
       // If both passes failed completely, throw
