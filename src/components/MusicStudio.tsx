@@ -3,7 +3,7 @@ import { SessionState, MusicState, Verse } from '../types';
 import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle, Edit3, RotateCcw } from 'lucide-react';
 import { generateMusicContext, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
 import { getArtistSunoSettings } from '../services/sonic-dna';
-import { generateGrokLyrics } from '../services/grok-lyrics';
+import { generateGrokFull, generateGrokLyrics } from '../services/grok-lyrics';
 import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
@@ -54,6 +54,7 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [isGrokGenerating, setIsGrokGenerating] = useState(false);
   const [grokModel, setGrokModel] = useState<string | null>(null);
+  const [aiProvider, setAiProvider] = useState<'gemini' | 'grok'>('gemini');
 
   const LOADING_MESSAGES = [
     "Un producteur légendaire rentre dans le studio...",
@@ -398,47 +399,73 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     const finalStyleBlend = state.music.styleBlend;
 
     try {
-      // Add a timeout to the generation call
-      const generationPromise = generateMusicContext(
-        finalGenre || state.genre,
-        finalMood,
-        state.music.theme,
-        state.music.artistName || state.music.inspiredBy || state.artist || 'Artiste',
-        finalLang || 'FRANÇAIS',
-        finalArtist,
-        '',
-        state.music.performanceActive,
-        state.music.energy,
-        state.music.emotionalIntensity,
-        finalVoice,
-        finalTimbre,
-        finalStyle,
-        state.music.vocalPresence,
-        state.music.accent,
-        state.music.vocalReference,
-        state.music.emotionLevel,
-        '',
-        finalProduction,
-        state.manualBpm ? state.bpm : null,
-        '',
-        finalStyleBlend,
-        state.music.artistIdentitySummary,
-        state.music.customNegativePrompt,
-        state.music.weirdness,
-        state.music.styleInfluence,
-        state.music.vocalTechnique,
-        '',
-        state.music.secondaryInspiredBy,
-        state.music.advancedTags,
-        mode,
-        selectedHarmonicPreset ? applyHarmonicPreset(selectedHarmonicPreset) || undefined : undefined
-      );
+      // Build generation promise based on selected AI provider
+      let generationPromise: Promise<any>;
 
-      const timeoutPromise = new Promise((_, reject) => 
+      if (aiProvider === 'grok') {
+        // ── GROK PROVIDER ──
+        generationPromise = generateGrokFull({
+          theme: state.music.theme || 'freestyle',
+          language: finalLang || 'FRANÇAIS',
+          artist: finalArtist || '',
+          mood: finalMood || '',
+          genre: finalGenre || state.genre || '',
+          energy: state.music.energy || 70,
+          mode: mode,
+          voiceType: finalVoice || '',
+          singingStyle: finalStyle || '',
+          productionStyle: finalProduction || '',
+          bpm: state.manualBpm ? state.bpm : null,
+          styleBlend: finalStyleBlend || '',
+          negativePrompt: state.music.customNegativePrompt || '',
+          weirdness: state.music.weirdness,
+          styleInfluence: state.music.styleInfluence,
+          advancedTags: state.music.advancedTags || []
+        });
+      } else {
+        // ── GEMINI PROVIDER (existing) ──
+        generationPromise = generateMusicContext(
+          finalGenre || state.genre,
+          finalMood,
+          state.music.theme,
+          state.music.artistName || state.music.inspiredBy || state.artist || 'Artiste',
+          finalLang || 'FRANÇAIS',
+          finalArtist,
+          '',
+          state.music.performanceActive,
+          state.music.energy,
+          state.music.emotionalIntensity,
+          finalVoice,
+          finalTimbre,
+          finalStyle,
+          state.music.vocalPresence,
+          state.music.accent,
+          state.music.vocalReference,
+          state.music.emotionLevel,
+          '',
+          finalProduction,
+          state.manualBpm ? state.bpm : null,
+          '',
+          finalStyleBlend,
+          state.music.artistIdentitySummary,
+          state.music.customNegativePrompt,
+          state.music.weirdness,
+          state.music.styleInfluence,
+          state.music.vocalTechnique,
+          '',
+          state.music.secondaryInspiredBy,
+          state.music.advancedTags,
+          mode,
+          selectedHarmonicPreset ? applyHarmonicPreset(selectedHarmonicPreset) || undefined : undefined
+        );
+      }
+
+      const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("La génération prend plus de temps que prévu. Veuillez réessayer.")), 90000)
       );
 
       const result = await Promise.race([generationPromise, timeoutPromise]) as any;
+      if (aiProvider === 'grok') setGrokModel(result.model || 'grok');
 
       // Sprint 3 — capture guardrail diagnostics
       setLastDiagnostics(result?._diagnostics || null);
@@ -514,45 +541,6 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     }
   };
 
-  // ── GROK LYRICS GENERATION ──
-  const handleGrokGenerate = async () => {
-    if (isGrokGenerating || state.music.isGenerating) return;
-    setIsGrokGenerating(true);
-    setGrokModel(null);
-
-    const finalArtist = state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy;
-    const finalGenre = state.music.genre === 'CUSTOM' ? customGenre : state.music.genre;
-    const finalMood = state.music.mood === 'CUSTOM' ? customMood : state.music.mood;
-    const finalLang = state.music.language === 'CUSTOM' ? customLang : state.music.language;
-
-    try {
-      const result = await generateGrokLyrics({
-        theme: state.music.theme || 'freestyle',
-        language: finalLang || 'FRANÇAIS',
-        artist: finalArtist || '',
-        mood: finalMood || '',
-        genre: finalGenre || '',
-        energy: state.music.energy || 70
-      });
-
-      setGrokModel(result.model);
-      setState(prev => ({
-        ...prev,
-        music: {
-          ...prev.music,
-          lyrics: result.lyrics,
-          error: null
-        }
-      }));
-      showToast(`Lyrics générées via ${result.model}`, 'success');
-    } catch (error: any) {
-      console.error('Grok generation error:', error);
-      showToast(error?.message || 'Erreur Grok API', 'error');
-    } finally {
-      setIsGrokGenerating(false);
-    }
-  };
-
   // Keyboard shortcut: Cmd/Ctrl + Enter to generate
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -616,6 +604,30 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
 
       {/* PERSISTENT SUMMARY BAR — Sticky DNA snapshot at top of studio */}
       <div className="sticky top-0 z-30 backdrop-blur-md bg-black/70 border-b border-[#10B981]/20 px-4 py-2 flex items-center gap-3 text-[10px] font-mono uppercase tracking-tighter overflow-x-auto">
+        {/* AI Provider Toggle */}
+        <div className="flex items-center shrink-0 bg-white/5 rounded-lg border border-white/10 p-0.5">
+          <button
+            onClick={() => setAiProvider('gemini')}
+            className={`px-2.5 py-1 rounded-md transition-all text-[9px] font-bold tracking-wider ${
+              aiProvider === 'gemini'
+                ? 'bg-[#4285F4]/20 text-[#4285F4] border border-[#4285F4]/40 shadow-[0_0_8px_rgba(66,133,244,0.2)]'
+                : 'text-white/30 hover:text-white/50'
+            }`}
+          >
+            GEMINI
+          </button>
+          <button
+            onClick={() => setAiProvider('grok')}
+            className={`px-2.5 py-1 rounded-md transition-all text-[9px] font-bold tracking-wider ${
+              aiProvider === 'grok'
+                ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/40 shadow-[0_0_8px_rgba(255,107,53,0.2)]'
+                : 'text-white/30 hover:text-white/50'
+            }`}
+          >
+            GROK
+          </button>
+        </div>
+        <span className="text-white/20">·</span>
         <span className="flex items-center gap-1.5 shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_6px_#10B981]" />
           <span className="text-white/40">DNA</span>
@@ -2479,31 +2491,31 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg sm:text-xl tracking-widest text-white/90">LYRICAL ARCHITECTURE</h3>
-                  <p className="editorial-heading">AI Generated Poetry & Structure{grokModel && <span className="ml-2 text-[#ff6b35]/60">· {grokModel}</span>}</p>
+                  <p className="editorial-heading">
+                    {aiProvider === 'grok' ? 'Grok AI' : 'Gemini'} Generated Poetry & Structure
+                    {grokModel && aiProvider === 'grok' && <span className="ml-2 text-[#ff6b35]/60">· {grokModel}</span>}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
                 <button
-                  onClick={handleGrokGenerate}
-                  disabled={isGrokGenerating || state.music.isGenerating}
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ff6b35]/10 to-[#ff3d00]/10 rounded-xl border border-[#ff6b35]/30 text-[#ff6b35] hover:bg-[#ff6b35]/20 hover:border-[#ff6b35]/60 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md disabled:opacity-40"
-                  title="Générer les lyrics via Grok AI (xAI)"
-                >
-                  {isGrokGenerating ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <Zap size={14} />
-                  )}
-                  {isGrokGenerating ? 'GROK...' : 'GROK AI'}
-                </button>
-                <button
                   onClick={() => handleGenerate('lyrics')}
                   disabled={state.music.isGenerating}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-white/60 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md"
-                  title="Remix & Refine Lyrics to match artist style"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md ${
+                    aiProvider === 'grok'
+                      ? 'bg-[#ff6b35]/10 border-[#ff6b35]/30 text-[#ff6b35] hover:bg-[#ff6b35]/20 hover:border-[#ff6b35]/60'
+                      : 'bg-white/5 border-white/10 text-white/60 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40'
+                  }`}
+                  title={`Remix lyrics via ${aiProvider === 'grok' ? 'Grok AI' : 'Gemini'}`}
                 >
-                  <RefreshCw size={14} className={state.music.isGenerating ? 'animate-spin' : ''} />
-                  Remix & Refine
+                  {state.music.isGenerating ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : aiProvider === 'grok' ? (
+                    <Zap size={14} />
+                  ) : (
+                    <RefreshCw size={14} />
+                  )}
+                  {state.music.isGenerating ? 'GENERATING...' : aiProvider === 'grok' ? 'GROK REMIX' : 'REMIX & REFINE'}
                 </button>
                 {state.music.lyrics && (
                   <button 
