@@ -3,7 +3,7 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 // ── Rate Limiting ──
 interface RateBucket { count: number; resetAt: number; }
 const ipBuckets = new Map<string, RateBucket>();
-const MAX_PER_IP_PER_MINUTE = 8;
+const MAX_PER_IP_PER_MINUTE = 12; // 2-pass architecture = 2 Grok calls per user request
 
 function isRateLimited(ip: string): { limited: boolean; retryAfter?: number } {
   const now = Date.now();
@@ -80,9 +80,32 @@ function buildArtistBlock(artistDNA: any): string {
 ${artistDNA.sunoMetatags ? `- Metatags: Vocal=${artistDNA.sunoMetatags.vocalStyle}, Effect=${artistDNA.sunoMetatags.vocalEffect}, Mood=${artistDNA.sunoMetatags.mood}, Energy=${artistDNA.sunoMetatags.energy}, Texture=${artistDNA.sunoMetatags.texture}, Instrument=${artistDNA.sunoMetatags.instrument}` : ''}`;
 }
 
-// ── FULL GENERATION system prompt (style + lyrics) ──
-function buildFullSystemPrompt(artistDNA: any): string {
-  return `Tu es un GHOSTWRITER et DIRECTEUR ARTISTIQUE PROFESSIONNEL. Tu génères le prompt Suno complet : style musical EN ANGLAIS + paroles dans la langue demandée.
+// ── PASS 1: STYLE PROMPT (small JSON — very achievable for Grok mini) ──
+function buildStyleSystemPrompt(artistDNA: any): string {
+  return `Tu es un DIRECTEUR ARTISTIQUE et PRODUCTEUR MUSICAL PROFESSIONNEL.
+Tu crées des prompts de style pour Suno AI V5.5 — EN ANGLAIS uniquement.
+
+${buildArtistBlock(artistDNA)}
+
+## FORMAT DE SORTIE — JSON STRICT (pas de markdown, pas de backticks)
+{
+  "artistName": "Nom d'artiste fictif créatif",
+  "songTitle": "Titre du morceau",
+  "sunoPrompt": "Style prompt EN ANGLAIS, 500-600 chars. 10 dimensions: [STYLE]+[BPM+Key]+[GRAIN]+[SPACE]+[INSTRUMENTS]+[VOCAL TEXTURE]+[DYNAMIC]+[MIX]+[CULTURAL]+[ERA]. Ultra précis.",
+  "sunoPrompts": ["V1 fidèle à l'artiste", "V2 variation légère", "V3 plus expérimental"],
+  "negativePrompt": "Styles à exclure EN ANGLAIS"
+}
+
+RÈGLES :
+- TOUT en ANGLAIS dans les champs sunoPrompt/sunoPrompts/negativePrompt
+- Précision maximale : "Dark Melodic Drill, Pitched 808 Slides, Sparse Hi-Hats, Reverb-Drenched Vocals" PAS juste "Trap"
+- Chaque variant V1/V2/V3 doit être DIFFÉRENT
+- JSON valide uniquement`;
+}
+
+// ── PASS 2: LYRICS (raw text — Grok excels at creative writing without JSON constraints) ──
+function buildLyricsCreativePrompt(artistDNA: any): string {
+  return `Tu es un GHOSTWRITER PROFESSIONNEL. Tu écris des PAROLES DE CHANSON.
 
 ${AUTHENTICITY_DIRECTIVE}
 
@@ -90,35 +113,42 @@ ${ANTI_IA_RULES}
 
 ${buildArtistBlock(artistDNA)}
 
-## FORMAT DE SORTIE — JSON STRICT
-Tu DOIS répondre en JSON valide avec cette structure exacte (pas de markdown, pas de backticks) :
-{
-  "artistName": "Nom d'artiste fictif",
-  "songTitle": "Titre du morceau",
-  "sunoPrompt": "Style prompt EN ANGLAIS, 500-600 chars. 10 dimensions : [STYLE]+[BPM+Key]+[GRAIN]+[SPACE]+[INSTRUMENTS]+[VOCAL TEXTURE]+[DYNAMIC]+[MIX]+[CULTURAL]+[ERA]",
-  "sunoPrompts": ["V1 pure artist style", "V2 slight variation", "V3 more experimental"],
-  "negativePrompt": "Styles to exclude",
-  "structuredLyrics": [
-    {"id": "v1", "type": "Intro", "text": "...", "prompt": ""},
-    {"id": "v2", "type": "Verse 1", "text": "...", "prompt": ""},
-    {"id": "v3", "type": "Pre-Chorus", "text": "...", "prompt": ""},
-    {"id": "v4", "type": "Chorus", "text": "...", "prompt": ""},
-    {"id": "v5", "type": "Verse 2", "text": "...", "prompt": ""},
-    {"id": "v6", "type": "Chorus", "text": "...", "prompt": ""},
-    {"id": "v7", "type": "Bridge", "text": "...", "prompt": ""},
-    {"id": "v8", "type": "Outro", "text": "...", "prompt": ""}
-  ],
-  "lipSyncExcerpt": "15-second excerpt with phonetic cues for lip-sync",
-  "quality": {"score": 85, "coherence": 85, "richness": 80, "clarity": 90, "hook": 85, "precision": 80, "message": "Brief quality assessment"}
-}
+## FORMAT DE SORTIE — PAROLES BALISÉES (PAS de JSON)
+Écris DIRECTEMENT les paroles avec ces balises Suno V5 :
 
-## RÈGLES CRITIQUES :
-- sunoPrompt et sunoPrompts[] TOUJOURS en ANGLAIS. Texture > Genre naming. Précis : "Dark Melodic Drill, Pitched 808 Slides, Sparse Hi-Hats" PAS "Trap" seul
-- Les paroles dans la langue demandée avec les balises Suno V5 : (ad-libs), ~melisma~, CAPS=cri, [Vocal Style: Raspy/Soft/Whisper]
-- JAMAIS citer de vrais noms d'artistes, marques, labels dans les paroles
-- NE COMMENCE JAMAIS par "Voici" ou "Note:" — JSON brut directement
-- Le texte doit pouvoir passer à Skyrock/Planète Rap sans que personne dise "c'est une IA"
-- Chaque sunoPrompt variant (V1/V2/V3) doit être DIFFÉRENT — pas de copier-coller`;
+[Intro]
+(les paroles de l'intro ici)
+
+[Verse 1]
+(couplet 1 complet, 8-12 lignes)
+
+[Pre-Chorus]
+(montée vers le refrain, 2-4 lignes)
+
+[Chorus]
+(refrain accrocheur, 4-8 lignes)
+
+[Verse 2]
+(couplet 2 complet, 8-12 lignes)
+
+[Chorus]
+(refrain identique ou variation)
+
+[Bridge]
+(pont émotionnel, 4-6 lignes)
+
+[Outro]
+(conclusion, 2-4 lignes)
+
+RÈGLES :
+- Commence DIRECTEMENT par [Intro] ou [Verse 1] — JAMAIS "Voici", JAMAIS d'explication
+- Ad-libs entre parenthèses : (grrt), (aïe), (ekip), (oh)
+- ~melisma~ pour les notes tenues
+- MAJUSCULES = cri/emphase
+- Indique les changements vocaux : [Vocal Style: Raspy], [Vocal Style: Whisper], [Vocal Style: Soft]
+- Chaque couplet MINIMUM 8 lignes de VRAI texte
+- ZÉRO ligne vide entre les vers d'une même section
+- JAMAIS de vrais noms d'artistes/marques dans les paroles`;
 }
 
 // ── LYRICS ONLY system prompt ──
@@ -251,175 +281,141 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const isFullMode = mode === 'all' || mode === 'style';
 
-    if (isFullMode) {
-      // ── FULL GENERATION: JSON response with style + lyrics ──
-      const systemPrompt = buildFullSystemPrompt(artistDNA);
-      const userPrompt = [
-        `Génère un prompt Suno complet (style EN ANGLAIS + paroles).`,
-        theme ? `Thème : "${theme}"` : 'Thème : IMPROVISE',
-        artist ? `Inspiré de : ${artist}` : '',
-        language ? `Langue des paroles : ${language}` : 'Langue : Français',
-        mood ? `Mood : ${mood}` : '',
-        genre ? `Genre : ${genre}` : '',
-        energy ? `Énergie : ${energy}/100` : '',
-        bpm ? `BPM imposé : ${bpm}` : '',
-        voiceType ? `Type de voix : ${voiceType}` : '',
-        singingStyle ? `Style de chant : ${singingStyle}` : '',
-        productionStyle ? `Style de production : ${productionStyle}` : '',
-        styleBlend ? `Style blending : ${styleBlend}` : '',
-        customNeg ? `Negative prompt : ${customNeg}` : '',
-        weirdness ? `Weirdness : ${weirdness}/100` : '',
-        styleInfluence ? `Style influence : ${styleInfluence}/100` : '',
-        advancedTags?.length ? `Tags avancés : ${advancedTags.join(', ')}` : '',
-        '',
-        'Réponds UNIQUEMENT en JSON valide. Pas de markdown, pas de backticks, pas de commentaire.'
-      ].filter(Boolean).join('\n');
-
-      const { text, model } = await callGrokAPI(apiKey, systemPrompt, userPrompt, true);
-
-      console.log(`Grok response (model=${model}, len=${text.length}):`, text.slice(0, 300));
-
-      // Parse JSON response
-      let parsed;
-      try {
-        // Clean potential markdown wrapping
-        const cleaned = text.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
-        parsed = JSON.parse(cleaned);
-      } catch (parseErr) {
-        console.error("Grok JSON parse error:", parseErr, "Raw:", text.slice(0, 500));
-        // Fallback: try to extract JSON from response
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          try { parsed = JSON.parse(jsonMatch[0]); } catch { /* fall through */ }
-        }
-        if (!parsed) {
-          return res.status(200).json({
-            text,
-            model,
-            parseError: true,
-            error: "Grok returned non-JSON. Lyrics available as raw text."
+    // ── Helper: parse bracketed lyrics text → structured array ──
+    function parseBracketedLyrics(raw: string): any[] {
+      const result: any[] = [];
+      const parts = raw.split(/\[([^\]]+)\]/g).filter(Boolean);
+      for (let i = 0; i < parts.length - 1; i += 2) {
+        const sectionName = parts[i].trim();
+        const sectionText = parts[i + 1].trim();
+        // Skip metatags
+        if (/^(vocal\s?style|energy|tempo|beat|mood|texture|instrument|key:|bpm)/i.test(sectionName)) continue;
+        if (sectionText.length > 0) {
+          result.push({
+            id: `v${result.length + 1}`,
+            type: sectionName,
+            text: sectionText,
+            prompt: ''
           });
         }
       }
+      return result;
+    }
 
-      // ── ROBUST LYRICS EXTRACTION ──
-      // Grok is creative with JSON keys — search ALL possible locations
-      console.log(`Grok parsed keys: ${Object.keys(parsed).join(', ')}`);
+    if (isFullMode) {
+      // ══════════════════════════════════════════════════════════════
+      // 2-PASS ARCHITECTURE: Style JSON + Lyrics Raw Text IN PARALLEL
+      // Grok mini can't reliably produce a huge JSON with full lyrics.
+      // Split into two focused calls that run simultaneously.
+      // ══════════════════════════════════════════════════════════════
 
-      // Helper: extract text from a verse-like object
-      function extractVerseText(v: any): string {
-        if (typeof v === 'string') return v;
-        if (Array.isArray(v.lines)) return v.lines.join('\n');
-        return v.text || v.lyrics || v.content || v.verse || v.lines || '';
-      }
+      // ── Build context strings shared by both passes ──
+      const contextLines = [
+        theme ? `Thème : "${theme}"` : 'Thème : IMPROVISE un thème',
+        artist ? `Inspiré de : ${artist}` : '',
+        language ? `Langue : ${language}` : 'Langue : Français',
+        mood ? `Mood : ${mood}` : '',
+        genre ? `Genre : ${genre}` : '',
+        energy ? `Énergie : ${energy}/100` : '',
+        bpm ? `BPM : ${bpm}` : '',
+        voiceType ? `Voix : ${voiceType}` : '',
+        singingStyle ? `Style chant : ${singingStyle}` : '',
+        productionStyle ? `Production : ${productionStyle}` : '',
+        styleBlend ? `Blending : ${styleBlend}` : '',
+        customNeg ? `Exclure : ${customNeg}` : '',
+        weirdness ? `Weirdness : ${weirdness}/100` : '',
+        styleInfluence ? `Style influence : ${styleInfluence}/100` : '',
+        advancedTags?.length ? `Tags : ${advancedTags.join(', ')}` : '',
+      ].filter(Boolean).join('\n');
 
-      // Helper: extract section type from a verse-like object
-      function extractVerseType(v: any, fallback: string): string {
-        return v.type || v.section || v.sectionType || v.tag || v.label || v.name || v.part || fallback;
-      }
+      // ── PASS 1: Style prompt (small JSON) ──
+      const styleUserPrompt = `Génère un prompt de style Suno V5.5 pour cette chanson :\n${contextLines}\n\nRéponds UNIQUEMENT en JSON valide.`;
 
-      // Helper: normalize an array of verse objects
-      function normalizeVerseArray(arr: any[]): any[] {
-        return arr.map((v: any, i: number) => ({
-          id: v.id || `v${i + 1}`,
-          type: extractVerseType(v, `Section ${i + 1}`),
-          text: extractVerseText(v),
-          prompt: v.prompt || ''
-        })).filter((v: any) => v.text.trim().length > 0);
-      }
+      // ── PASS 2: Lyrics (raw text, NO JSON) ──
+      const lyricsUserPrompt = `Écris les paroles complètes de cette chanson :\n${contextLines}\n\nCommence DIRECTEMENT par [Intro] ou [Verse 1]. Pas de JSON, pas d'explication.`;
 
-      // Helper: parse bracketed lyrics string into structured array
-      function parseBracketedLyrics(raw: string): any[] {
-        const structuredLyrics: any[] = [];
-        // Split by [SectionName] tags
-        const parts = raw.split(/\[([^\]]+)\]/g).filter(Boolean);
-        for (let i = 0; i < parts.length - 1; i += 2) {
-          const sectionName = parts[i].trim();
-          const sectionText = parts[i + 1].trim();
-          // Skip metatags (Vocal Style, Energy, etc.)
-          if (/^(vocal\s|energy|tempo|beat|mood|texture|instrument|key|bpm)/i.test(sectionName)) continue;
-          if (sectionText.length > 0) {
-            structuredLyrics.push({
-              id: `v${structuredLyrics.length + 1}`,
-              type: sectionName,
-              text: sectionText,
-              prompt: ''
-            });
+      console.log(`Grok 2-PASS: launching style (JSON) + lyrics (text) in parallel...`);
+
+      // Run both calls IN PARALLEL for speed
+      const [styleResult, lyricsResult] = await Promise.all([
+        callGrokAPI(apiKey, buildStyleSystemPrompt(artistDNA), styleUserPrompt, true)
+          .catch(err => { console.error('Grok PASS1 (style) failed:', err.message); return null; }),
+        callGrokAPI(apiKey, buildLyricsCreativePrompt(artistDNA), lyricsUserPrompt, false)
+          .catch(err => { console.error('Grok PASS2 (lyrics) failed:', err.message); return null; })
+      ]);
+
+      // ── Parse PASS 1: Style JSON ──
+      let styleParsed: any = {};
+      const styleModel = styleResult?.model || 'grok';
+      if (styleResult?.text) {
+        console.log(`Grok PASS1 style response (len=${styleResult.text.length}):`, styleResult.text.slice(0, 200));
+        try {
+          const cleaned = styleResult.text.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+          styleParsed = JSON.parse(cleaned);
+        } catch {
+          const jsonMatch = styleResult.text.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            try { styleParsed = JSON.parse(jsonMatch[0]); } catch { /* use empty */ }
           }
         }
-        return structuredLyrics;
+        console.log(`Grok PASS1 parsed keys: ${Object.keys(styleParsed).join(', ')}`);
+      } else {
+        console.warn('Grok PASS1 (style) returned nothing');
       }
 
-      // STRATEGY 1: Direct structuredLyrics array
-      if (parsed.structuredLyrics && Array.isArray(parsed.structuredLyrics) && parsed.structuredLyrics.length > 0) {
-        parsed.structuredLyrics = normalizeVerseArray(parsed.structuredLyrics);
-        console.log(`Strategy 1 (structuredLyrics array): ${parsed.structuredLyrics.length} sections`);
-      }
+      // ── Parse PASS 2: Lyrics raw text → structured array ──
+      let structuredLyrics: any[] = [];
+      const lyricsModel = lyricsResult?.model || styleModel;
+      if (lyricsResult?.text) {
+        const rawLyrics = lyricsResult.text.trim();
+        console.log(`Grok PASS2 lyrics response (len=${rawLyrics.length}):`, rawLyrics.slice(0, 300));
+        structuredLyrics = parseBracketedLyrics(rawLyrics);
+        console.log(`Grok PASS2 parsed: ${structuredLyrics.length} sections`);
 
-      // STRATEGY 2: lyrics as array of objects (Grok sometimes uses "lyrics" instead of "structuredLyrics")
-      if ((!parsed.structuredLyrics || parsed.structuredLyrics.length === 0) &&
-          parsed.lyrics && Array.isArray(parsed.lyrics) && parsed.lyrics.length > 0) {
-        parsed.structuredLyrics = normalizeVerseArray(parsed.lyrics);
-        console.log(`Strategy 2 (lyrics array): ${parsed.structuredLyrics.length} sections`);
-      }
-
-      // STRATEGY 3: lyrics as bracketed string
-      if ((!parsed.structuredLyrics || parsed.structuredLyrics.length === 0) &&
-          parsed.lyrics && typeof parsed.lyrics === 'string' && parsed.lyrics.includes('[')) {
-        parsed.structuredLyrics = parseBracketedLyrics(parsed.lyrics);
-        console.log(`Strategy 3 (lyrics string): ${parsed.structuredLyrics.length} sections`);
-      }
-
-      // STRATEGY 4: Check other possible keys (verses, sections, songLyrics, song)
-      if (!parsed.structuredLyrics || parsed.structuredLyrics.length === 0) {
-        const altKeys = ['verses', 'sections', 'songLyrics', 'song', 'paroles', 'couplets'];
-        for (const key of altKeys) {
-          const val = parsed[key];
-          if (val && Array.isArray(val) && val.length > 0) {
-            parsed.structuredLyrics = normalizeVerseArray(val);
-            console.log(`Strategy 4 (${key} array): ${parsed.structuredLyrics.length} sections`);
-            break;
-          }
-          if (val && typeof val === 'string' && val.includes('[')) {
-            parsed.structuredLyrics = parseBracketedLyrics(val);
-            console.log(`Strategy 4 (${key} string): ${parsed.structuredLyrics.length} sections`);
-            break;
-          }
+        // Fallback: if no brackets found, treat entire text as one verse
+        if (structuredLyrics.length === 0 && rawLyrics.length > 50) {
+          structuredLyrics = [{
+            id: 'v1',
+            type: 'Verse',
+            text: rawLyrics,
+            prompt: ''
+          }];
+          console.log('Grok PASS2 fallback: wrapped entire text as single verse');
         }
+      } else {
+        console.warn('Grok PASS2 (lyrics) returned nothing');
       }
 
-      // STRATEGY 5: Deep scan — search ALL string values in parsed for bracketed lyrics
-      if (!parsed.structuredLyrics || parsed.structuredLyrics.length === 0) {
-        for (const [key, val] of Object.entries(parsed)) {
-          if (typeof val === 'string' && val.includes('[') && val.includes('\n') && val.length > 100) {
-            const extracted = parseBracketedLyrics(val);
-            if (extracted.length >= 2) {
-              parsed.structuredLyrics = extracted;
-              console.log(`Strategy 5 (deep scan key="${key}"): ${extracted.length} sections`);
-              break;
-            }
-          }
-        }
+      // If both passes failed completely, throw
+      if (!styleResult && !lyricsResult) {
+        throw new Error('Les deux appels Grok ont échoué. Vérifiez vos crédits API xAI.');
       }
 
-      // STRATEGY 6: Last resort — join all text content as one verse
-      if (!parsed.structuredLyrics || parsed.structuredLyrics.length === 0) {
-        // Try to find ANY substantial text in the response
-        const allText = JSON.stringify(parsed);
-        const bracketMatch = allText.match(/\[(?:Intro|Verse|Chorus|Hook|Bridge|Outro|Couplet|Refrain)[^\]]*\]/i);
-        if (bracketMatch) {
-          // There are section tags buried in the JSON somewhere — extract from full text
-          const extracted = parseBracketedLyrics(text);
-          if (extracted.length >= 2) {
-            parsed.structuredLyrics = extracted;
-            console.log(`Strategy 6 (raw text extraction): ${extracted.length} sections`);
-          }
-        }
-      }
+      // ── Assemble final response ──
+      const finalModel = lyricsModel || styleModel;
+      const response = {
+        artistName: styleParsed.artistName || artist || 'Artiste',
+        songTitle: styleParsed.songTitle || styleParsed.title || 'Untitled',
+        sunoPrompt: styleParsed.sunoPrompt || styleParsed.stylePrompt || '',
+        sunoPrompts: styleParsed.sunoPrompts || (styleParsed.sunoPrompt ? [styleParsed.sunoPrompt] : []),
+        negativePrompt: styleParsed.negativePrompt || customNeg || '',
+        structuredLyrics,
+        lipSyncExcerpt: '',
+        quality: {
+          score: structuredLyrics.length >= 4 ? 85 : (structuredLyrics.length >= 2 ? 70 : 50),
+          coherence: 80,
+          richness: 80,
+          clarity: 85,
+          hook: 80,
+          precision: 80,
+          message: `Generated via Grok 2-pass (style: ${styleResult ? 'OK' : 'FAIL'}, lyrics: ${lyricsResult ? `${structuredLyrics.length} sections` : 'FAIL'})`
+        },
+        model: finalModel,
+        provider: 'grok'
+      };
 
-      console.log(`Grok FINAL: lyrics=${parsed.structuredLyrics?.length || 0} sections, sunoPrompt=${(parsed.sunoPrompt || '').slice(0, 80)}`);
-
-      return res.status(200).json({ ...parsed, model, provider: 'grok' });
+      console.log(`Grok FINAL: ${structuredLyrics.length} lyrics sections, sunoPrompt=${(response.sunoPrompt || '').slice(0, 80)}, model=${finalModel}`);
+      return res.status(200).json(response);
 
     } else {
       // ── LYRICS ONLY: Raw text response ──
