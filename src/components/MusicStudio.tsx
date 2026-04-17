@@ -3,6 +3,7 @@ import { SessionState, MusicState, Verse } from '../types';
 import { Music, Mic, Mic2, Zap, Copy, RefreshCw, FileText, ChevronDown, Globe, User, Languages, History as HistoryIcon, BarChart3, Activity, Heart, Video as VideoIcon, Loader2, Clock, LayoutGrid, Sparkles, Flame, Wind, Moon, Sun, Star, Headphones, Disc, Radio, Layers, Settings2, Sliders, Play, Pause, SkipForward, Volume2, Search, Filter, CheckCircle2, AlertCircle, Info, Waves, UserCircle, X, HelpCircle, Edit3, RotateCcw } from 'lucide-react';
 import { generateMusicContext, getArtistVocalIdentity, rerollVerse, suggestArtistAndTitle } from '../services/gemini';
 import { getArtistSunoSettings } from '../services/sonic-dna';
+import { generateGrokLyrics } from '../services/grok-lyrics';
 import { fetchArtistMetadata } from '../services/musicbrainz';
 import { motion, AnimatePresence } from 'motion/react';
 import copy from 'copy-to-clipboard';
@@ -51,6 +52,8 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
   const [editedPrompt, setEditedPrompt] = useState('');
   const [genreSearch, setGenreSearch] = useState('');
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [isGrokGenerating, setIsGrokGenerating] = useState(false);
+  const [grokModel, setGrokModel] = useState<string | null>(null);
 
   const LOADING_MESSAGES = [
     "Un producteur légendaire rentre dans le studio...",
@@ -508,6 +511,45 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
     } catch (err) {
       console.error('Failed to copy text: ', err);
       showToast('Erreur de copie', 'error');
+    }
+  };
+
+  // ── GROK LYRICS GENERATION ──
+  const handleGrokGenerate = async () => {
+    if (isGrokGenerating || state.music.isGenerating) return;
+    setIsGrokGenerating(true);
+    setGrokModel(null);
+
+    const finalArtist = state.music.inspiredBy === 'CUSTOM' ? customArtist : state.music.inspiredBy;
+    const finalGenre = state.music.genre === 'CUSTOM' ? customGenre : state.music.genre;
+    const finalMood = state.music.mood === 'CUSTOM' ? customMood : state.music.mood;
+    const finalLang = state.music.language === 'CUSTOM' ? customLang : state.music.language;
+
+    try {
+      const result = await generateGrokLyrics({
+        theme: state.music.theme || 'freestyle',
+        language: finalLang || 'FRANÇAIS',
+        artist: finalArtist || '',
+        mood: finalMood || '',
+        genre: finalGenre || '',
+        energy: state.music.energy || 70
+      });
+
+      setGrokModel(result.model);
+      setState(prev => ({
+        ...prev,
+        music: {
+          ...prev.music,
+          lyrics: result.lyrics,
+          error: null
+        }
+      }));
+      showToast(`Lyrics générées via ${result.model}`, 'success');
+    } catch (error: any) {
+      console.error('Grok generation error:', error);
+      showToast(error?.message || 'Erreur Grok API', 'error');
+    } finally {
+      setIsGrokGenerating(false);
     }
   };
 
@@ -2437,11 +2479,24 @@ export const MusicStudio: React.FC<MusicStudioProps> = ({ state, setState, onMen
                 </div>
                 <div>
                   <h3 className="font-bebas text-lg sm:text-xl tracking-widest text-white/90">LYRICAL ARCHITECTURE</h3>
-                  <p className="editorial-heading">AI Generated Poetry & Structure</p>
+                  <p className="editorial-heading">AI Generated Poetry & Structure{grokModel && <span className="ml-2 text-[#ff6b35]/60">· {grokModel}</span>}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-                <button 
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
+                <button
+                  onClick={handleGrokGenerate}
+                  disabled={isGrokGenerating || state.music.isGenerating}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ff6b35]/10 to-[#ff3d00]/10 rounded-xl border border-[#ff6b35]/30 text-[#ff6b35] hover:bg-[#ff6b35]/20 hover:border-[#ff6b35]/60 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md disabled:opacity-40"
+                  title="Générer les lyrics via Grok AI (xAI)"
+                >
+                  {isGrokGenerating ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <Zap size={14} />
+                  )}
+                  {isGrokGenerating ? 'GROK...' : 'GROK AI'}
+                </button>
+                <button
                   onClick={() => handleGenerate('lyrics')}
                   disabled={state.music.isGenerating}
                   className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-white/60 hover:text-[#10B981] hover:bg-[#10B981]/10 hover:border-[#10B981]/40 transition-all font-mono text-[10px] uppercase tracking-widest backdrop-blur-md"
